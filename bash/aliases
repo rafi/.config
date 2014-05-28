@@ -1,0 +1,75 @@
+#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+#
+# github.com/rafi bash aliases
+
+# Carry over aliases to the root account when using sudo
+alias sudo='sudo '
+
+# ls
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	# Use GNU ls on OSX
+	alias ls='LC_COLLATE=C gls --color=auto --group-directories-first'
+else
+	alias ls='LC_COLLATE=C ls --color=auto --group-directories-first'
+fi
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias lf='ls -Gl | grep ^d' #Only list directories
+alias lsd='ls -Gal | grep ^d' #Only list directories, including hidden ones
+
+# Git
+alias gfl='git fetch --prune && git tree -15'
+alias gf='git fetch --prune'
+alias gl='git log --graph --all --oneline --decorate -15'
+alias gll='git log --graph --oneline --decorate -15'
+alias gs='git s'
+
+# Use GNU sort on OSX
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	alias sort='gsort'
+fi
+
+# Storage
+alias dut="du -hsx * | sort -rh | head -10"
+alias dfu="df -P -x devtmpfs -x tmpfs"
+
+# Shortcuts
+alias diff='colordiff'
+alias ww="cd /srv/http"
+
+# Tmux
+alias tmux-shared='tmux -S /tmp/tmux-shared'
+
+# Media
+alias dl="aria2c -x4"
+alias volup="amixer set Master playback 3dB+"
+alias voldown="amixer set Master playback 3dB-"
+
+# Processes
+alias process='ps -ax'
+alias psg='ps -ef | grep'
+alias logout="pkill -KILL -u "
+
+# Misc
+alias copy='xsel -ib --logfile $XDG_CACHE_HOME/xsel.log'
+alias fontcache='fc-cache -f -v'
+
+alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
+alias freq='cut -f1 -d" " $HISTFILE | sort | uniq -c | sort -nr | head -n 30'
+alias c='clear'
+
+# Set vim as default
+alias vi=vim
+alias suvim='sudo -E vim'
+
+## a quick way to get out of current directory
+alias ..='cd ..'
+alias ...='cd ../../'
+alias ....='cd ../../../'
+alias .....='cd ../../../../'
+alias .4='cd ../../../../'
+alias .5='cd ../../../../..'
+
+#-------8<---------------------------------------------------------------------

@@ -1,0 +1,12 @@
+[submodule "vim"]
+	path = vim
+	url = git://github.com/rafi/vim-config.git
+[submodule "phpstorm"]
+	path = phpstorm
+	url = git://github.com/rafi/phpstorm-config.git
+[submodule "Xorg/colors/base16"]
+	path = xorg/colors/base16
+	url = git://github.com/chriskempson/base16-xresources.git
+[submodule "urxvt/ext"]
+	path = urxvt/ext
+	url = git://github.com/muennich/urxvt-perls.git

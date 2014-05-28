@@ -1,0 +1,47 @@
+!      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
+! `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+!
+! ex
+! github.com/rafi Xresources theme
+
+*background: #232323
+*foreground: #A0A0A0
+!*cursorColor: #4C6F8F
+*cursorColor: #B1FA32
+!*colorBD: colour
+!*colorIT: colour
+*colorUL: #4682B4
+
+! black dark/light
+*color0: #2A2A2A
+*color8: #686868
+ 
+! red dark/light
+*color1: #D370A3
+*color9: #FFA7DA
+ 
+! green dark/light
+*color2: #6D9E3F
+*color10: #A3D572
+ 
+! yellow dark/light
+*color3: #B58858
+*color11: #EFBD8B
+ 
+! blue dark/light
+*color4: #6095C5
+*color12: #98CBFE
+ 
+! magenta dark/light
+*color5: #AC7BDE
+*color13: #E5B0FF
+ 
+! cyan dark/light
+*color6: #3BA275
+*color14: #75DAA9
+ 
+! white dark/light
+*color7: #FFFFFF
+*color15: #CFCFCF
+
+!-------8<---------------------------------------------------------------------

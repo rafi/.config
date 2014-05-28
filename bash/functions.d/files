@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Create and enter directory
+mkc() {
+  mkdir -p "$@" && cd "$1"
+}
+
+# Jump x directories up
+up() {
+  local path i
+  [ $1 ] || set 1
+  for ((i = 0; i < $1; i++)); do
+    path="$path../"
+  done
+  cd "$path"
+}

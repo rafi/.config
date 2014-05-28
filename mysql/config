@@ -1,0 +1,6 @@
+[mysql]
+default-character-set=utf8
+auto-rehash
+prompt='(\u@\h:\d) mysql> '
+safe-updates
+#username=root

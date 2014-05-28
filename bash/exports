@@ -1,0 +1,92 @@
+#!/bin/bash
+#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+#
+# github.com/rafi bash exports
+# references:
+# - https://github.com/milomouse/dotfiles
+# - https://github.com/EvanPurkhiser/dots-personal
+
+export GOPATH="$HOME/code/go"
+export PATH="$HOME/.local/bin:$PATH:bin:$GOPATH/bin"
+
+# Set the systemd-style DBUS address
+export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/dbus
+
+# XDG directories
+export XDG_CONFIG_HOME="$HOME/.config"
+export  XDG_CACHE_HOME="$HOME/.cache"
+export   XDG_DATA_HOME="$HOME/.local/share"
+
+export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
+
+export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
+
+# Set the session ssh-agent socket path (If it's not set)
+[ -z "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent"
+
+# TODO: Using i3, remove this?
+hash bspwm 2>/dev/null && export BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
+
+# Set vimrc's location and source it on vim startup
+export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
+
+# directories:
+export PACKER_CACHE_DIR="$XDG_CACHE_HOME/packer"
+export COMPOSER_HOME="$XDG_DATA_HOME/composer"
+export MPDCRON_DIR="$XDG_CONFIG_HOME/mpdcron"
+export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
+
+hash npm 2>/dev/null && export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/config"
+
+hash psql       2>/dev/null && export          PSQLRC="$XDG_CONFIG_HOME/psql/config"
+hash gpg        2>/dev/null && export       GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
+hash gimp       2>/dev/null && export GIMP2_DIRECTORY="$XDG_CONFIG_HOME/gimp-2.8"
+hash virtualbox 2>/dev/null && export  VBOX_USER_HOME="$XDG_CONFIG_HOME/virtualbox"
+hash mplayer    2>/dev/null && export    MPLAYER_HOME="$XDG_CONFIG_HOME/mplayer"
+hash vagrant    2>/dev/null && export    VAGRANT_HOME="$XDG_DATA_HOME/vagrant"
+
+# Always install ruby gems local to the user
+if hash gem 2>/dev/null
+then
+	export GEMRC="$XDG_CONFIG_HOME/gemrc/config"
+	export GEM_HOME="$HOME/.local/lib/ruby/gems/$(ruby -e 'puts RbConfig::CONFIG["ruby_version"]')"
+	export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem/specs"
+	export PATH="$PATH:$GEM_HOME/bin"
+fi
+
+export CHROME_USER_FLAGS="--disable-gpu"
+
+# Pull GTK2 RC files from the standard config location, similar to gtk-3.0
+[ -e /etc/gtk-2.0 ] && export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
+
+# configs:
+export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/config"
+export MAD_CONFIG="$XDG_CONFIG_HOME/mad/config"
+export _Z_DATA="$XDG_CACHE_HOME/z/data"
+
+# files:
+export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
+export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
+export XAUTHORITY="$XDG_CACHE_HOME/Xauthority"
+
+# settings:
+export LESS="-eFiQwMXR"
+export LESSCHARSET="UTF-8"
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[00;35m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[00;47;30m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[00;34m'
+export GREP_OPTIONS="--color=auto"
+
+# Custom flags:
+
+# Detect if SSH connection
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+	export IS_SSH=1
+fi
+
+#-------8<---------------------------------------------------------------------

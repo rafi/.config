@@ -1,0 +1,82 @@
+#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+#
+# github.com/rafi ~/.bashrc config
+# references:
+# - https://github.com/EvanPurkhiser/dots-personal
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+# https://wiki.archlinux.org/index.php/RTorrent
+# Ctrl-s is often used for terminal control to stop screen output while Ctrl-q is used to
+# start it. These mappings may interfere with rTorrent. Check to see if these terminal
+# options are bound to a mapping:
+#   $ stty -a
+# Remove the ^S ^Q mappings
+stty stop undef
+stty start undef
+
+# Bash options
+shopt -s cdspell        # autocorrects cd misspellings
+shopt -s checkwinsize   # update the value of LINES and COLUMNS after each command if altered
+shopt -s cmdhist        # save multi-line commands in history as single line
+shopt -s dotglob        # include dotfiles in pathname expansion
+shopt -s expand_aliases # expand aliases
+shopt -s extglob        # enable extended pattern-matching features
+shopt -s histreedit     # Add failed commands to the bash history
+shopt -s histappend     # Append each session's history to $HISTFILE
+shopt -s autocd         # Autocd
+
+export HISTSIZE=2000
+export HISTFILESIZE=50000
+export HISTFILE="$XDG_CACHE_HOME/bash_history"
+export HISTCONTROL=ignoreboth
+export BROWSER="/usr/bin/google-chrome-stable"
+export EDITOR="/usr/bin/vim"
+export PAGER=less
+
+source "$XDG_CONFIG_HOME/bash/aliases"
+
+# Source all extra functions
+for f in $XDG_CONFIG_HOME/bash/functions.d/*; do source "$f"; done
+
+#[ -d "$XDG_CONFIG_HOME" ] || mkdir "$XDG_CONFIG_HOME"
+#[ -d "$XDG_CACHE_HOME" ] || mkdir "$XDG_CACHE_HOME"
+
+# Git prompt helpers
+#GIT_PS1_SHOWDIRTYSTATE=1
+#GIT_PS1_SHOWSTASHSTATE=1
+#GIT_PS1_SHOWUNTRACKEDFILES=1
+#GIT_PS1_SHOWUPSTREAM="auto"
+source /usr/share/git/completion/git-prompt.sh
+source /usr/share/git/completion/git-completion.bash
+
+# If this is an xterm/rxvt/screen/tmux set the window title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*|screen*)
+	# Show a "user@host: /dir" in term title
+	PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
+	;;
+*)
+	;;
+esac
+
+# Change prompt: time user@hostname:dir (git branch) $
+# IS_SSH is exported in bash/exports
+if [ -z "$IS_SSH" ]; then
+	# Local connections
+	PS1='\[\e[1;30m\][\e[0;38m\h\e[0;33m\]:\e[0;34m\]${PWD##*/}/\[\e[1;30m\]] $(__git_ps1 "(%s)\[\e[00m\] ")\e[0;32m%\e[00m '
+	#PS1='\[\e[1;30m\]\t \[\e[0;36m\]\u\[\e[0;32m\]@\[\e[0;31m\]\h\[\e[1;31m\]:\[\e[0;34m\]\w\[\e[00m\] $(__git_ps1 "(%s)\[\e[00m\] ")\$ '
+else
+	# Remote connections
+	PS1='\[\e[1;30m\][\e[0;31m\h\e[0;33m\]:\e[0;34m\]${PWD##*/}/\[\e[1;30m\]] \e[0;32m%\e[00m '
+	#PS1='\[\e[1;30m\]\t \[\e[0;32m\]\u\[\e[0;35m\]@\[\e[1;35m\]\h\[\e[0;31m\]:\[\e[0;34m\]\w\[\e[00m\] $(__git_ps1 "(%s)\[\e[00m\] ")\$ '
+fi
+
+# https://github.com/rupa/z
+source /usr/lib/z.sh
+
+eval $(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")
+
+#-------8<---------------------------------------------------------------------

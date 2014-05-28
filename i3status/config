@@ -1,0 +1,104 @@
+#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+#
+# github.com/rafi i3status config
+#
+# Uses the 'termsyn.icons' font at http://sourceforge.net/projects/termsyn
+
+general {
+	output_format = "i3bar"
+	colors = true
+	color_good = "#888888"
+	color_bad = "#CC1616"
+	color_degraded = "#55858E"
+	interval = 3
+}
+
+order += "volume master"
+order += "load"
+order += "cpu_usage"
+order += "cpu_temperature 0"
+order += "cpu_temperature 1"
+order += "cpu_temperature 2"
+order += "cpu_temperature 3"
+order += "disk /"
+order += "disk /mnt/media"
+order += "ethernet enp0s25"
+order += "tztime local"
+#order += "ipv6"
+#order += "run_watch DHCP"
+#order += "run_watch VPN"
+#order += "wireless wlan0"
+
+volume master {
+	device = "default"
+	mixer = "Master"
+	mixer_idx = 0
+	format = " í %volume "
+	format_muted = " ë muted (%volume) "
+}
+
+load {
+	format = " Î %1min"
+}
+
+cpu_usage {
+	format = "%usage "
+}
+
+cpu_temperature 0 {
+	format = " ± %degrees°"
+	path = "/sys/devices/platform/coretemp.0/temp2_input"
+	max_threshold = 95
+}
+
+cpu_temperature 1 {
+	format = "%degrees°"
+	path = "/sys/devices/platform/coretemp.0/temp3_input"
+	max_threshold = 95
+}
+
+cpu_temperature 2 {
+	format = "%degrees°"
+	path = "/sys/devices/platform/coretemp.0/temp4_input"
+	max_threshold = 95
+}
+
+cpu_temperature 3 {
+	format = "%degrees° "
+	path = "/sys/devices/platform/coretemp.0/temp5_input"
+	max_threshold = 95
+}
+
+disk "/" {
+	format = " ¨ /:%avail "
+}
+
+disk "/mnt/media" {
+	format = " ¨ /mnt/media:%avail "
+}
+
+wireless wlan0 {
+	format_up = " W: (%quality at %essid) %ip "
+	format_down = " ☡ WiFi "
+}
+
+ethernet enp0s25 {
+	# if you use %speed, i3status requires root privileges
+	format_up =  " µ %ip "
+	format_down = " Ð eth "
+}
+
+run_watch DHCP {
+	pidfile = "/var/run/dhclient*.pid"
+}
+
+run_watch VPN {
+	pidfile = "/var/run/vpnc/pid"
+}
+
+tztime local {
+	format = " %h-%d É %H:%M  ¸ ÈÈÈ È "
+}
+
+#-------8<---------------------------------------------------------------------

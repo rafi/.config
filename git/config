@@ -1,0 +1,96 @@
+# °º¤ø,¸¸,ø¤º°`°º¤ø,¸,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸
+#
+# github.com/rafi git config
+#
+[user]
+	name = Rafael Bodill
+	email = rafi@sortex.co.il
+[core]
+	pager = /usr/bin/less -EFRSX
+	editor = /usr/bin/vim -f
+	# Do NOT auto-convert CRLF line endings into LF
+	autocrlf = false
+	# Do NOT check if converting CRLF is reversible
+	safecrlf = false
+	# Whitespace detection:
+	# - Spaces at the end of a line
+	# - Spaces before tabs at the beginning of a line
+	whitespace = trailing-space,space-before-tab
+	#whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+[credential]
+	helper = cache --timeout=3600
+[init]
+	templatedir = ~/.config/git/template
+[http]
+	# Do NOT verify the SSL certificate when fetching or pushing over HTTPS
+	sslVerify = false
+[merge]
+	tool = meld
+	summary = true
+[mergetool]
+	keepBackup = false
+[diff]
+	tool = /usr/bin/vimdiff
+[push]
+	# Defines the action git push should take if no refspec is explicitly given:
+	# current = Push the current branch to update a branch with the same name on the receiving end
+	default = current
+[gui]
+	fontdiff = -family \"Liberation Mono\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
+[web]
+	browser = google-chrome-stable
+[browser "google-chrome-stable"]
+	cmd = "/usr/bin/google-chrome-stable"
+[color]
+	ui = true
+	pager = true
+	diff = auto
+	status = auto
+	branch = auto
+	interactive = auto
+[color "branch"]
+	current = magenta bold
+	local = blue bold
+	remote = white
+[color "diff"]
+	meta = blue bold
+	frag = magenta bold
+	old = red
+	new = green bold
+	whitespace = red reverse
+[color "status"]
+	added = green bold
+	changed = red
+	untracked = blue bold
+[alias]
+	s  = status -sb
+	f  = fetch --prune
+	c  = commit -v
+	cm = commit -vm
+	br = branch
+	st = status
+	ck = checkout
+	ds = diff
+	ds = diff --staged
+	dw = diff --color-words
+	dh = diff --color-words HEAD
+	w  = whatchanged --decorate
+	wp = whatchanged --decorate -p
+	#==============================================================================
+	sm    = submodule
+	smu   = submodule foreach git pull origin master
+	lcrev = log --reverse --no-merges --stat @{1}..
+	lcp   = diff @{1}..
+	#==============================================================================
+	count = shortlog -sn
+	post  = !sh -c 'git format-patch --stdout $1 | ix' -
+	alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
+	#==============================================================================
+	tree = log --graph --all --oneline --decorate
+	l    = log --graph --pretty=format:'%C(yellow)%h%Creset%C(blue)%d%Creset %C(white bold)%s%Creset %C(white dim)(by %an %ar)%Creset'
+	ll   = !git l --all
+	lb   = log --graph --simplify-by-decoration --pretty=format:'%d' --all
+	lg   = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	lgd  = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit
+	#==============================================================================
+	vis = !gitk

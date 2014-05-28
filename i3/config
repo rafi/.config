@@ -1,0 +1,333 @@
+#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+#
+# github.com/rafi i3 config
+#
+# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+
+#==============================================================================
+# i3 general settings →
+#------------------------------------------------------------------------------
+
+set $mod Mod4
+set $alt Mod1
+
+workspace_auto_back_and_forth yes
+focus_follows_mouse yes
+
+# Use Mouse+$alt to drag and resize floating windows
+floating_modifier $alt
+
+#floating_minimum_size 250 x 250
+#floating_maximum_size 1920 x 0
+
+#force_display_urgency_hint 1000 ms
+
+#==============================================================================
+# Key binding →
+#------------------------------------------------------------------------------
+
+# change focus
+bindsym $alt+h exec "i3-focus left"
+bindsym $alt+j exec "i3-focus down"
+bindsym $alt+k exec "i3-focus up"
+bindsym $alt+l exec "i3-focus right"
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $alt+Ctrl+h move left
+bindsym $alt+Ctrl+j move down
+bindsym $alt+Ctrl+k move up
+bindsym $alt+Ctrl+l move right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+# Vert/horiz orientation and fullscreen
+bindsym $alt+Ctrl+g split h
+bindsym $alt+Ctrl+v split v
+bindsym $alt+f fullscreen
+
+# Change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+# Toggle between stacking/tabbed/split
+bindsym $mod+x layout toggle
+
+bindsym $mod+b border toggle
+
+# Toggle floating/tiling
+bindsym $alt+t floating toggle
+
+# Focus last floating/tiling container
+bindsym $alt+space focus mode_toggle
+
+bindsym $alt+a focus parent
+bindsym $alt+z focus child
+
+bindsym $alt+Home move workspace to output left
+bindsym $alt+End move workspace to output right
+bindsym $alt+Ctrl+Home move container to output left
+bindsym $alt+Ctrl+End move container to output right
+
+# Move floating container to the center of all outputs
+bindsym $alt+Ctrl+c move absolute position center
+
+# Scratchpad control
+bindsym $alt+Ctrl+minus move scratchpad
+bindsym $alt+minus scratchpad show
+bindsym $mod+equal [class="Subl(ime_text)?"] scratchpad show
+
+# session
+bindsym $alt+Ctrl+q kill
+bindsym $alt+Ctrl+e reload
+bindsym $alt+Ctrl+r restart
+bindsym $alt+Ctrl+Delete exec "i3-nagbar -t warning -m 'exit i3? This will end your X session.' -b 'Yes' 'i3-msg exit'"
+
+bindsym $mod+Return exec --no-startup-id urxvtc
+
+# dmenu wrapper for .desktop files, Meta+Del is awesome on the TECK keyboard
+bindsym $alt+Tab exec --no-startup-id i3-dmenu-desktop
+
+# capture screenshots
+bindsym Print exec --no-startup-id /usr/bin/teiler
+
+# clipboard manager
+bindsym --release $mod+v exec copyq menu
+
+# Multimedia keys
+bindsym XF86Tools exec --no-startup-id $HOME/.local/bin/mpdMenu
+bindsym $alt+F9 exec --no-startup-id mpc seek +4
+bindsym $alt+F7 exec --no-startup-id mpc seek -4
+bindsym XF86AudioPlay exec --no-startup-id mpc toggle
+bindsym XF86AudioNext exec --no-startup-id mpc next
+bindsym XF86AudioPrev exec --no-startup-id mpc prev
+bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 3%-
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 3%+
+
+#bindsym XF86Eject exec --no-startup-id
+#bindsym XF86Calculator exec --no-startup-id
+#bindsym XF86Explorer exec --no-startup-id
+#bindsym XF86Search exec --no-startup-id
+#bindsym XF86Mail exec --no-startup-id
+#bindsym XF86HomePage exec --no-startup-id
+
+# Workspace nav for Microsoft Ergonomic Keyboard 4000
+#bindsym XF86Forward workspace next
+#bindsym XF86Back workspace prev
+#bindsym XF86Launch5 workspace $w1
+#bindsym XF86Launch6 workspace $w2
+#bindsym XF86Launch7 workspace $w3
+#bindsym XF86Launch8 workspace $w4
+#bindsym XF86Launch9 workspace $w5
+
+# Volume control with mod+PageUp/PageDn as well
+#bindsym $mod+Next exec --no-startup-id amixer set Master 3%-
+#bindsym $mod+Prior exec --no-startup-id amixer set Master 3%+
+
+# TODO: Not used
+#bindsym $alt+n workspace next
+#bindsym $alt+p workspace prev
+#bindsym $alt+i workspace next_on_output
+#bindsym $alt+u workspace prev_on_output
+
+# workspace defines (bar uses 'termsyn.icons' font)
+set $w1 1 ê
+set $w2 2 ý
+set $w3 3 Ç
+set $w4 4 Â
+set $w5 5 ¨
+set $w6 6 ©
+set $w7 7 ©
+set $w8 8 ©
+set $w9 9 ©
+set $w0 10 ©
+
+# switch to workspace
+bindsym $alt+1 workspace $w1
+bindsym $alt+2 workspace $w2
+bindsym $alt+3 workspace $w3
+bindsym $alt+4 workspace $w4
+bindsym $alt+5 workspace $w5
+bindsym $alt+6 workspace $w6
+bindsym $alt+7 workspace $w7
+bindsym $alt+8 workspace $w8
+bindsym $alt+9 workspace $w9
+bindsym $alt+0 workspace $w0
+
+# move focused container to workspace
+bindsym $alt+Ctrl+1 move container to workspace $w1
+bindsym $alt+Ctrl+2 move container to workspace $w2
+bindsym $alt+Ctrl+3 move container to workspace $w3
+bindsym $alt+Ctrl+4 move container to workspace $w4
+bindsym $alt+Ctrl+5 move container to workspace $w5
+bindsym $alt+Ctrl+6 move container to workspace $w6
+bindsym $alt+Ctrl+7 move container to workspace $w7
+bindsym $alt+Ctrl+8 move container to workspace $w8
+bindsym $alt+Ctrl+9 move container to workspace $w9
+bindsym $alt+Ctrl+0 move container to workspace $w0
+
+# Binds for hacking
+#bindsym $alt+Ctrl+r exec i3-input -F 'rename workspace to %s' -P 'New name: '
+
+#==============================================================================
+# Style and Colors →
+#------------------------------------------------------------------------------
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below. ISO 10646 = Unicode
+
+# The 'termsyn.icons' font at http://sourceforge.net/projects/termsyn
+font -misc-termsyn.icons-medium-r-normal--13-120-75-75-c-60-iso8859-1
+
+# Other nice fonts
+#font -*-cure-*-*-*--*-*-*-*-*-*-*
+#font pango: EnvyCodeR 10
+#font -xos4-terminus-medium-r-normal--12-120-72-72-C-60-iso8859-1
+#font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+
+new_window pixel 3
+new_float pixel 3
+
+set $active  #536B3D
+set $border  #313A28
+set $text    #BBC5B2
+set $text2   #8f8f8f
+set $text3   #8faf9f
+set $bright  #A3D572
+set $bright2 #3F5030
+set $bg      #2c2c2e
+set $bg2     #4c4c4f
+
+set $orange  #FCBF69
+set $blue    #98CBFE
+set $dblue   #6095C5
+set $ia     #8f8f8f
+set $be     #8faf9f
+set $yw     #ccdc90
+set $gn     #97A824
+set $rd     #e89393
+
+# class                  border   backgr.  text    indicator
+client.focused           $border  $dblue   $text   $bright
+client.unfocused         $bg2     $bg2     $text2  $bright2
+client.focused_inactive  $bg2     $bg2     $text3  $bright2
+client.urgent            $rd      $gn      $yw     $active
+
+# Start i3bar to display a workspace bar
+bar {
+	position top
+	status_command $XDG_CONFIG_HOME/i3status/panel.sh
+	# show tray icons on the primary monitor
+	tray_output primary
+
+	colors {
+		background          #202023
+		statusline          #888888
+		separator           #444448
+		focused_workspace   $gn        $bg        $gn
+		active_workspace    $bg        $bg        $gn
+		inactive_workspace  $bg        $bg        $ia
+		urgent_workspace    $rd        $bg        $orange
+	}
+}
+
+#==============================================================================
+# Workspace → App assignment
+#------------------------------------------------------------------------------
+
+# Force workspaces to specific monitor
+workspace "$w1" output DFP5
+workspace "$w2" output DFP1
+
+# Media
+assign [title="^HipChat"] → $w1
+assign [class="Xchat"] → $w1
+assign [class="Transmission-gtk"] → $w1
+#assign [class="Vlc"] → $w1
+
+# Others
+#assign [class="^jetbrains-phpstorm$" instance="^sun-awt-X11-XFramePeer$"] → $w3
+
+#==============================================================================
+# App window behavior →
+#------------------------------------------------------------------------------
+
+# Scratchpads
+for_window [title="Sublime Text 2$"] move scratchpad
+for_window [class="Keepassx" title="^(?!Auto\-Type\ \-\ KeePassX$)"] move scratchpad
+
+# Misc app behavior
+for_window [class="feh"] floating enable
+for_window [class="Meld"] floating enable
+for_window [class="Pinta"] floating enable
+for_window [class="Vlc"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [class="^jetbrains-phpstorm$" instance="^sun-awt-X11-XFramePeer$" title="^((?!PhpStorm).)*$"] floating enable
+for_window [class="Krusader" title="^Moving|Copying"] floating enable
+for_window [class="Copyq"] floating enable
+for_window [class="Nw"] floating enable # Springseed
+for_window [class="Gcolor2"] floating enable
+for_window [class="Gitg"] floating enable
+for_window [class="Eog"] floating enable
+for_window [class="Kazam"] floating enable
+for_window [class="Wine"] floating enable
+for_window [title="notifyd$"] floating enable
+for_window [class="XTerm"] floating enable
+for_window [class="Klavaro"] floating enable
+
+# Ubuntu floaters
+for_window [class="Apport-gtk"] floating enable # Crash report
+for_window [title="Unlock private key"] floating enable
+for_window [class="Update-manager"] floating enable
+
+#==============================================================================
+# Modes → and their key bindings
+#------------------------------------------------------------------------------
+
+# resize window (you can also use the mouse for that)
+mode "resize" {
+	# Small 5 step resize
+	bindsym h resize shrink width 5 px or 5 ppt
+	bindsym j resize grow height 5 px or 5 ppt
+	bindsym k resize shrink height 5 px or 5 ppt
+	bindsym l resize grow width 5 px or 5 ppt
+
+	# Larger shrink/grow, 10 step
+	bindsym Left  resize shrink width 10 px or 10 ppt
+	bindsym Down  resize grow height 10 px or 10 ppt
+	bindsym Up    resize shrink height 10 px or 10 ppt
+	bindsym Right resize grow width 10 px or 10 ppt
+
+	# Back to normal: Enter or Escape
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+bindsym $alt+r mode "resize"
+
+# Logout confirm, uses bin/i3exit
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+mode "$mode_system" {
+	bindsym l exec --no-startup-id i3exit lock, mode "default"
+	bindsym e exec --no-startup-id i3exit logout, mode "default"
+	bindsym s exec --no-startup-id i3exit suspend, mode "default"
+	bindsym h exec --no-startup-id i3exit hibernate, mode "default"
+	bindsym r exec --no-startup-id i3exit reboot, mode "default"
+	bindsym Shift+s exec --no-startup-id i3exit shutdown, mode "default"
+
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+bindsym $alt+Pause mode "$mode_system"
+
+#-------8<---------------------------------------------------------------------

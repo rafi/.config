@@ -1,0 +1,7 @@
+---
+# Disable explic user-install. We explicitly set the GEM_HOME enviroment
+# variable to the users gem path, so they will be installed there by default. If
+# we have user-install enabled it will install to ~/.gem which we may not want
+#
+# Disable installation of rdoc and ri data
+gem: --no-user-install --no-ri --no-rdoc

@@ -1,0 +1,16 @@
+set gdefault
+set hlsearch
+set ignorecase
+
+" Want a different map leader than \
+let mapleader=" "
+
+" Maps the semicolon to colon in normal mode
+nmap ; :
+
+" Quick insert mode exit
+imap jk <Esc>
+
+" Instead of 1 line, move 3 at a time
+nnoremap <C-e> 3<C-e>
+nnoremap <C-y> 3<C-y>

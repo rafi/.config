@@ -1,0 +1,23 @@
+! Pnevma2 - A heavy mod of the original.
+! https://bbs.archlinux.org/viewtopic.php?pid=431313#p431313
+
+URxvt*background:            [85]#000000
+URxvt*foreground:            [100]#ffffff
+
+*color0: #2F2E2D
+*color8: #4A4845
+*color1: #C37561
+*color9: #D19485
+*color2: #A0A57E
+*color10: #B6B99D
+*color3: #D1A375
+*color11: #DEBC9C
+*color4: #7985A3
+*color12: #98A1B9
+*color5: #AB716D
+*color13: #BE918E
+*color6: #98B9B1
+*color14: #CBE6CB
+*color7: #D0D0D0
+*color15: #EFEFEF
+

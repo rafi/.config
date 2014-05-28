@@ -1,0 +1,95 @@
+#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+#
+# github.com/rafi ~/.inputrc config
+#
+# Reference: https://github.com/tejr/dotfiles
+
+$include /etc/inputrc
+
+set editing-mode vi
+
+# Never ring any sort of bell during line reading
+set bell-style none
+
+# Ignore case when matching and completing paths
+set completion-ignore-case On
+
+# Treat underscores and hyphens the same way for completion purposes
+set completion-map-case On
+
+# Show me up to 5,000 completion items, don't be shy
+set completion-query-items 5000
+
+# Don't display control characters like ^C if I input them
+set echo-control-characters Off
+
+# Expand tilde to full path on completion
+set expand-tilde On
+
+# Preserve caret position while browsing through history lines
+set history-preserve-point On
+
+# When completing directories, add a trailing slash
+set mark-directories On
+
+# Do the same for symlinked directories
+set mark-symlinked-directories On
+
+# on menu-complete, first display the common prefix, then cycle through the
+# options when hitting TAB
+set menu-complete-display-prefix On
+
+# Don't paginate possible completions
+set page-completions Off
+
+# Show multiple completions on first tab press
+set show-all-if-ambiguous On
+
+# Don't re-complete already completed text in the middle of a word
+set skip-completed-text On
+
+# Show extra file information when completing, like `ls -F` does
+set visible-stats on
+
+# vi mode
+set editing-mode vi
+
+$if mode=vi
+	# Insert mode settings
+	set keymap vi-insert
+
+	# shortcut for inserting a grep pipeline at eol
+	"\C-g": "\e$a | grep "
+
+	# clear screen
+	"\C-l": clear-screen
+
+	# Ctrl+left/right for word movement
+	"\e\e[C": forward-word
+	"\e\e[D": backward-word
+	"\e[1;5C": forward-word
+	"\e[1;5D": backward-word
+
+	# disable left and right cursor movement so that we learn to use command mode
+	"\e[C": redraw-current-line
+	"\e[D": redraw-current-line
+
+	# Command mode settings
+	set keymap vi-command
+
+	# shortcut for inserting a grep pipeline at eol
+	"\C-g": "$a | grep "
+
+	# Ctrl+left/right for word movement
+	"\e\e[C": forward-word
+	"\e\e[D": backward-word
+	"\e[1;5C": forward-word
+	"\e[1;5D": backward-word
+
+	# disable left and right arrows
+	"\e[C": redraw-current-line
+	"\e[D": redraw-current-line
+$endif
+
+#-------8<---------------------------------------------------------------------

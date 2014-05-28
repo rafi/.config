@@ -1,0 +1,57 @@
+#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+#
+# github.com/rafi xorg init
+
+if [ -d /etc/X11/xinit/xinitrc.d ]; then
+  for f in /etc/X11/xinit/xinitrc.d/*; do
+    [ -x "$f" ] && . "$f"
+  done
+  unset f
+fi
+
+# Set rotated monitor and primary monitor
+xrandr --output DFP1 --primary --auto --output DFP9 --auto --rotate right
+
+# Load language layouts and set toggler
+setxkbmap -layout us,il -option grp:caps_toggle
+
+# Load keyboard hacks
+#if [ -s $XDG_CONFIG_HOME/xorg/Xmodmap ]; then
+#	xmodmap $XDG_CONFIG_HOME/xorg/Xmodmap
+#fi
+
+xcape -e 'Shift_L=Escape'
+
+# Prepare a flag for xrdb to indicate this is OSX or not
+OSX=""
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	OSX="-DOSX"
+fi
+# Load user X resource config
+xrdb $OSX -merge $XDG_CONFIG_HOME/xorg/Xresources
+unset OSX
+
+# Load all fonts in all shared dirs
+xset +fp /usr/share/fonts/local
+xset +fp /usr/share/fonts/artwiz-fonts
+xset +fp /usr/share/fonts/envypn
+xset +fp /usr/share/fonts/cantarell
+xset fp rehash
+
+# Hide mouse and allow jitter
+# Dont send pseudo events - prevents flickering ontop of some GTK apps
+unclutter -idle 3 -jitter 5 -noevents &
+
+# start apps in background (only if not already running)
+[[ -z "$(pgrep mpd)" ]] && mpd
+[[ -z "$(pgrep mpdscribble)" ]] && mpdscribble
+[[ -z "$(pgrep beet)" ]] && beet mpdstats &
+[[ -z "$(pgrep tmux)" ]] && tmux start &
+[[ -z "$(pgrep urxvtd)" ]] && urxvtd -q -o -f
+[[ -z "$(pgrep redshift)" ]] && /usr/bin/redshift &
+copyq &
+keepassx &
+
+# Load the supreme i3 and start domination
+exec i3

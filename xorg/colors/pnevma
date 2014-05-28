@@ -1,0 +1,22 @@
+! pnevma
+
+URxvt*background:            [85]#000000
+URxvt*foreground:            [100]#ffffff
+
+*color0: #2F2E2D
+*color8: #4A4845
+*color1: #A36666
+*color9: #D78787
+*color2: #8FA57E
+*color10: #A9BA9C
+*color3: #D7AF87
+*color11: #E4C9AF
+*color4: #7FA5BD
+*color12: #A1BDCE
+*color5: #C79EC4
+*color13: #D7BEDA
+*color6: #8ADBB4
+*color14: #B1E7DD
+*color7: #D0D0D0
+*color15: #EFEFEF
+

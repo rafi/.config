@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# The following options are commented out with their default values listed.
+# If you wish to use different values, uncomment and update the values.
+builddir="$XDG_CACHE_HOME/pacaur"       # build directory
+#editor="${EDITOR:-vi}"                # PKGBUILD editor
+#editpkgbuild=true                     # edit PKGBUILD script
+#editinstall=true                      # edit install script
+#fallback=true                         # pacman fallback to the AUR
+clean=false                            # clean up after package install
+#cleandevel=true                       # clean up devel package
+#secure=false                          # enhanced security
+#sudoloop=false                        # prevent sudo timeout
+

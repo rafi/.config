@@ -1,0 +1,242 @@
+#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+#
+# github.com/rafi tmux config
+
+#==============================================================================
+# Behavior
+#------------------------------------------------------------------------------
+
+#set-option -g default-shell "/bin/bash"
+#set-option -g default-command "bash -l"
+#set-option -g default-path $HOME
+set-option -g default-terminal "screen-256color"
+
+set-option -g set-titles on
+set-option -g set-titles-string '#T #W tmux{#S}:#I.#P'
+
+set-window-option -g automatic-rename on
+set-window-option -g xterm-keys on
+set-window-option -g utf8 on
+
+# Monitor content in the window.  When fnmatch(3) pattern
+# match-string appears in the window, it is highlighted in
+# the status line.
+#set-window-option -g monitor-content "error"
+
+# scrollback buffer size increase
+set -g history-limit 4000
+
+# Allows for faster key repetition
+# Make vim more pleasant
+set-option -sg escape-time 30
+
+# Allow the arrow key to be used immediately after changing windows, default is 500
+set-option -g repeat-time 300
+
+# Rather than constraining window size to the maximum size of any client
+# connected to the *session*, constrain window size to the maximum size of any
+# client connected to *that window*. Much more reasonable.
+setw -g aggressive-resize on
+
+# Start windows and panes from 1
+set-option -g base-index 1
+set-window-option -g pane-base-index 1
+
+# Activity monitoring
+set-window-option -g monitor-activity on
+set-option -g visual-activity off
+set-option -g visual-bell off
+
+#==============================================================================
+# Key bindings
+#------------------------------------------------------------------------------
+
+# Use Ctrl+A instead of Ctrl+B
+set-option -g prefix C-a
+unbind-key C-b
+bind-key C-a send-prefix
+
+# Disable Ctrl-[Left|Right] to maintain word jump
+unbind-key -n C-Left
+unbind-key -n C-Right
+
+# Use v and g for splitting.
+unbind %
+unbind '"'
+bind g split-window -h
+bind v split-window -v
+
+bind -n M-Left previous-window
+bind -n M-Right next-window
+
+bind h select-pane -L
+bind j select-pane -D
+bind k select-pane -U
+bind l select-pane -R
+
+# smart pane switching with awareness of vim splits
+bind -n C-h run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)vim$' && tmux send-keys C-h) || tmux select-pane -L"
+bind -n C-j run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)vim$' && tmux send-keys C-j) || tmux select-pane -D"
+bind -n C-k run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)vim$' && tmux send-keys C-k) || tmux select-pane -U"
+bind -n C-l run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)vim$' && tmux send-keys C-l) || tmux select-pane -R"
+bind -n C-\ run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)vim$' && tmux send-keys 'C-\\') || tmux select-pane -l"
+
+# Bring back clear screen under tmux prefix
+bind C-l send-keys 'C-l'
+
+# Toggle synchronized input to all panes in current window
+bind S setw synchronize-panes
+
+# Use a tick for renaming the window prompt.
+unbind ','
+bind ` command-prompt -I '#W' "rename-window '%%'"
+
+# open a man page in new window
+bind / command-prompt "split-window -h 'exec man %%'"
+
+# quick view of processes
+bind '~' split-window -h "exec htop"
+
+# Help screen: rebind list-keys window into a new pane
+bind ? split-window -h 'exec tmux list-keys | less'
+
+# force a reload of the config file
+bind r source-file $XDG_CONFIG_HOME/tmux/config
+
+bind-key R refresh-client
+bind-key * list-clients
+
+# Search for previous error
+bind-key e copy-mode \; send-keys "?Error" C-m
+
+# Easy quick resizing
+unbind -n C-Left
+unbind -n C-Down
+unbind -n C-Up
+unbind -n C-Right
+#bind -n C-Left resize-pane -L 10
+#bind -n C-Right resize-pane -R 10
+#bind -n C-Down resize-pane -D 5
+#bind -n C-Up resize-pane -U 5
+
+#==============================================================================
+# Control
+#------------------------------------------------------------------------------
+
+# bind vi key-mapping
+set-option -g status-keys vi
+# vi-style controls for copy mode
+set-window-option -g mode-keys vi
+
+# https://wiki.archlinux.org/index.php/Tmux#Browsing_URL.27s
+bind-key u capture-pane \; save-buffer /tmp/tmux-buffer \; new-window -n "urlview" '$SHELL -c "urlview < /tmp/tmux-buffer"'
+
+# Copy/paste interop
+bind C-c run "tmux show-buffer | xsel -ib --logfile $XDG_CACHE_HOME/xsel.log"
+bind C-v run "tmux set-buffer \"$(xsel -ob --logfile $XDG_CACHE_HOME/xsel.log)\"; tmux paste-buffer"
+
+bind -t vi-copy 'v' begin-selection
+bind -t vi-copy 'y' copy-selection
+bind -t vi-copy 'V' rectangle-toggle
+
+#==============================================================================
+# Mouse
+#------------------------------------------------------------------------------
+
+# Allows scrolling and selecting in copy-mode
+set -g mouse-utf8 on
+set -g mode-mouse on
+set -g mouse-select-pane on
+set -g mouse-resize-pane on
+set -g mouse-select-window on
+
+# Toggle mouse on with ^a m
+bind m \
+  set -g mode-mouse on \;\
+  set -g mouse-resize-pane on \;\
+  set -g mouse-select-pane on \;\
+  set -g mouse-select-window on \;\
+  display 'Mouse: ON'
+
+# Toggle mouse off with ^a M
+bind M \
+  set -g mode-mouse off \;\
+  set -g mouse-resize-pane off \;\
+  set -g mouse-select-pane off \;\
+  set -g mouse-select-window off \;\
+  display 'Mouse: OFF'
+
+#==============================================================================
+# Look n Feel
+#------------------------------------------------------------------------------
+#
+# *-attr options accept: none, bright (or bold), dim, underscore, blink,
+#                        reverse, hidden, or italics.
+
+set -g message-fg colour11
+set -g message-bg colour236
+set -g message-attr none
+set -g message-command-fg colour253
+set -g message-command-bg colour236
+set -g message-command-attr none
+
+set -g pane-border-fg colour240
+set -g pane-border-bg default
+set -g pane-active-border-fg colour107
+set -g pane-active-border-bg colour236
+set -g display-panes-active-colour colour220
+set -g display-panes-colour colour74
+
+set-window-option -g mode-fg colour11
+set-window-option -g mode-bg colour236
+set-window-option -g mode-attr none
+
+set-window-option -g clock-mode-colour colour64
+set-window-option -g clock-mode-style 24
+
+#==============================================================================
+# Status lines
+#------------------------------------------------------------------------------
+
+set -g status on
+set -g status-position top
+set -g status-utf8 on
+set -g status-interval 2
+
+set -g status-fg colour239
+set -g status-bg colour236
+set -g status-attr default
+
+set -g status-left-length 30
+set -g status-left-fg colour250
+set -g status-left-bg default
+set -g status-left-attr none
+set -g status-left '#[fg=colour230,bg=colour2] †#S #[fg=colour2,bg=colour236]▓░ '
+set -g status-right-length 65
+set -g status-right-fg colour2
+set -g status-right-bg default
+set -g status-right-attr none
+set -g status-right '#{?client_prefix,#[fg=colour11]#[bg=colour2]<Prefix>#[default]  ,}#[default]#h #[fg=colour251]‹ #[default]%d %b %R #[fg=colour251]‹#[default]#(uptime | rev | cut -d":" -f1 | rev | sed s/,//g) #[fg=colour236,bg=colour2]▓░#(rainbarf --bright --norgb --tmux --width 10 --noremaining --nobattery --nobolt --datfile $XDG_CACHE_HOME/rainbarf.dat)'
+
+set-window-option -g window-status-fg colour250
+set-window-option -g window-status-bg default
+set-window-option -g window-status-attr none
+set-window-option -g window-status-separator "/"
+set-window-option -g window-status-format " #I#[fg=colour240]#F#[fg=colour246]#W "
+set-window-option -g window-status-current-fg colour255
+set-window-option -g window-status-current-bg colour4
+set-window-option -g window-status-current-attr none
+set-window-option -g window-status-current-format "#[fg=colour235]░#[fg=colour255]#I#[fg=colour235]‡#[fg=colour255]#W#[fg=colour232]░"
+
+set-window-option -g window-status-activity-fg colour108
+set-window-option -g window-status-activity-attr none
+set-window-option -g window-status-bell-fg colour204
+set-window-option -g window-status-bell-attr none
+#set-window-option -g window-status-content-fg colour2
+#set-window-option -g window-status-content-attr none
+set-window-option -g window-status-last-fg default
+set-window-option -g window-status-last-bg colour235
+set-window-option -g window-status-last-attr none
+
+#-------8<---------------------------------------------------------------------

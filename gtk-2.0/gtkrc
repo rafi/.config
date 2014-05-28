@@ -1,0 +1,12 @@
+gtk-theme-name = "Adwaita"
+#gtk-icon-theme-name = "FaenzaWolfe"
+#gtk-theme-name = "MediterraneanDarkest"
+#gtk-font-name = "Source Sans Pro 10"
+#gtk-font-name = "DejaVu Sans 9"
+gtk-font-name = "DejaVu Sans 8"
+gtk-xft-antialias = 1
+#gtk-xft-dpi = 94
+gtk-xft-hinting = 1
+gtk-xft-hintstyle = "hintslight"
+gtk-xft-rgba = "rgb"
+

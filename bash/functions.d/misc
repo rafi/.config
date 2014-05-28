@@ -1,0 +1,7 @@
+#!/bin/bash
+
+# Spellcheck with aspell
+spell() {
+  echo "$@" | aspell -a | egrep -v "^@|^$"
+}
+

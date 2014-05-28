@@ -1,0 +1,175 @@
+!      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
+! `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+!
+! github.com/rafi Xresources config
+!
+! Good read: http://www.askapache.com/linux/rxvt-xresources.html
+! Font aliases: /usr/share/fonts/misc/fonts.alias
+!
+
+!==============================================================================
+! XFT
+!------------------------------------------------------------------------------
+
+!Xft.autohint: 0
+!Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintslight
+Xft.hinting: true
+Xft.antialias: true
+Xft.rgba: none
+!Xft.rgba: rgb
+Xft.dpi: 96
+
+!==============================================================================
+! URxvt
+!------------------------------------------------------------------------------
+
+URxvt*loginShell: True
+! URxvt*depth: 32
+URxvt*buffered: True
+! URxvt*cutchars: -,./?%&#:_=+@~
+! Let tmux manage scrollback
+URxvt*saveLines: 0
+
+URxvt.iso14755: false
+URxvt.iso14755_52: false
+
+! True: de-iconify (map) on receipt of a bell character.  False: no de-iconify (map) on receipt of a bell character [default].
+URxvt*mapAlert: True
+
+! True: the mouse wheel scrolls a page full. False: the mouse wheel scrolls five lines [default]
+URxvt*mouseWheelScrollPage: False
+
+!==============================================================================
+! Look n Feel
+!------------------------------------------------------------------------------
+
+! Redundant, will use 'fixed' which is aliased to this font
+URxvt*font: -*-terminus-medium-r-normal--14-*-*-*-c-*-iso10646-1
+
+! Setting URxvt.boldFont to empty will disable the bold and italic fonts
+URxvt*boldFont:
+URxvt*italicFont:
+URxvt*boldItalicFont:
+
+! URxvt*scrollstyle: plain
+URxvt*scrollBar: False
+URxvt*scrollBar_right: False
+URxvt*scrollBar_floating: False
+
+URxvt*borderLess: False
+URxvt*cursorBlink: True
+! URxvt*lineSpace: 1
+! URxvt*letterSpace: -1
+
+URxvt*highlightColor: #353535
+! URxvt*underlineColor: colour
+
+Xcursor.theme: Vanilla-DMZ
+Xcursor.size: 10
+
+! Source color theme, full directory is passed to xrdb with -I
+#include "colors/current"
+
+! Bold/blink font styles imply high intensity foreground/background colours.
+URxvt*intensityStyles: True
+
+!==============================================================================
+! IO
+!------------------------------------------------------------------------------
+
+! True: specify that jump scrolling should be used. When receiving lots of lines, urxvt will only scroll once a whole screen height of lines has been read, resulting in fewer updates while still displaying every received line; option -j.
+! False: specify that smooth scrolling should be used. urxvt will force a screen refresh on each new line it received
+URxvt*jumpScroll: True
+
+! True: (the default) specify that skip scrolling should be used. When receiving lots of lines, urxvt will only scroll once in a while (around 60 times per second), resulting in far fewer updates. This can result in urxvt not ever displaying some of the lines it receives; option -ss.
+URxvt*skipScroll: True
+
+! True: set the urgency hint for the wm on receipt of a bell character.  False: do not set the urgency hint [default] urxvt resets the urgency hint on every focus change.
+URxvt*urgentOnBell: False
+URxvt*visualBell: False
+
+! True: scroll to bottom when tty receives output; option -si.  False: do not scroll to bottom when tty receives output; option +si.
+URxvt*scrollTtyOutput: False
+
+! True: scroll with scrollback buffer when tty receives new lines (i.e.  try to show the same lines) and scrollTtyOutput is False; option -sw. False: do not scroll with scrollback buffer when tty receives new lines; option +sw.
+URxvt*scrollWithBuffer: False
+
+! True: scroll to bottom when a non-special key is pressed. Special keys are those which are intercepted by rxvt-unicode for special handling and are not passed onto the shell; option -sk. False: do not scroll to bottom when a non-special key is pressed; option +sk.
+URxvt*scrollTtyKeypress: True
+
+!==============================================================================
+! Extensions
+!------------------------------------------------------------------------------
+
+URxvt*perl-ext:
+URxvt*perl-ext-common: clipboard,url-select
+
+! Colon-separated list of additional directories that hold extension scripts.
+! When looking for perl extensions, urxvt will first look in these directories,
+! then in $HOME/.urxvt/ext and lastly in /usr/lib/urxvt/perl/.
+! DISABLED, deferred to $URXVT_PERL_LIB because $HOME cannot be used here.
+!URxvt*perl-lib:
+
+!==============================================================================
+! Extension settings
+!------------------------------------------------------------------------------
+URxvt.clipboard.autocopy: true
+
+#ifndef OSX
+	URxvt.clipboard.copycmd:  xsel -ib --logfile "$XDG_CACHE_HOME/xsel.log"
+	URxvt.clipboard.pastecmd: xsel -ob --logfile "$XDG_CACHE_HOME/xsel.log"
+	URxvt.url-select.launcher: /usr/bin/google-chrome-stable
+#else
+	URxvt.clipboard.copycmd:  pbcopy
+	URxvt.clipboard.pastecmd: pbpaste
+#endif
+
+URxvt.keysym.M-u: perl:url-select:select_next
+
+!==============================================================================
+! Key bindings
+!------------------------------------------------------------------------------
+
+! True: handle Meta (Alt) + keypress to set the 8th bit. False: handle Meta (Alt) + keypress as an escape prefix [default].
+! Unforunately it does not work well with utf8
+URxvt*meta8: False
+
+! Set the key to be interpreted as the Meta key to: alt, meta, hyper, super, mod1, mod2, mod3, mod4, mod5; option -mod.
+! URxvt*modifier: modifier
+
+! Paste with Control+v
+URxvt.keysym.M-v: perl:clipboard:paste
+
+! Make Ctrl+Tab work nicely with Vim
+URxvt*keysym.C-Tab:            \033[27;5;9~
+URxvt*keysym.C-S-Tab:          \033[27;6;9~
+URxvt*keysym.C-S-ISO_Left_Tab: \033[27;6;9~
+
+URxvt.keysym.C-Up:     \033[1;5A
+URxvt.keysym.C-Down:   \033[1;5B
+URxvt.keysym.C-Left:   \033[1;5D
+URxvt.keysym.C-Right:  \033[1;5C
+
+! Font shortcuts
+! reference: https://github.com/tpope/tpope
+URxvt*keysym.C-F1:command:\033]710;-misc-fixed-medium-r-normal--20-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F2: command:\033]710;-misc-fixed-medium-r-normal--6-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F3: command:\033]710;-misc-fixed-medium-r-normal--7-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F4: command:\033]710;-misc-fixed-medium-r-normal--8-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F5: command:\033]710;-misc-fixed-medium-r-normal--10-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F6: command:\033]710;-misc-fixed-medium-r-semicondensed--13-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F7: command:\033]710;-misc-fixed-medium-r-normal--13-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F8: command:\033]710;-*-terminus-medium-r-normal--14-*-*-*-c-*-iso10646-1,-misc-fixed-medium-r-semicondensed--12-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F9: command:\033]710;-*-terminus-medium-r-normal--14-*-*-*-c-*-iso10646-1,-misc-fixed-medium-r-semicondensed--13-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F10:command:\033]710;-misc-fixed-medium-r-normal--18-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F11:command:\033]710;-ypn-envypn-medium-r-normal--15-150-75-75-c-90-iso8859-1,-*-terminus-medium-r-normal--14-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F12:command:\033]710;xft:Liberation Mono:style=Regular:size=13:minspace=true\007
+!URxvt*keysym.C-F12:command:\033]710;xft:Inconsolata:style=Medium:size=13\007
+!URxvt*keysym.C-F12:command:\033]710;xft:DejaVu Sans Mono:size=14:minspace=true\007
+!URxvt*keysym.C-F12:command:\033]710;xft:Mono:pixelsize=16\007
+!URxvt*keysym.C-F12:command:\033]710;-misc-fixed-medium-r-normal--20-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-9:  command:\033]720;12\007
+URxvt*keysym.C-0:  command:\033]721;12\007
+
+!-------8<---------------------------------------------------------------------

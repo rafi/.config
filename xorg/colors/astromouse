@@ -1,0 +1,39 @@
+!! astromouse
+!! https://github.com/milomouse/dotfiles
+
+*background: #121212
+*foreground: #b2b2b2
+!! black:
+*color0:  #222222
+*color8:  #3D3A3A
+!! red:
+*color1:  #CC6290
+*color9:  #EC5396
+!! green:
+*color2:  #669F9D
+*color10: #25E2DD
+!! yellow:
+*color3:  #C0B772
+*color11: #D4C141
+!! blue:
+*color4:  #68AFF7
+*color12: #138BCF
+!! magenta:
+*color5:  #AD73F9
+*color13: #6B3BAA
+!! cyan:
+!! ORANGE > CYAN
+!*color6:  #CEA877
+!*color14: #ECA953
+!! PURPLE > CYAN
+*color6:  #6A4E6E
+*color14: #B161BA
+!! white:
+*color7:  #8D8D8D
+*color15: #DAD3D3
+!! bold:
+*colorBD: #87AFD7
+!! underline:
+*colorUL: #A07CD3
+!! italics:
+*colorIT: #5AECD7

@@ -1,0 +1,38 @@
+-- vim: se ft=psql :
+
+------------------------------------------------------------------------------
+-- sources and inspiration:                                                                 --
+-- http://opensourcedbms.com/dbms/psqlrc-psql-startup-file-for-postgres/    --
+-- http://www.craigkerstiens.com/2013/02/21/more-out-of-psql/               --
+-- https://github.com/dlamotte/dotfiles/blob/master/psqlrc                  --
+------------------------------------------------------------------------------
+
+\set QUIET ON
+
+\set PROMPT1 '%[%033[33;1m%]%x%[%033[0m%]%[%033[1m%]%/%[%033[0m%]%R%# '
+-- PROMPT2 is printed when the prompt expects more input, like when you type
+-- SELECT * FROM<enter>. %R shows what type of input it expects.
+\set PROMPT2 '[more] %R > '
+
+-- Use best available output format
+\x auto
+
+-- \set VERBOSITY verbose
+\set HISTFILE ~/.cache/psql_history
+\set HISTCONTROL ignoredups
+\set PAGER OFF
+\set HISTSIZE 2000
+\set ECHO_HIDDEN OFF
+\set COMP_KEYWORD_CASE upper
+
+\timing
+\encoding unicode
+
+\pset null '¤'
+\pset linestyle unicode
+\pset border 2
+
+\pset format wrapped
+
+\set QUIET OFF
+
