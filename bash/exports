@@ -11,12 +11,18 @@ export GOPATH="$HOME/code/go"
 export PATH="$HOME/.local/bin:$PATH:bin:$GOPATH/bin"
 
 # Set the systemd-style DBUS address
-export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/dbus
+#export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
 
 # XDG directories
 export XDG_CONFIG_HOME="$HOME/.config"
 export  XDG_CACHE_HOME="$HOME/.cache"
 export   XDG_DATA_HOME="$HOME/.local/share"
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    export XDG_RUNTIME_HOME="/tmp"
+else
+    export VDPAU_DRIVER=va_gl
+fi
 
 export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
 
@@ -44,6 +50,7 @@ hash gpg        2>/dev/null && export       GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
 hash gimp       2>/dev/null && export GIMP2_DIRECTORY="$XDG_CONFIG_HOME/gimp-2.8"
 hash virtualbox 2>/dev/null && export  VBOX_USER_HOME="$XDG_CONFIG_HOME/virtualbox"
 hash mplayer    2>/dev/null && export    MPLAYER_HOME="$XDG_CONFIG_HOME/mplayer"
+hash mpv        2>/dev/null && export        MPV_HOME="$XDG_CONFIG_HOME/mpv"
 hash vagrant    2>/dev/null && export    VAGRANT_HOME="$XDG_DATA_HOME/vagrant"
 
 # Always install ruby gems local to the user
@@ -53,6 +60,12 @@ then
 	export GEM_HOME="$HOME/.local/lib/ruby/gems/$(ruby -e 'puts RbConfig::CONFIG["ruby_version"]')"
 	export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem/specs"
 	export PATH="$PATH:$GEM_HOME/bin"
+fi
+
+if hash task 2>/dev/null
+then
+	export TASKRC="$XDG_CONFIG_HOME/task/config"
+	export TASKDATA="$XDG_DATA_HOME/task"
 fi
 
 export CHROME_USER_FLAGS="--disable-gpu"
@@ -68,7 +81,11 @@ export _Z_DATA="$XDG_CACHE_HOME/z/data"
 # files:
 export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
-export XAUTHORITY="$XDG_CACHE_HOME/Xauthority"
+
+# Not sure this works on OSX:
+if [[ "$OSTYPE" != "darwin"* ]]; then
+    export XAUTHORITY="$XDG_CACHE_HOME/Xauthority"
+fi
 
 # settings:
 export LESS="-eFiQwMXR"

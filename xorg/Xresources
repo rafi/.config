@@ -11,13 +11,12 @@
 ! XFT
 !------------------------------------------------------------------------------
 
-!Xft.autohint: 0
-!Xft.lcdfilter:  lcddefault
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
 Xft.hintstyle:  hintslight
 Xft.hinting: true
 Xft.antialias: true
-Xft.rgba: none
-!Xft.rgba: rgb
+Xft.rgba: rgb
 Xft.dpi: 96
 
 !==============================================================================
@@ -45,7 +44,8 @@ URxvt*mouseWheelScrollPage: False
 !------------------------------------------------------------------------------
 
 ! Redundant, will use 'fixed' which is aliased to this font
-URxvt*font: -*-terminus-medium-r-normal--14-*-*-*-c-*-iso10646-1
+!URxvt*font: -misc-pragmatapro-medium-r-normal--0-0-0-0-m-0-iso10646-1
+URxvt*font: xft:PragmataPro:size=12:regular:antialias=false
 
 ! Setting URxvt.boldFont to empty will disable the bold and italic fonts
 URxvt*boldFont:
@@ -65,8 +65,8 @@ URxvt*cursorBlink: True
 URxvt*highlightColor: #353535
 ! URxvt*underlineColor: colour
 
-Xcursor.theme: Vanilla-DMZ
-Xcursor.size: 10
+! Xcursor.theme: Neutral
+! Xcursor.size: 10
 
 ! Source color theme, full directory is passed to xrdb with -I
 #include "colors/current"
@@ -138,7 +138,7 @@ URxvt*meta8: False
 ! Set the key to be interpreted as the Meta key to: alt, meta, hyper, super, mod1, mod2, mod3, mod4, mod5; option -mod.
 ! URxvt*modifier: modifier
 
-! Paste with Control+v
+! Paste with Alt+v
 URxvt.keysym.M-v: perl:clipboard:paste
 
 ! Make Ctrl+Tab work nicely with Vim
@@ -153,7 +153,8 @@ URxvt.keysym.C-Right:  \033[1;5C
 
 ! Font shortcuts
 ! reference: https://github.com/tpope/tpope
-URxvt*keysym.C-F1:command:\033]710;-misc-fixed-medium-r-normal--20-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F1:command:\033]710;xft:Inconsolata:style=Medium:size=12\007
+!URxvt*keysym.C-F1:command:\033]710;-misc-fixed-medium-r-normal--20-*-*-*-c-*-iso10646-1\007
 URxvt*keysym.C-F2: command:\033]710;-misc-fixed-medium-r-normal--6-*-*-*-c-*-iso10646-1\007
 URxvt*keysym.C-F3: command:\033]710;-misc-fixed-medium-r-normal--7-*-*-*-c-*-iso10646-1\007
 URxvt*keysym.C-F4: command:\033]710;-misc-fixed-medium-r-normal--8-*-*-*-c-*-iso10646-1\007
@@ -164,12 +165,28 @@ URxvt*keysym.C-F8: command:\033]710;-*-terminus-medium-r-normal--14-*-*-*-c-*-is
 URxvt*keysym.C-F9: command:\033]710;-*-terminus-medium-r-normal--14-*-*-*-c-*-iso10646-1,-misc-fixed-medium-r-semicondensed--13-*-*-*-c-*-iso10646-1\007
 URxvt*keysym.C-F10:command:\033]710;-misc-fixed-medium-r-normal--18-*-*-*-c-*-iso10646-1\007
 URxvt*keysym.C-F11:command:\033]710;-ypn-envypn-medium-r-normal--15-150-75-75-c-90-iso8859-1,-*-terminus-medium-r-normal--14-*-*-*-c-*-iso10646-1\007
-URxvt*keysym.C-F12:command:\033]710;xft:Liberation Mono:style=Regular:size=13:minspace=true\007
-!URxvt*keysym.C-F12:command:\033]710;xft:Inconsolata:style=Medium:size=13\007
+URxvt*keysym.C-F12:command:\033]710;xft:Liberation Mono:style=Regular:size=12:minspace=true\007
 !URxvt*keysym.C-F12:command:\033]710;xft:DejaVu Sans Mono:size=14:minspace=true\007
 !URxvt*keysym.C-F12:command:\033]710;xft:Mono:pixelsize=16\007
 !URxvt*keysym.C-F12:command:\033]710;-misc-fixed-medium-r-normal--20-*-*-*-c-*-iso10646-1\007
 URxvt*keysym.C-9:  command:\033]720;12\007
 URxvt*keysym.C-0:  command:\033]721;12\007
+
+!==============================================================================
+! rofi
+!------------------------------------------------------------------------------
+
+rofi.terminal:      /usr/bin/urxvtc
+rofi.width:         35
+rofi.padding:       12
+rofi.borderwidth:   2
+rofi.lines:         40
+rofi.font:          envypn 11
+rofi.levenshtein-sort: true
+rofi.bordercolor:   #0C73C2
+rofi.highlightbg:   #0C73C2
+rofi.background:    #181818
+rofi.highlightfg:   #FFFFFF
+rofi.foreground:    #A0A0A0
 
 !-------8<---------------------------------------------------------------------

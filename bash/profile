@@ -4,8 +4,24 @@
 #
 # github.com/rafi ~/.profile
 
+# OSX stuff
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	export PATH="bin:/Applications/packer:/Applications/git-annex.app/Contents/MacOS:$PATH"
+
+	# pkgin
+	#export PATH="/usr/pkg/sbin:/usr/pkg/bin:$PATH"
+
+	# MacPorts
+	export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+fi
+
 source "$HOME/.config/bash/exports"
 source "$HOME/.bashrc"
+
+# Extra OSX stuff
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	source "$HOME/.config/bash/osx"
+fi
 
 # Use keychain to load keys
 # https://github.com/funtoo/keychain

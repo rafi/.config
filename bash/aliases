@@ -20,15 +20,16 @@ alias lf='ls -Gl | grep ^d' #Only list directories
 alias lsd='ls -Gal | grep ^d' #Only list directories, including hidden ones
 
 # Git
-alias gfl='git fetch --prune && git tree -15'
+alias gfl='git fetch --prune && git lg -15'
 alias gf='git fetch --prune'
-alias gl='git log --graph --all --oneline --decorate -15'
-alias gll='git log --graph --oneline --decorate -15'
+alias gl='git lg -15'
+alias gll='git lgd -15'
 alias gs='git s'
 
-# Use GNU sort on OSX
+# Use GNU tools on OSX instead of BSD
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	alias sort='gsort'
+	alias dircolors='gdircolors'
 fi
 
 # Storage
@@ -53,12 +54,14 @@ alias psg='ps -ef | grep'
 alias logout="pkill -KILL -u "
 
 # Misc
+alias cal='cal | grep -C6 "$(date +%e)"'
 alias copy='xsel -ib --logfile $XDG_CACHE_HOME/xsel.log'
 alias fontcache='fc-cache -f -v'
 
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias freq='cut -f1 -d" " $HISTFILE | sort | uniq -c | sort -nr | head -n 30'
 alias c='clear'
+alias traceapache="ps auxw | grep sbin/apache | awk '{print\"-p \" $2}' | xargs strace"
 
 # Set vim as default
 alias vi=vim

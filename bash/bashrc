@@ -2,8 +2,6 @@
 # `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
 #
 # github.com/rafi ~/.bashrc config
-# references:
-# - https://github.com/EvanPurkhiser/dots-personal
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -32,9 +30,14 @@ export HISTSIZE=2000
 export HISTFILESIZE=50000
 export HISTFILE="$XDG_CACHE_HOME/bash_history"
 export HISTCONTROL=ignoreboth
-export BROWSER="/usr/bin/google-chrome-stable"
 export EDITOR="/usr/bin/vim"
 export PAGER=less
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    export BROWSER="open"
+else
+    export BROWSER="/usr/bin/google-chrome-stable"
+fi
 
 source "$XDG_CONFIG_HOME/bash/aliases"
 
@@ -44,13 +47,27 @@ for f in $XDG_CONFIG_HOME/bash/functions.d/*; do source "$f"; done
 #[ -d "$XDG_CONFIG_HOME" ] || mkdir "$XDG_CONFIG_HOME"
 #[ -d "$XDG_CACHE_HOME" ] || mkdir "$XDG_CACHE_HOME"
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # OSX GNU bash-completion
+    if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
+	source /opt/local/etc/profile.d/bash_completion.sh
+    fi
+    # edit the /opt/X11/lib/X11/fontconfig/fonts.conf and added the directory
+    # "/Library/Fonts" to the font directory list
+    export FONTCONFIG_PATH=/opt/X11/lib/X11/fontconfig
+fi
+
 # Git prompt helpers
 #GIT_PS1_SHOWDIRTYSTATE=1
 #GIT_PS1_SHOWSTASHSTATE=1
 #GIT_PS1_SHOWUNTRACKEDFILES=1
 #GIT_PS1_SHOWUPSTREAM="auto"
-source /usr/share/git/completion/git-prompt.sh
-source /usr/share/git/completion/git-completion.bash
+if [ -d /usr/share/git/completion ]; then
+    source /usr/share/git/completion/git-prompt.sh
+    source /usr/share/git/completion/git-completion.bash
+elif [ -d /opt/local/share/git ]; then
+    source /opt/local/share/git/git-prompt.sh
+fi
 
 # If this is an xterm/rxvt/screen/tmux set the window title to user@host:dir
 case "$TERM" in
@@ -66,16 +83,16 @@ esac
 # IS_SSH is exported in bash/exports
 if [ -z "$IS_SSH" ]; then
 	# Local connections
-	PS1='\[\e[1;30m\][\e[0;38m\h\e[0;33m\]:\e[0;34m\]${PWD##*/}/\[\e[1;30m\]] $(__git_ps1 "(%s)\[\e[00m\] ")\e[0;32m%\e[00m '
+	PS1='\[\e[1;30m\][\[\e[0;38m\]\h\[\e[0;33m\]:\[\e[0;34m\]${PWD##*/}/\[\e[1;30m\]] $(__git_ps1 "(%s)\[\e[00m\] ")\[\e[0;32m\]%\[\e[00m\] '
 	#PS1='\[\e[1;30m\]\t \[\e[0;36m\]\u\[\e[0;32m\]@\[\e[0;31m\]\h\[\e[1;31m\]:\[\e[0;34m\]\w\[\e[00m\] $(__git_ps1 "(%s)\[\e[00m\] ")\$ '
 else
 	# Remote connections
-	PS1='\[\e[1;30m\][\e[0;31m\h\e[0;33m\]:\e[0;34m\]${PWD##*/}/\[\e[1;30m\]] \e[0;32m%\e[00m '
+	PS1='\[\e[1;30m\][\[\e[0;31m\]\h\[\e[0;33m\]:\[\e[0;34m\]${PWD##*/}/\[\e[1;30m\]] $(__git_ps1 "(%s)\[\e[00m\] ")\[\e[0;32m\]%\[\e[00m\] '
 	#PS1='\[\e[1;30m\]\t \[\e[0;32m\]\u\[\e[0;35m\]@\[\e[1;35m\]\h\[\e[0;31m\]:\[\e[0;34m\]\w\[\e[00m\] $(__git_ps1 "(%s)\[\e[00m\] ")\$ '
 fi
 
 # https://github.com/rupa/z
-source /usr/lib/z.sh
+[ -f /usr/lib/z.sh ] && source /usr/lib/z.sh
 
 eval $(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")
 
