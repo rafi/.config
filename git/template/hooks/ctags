@@ -1,5 +1,5 @@
 #!/bin/sh
 set -e
 trap "rm -f .git/tags.$$" EXIT
-ctags --tag-relative -Rf.git/tags.$$ --exclude=.git --languages=-javascript,sql
+/usr/local/bin/ctags --tag-relative -Rf.git/tags.$$ --exclude=.git --fields=+aimS
 mv .git/tags.$$ .git/tags

@@ -166,10 +166,10 @@ ao=alsa,oss
 # cache settings
 #
 # Use 8MB input cache by default.
-#cache = 8192
+cache = 4096
 #
 # Prefill 20% of the cache before starting playback.
-#cache-min = 20.0
+cache-min = 20.0
 #
 # Prefill 50% of the cache before restarting playback after the cache emptied.
 #cache-seek-min = 50

@@ -1,4 +1,5 @@
-# °º¤ø,¸¸,ø¤º°`°º¤ø,¸,ø¤°º¤ø,¸¸,ø¤º°`°º¤ø,¸
+#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
 #
 # github.com/rafi git config
 #
@@ -44,24 +45,33 @@
 [color]
 	ui = true
 	pager = true
+	showbranch = true
 	diff = auto
 	status = auto
 	branch = auto
 	interactive = auto
 [color "branch"]
+	plain = yellow
 	current = magenta bold
 	local = blue bold
 	remote = white
+	upstream = green bold
 [color "diff"]
-	meta = blue bold
+	plain = normal
+	meta = blue
 	frag = magenta bold
+	func = yellow ul
 	old = red
 	new = green bold
+	commit = yellow
 	whitespace = red reverse
 [color "status"]
+	header = black bold
 	added = green bold
 	changed = red
 	untracked = blue bold
+	branch = green bold
+	nobranch = red
 [alias]
 	s  = status -sb
 	f  = fetch --prune
@@ -70,7 +80,7 @@
 	br = branch
 	st = status
 	ck = checkout
-	ds = diff
+	d  = diff
 	ds = diff --staged
 	dw = diff --color-words
 	dh = diff --color-words HEAD
@@ -87,10 +97,14 @@
 	alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
 	#==============================================================================
 	tree = log --graph --all --oneline --decorate
-	l    = log --graph --pretty=format:'%C(yellow)%h%Creset%C(blue)%d%Creset %C(white bold)%s%Creset %C(white dim)(by %an %ar)%Creset'
-	ll   = !git l --all
-	lb   = log --graph --simplify-by-decoration --pretty=format:'%d' --all
-	lg   = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-	lgd  = log --graph --all --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --abbrev-commit
+	lb   = log --graph --simplify-by-decoration --pretty=format:'%C(auto)%d' --all
+	lg   = !git lgd --all
+	lgd  = log --graph --all --pretty=format:'%C(bold black)%h%Creset -%C(auto)%d%Creset %s %C(bold black)(%an %ar)%Creset'
 	#==============================================================================
-	vis = !gitk
+	logx = log --all --graph --decorate=short --color --format=format:'%C(bold blue)%h%C(reset)+%C(dim black)(%cr)%C(reset)+%C(auto)%d%C(reset)++\n+++       %C(bold black)%an%C(reset)%C(black):%C(reset) %s'
+	vtree = !bash -c '"                                                                             \
+			while IFS=+ read -r hash time branch message; do                                            \
+					timelength=$(echo \"$time\" | sed -r \"s:[^ ][[]([0-9]{1,2}(;[0-9]{1,2})?)?m::g\");     \
+					timelength=$(echo \"16+${#time}-${#timelength}\" | bc);                                 \
+					printf \"%${timelength}s    %s %s %s\n\" \"$time\" \"$hash\" \"$branch\" \"$message\";  \
+			done < <(git logx && echo);"'

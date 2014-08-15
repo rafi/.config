@@ -2,7 +2,7 @@
 
 # The following options are commented out with their default values listed.
 # If you wish to use different values, uncomment and update the values.
-builddir="$XDG_CACHE_HOME/pacaur"       # build directory
+builddir="$XDG_CACHE_HOME/pacaur"      # build directory
 #editor="${EDITOR:-vi}"                # PKGBUILD editor
 #editpkgbuild=true                     # edit PKGBUILD script
 #editinstall=true                      # edit install script

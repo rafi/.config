@@ -1,12 +1,63 @@
-gtk-theme-name = "Adwaita"
+#gtk-theme-name="FlatStudioDark"
+gtk-icon-theme-name="Faenza"
+gtk-font-name="Ubuntu 10"
+gtk-cursor-theme-name="Neutral"
+gtk-cursor-theme-size=0
+gtk-toolbar-style=GTK_TOOLBAR_BOTH
+gtk-toolbar-icon-size=GTK_ICON_SIZE_LARGE_TOOLBAR
+gtk-button-images=0
+gtk-menu-images=0
+gtk-enable-event-sounds=1
+gtk-enable-input-feedback-sounds=1
+gtk-xft-antialias=1
+gtk-xft-hinting=1
+gtk-xft-hintstyle="hintslight"
+gtk-xft-rgba="rgb"
+
 #gtk-icon-theme-name = "FaenzaWolfe"
 #gtk-theme-name = "MediterraneanDarkest"
 #gtk-font-name = "Source Sans Pro 10"
 #gtk-font-name = "DejaVu Sans 9"
-gtk-font-name = "DejaVu Sans 8"
-gtk-xft-antialias = 1
-#gtk-xft-dpi = 94
-gtk-xft-hinting = 1
-gtk-xft-hintstyle = "hintslight"
-gtk-xft-rgba = "rgb"
 
+style "meld-color-scheme-user"
+{
+	# inserted line(s), also edge color block for added file in dir diff
+	color["insert-bg"] = "#006000"
+	color["insert-outline"] = shade(1.5, @insert-bg)
+	# In dir diff, an added file's name
+	color["insert-text"] = "#00CC00"
+
+	# Color block on edge for missing file in dir diff
+	color["delete-bg"] = "#800000"
+	color["delete-outline"] = shade(1.8, @delete-bg)
+	# Not sure what this is for
+	color["delete-text"] = "Cyan"
+
+	# Changed line(s), and edge color block for changed file in dir diff
+	color["replace-bg"] = "#685020"
+	color["replace-outline"] = "#604820"
+	# Changed file in dir diff
+	color["replace-text"] = "#e07000"
+
+	# Not sure what these are for
+	color["conflict-bg"] = "Cyan"
+	color["conflict-outline"] = shade(1.8, @conflict-bg)
+	color["conflict-text"] = "Cyan"
+
+	# Not sure what these are for
+	color["error-bg"] = "Cyan"
+	color["error-outline"] = shade(1.8, @error-bg)
+	color["error-text"] = "Cyan"
+
+	# Added text on an existing changed line (per-word diffing)
+	color["inline-bg"] = "#305030" # shade(1.3, @replace-bg)
+	color["inline-fg"] = "#e0e080"
+
+	# Crossed-out (not present) file in dir diff view
+	color["unknown-text"] = "#e0e0e0"
+
+	color["syncpoint-outline"] = "Yellow"
+	# Currently selected chunk. Note: seems to automatically be blended with underlying color.
+	color["current-chunk-highlight"] = "#800080"
+}
+widget "meldapp.*" style : highest "meld-color-scheme-user"

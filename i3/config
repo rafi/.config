@@ -105,15 +105,22 @@ bindsym Print exec --no-startup-id /usr/bin/teiler
 bindsym --release $mod+v exec copyq menu
 
 # Multimedia keys
-bindsym XF86Tools exec --no-startup-id $HOME/.local/bin/mpdMenu
+bindsym XF86Tools exec --no-startup-id /usr/bin/clerk
+bindsym F6 exec --no-startup-id /usr/bin/clerk
 bindsym $alt+F9 exec --no-startup-id mpc seek +4
 bindsym $alt+F7 exec --no-startup-id mpc seek -4
 bindsym XF86AudioPlay exec --no-startup-id mpc toggle
+bindsym F8 exec --no-startup-id mpc toggle
 bindsym XF86AudioNext exec --no-startup-id mpc next
+bindsym F9 exec --no-startup-id mpc next
 bindsym XF86AudioPrev exec --no-startup-id mpc prev
+bindsym F7 exec --no-startup-id mpc prev
 bindsym XF86AudioMute exec --no-startup-id amixer set Master toggle
+#bindsym F10 exec --no-startup-id amixer set Master toggle
 bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 3%-
+bindsym F11 exec --no-startup-id amixer set Master 3%-
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 3%+
+bindsym F12 exec --no-startup-id amixer set Master 3%+
 
 #bindsym XF86Eject exec --no-startup-id
 #bindsym XF86Calculator exec --no-startup-id
@@ -196,8 +203,8 @@ font -misc-termsyn.icons-medium-r-normal--13-120-75-75-c-60-iso8859-1
 #font -xos4-terminus-medium-r-normal--12-120-72-72-C-60-iso8859-1
 #font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 
-new_window pixel 3
-new_float pixel 3
+new_window pixel 2
+new_float pixel 0
 
 set $active  #536B3D
 set $border  #313A28
@@ -230,6 +237,7 @@ bar {
 	status_command $XDG_CONFIG_HOME/i3status/panel.sh
 	# show tray icons on the primary monitor
 	tray_output primary
+	#font pango: PragmataPro 9
 
 	colors {
 		background          #202023
@@ -266,30 +274,23 @@ assign [class="Transmission-gtk"] → $w1
 # Scratchpads
 for_window [title="Sublime Text 2$"] move scratchpad
 for_window [class="Keepassx" title="^(?!Auto\-Type\ \-\ KeePassX$)"] move scratchpad
+for_window [class="Keepassx"] scratchpad show
 
 # Misc app behavior
-for_window [class="feh"] floating enable
+for_window [window_role="pop-up"] floating enable
+for_window [class="zeal"] floating enable
+for_window [class="Gvim"] floating enable, border none
+for_window [class="sxiv"] floating enable
 for_window [class="Meld"] floating enable
 for_window [class="Pinta"] floating enable
 for_window [class="Vlc"] floating enable
-for_window [window_role="pop-up"] floating enable
-for_window [class="^jetbrains-phpstorm$" instance="^sun-awt-X11-XFramePeer$" title="^((?!PhpStorm).)*$"] floating enable
-for_window [class="Krusader" title="^Moving|Copying"] floating enable
+#for_window [class="^jetbrains-phpstorm$" instance="^sun-awt-X11-XFramePeer$" title="^((?!PhpStorm).)*$"] floating enable
 for_window [class="Copyq"] floating enable
-for_window [class="Nw"] floating enable # Springseed
-for_window [class="Gcolor2"] floating enable
 for_window [class="Gitg"] floating enable
-for_window [class="Eog"] floating enable
 for_window [class="Kazam"] floating enable
 for_window [class="Wine"] floating enable
 for_window [title="notifyd$"] floating enable
-for_window [class="XTerm"] floating enable
 for_window [class="Klavaro"] floating enable
-
-# Ubuntu floaters
-for_window [class="Apport-gtk"] floating enable # Crash report
-for_window [title="Unlock private key"] floating enable
-for_window [class="Update-manager"] floating enable
 
 #==============================================================================
 # Modes → and their key bindings
