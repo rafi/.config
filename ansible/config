@@ -169,7 +169,7 @@ filter_plugins     = /usr/share/ansible_plugins/filter_plugins
 # By default, this option is disabled to preserve compatibility with
 # sudoers configurations that have requiretty (the default on many distros).
 # 
-#pipelining = False
+pipelining = True
 
 # if True, make ansible use scp if the connection type is ssh 
 # (default is sftp)

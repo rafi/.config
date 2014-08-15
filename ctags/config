@@ -3,12 +3,15 @@
 --exclude=.git
 --exclude=.bundle
 --exclude=.idea
+--exclude=README.md
+--exclude=kohana/*/*md
 --exclude=node_modules
 --exclude=*/cache
 --exclude=*/compiled
 --exclude=vendor/bundle
 --exclude=vendor/phpspec
 --exclude=vendor/symfony
+--exclude=src/core/vendor
 --exclude=*/js/vendor
 --exclude=*/js/libs
 --exclude=themes/*/media
