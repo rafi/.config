@@ -1,0 +1,30 @@
+! -------------------------------------------------
+! Author: phrakture
+! vim:nu:ai:si:et:ts=4:sw=4:ft=xdefaults:
+! -------------------------------------------------
+
+!black
+ *color0:  rgb:10/10/10
+ *color8:  rgb:4d/4d/4d
+!red
+ *color1:  rgb:cd/5c/5c
+ *color9:  rgb:ff/6a/6a
+!green
+ *color2:  rgb:2e/8b/57
+ *color10: rgb:8f/bc/8f
+!yellow
+ *color3:  rgb:f0/e6/8c
+ *color11: rgb:ff/fa/cd
+!blue
+ *color4:  rgb:b0/c4/de
+ *color12: rgb:1e/90/ff
+!magenta
+ *color5:  rgb:ba/55/d3
+ *color13: rgb:db/70/93
+!cyan
+ *color6:  rgb:46/82/b4
+ *color14: rgb:5f/9e/a0
+!white
+ *color7:  rgb:d3/d3/d3
+ *color15: rgb:ff/ff/ff
+

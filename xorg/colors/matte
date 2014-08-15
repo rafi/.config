@@ -1,0 +1,36 @@
+! -------------------------------------------------
+! Author: Cloud
+! https://github.com/jsks/home
+! vim:nu:ai:si:et:ts=4:sw=4:ft=xdefaults:
+! -------------------------------------------------
+
+*background: #3B333D
+*foreground: #F8F5E2
+*colorUL:        #86a2be
+*cursorColor:    white
+*underlineColor: magenta
+
+!black
+ *color0: #443236
+ *color8: #695F6C
+!red
+ *color1: #BE7765 
+ *color9: #D2998B
+!green
+ *color2: #96BE65 
+ *color10: #A5C085
+!yellow
+ *color3: #FCD384 
+ *color11: #FADEA7
+!blue
+ *color4: #9FB5C2
+ *color12: #CED7D2
+!magenta
+ *color5: #9B7E9B 
+ *color13: #B58BB5
+!cyan
+ *color6: #76AF92
+ *color14: #8FC3A9
+!white
+ *color7: #F8F5E2 
+ *color15: #D3C2A9

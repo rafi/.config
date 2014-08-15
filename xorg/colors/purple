@@ -1,0 +1,32 @@
+! -------------------------------------------------
+! Author: Cloud
+! vim:nu:ai:si:et:ts=4:sw=4:ft=xdefaults:
+! -------------------------------------------------
+
+!black
+ *color0:  #333333
+ *color8:  #5D6F74
+!red
+! *color1:  #AB597D
+ *color1:  #B94598
+ *color9:  #CD749C
+!green
+! *color2:  #359797
+ *color2: #9C75DD
+ *color10: #63B0B0
+!yellow
+ *color3:  #9898AE
+ *color11: #C0C0DD
+!blue
+! *color4:  #3E80B1
+ *color4:  #654A96
+ *color12: #5786BC
+!magenta
+ *color5:  #7659AB
+ *color13: #8B72BB
+!cyan
+ *color6:  #4A6F96
+ *color14: #71A1C6
+!white
+ *color7:  #899CA1
+ *color15: #C0C0C0

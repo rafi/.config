@@ -1,0 +1,74 @@
+[options]
+resize_grip = false
+scroll_on_output = false
+scroll_on_keystroke = true
+audible_bell = false
+visible_bell = false
+mouse_autohide = false
+allow_bold = false
+dynamic_title = true
+urgent_on_bell = true
+clickable_url = true
+font = PragmataPro 12
+scrollback_lines = 0
+search_wrap = true
+#icon_name = terminal
+#geometry = 640x480
+
+# "system", "on" or "off"
+cursor_blink = system
+
+# "block", "underline" or "ibeam"
+cursor_shape = block
+
+# $BROWSER is used by default
+#browser = firefox
+
+# word characters used for word selection
+# (default if unset: all graphic non-punctuation/space characters)
+#word_chars = -A-Za-z0-9,./?%&#:_=+@~
+
+# set size hints for the window
+#size_hints = false
+
+# emit escape sequences for other keys modified by Control
+#modify_other_keys = false
+
+[colors]
+foreground = #A0A0A0
+#foreground_bold = #ffffff
+#foreground_dim = #888888
+background = #232323
+cursor = #B1FA32
+
+# if unset, will reverse foreground and background
+highlight = #2f2f2f
+
+# colors from color0 to color254 can be set
+color0 = #2A2A2A
+color1 = #D370A3
+color2 = #6D9E3F
+color3 = #B58858
+color4 = #6095C5
+color5 = #AC7BDE
+color6 = #3BA275
+color7 = #FFFFFF
+color8 = #686868
+color9 = #FFA7DA
+color10 = #A3D572
+color11 = #EFBD8B
+color12 = #98CBFE
+color13 = #E5B0FF
+color14 = #75DAA9
+color15 = #CFCFCF
+
+[hints]
+#font = Monospace 12
+#foreground = #dcdccc
+#background = #3f3f3f
+#padding = 2
+#border = #3f3f3f
+#border_width = 0.5
+#roundness = 2.0
+
+# vim: ft=dosini cms=#%s

@@ -1,0 +1,6 @@
+! Change CapsLock to Super_L
+clear Lock
+keycode 66 = Super_L
+
+! Change TECK's Super_L to Super_R
+keycode 133 = Super_R

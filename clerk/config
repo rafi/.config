@@ -1,0 +1,41 @@
+# set backend, valid choices: rofi, dmenu, slmenu
+backend=rofi
+
+# custom rofi settings (rofi reads settings from ~/.Xresources)
+# but you can override settings here.
+# rofiopts="-width 35 -padding 12 -lines 40"
+
+# maximum rating for album ratings
+maxratings=10
+
+# path to your music
+music_path="/mnt/media/music"
+
+# Number of Songs to be added for "Random Tracks"
+value=20
+
+# Change this, if you have subfolders for multi-disc albums.
+# This should match the name of your subfolders, exluding the number
+cd_divider=
+
+# Seperator used for splitting tags - Make sure this is something most
+# likely not used in tags itself. Can be multiple characters
+# If you change seperator, update caches with clerk -update
+seperator=•
+
+# use artist or albumartist for album ratings
+mpd_artist=albumartist
+
+# if you have missing tags and experience non-adding albums, set this
+# to "Flat", otherwise leave the default of "Tags"
+# Same thing goes for AddTrack value.
+quirkAlbum="Tags"
+quirkTrack="Tags"
+
+# Fill these if mpdscribble runs on a different host
+# set to 0 if mpdscribble runs locally
+ssh_lastfm=0
+ssh_host=picon
+
+##### DO NOT EDIT #####
+change_db=DBUpdated:ThuAug1416:24:192014
