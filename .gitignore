@@ -1,5 +1,6 @@
 *.swp
 *.log
+*.cache
 
 /Atlassian
 /beets/state.pickle
