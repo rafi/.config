@@ -1,6 +1,7 @@
 [mysql]
-default-character-set=utf8
+default-character-set = utf8
 auto-rehash
-prompt='(\u@\h:\d) mysql> '
+prompt = '[\u@\h:\d] (mysql) % '
 safe-updates
-#username=root
+pager = grcat ~/.config/mysql/grcat | less -niSFXR
+sigint-ignore

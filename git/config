@@ -6,6 +6,8 @@
 [user]
 	name = Rafael Bodill
 	email = rafi@sortex.co.il
+[github]
+	user = rafi
 [core]
 	pager = /usr/bin/less -EFRSX
 	editor = /usr/bin/vim -f

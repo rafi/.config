@@ -54,6 +54,7 @@ alias psg='ps -ef | grep'
 alias logout="pkill -KILL -u "
 
 # Misc
+alias weechat="weechat --dir $XDG_CONFIG_HOME/weechat/"
 alias cal='cal | grep -C6 "$(date +%e)"'
 alias copy='xsel -ib --logfile $XDG_CACHE_HOME/xsel.log'
 alias fontcache='fc-cache -f -v'

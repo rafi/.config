@@ -1,0 +1,5 @@
+email  = justrafi@gmail.com
+prefix = ${HOME}/.local/lib/nodejs
+cache  = ${XDG_CACHE_HOME}/npm
+tmp    = /tmp
+registry = http://registry.npmjs.org/
