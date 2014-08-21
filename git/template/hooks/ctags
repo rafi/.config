@@ -1,5 +1,5 @@
 #!/bin/sh
 set -e
-trap "rm -f .git/tags.$$" EXIT
-/usr/local/bin/ctags --tag-relative -Rf.git/tags.$$ --exclude=.git --fields=+aimS
-mv .git/tags.$$ .git/tags
+trap 'rm -f "${GIT_DIR}/tags.$$"' EXIT
+ctags --tag-relative -Rf"${GIT_DIR}/tags.$$" --exclude=.git --fields=+aimS
+mv "${GIT_DIR}/tags.$$" "${GIT_DIR}/tags"
