@@ -209,33 +209,33 @@ set -g status-bg colour236
 set -g status-attr default
 
 set -g status-left-length 30
-set -g status-left-fg colour250
-set -g status-left-bg default
+set -g status-left-fg colour254
+set -g status-left-bg colour241
 set -g status-left-attr none
-set -g status-left '#[fg=colour230,bg=colour2] #S #[fg=colour2,bg=colour236]⮀ '
+set -g status-left ' #S #[fg=colour241,bg=colour235]⮀#[fg=colour234,bg=colour236]░'
 set -g status-right-length 65
 set -g status-right-fg colour245
 set -g status-right-bg default
 set -g status-right-attr none
-set -g status-right '#{?client_prefix,#[fg=colour11]#[bg=colour2]<Prefix>#[default]  ,}#[default]#h #[fg=colour241]⮃ #[default]%d %b %R #[fg=colour241]⮃#[default]#(uptime | rev | cut -d":" -f1 | rev | sed s/,//g) #[fg=colour236,bg=colour2]▓░#(rainbarf --bright --norgb --tmux --width 10 --noremaining --nobattery --nobolt --datfile $XDG_CACHE_HOME/rainbarf.dat)'
+set -g status-right '#{?client_prefix,#[fg=colour253]#[bg=colour4]<Prefix>#[default]  ,}#[default]#h #[fg=colour241]⮃ #[default]%d %b %R #[fg=colour241]⮃#[default]#(uptime | rev | cut -d":" -f1 | rev | sed s/,//g) #[fg=colour236,bg=colour2]▓░#(rainbarf --bright --norgb --tmux --width 10 --noremaining --nobattery --nobolt --datfile $XDG_CACHE_HOME/rainbarf.dat)'
 
-set-window-option -g window-status-fg colour246
+set-window-option -g window-status-fg colour247
 set-window-option -g window-status-bg colour236
 set-window-option -g window-status-attr none
 set-window-option -g window-status-separator ""
-set-window-option -g window-status-format " #[fg=colour244]#I#[fg=colour231]#F#[fg=default]#W #[fg=colour246] "
-set-window-option -g window-status-current-fg colour255
-set-window-option -g window-status-current-bg colour4
+set-window-option -g window-status-format " #[fg=colour243]#I#[fg=colour247]#F#[default]#W #[fg=colour236,bg=colour235]⮀#[fg=colour234,bg=default]░"
+set-window-option -g window-status-current-fg colour251
+set-window-option -g window-status-current-bg colour239
 set-window-option -g window-status-current-attr none
-set-window-option -g window-status-current-format "#[fg=colour235]░#[fg=colour255]#I#[fg=colour235]#F#[fg=colour255]#W #[fg=colour4]#[bg=colour236]⮀ "
+set-window-option -g window-status-current-format "#[fg=colour235]░#[fg=colour235]#I#[fg=colour235]#F#[default]#W #[fg=colour238]#[fg=colour239,bg=colour235]⮀#[fg=colour234,bg=colour236]░"
 
-set-window-option -g window-status-activity-fg colour231
+set-window-option -g window-status-activity-fg colour147
 set-window-option -g window-status-activity-bg colour236
 set-window-option -g window-status-activity-attr none
-set-window-option -g window-status-bell-fg colour221
+set-window-option -g window-status-bell-fg colour169
 set-window-option -g window-status-bell-bg colour236
 set-window-option -g window-status-bell-attr none
-set-window-option -g window-status-last-fg default
+set-window-option -g window-status-last-fg colour247
 set-window-option -g window-status-last-bg colour236
 set-window-option -g window-status-last-attr none
 
