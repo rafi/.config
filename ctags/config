@@ -1,5 +1,8 @@
+--totals
 --recurse=yes
 --tag-relative=yes
+--fields=+aimS
+--sort=no
 --exclude=.git
 --exclude=.bundle
 --exclude=.idea
@@ -18,6 +21,7 @@
 --exclude=public/sites
 --exclude=tcpdf
 --exclude=swiftmailer
+--exclude=google-chrome
 
 --langdef=markdown
 --langmap=markdown:.md

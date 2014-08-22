@@ -1,5 +1,40 @@
 #!/bin/sh
 set -e
-trap 'rm -f "${GIT_DIR}/tags.$$"' EXIT
-ctags --tag-relative -Rf"${GIT_DIR}/tags.$$" --exclude=.git --fields=+aimS
-mv "${GIT_DIR}/tags.$$" "${GIT_DIR}/tags"
+cwd=$(git rev-parse --show-toplevel)
+if [ -z "$cwd" ]; then
+	echo "[ctags] Error while creating tags: Empty project directory"
+	exit 1
+fi
+
+# Hash the project directory
+if [ "${#cwd}" -lt 150 ]; then
+	# Just replacing directory separators if path is
+	# less than 150 characters.
+	hash=${cwd//\//=+}
+	hash=${hash//\\/=+}
+	hash=${hash//\:/=-}
+elif hash sha256sum 2>/dev/null; then
+	# Use SHA256 for long paths
+	hash=$(printf $cwd | sha256sum | sed 's/\s\+\-.*$//g')
+else
+	# Simple hash when sha256sum isn't available
+	sum=0
+	for i in `seq 0 ${#cwd}`; do
+		char=${cwd:${i}:1}
+		dec=$(printf '%d\n' "'$char")
+		((sum+=dec*(i+1)))
+	done
+	hash=$(printf "%x\n" ${sum})
+fi
+
+if [ -z "$hash" ]; then
+	echo "[ctags] Error while creating tags: Empty hash"
+	exit 2
+fi
+
+# Generate the tags file into the central repository
+filepath="${XDG_CACHE_HOME:-$HOME/.cache}/vim/tags/${hash}"
+trap 'rm -f "${filepath}.$$"' EXIT
+echo "Generating tags at ${filepath}..."
+ctags -f"${filepath}.$$"
+mv "${filepath}.$$" "${filepath}"
