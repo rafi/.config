@@ -57,10 +57,6 @@ set-option -g prefix C-a
 unbind-key C-b
 bind-key C-a send-prefix
 
-# Disable Ctrl-[Left|Right] to maintain word jump
-unbind-key -n C-Left
-unbind-key -n C-Right
-
 # Use v and g for splitting.
 unbind %
 unbind '"'
@@ -110,15 +106,17 @@ bind-key * list-clients
 # Search for previous error
 bind-key e copy-mode \; send-keys "?Error" C-m
 
-# Easy quick resizing
+# Disable Ctrl+Arrows to maintain word jump in non vi-mode
 unbind -n C-Left
-unbind -n C-Down
-unbind -n C-Up
 unbind -n C-Right
-#bind -n C-Left resize-pane -L 10
-#bind -n C-Right resize-pane -R 10
-#bind -n C-Down resize-pane -D 5
-#bind -n C-Up resize-pane -U 5
+unbind -n C-Up
+unbind -n C-Down
+
+# Disable arrows, use 'em for easy pane resizing
+bind -n M-n resize-pane -L 5
+bind -n M-. resize-pane -R 5
+bind -n M-m resize-pane -D 5
+bind -n M-, resize-pane -U 5
 
 #==============================================================================
 # Control
@@ -126,6 +124,7 @@ unbind -n C-Right
 
 # bind vi key-mapping
 set-option -g status-keys vi
+
 # vi-style controls for copy mode
 set-window-option -g mode-keys vi
 
@@ -136,8 +135,9 @@ bind-key u capture-pane \; save-buffer /tmp/tmux-buffer \; new-window -n "urlvie
 bind C-c run "tmux show-buffer | xsel -ib --logfile $XDG_CACHE_HOME/xsel.log"
 bind C-v run "tmux set-buffer \"$(xsel -ob --logfile $XDG_CACHE_HOME/xsel.log)\"; tmux paste-buffer"
 
+#bind -t vi-copy 'y' copy-selection
+bind -t vi-copy 'y' copy-pipe "xsel -ib --logfile $XDG_CACHE_HOME/xsel.log >/dev/null"
 bind -t vi-copy 'v' begin-selection
-bind -t vi-copy 'y' copy-selection
 bind -t vi-copy 'V' rectangle-toggle
 
 #==============================================================================

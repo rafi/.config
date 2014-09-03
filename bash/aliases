@@ -20,7 +20,7 @@ alias lf='ls -Gl | grep ^d' #Only list directories
 alias lsd='ls -Gal | grep ^d' #Only list directories, including hidden ones
 
 # Git
-alias gfl='git fetch --prune && git lg -15'
+alias gfl='git fetch --prune --all && git lg -15'
 alias gf='git fetch --prune'
 alias gl='git lg -15'
 alias gll='git lgd -15'

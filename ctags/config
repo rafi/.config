@@ -11,9 +11,14 @@
 --exclude=node_modules
 --exclude=*/cache
 --exclude=*/compiled
+--exclude=vendor/composer
 --exclude=vendor/bundle
 --exclude=vendor/phpspec
 --exclude=vendor/symfony
+--exclude=lib/composer
+--exclude=lib/phpspec
+--exclude=lib/symfony
+--exclude=lib/phpdocumentor
 --exclude=src/core/vendor
 --exclude=*/js/vendor
 --exclude=*/js/libs

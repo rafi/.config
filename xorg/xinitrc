@@ -33,8 +33,8 @@ xset +fp /usr/share/fonts/envypn
 xset +fp /usr/share/fonts/cantarell
 xset fp rehash
 
-# X11 Key repeat: delay 300, rate 30
-xset r rate 300 30
+# X11 Key repeat (delay / rate)
+xset r rate 300 35
 
 # Hide mouse and allow jitter
 # Dont send pseudo events - prevents flickering ontop of some GTK apps
