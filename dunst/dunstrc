@@ -1,5 +1,5 @@
 [global]
-    font = EnvyCodeR 10
+    font = PragmataPro 11
     
     # Allow a small subset of html markup:
     #   <b>bold</b>
@@ -52,7 +52,6 @@
     
     # Ignore newlines '\n' in notifications.
     ignore_newline = no
-    
     
     # The geometry of the window:
     #   [{width}]x{height}[+/-{x}+/-{y}]
@@ -119,7 +118,7 @@
     separator_height = 2
     
     # Padding between text and separator.
-    padding = 8
+    padding = 12
     
     # Horizontal padding.
     horizontal_padding = 16
@@ -150,7 +149,7 @@
     icon_folders = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
 
 [frame]
-    width = 3
+    width = 2
     color = "#329BFA"
 
 [shortcuts]
@@ -172,7 +171,7 @@
 #    history = ctrl+grave
     
     # Context menu.
-    context = ctrl+shift+period
+#    context = ctrl+shift+period
 
 # Color reference
 # ---------------
@@ -187,17 +186,17 @@
     # IMPORTANT: colors have to be defined in quotation marks.
     # Otherwise the "#" and following would be interpreted as a comment.
     background = "#232323"
-    foreground = "#F4F5DF"
-    timeout = 3
+    foreground = "#F0F2BE"
+    timeout = 5
 
 [urgency_normal]
     background = "#232323"
-    foreground = "#F4DFF5"
-    timeout = 5
+    foreground = "#EEF566"
+    timeout = 8
 
 [urgency_critical]
-    background = "#93215E"
-    foreground = "#ffffff"
+    background = "#400D7D"
+    foreground = "#EEF566"
     timeout = 0
 
 

@@ -47,7 +47,8 @@ URxvt*mouseWheelScrollPage: False
 !URxvt*font: -misc-pragmatapro-medium-r-normal--0-0-0-0-m-0-iso10646-1
 URxvt*font: xft:PragmataPro:size=12:regular:antialias=false
 
-! Setting URxvt.boldFont to empty will disable the bold and italic fonts
+! Setting font variations to empty will disable and use the main
+URxvt*imFont:
 URxvt*boldFont:
 URxvt*italicFont:
 URxvt*boldItalicFont:

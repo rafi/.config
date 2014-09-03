@@ -5,6 +5,7 @@
 /Atlassian
 /beets/state.pickle
 /configstore
+/clerk/ratings*
 /dconf
 /gconf
 /gimp-2.8

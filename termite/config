@@ -10,6 +10,7 @@ dynamic_title = true
 urgent_on_bell = true
 clickable_url = true
 font = PragmataPro 12
+#font = Monaco 11
 scrollback_lines = 0
 search_wrap = true
 #icon_name = terminal

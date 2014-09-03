@@ -1,0 +1,37 @@
+/*
+ * by Stefan Agner 2014
+ */
+/* Full line insert, left to right or visa-versa */
+@define-color insert-bg #203020;
+@define-color insert-outline #387038;
+@define-color insert-text White;
+
+/* Missing files in folder diff */
+@define-color delete-bg #302020;
+@define-color delete-outline #703838;
+@define-color delete-text #00cc00;
+
+/* Different content (can be with partial match) */
+@define-color replace-bg #303020;
+@define-color replace-outline #707038;
+@define-color replace-text White;
+
+/* Conflicting lines (3-way merge) */
+@define-color conflict-bg #302020;
+@define-color conflict-outline #703838;
+@define-color conflict-text White;
+
+@define-color error-bg #502020;
+@define-color error-outline #802020;
+@define-color error-text White;
+
+/* Inline difference (inside replace blocks) */
+@define-color inline-bg #606030;
+@define-color inline-fg White;
+
+@define-color unknown-text #e0e0e0;
+@define-color current-line-highlight #ffff00;
+@define-color syncpoint-outline #888888;
+
+/* Selected block  */
+@define-color current-chunk-highlight #101010;
