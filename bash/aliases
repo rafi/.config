@@ -34,7 +34,7 @@ fi
 
 # Storage
 alias dut="du -hsx * | sort -rh | head -10"
-alias dfu="df -P -x devtmpfs -x tmpfs"
+alias dfu="df -hT -x devtmpfs -x tmpfs"
 
 # Shortcuts
 alias diff='colordiff'
@@ -55,7 +55,7 @@ alias logout="pkill -KILL -u "
 
 # Misc
 alias weechat="weechat --dir $XDG_CONFIG_HOME/weechat/"
-alias cal='cal | grep -C6 "$(date +%e)"'
+alias cal='cal | grep -C6 "\(^\|\s\)$(date +%e)\s"'
 alias copy='xsel -ib --logfile $XDG_CACHE_HOME/xsel.log'
 alias fontcache='fc-cache -f -v'
 

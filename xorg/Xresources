@@ -177,17 +177,20 @@ URxvt*keysym.C-0:  command:\033]721;12\007
 ! rofi
 !------------------------------------------------------------------------------
 
-rofi.terminal:      /usr/bin/urxvtc
-rofi.width:         35
+rofi.terminal:          /usr/bin/urxvtc
+rofi.run-shell-command: /usr/bin/urxvtc -e '{cmd}'
+rofi.ssh-command:       tmux split-window -h -p 50 '{ssh-client} {host}'
+rofi.location:      0
+rofi.width:         30
 rofi.padding:       12
 rofi.borderwidth:   2
 rofi.lines:         40
 rofi.font:          envypn 11
-rofi.levenshtein-sort: true
 rofi.bordercolor:   #0C73C2
 rofi.highlightbg:   #0C73C2
 rofi.background:    #181818
 rofi.highlightfg:   #FFFFFF
 rofi.foreground:    #A0A0A0
+rofi.levenshtein-sort: true
 
 !-------8<---------------------------------------------------------------------

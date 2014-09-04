@@ -14,6 +14,7 @@ set $alt Mod1
 
 workspace_auto_back_and_forth yes
 focus_follows_mouse yes
+mouse_warping none
 
 # Use Mouse+$alt to drag and resize floating windows
 floating_modifier $alt

@@ -473,12 +473,6 @@ def_key "K"
 def_key "K"
   move_selected_items_up
 
-def_key "ctrl_k"
-  move_sort_order_up
-
-def_key "ctrl_k"
-  move_selected_items_up
-
 #def_key "m"
 #  toggle_media_library_sort_mode
 #
@@ -489,12 +483,6 @@ def_key "J"
   move_sort_order_down
 
 def_key "J"
-  move_selected_items_down
-
-def_key "ctrl_j"
-  move_sort_order_down
-
-def_key "ctrl_j"
   move_selected_items_down
 
 #def_key "M"
