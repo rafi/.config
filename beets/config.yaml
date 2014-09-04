@@ -1,0 +1,43 @@
+directory: /mnt/media/music
+library: ~/.cache/beets/musiclibrary.blb
+paths:
+  default: %the{$albumartist}/$year $album%aunique{}/$track $title
+  comp: _Compilations/$year $album%aunique{}/$track $title
+  albumtype:soundtrack: _Soundtracks/$year $album%aunique{}/$track $title
+  singleton: _Singles/%the{$albumartist} - $title
+import:
+  move: yes
+  timid: yes
+original_date: yes
+match:
+  preferred:
+    countries: ['US', 'GB|UK']
+    media: ['CD', 'Digital Media|File']
+    original_year: yes
+list_format_album: '$albumartist - $album ($year)'
+clutter: [ "Thumbs.db", ".DS_Store", "*jpg", "*png" ]
+pluginpath:
+  - /usr/lib/python2.7/site-packages/beetsplug
+  - /home/rafi/code/python/beetsplug
+plugins: lastgenre scrub the zero ftintitle importfeeds mpdstats mpdupdate duplicates info lastimport mbsync play
+zero:
+  fields: month day comments lyrics
+importfeeds:
+  formats: m3u
+  relative_to: /mnt/media/music/
+  dir: /mnt/media/music/_Playlists/
+  m3u_name: new_albums.m3u
+lastimport:
+  user: rafib
+  api_key: secret
+mpd:
+  host: localhost
+  port: 6600
+play:
+  command: mpd-m3u-handler.sh
+#replaygain:
+#  albumgain: yes
+#  auto: no
+#echonest:
+#  apikey: secret
+#  auto: no

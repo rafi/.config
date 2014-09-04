@@ -1,0 +1,51 @@
+## mpdscribble - an audioscrobbler for the Music Player Daemon.
+## http://mpd.wikia.com/wiki/Client:mpdscribble
+
+pidfile = /run/user/1000/mpdscribble.pid
+
+# The location of the mpdscribble log file.  The special value
+# "syslog" makes mpdscribble use the local syslog daemon.  On most
+# systems, log messages will appear in /var/log/daemon.log then.
+# "-" means log to stderr (the current terminal).
+log = /home/rafi/.cache/mpdscribble/mpdscribble.log
+
+# HTTP proxy URL.
+#proxy = http://the.proxy.server:3128
+
+# Change to this system user after daemonization.
+daemon_user = rafi
+
+# How verbose mpdscribble's logging should be.  Default is 1.
+verbose = 1
+
+# How often should mpdscribble save the journal file? [seconds]
+#journal_interval = 600
+
+# The host running MPD, possibly protected by a password
+# ([PASSWORD@]HOSTNAME).  Defaults to $MPD_HOST or localhost.
+host = localhost
+
+# The port that the MPD listens on and mpdscribble should try to
+# connect to.  Defaults to $MPD_PORT or 6600.
+port = 6600
+
+[last.fm]
+url = http://post.audioscrobbler.com/
+username = username
+password = secret
+journal = /home/rafi/.cache/mpdscribble/lastfm.journal
+
+#[libre.fm]
+#url = http://turtle.libre.fm/
+#username = my_username
+#password = my_password
+#journal = /home/rafi/.cache/mpdscribble/librefm.journal
+
+#[jamendo]
+#url = http://postaudioscrobbler.jamendo.com/
+#username = my_username
+#password = my_password
+#journal = /home/rafi/.cache/mpdscribble/jamendo.journal
+
+#[file]
+#file = /home/rafi/.cache/mpdscribble/log
