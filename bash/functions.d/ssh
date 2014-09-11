@@ -1,6 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-ssht() { ssh $* -t 'tmux -S /tmp/tmux-shared attach || bin/mux || /bin/bash'; }
+ssht() {
+	ssh $* -t 'tmux -S /tmp/tmux-shared attach || bin/mux || /bin/bash'
+}
 
 ssh() {
 	if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then
