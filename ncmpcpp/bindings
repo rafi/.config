@@ -152,26 +152,8 @@ def_key "j"
 def_key "k"
   scroll_up
 
-def_key "l"
-  next_column
-
-def_key "l"
-  slave_screen
-
-def_key "h"
-  previous_column
-
-def_key "h"
-  master_screen
-
 #def_key "mouse"
 #  mouse_event
-#
-#def_key "up"
-#  scroll_up
-#
-#def_key "down"
-#  scroll_down
 #
 #def_key "["
 #  scroll_up_album
@@ -191,23 +173,11 @@ def_key "ctrl_u"
 def_key "ctrl_d"
   page_down
 
-#def_key "page_up"
-#  page_up
-#
-#def_key "page_down"
-#  page_down
-
 def_key "g"
   move_home
 
 def_key "G"
   move_end
-
-#def_key "home"
-#  move_home
-#
-#def_key "end"
-#  move_end
 
 def_key "'"
   press_space
@@ -221,33 +191,24 @@ def_key "'"
 def_key "d"
   delete_playlist_items
 
-#def_key "delete"
-#  delete_playlist_items
-#
-#def_key "delete"
-#  delete_stored_playlist
-#
-#def_key "right"
-#  next_column
-#
-#def_key "right"
-#  slave_screen
-#
-#def_key "right"
-#  volume_up
-#
+def_key "d"
+  delete_stored_playlist
+
+def_key "l"
+  next_column
+
+def_key "l"
+  slave_screen
+
 #def_key "+"
 #  volume_up
-#
-#def_key "left"
-#  previous_column
-#
-#def_key "left"
-#  master_screen
-#
-#def_key "left"
-#  volume_down
-#
+
+def_key "h"
+  previous_column
+
+def_key "h"
+  master_screen
+
 #def_key "-"
 #  volume_down
 #
@@ -259,6 +220,9 @@ def_key "d"
 #
 #def_key "shift_tab"
 #  previous_screen
+
+def_key "f1"
+  show_help
 
 def_key "0"
   show_help
@@ -382,10 +346,10 @@ def_key "ctrl_b"
 #
 #def_key "u"
 #  update_database
-#
-#def_key "ctrl_v"
-#  sort_playlist
-#
+
+def_key "o"
+  sort_playlist
+
 #def_key "ctrl_r"
 #  reverse_playlist
 
@@ -473,16 +437,28 @@ def_key "K"
 def_key "K"
   move_selected_items_up
 
-#def_key "m"
-#  toggle_media_library_sort_mode
-#
-#def_key "m"
-#  set_visualizer_sample_multiplier
+def_key "ctrl_k"
+  move_sort_order_up
+
+def_key "ctrl_k"
+  move_selected_items_up
+
+def_key "o"
+  toggle_media_library_sort_mode
+
+def_key "o"
+  set_visualizer_sample_multiplier
 
 def_key "J"
   move_sort_order_down
 
 def_key "J"
+  move_selected_items_down
+
+def_key "ctrl_j"
+  move_sort_order_down
+
+def_key "ctrl_j"
   move_selected_items_down
 
 #def_key "M"
