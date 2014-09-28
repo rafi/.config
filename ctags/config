@@ -39,6 +39,26 @@
 --regex-markdown=/^##[ \t]+(.*)/\1/i,Heading_L2/
 --regex-markdown=/^###[ \t]+(.*)/\1/k,Heading_L3/
 
+--langdef=css
+--langmap=css:.css
+--regex-css=/^[ \t]*\.([A-Za-z0-9_-]+)/#\1/c,class,classes/
+--regex-css=/^[ \t]*#([A-Za-z0-9_-]+)/.\1/i,id,ids/
+--regex-css=/^[ \t]*(([A-Za-z0-9_-]+[ \t\n,]+)+)\{/\1/t,tag,tags/
+--regex-css=/^[ \t]*@media\s+([A-Za-z0-9_-]+)/\1/m,media,medias/
+
+--langdef=less
+--langmap=less:.less
+--regex-less=/^[ \t]*\.([A-Za-z0-9_-]+)/\1/c,class,classes/
+--regex-less=/^[ \t]*#([A-Za-z0-9_-]+)/\1/i,id,ids/
+--regex-less=/^[ \t]*(([A-Za-z0-9_-]+[ \t\n,]+)+)\{/\1/t,tag,tags/
+--regex-less=/^[ \t]*@media\s+([A-Za-z0-9_-]+)/\1/m,media,medias/
+
+--langdef=scss
+--langmap=scss:.scss
+--regex-scss=/^[ \t]*([^\t {][^{]{1,100})(\t| )*{/| \1/d,definition/
+--regex-scss=/^[@]mixin ([^ (]+).*/\1/m,mixin/
+--regex-scss=/^[@]function ([^ (]+).*/\1/f,function/
+
 --langdef=coffee
 --langmap=coffee:.coffee
 --regex-coffee=/(^|=[ \t])*class ([A-Za-z]+\.)*([A-Za-z]+)( extends [A-Za-z_.]+)?$/\3/c,class/
@@ -74,7 +94,7 @@
 --regex-scala=/^[ \t]*((abstract|final|sealed|implicit|lazy)[ \t]*)*def[ \t]+([a-zA-Z0-9_]+)/\3/m,methods/
 --regex-scala=/^[ \t]*((abstract|final|sealed|implicit|lazy)[ \t]*)*val[ \t]+([a-zA-Z0-9_]+)/\3/l,constants/
 --regex-scala=/^[ \t]*((abstract|final|sealed|implicit|lazy)[ \t]*)*var[ \t]+([a-zA-Z0-9_]+)/\3/l,variables/
---regex-scala=/^[ \t]*package[ \t]+([a-zA-Z0-9_.]+)/\1/p,packages/ 
+--regex-scala=/^[ \t]*package[ \t]+([a-zA-Z0-9_.]+)/\1/p,packages/
 
 --langdef=Clojure
 --langmap=Clojure:.clj
@@ -89,3 +109,15 @@
 --regex-clojure=/\([ \t]*defstruct[ \t]+([-[:alnum:]*+!_:\/.?]+)/\1/s,struct/
 --regex-clojure=/\([ \t]*intern[ \t]+([-[:alnum:]*+!_:\/.?]+)/\1/v,intern/
 --regex-clojure=/\([ \t]*ns[ \t]+([-[:alnum:]*+!_:\/.?]+)/\1/n,namespace/
+
+--langdef=objc
+--langmap=objc:.m..mm..h
+--regex-objc=/\@interface[[:space:]]+([[:alnum:]_]+)/\1/i,interface/
+--regex-objc=/\@implementation[[:space:]]+([[:alnum:]_]+)/\1/I,implementation/
+--regex-objc=/\@protocol[[:space:]]+([[:alnum:]_]+)/\1/P,protocol/
+--regex-objc=/\@property[[:space:]]+\([[:alnum:],[:space:]]+\)[[:space:]]+[[:alnum:]_]+[[:space:]]+\*?([[:alnum:]_]+)/\1/p,property/
+--regex-objc=/([-+])[[:space:]]*\([[:alpha:]_][^)]*\)[[:space:]]*([[:alpha:]_][^:;{]+).*/\1\2/M,method definition/
+--regex-objc=/^[^#@[:space:]][^=]*[[:space:]]([[:alpha:]_][[:alnum:]_]*)[[:space:]]*=/\1/c,constant/
+--regex-objc=/^[[:space:]]*typedef[[:space:]][^;]+[[:space:]]([[:alpha:]_][[:alnum:]]*)[[:space:]]*;/\1/t,typedef/
+--regex-objc=/^[[:space:]]*NS_ENUM\([[:alnum:]]+[[:space:]]*,[[:space:]]([[:alnum:]]+)\)/\1/e,enum/
+--regex-objc=/^#pragma[[:space:]]+mark[[:space:]]+-?[[:space:]]+([[:alnum:][:space:]]+)/\1/g,pragma/

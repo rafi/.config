@@ -19,7 +19,7 @@ clutter: [ "Thumbs.db", ".DS_Store", "*jpg", "*png" ]
 pluginpath:
   - /usr/lib/python2.7/site-packages/beetsplug
   - /home/rafi/code/python/beetsplug
-plugins: lastgenre scrub the zero ftintitle importfeeds mpdstats mpdupdate duplicates info lastimport mbsync play
+plugins: lastgenre scrub the zero ftintitle importfeeds mpdstats mpdupdate duplicates info lastimport mbsync play types
 zero:
   fields: month day comments lyrics
 importfeeds:
@@ -35,6 +35,9 @@ mpd:
   port: 6600
 play:
   command: mpd-m3u-handler.sh
+types:
+  rating: float
+  play_count: int
 #replaygain:
 #  albumgain: yes
 #  auto: no

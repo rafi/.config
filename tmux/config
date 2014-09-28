@@ -84,6 +84,9 @@ bind C-l send-keys 'C-l'
 # Toggle synchronized input to all panes in current window
 bind S setw synchronize-panes
 
+bind Tab last-window
+bind-key a send-prefix
+
 # Use a tick for renaming the window prompt.
 unbind ','
 bind ` command-prompt -I '#W' "rename-window '%%'"
