@@ -9,11 +9,6 @@ xrandr --output DFP1 --primary --auto --output DFP9 --auto --rotate right
 # Load language layouts and set toggler
 setxkbmap -layout us,il -option grp:caps_toggle
 
-# Load keyboard hacks
-#if [ -s $XDG_CONFIG_HOME/xorg/Xmodmap ]; then
-#	xmodmap $XDG_CONFIG_HOME/xorg/Xmodmap
-#fi
-
 # Map a single Shift-L keypress to Escape with a low delay
 xcape -t 300 -e 'Shift_L=Escape'
 
@@ -46,15 +41,15 @@ xset -b
 # Dont send pseudo events - prevents flickering ontop of some GTK apps
 unclutter -idle 3 -jitter 5 -noevents &
 
-# start apps in background (only if not already running)
+# Start daemons (only if not already running)
 [[ -z "$(pgrep mpd)" ]] && mpd
 [[ -z "$(pgrep mpdscribble)" ]] && mpdscribble
 [[ -z "$(pgrep beet)" ]] && beet mpdstats &
 [[ -z "$(pgrep tmux)" ]] && tmux start &
 [[ -z "$(pgrep urxvtd)" ]] && urxvtd -q -o -f
 [[ -z "$(pgrep redshift)" ]] && /usr/bin/redshift &
-copyq &
-keepassx &
+[[ -z "$(pgrep xcmenu)" ]] && /usr/bin/xcmenu --daemon
+[[ -z "$(pgrep keepassx)" ]] && /usr/bin/keepassx &
 
 # Load the supreme i3 and start domination
 exec i3

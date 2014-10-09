@@ -103,7 +103,7 @@ bindsym $alt+Tab exec --no-startup-id i3-dmenu-desktop
 bindsym Print exec --no-startup-id /usr/bin/teiler
 
 # clipboard manager
-bindsym --release $mod+v exec copyq menu
+bindsym --release $mod+v exec --no-startup-id xcmenu --list | rofi -dmenu | xcmenu --input --clipboard
 
 # Multimedia keys
 bindsym XF86Tools exec --no-startup-id /usr/bin/clerk

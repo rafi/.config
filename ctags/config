@@ -8,7 +8,7 @@
 --languages=-javascript
 
 --exclude=.git
---exclude=*/vim/tags
+--exclude=tags
 --exclude=.bundle
 --exclude=.idea
 --exclude=README.md

@@ -7,6 +7,7 @@
 /configstore
 /clerk/ratings*
 /dconf
+/fb-client
 /gconf
 /gimp-2.8
 /gnupg
@@ -41,6 +42,3 @@
 /weechat/perl
 /weechat/python
 /weechat/script
-
-/copyq/*
-!/copyq/copyq.conf
