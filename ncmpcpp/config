@@ -304,7 +304,7 @@ playlist_editor_display_mode = columns
 ## Note: You can specify third character which will
 ## be used to build 'empty' part of progressbar.
 
-progressbar_look = ▒▓░
+progressbar_look = ─╼·
 
 #progressbar_boldness = no
 
@@ -315,6 +315,8 @@ progressbar_look = ▒▓░
 ## Available values: classic, alternative.
 ##
 #user_interface = classic
+#
+data_fetching_delay = yes
 #
 ## Available values: artist, album_artist, date, genre, composer, performer.
 

@@ -27,7 +27,7 @@
 ##################
 
 # Specify default video driver (see --vo=help for a list).
-vo=opengl
+vo=xv
 
 # Start in fullscreen mode by default.
 #fs=yes
@@ -49,7 +49,7 @@ ontop=no
 ##################
 
 # Specify default audio driver (see --ao=help for a list).
-#ao=alsa
+ao=alsa
 
 # Disable softvol usage, and always use the system mixer if available.
 #softvol=no
