@@ -319,6 +319,18 @@ for_window [class="Klavaro"] floating enable
 # Modes → and their key bindings
 #------------------------------------------------------------------------------
 
+# Window screen-casting
+set $mode_cast Cast (s) small, (m) medium, (l) large
+mode "$mode_cast" {
+	bindsym s exec --no-startup-id wincast small, mode "default"
+	bindsym m exec --no-startup-id wincast medium, mode "default"
+	bindsym l exec --no-startup-id wincast large, mode "default"
+
+	bindsym Return mode "default"
+	bindsym Escape mode "default"
+}
+bindsym $alt+F5 mode "$mode_cast"
+
 # resize window (you can also use the mouse for that)
 mode "resize" {
 	# Small 5 step resize
