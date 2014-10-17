@@ -3,15 +3,17 @@
 #
 # github.com/rafi i3 config
 #
-# Please see http://i3wm.org/docs/userguide.html for a complete reference!
+# Reference: http://i3wm.org/docs/userguide.html
 
 #==============================================================================
-# i3 general settings →
+# i3 general behavior →
 #------------------------------------------------------------------------------
 
-set $mod Mod4
+# I mostly use Alt, and barely the super key.
 set $alt Mod1
+set $mod Mod4
 
+# i3 behavior
 workspace_auto_back_and_forth yes
 focus_follows_mouse yes
 mouse_warping none
@@ -19,97 +21,129 @@ mouse_warping none
 # Use Mouse+$alt to drag and resize floating windows
 floating_modifier $alt
 
+# DISABLED:
 #floating_minimum_size 250 x 250
 #floating_maximum_size 1920 x 0
-
 #force_display_urgency_hint 1000 ms
+
+#==============================================================================
+# Workspaces →
+#------------------------------------------------------------------------------
+
+# These are glyphs from the 'termsyn.icons' font
+# See http://sourceforge.net/projects/termsyn
+set $w1 1 ê
+set $w2 2 ý
+set $w3 3 Ç
+set $w4 4 Â
+set $w5 5 ¨
+set $w6 6 ©
+set $w7 7 ©
+set $w8 8 ©
+set $w9 9 ©
+set $w0 10 ©
+
+# Force workspaces to specific output monitor
+workspace "$w1" output DFP10
+workspace "$w2" output DFP1
+workspace "$w3" output DFP9
 
 #==============================================================================
 # Key binding →
 #------------------------------------------------------------------------------
 
-# change focus
+# Change focus, special wrapper for seamless movement between:
+# i3 windows, tmux panes, and VIM windows.
 bindsym $alt+h exec "i3-focus left"
 bindsym $alt+j exec "i3-focus down"
 bindsym $alt+k exec "i3-focus up"
 bindsym $alt+l exec "i3-focus right"
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
+# Alternatively, you can use the Super+Arrows:
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
 bindsym $mod+Right focus right
 
-# move focused window
+# Move focused window
 bindsym $alt+Ctrl+h move left
 bindsym $alt+Ctrl+j move down
 bindsym $alt+Ctrl+k move up
 bindsym $alt+Ctrl+l move right
 
-# alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
+# Alternatively, you can use the Super+Shift+Arrows:
+bindsym $mod+Shift+Left  move left
+bindsym $mod+Shift+Down  move down
+bindsym $mod+Shift+Up    move up
 bindsym $mod+Shift+Right move right
 
 # Vert/horiz orientation and fullscreen
+bindsym $alt+f      fullscreen
 bindsym $alt+Ctrl+g split h
 bindsym $alt+Ctrl+v split v
-bindsym $alt+f fullscreen
 
-# Change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
-# Toggle between stacking/tabbed/split
-bindsym $mod+x layout toggle
-
-bindsym $mod+b border toggle
+# Move floating container to the center of all outputs
+# TODO: Not that great, appears at the bottom of middle monitor.
+bindsym $alt+Ctrl+c move absolute position center
 
 # Toggle floating/tiling
 bindsym $alt+t floating toggle
 
-# Focus last floating/tiling container
+# Focus last floating/tiling container. Very helpful!
 bindsym $alt+space focus mode_toggle
 
 bindsym $alt+a focus parent
 bindsym $alt+z focus child
 
-bindsym $alt+Home move workspace to output left
-bindsym $alt+End move workspace to output right
-bindsym $alt+Ctrl+Home move container to output left
-bindsym $alt+Ctrl+End move container to output right
-
-# Move floating container to the center of all outputs
-bindsym $alt+Ctrl+c move absolute position center
-
 # Scratchpad control
 bindsym $alt+Ctrl+minus move scratchpad
 bindsym $alt+minus scratchpad show
-bindsym $mod+equal [class="Subl(ime_text)?"] scratchpad show
 
-# session
+# Quickly draw out vim
+bindsym $alt+equal [class="G?vim"] scratchpad show
+
+# i3 Session
 bindsym $alt+Ctrl+q kill
 bindsym $alt+Ctrl+e reload
 bindsym $alt+Ctrl+r restart
 bindsym $alt+Ctrl+Delete exec "i3-nagbar -t warning -m 'exit i3? This will end your X session.' -b 'Yes' 'i3-msg exit'"
 
+# Change container layout (stacked, tabbed, toggle split)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Toggle between stacking/tabbed/split (Use Super+x!)
+bindsym $mod+x layout toggle
+
+# Toggle border modes (Use Super+b!)
+bindsym $mod+b border toggle
+
+# Applications
+# ------------
+
+# Terminal - URxvt client, daemon starts in .xinitrc
 bindsym $mod+Return exec --no-startup-id urxvtc
 
-# dmenu wrapper for .desktop files, Meta+Del is awesome on the TECK keyboard
-bindsym $alt+Tab exec --no-startup-id i3-dmenu-desktop
+# The awesome rofi for apps, windows, and ssh sessions.
+# (Super+Delete is awesome on the TECK keyboard)
+bindsym $alt+Tab    exec --no-startup-id /usr/bin/rofi -now
+bindsym $mod+Delete exec --no-startup-id /usr/bin/rofi -rnow
+bindsym $alt+Return exec --no-startup-id /usr/bin/rofi -snow
 
-# capture screenshots
+# Screenshot and cast
 bindsym Print exec --no-startup-id /usr/bin/teiler
 
-# clipboard manager
-bindsym --release $mod+v exec --no-startup-id xcmenu --list | rofi -dmenu | xcmenu --input --clipboard
+# Clipboard manager
+bindsym --release $mod+v exec --no-startup-id ~/.local/bin/gpaste-rofi
 
 # Multimedia keys
+bindsym $mod+F9 exec --no-startup-id mpc seek +4
+bindsym $mod+F7 exec --no-startup-id mpc seek -4
+
+# Who needs F-keys?!
 bindsym XF86Tools exec --no-startup-id /usr/bin/clerk
 bindsym F6 exec --no-startup-id /usr/bin/clerk
-bindsym $alt+F9 exec --no-startup-id mpc seek +4
-bindsym $alt+F7 exec --no-startup-id mpc seek -4
 bindsym XF86AudioPlay exec --no-startup-id mpc toggle
 bindsym F8 exec --no-startup-id mpc toggle
 bindsym XF86AudioNext exec --no-startup-id mpc next
@@ -123,6 +157,7 @@ bindsym F11 exec --no-startup-id amixer set Master 3%-
 bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 3%+
 bindsym F12 exec --no-startup-id amixer set Master 3%+
 
+# TODO: Un-used
 #bindsym XF86Eject exec --no-startup-id
 #bindsym XF86Calculator exec --no-startup-id
 #bindsym XF86Explorer exec --no-startup-id
@@ -130,38 +165,29 @@ bindsym F12 exec --no-startup-id amixer set Master 3%+
 #bindsym XF86Mail exec --no-startup-id
 #bindsym XF86HomePage exec --no-startup-id
 
-# Workspace nav for Microsoft Ergonomic Keyboard 4000
-#bindsym XF86Forward workspace next
-#bindsym XF86Back workspace prev
-#bindsym XF86Launch5 workspace $w1
-#bindsym XF86Launch6 workspace $w2
-#bindsym XF86Launch7 workspace $w3
-#bindsym XF86Launch8 workspace $w4
-#bindsym XF86Launch9 workspace $w5
-
-# Volume control with mod+PageUp/PageDn as well
+# DISABLED: Volume control with mod+PageUp/PageDn as well
 #bindsym $mod+Next exec --no-startup-id amixer set Master 3%-
 #bindsym $mod+Prior exec --no-startup-id amixer set Master 3%+
 
-# TODO: Not used
+# Workspaces
+# ----------
+
+# Helpful: Nename workspace names on the spot
+bindsym $alt+Ctrl+a exec i4-input -F 'rename workspace to %s' -P 'New name: '
+
+# Moving whole workspaces or containers to other outputs
+bindsym $alt+Home      move workspace to output left
+bindsym $alt+End       move workspace to output right
+bindsym $alt+Ctrl+Home move container to output left
+bindsym $alt+Ctrl+End  move container to output right
+
+# TODO: Not used, remove or use?
 #bindsym $alt+n workspace next
 #bindsym $alt+p workspace prev
 #bindsym $alt+i workspace next_on_output
 #bindsym $alt+u workspace prev_on_output
 
-# workspace defines (bar uses 'termsyn.icons' font)
-set $w1 1 ê
-set $w2 2 ý
-set $w3 3 Ç
-set $w4 4 Â
-set $w5 5 ¨
-set $w6 6 ©
-set $w7 7 ©
-set $w8 8 ©
-set $w9 9 ©
-set $w0 10 ©
-
-# switch to workspace
+# Switch to workspace
 bindsym $alt+1 workspace $w1
 bindsym $alt+2 workspace $w2
 bindsym $alt+3 workspace $w3
@@ -173,7 +199,7 @@ bindsym $alt+8 workspace $w8
 bindsym $alt+9 workspace $w9
 bindsym $alt+0 workspace $w0
 
-# move focused container to workspace
+# Move focused container to workspace
 bindsym $alt+Ctrl+1 move container to workspace $w1
 bindsym $alt+Ctrl+2 move container to workspace $w2
 bindsym $alt+Ctrl+3 move container to workspace $w3
@@ -185,28 +211,37 @@ bindsym $alt+Ctrl+8 move container to workspace $w8
 bindsym $alt+Ctrl+9 move container to workspace $w9
 bindsym $alt+Ctrl+0 move container to workspace $w0
 
-# Binds for hacking
-#bindsym $alt+Ctrl+r exec i3-input -F 'rename workspace to %s' -P 'New name: '
+# DISABLED: Workspace nav for Microsoft Ergonomic Keyboard 4000
+#bindsym XF86Forward workspace next
+#bindsym XF86Back workspace prev
+#bindsym XF86Launch5 workspace $w1
+#bindsym XF86Launch6 workspace $w2
+#bindsym XF86Launch7 workspace $w3
+#bindsym XF86Launch8 workspace $w4
+#bindsym XF86Launch9 workspace $w5
 
 #==============================================================================
-# Style and Colors →
+# Look 'n Feel →
 #------------------------------------------------------------------------------
 
 # Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below. ISO 10646 = Unicode
+# is used in the bar {} block below.
 
-# The 'termsyn.icons' font at http://sourceforge.net/projects/termsyn
+# The 'termsyn.icons' font http://sourceforge.net/projects/termsyn
 font -misc-termsyn.icons-medium-r-normal--13-120-75-75-c-60-iso8859-1
 
 # Other nice fonts
-#font -*-cure-*-*-*--*-*-*-*-*-*-*
+#font pango: PragmataPro 9
 #font pango: EnvyCodeR 10
+#font -*-cure-*-*-*--*-*-*-*-*-*-*
 #font -xos4-terminus-medium-r-normal--12-120-72-72-C-60-iso8859-1
 #font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 
+# Borders
 new_window pixel 2
 new_float pixel 0
 
+# Colors
 set $active  #536B3D
 set $border  #313A28
 set $text    #BBC5B2
@@ -220,25 +255,24 @@ set $bg2     #4c4c4f
 set $orange  #FCBF69
 set $blue    #98CBFE
 set $dblue   #6095C5
-set $ia     #8f8f8f
-set $be     #8faf9f
-set $yw     #ccdc90
-set $gn     #97A824
-set $rd     #e89393
+set $ia      #8f8f8f
+set $be      #8faf9f
+set $yw      #ccdc90
+set $gn      #97A824
+set $rd      #e89393
 
-# class                  border   backgr.  text    indicator
+# Class                  Border   Backgr.  Text    Indicator
 client.focused           $border  $dblue   $text   $bright
 client.unfocused         $bg2     $bg2     $text2  $bright2
 client.focused_inactive  $bg2     $bg2     $text3  $bright2
 client.urgent            $rd      $gn      $yw     $active
 
-# Start i3bar to display a workspace bar
+# Start i3bar
 bar {
 	position top
 	status_command $XDG_CONFIG_HOME/i3status/panel.sh
 	# show tray icons on the primary monitor
 	tray_output primary
-	#font pango: PragmataPro 9
 
 	colors {
 		background          #202023
@@ -255,43 +289,30 @@ bar {
 # Workspace → App assignment
 #------------------------------------------------------------------------------
 
-# Force workspaces to specific monitor
-workspace "$w1" output DFP5
-workspace "$w2" output DFP1
-
 # Media
-assign [title="^HipChat"] → $w1
-assign [class="Xchat"] → $w1
-assign [class="Transmission-gtk"] → $w1
-#assign [class="Vlc"] → $w1
-
-# Others
-#assign [class="^jetbrains-phpstorm$" instance="^sun-awt-X11-XFramePeer$"] → $w3
+assign [class="Vlc"] → $w2
+assign [class="mpv"] → $w2
+assign [class="Sxiv"] → $w3
+assign [class="Google-chrome-stable"] → $w3
 
 #==============================================================================
 # App window behavior →
 #------------------------------------------------------------------------------
 
 # Scratchpads
-for_window [title="Sublime Text 2$"] move scratchpad
-for_window [class="Keepassx" title="^(?!Auto\-Type\ \-\ KeePassX$)"] move scratchpad
+for_window [class="Gvim$"] move scratchpad, scratchpad show
 for_window [class="Keepassx"] scratchpad show
+for_window [class="Keepassx" title="^(?!Auto\-Type\ \-\ KeePassX$)"] move scratchpad
 
 # Misc app behavior
-for_window [window_role="pop-up"] floating enable
-for_window [class="zeal"] floating enable
-for_window [class="Screenkey"] floating enable
-for_window [class="Gvim"] floating enable, border none
-for_window [class="sxiv"] floating enable
-for_window [class="Meld"] floating enable
-for_window [class="Pinta"] floating enable
-for_window [class="Vlc"] floating enable
-#for_window [class="^jetbrains-phpstorm$" instance="^sun-awt-X11-XFramePeer$" title="^((?!PhpStorm).)*$"] floating enable
-for_window [class="Copyq"] floating enable
-for_window [class="Gitg"] floating enable
-for_window [class="Kazam"] floating enable
-for_window [class="Wine"] floating enable
-for_window [title="notifyd$"] floating enable
+for_window [class="Gvim"]    floating enable, border none
+for_window [class="Sxiv"]    floating enable, border none
+for_window [class="mpv"]     floating enable, border none
+for_window [class="Vlc"]     floating enable, border none
+for_window [class="zeal"]    floating enable, border none
+for_window [class="Gitg"]    floating enable
+for_window [class="Meld"]    floating enable
+for_window [class="Pinta"]   floating enable
 for_window [class="Klavaro"] floating enable
 
 #==============================================================================
