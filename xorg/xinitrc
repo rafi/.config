@@ -3,8 +3,13 @@
 #
 # github.com/rafi xorg xinitrc Linux
 
-# Set rotated monitor and primary monitor
-xrandr --output DFP1 --primary --auto --output DFP9 --auto --rotate right
+#                           ┌------┐
+# ┌-----------┐┎───────────┒│ DFP9 │
+# │   DFP10   │┃   DFP1    ┃│ 1200 │
+# │ 1600x1200 │┃ 1920x1200 ┃│ 1920 │
+# ┕-----┉-----┙┗─────┅─────┛│      │
+#                           ┕--┈---┙
+xrandr --output DFP10 --auto --output DFP1 --primary --auto --left-of DFP9 --right-of DFP10 --output DFP9 --auto --rotate right --right-of DFP1
 
 # Load language layouts and set toggler
 setxkbmap -layout us,il -option grp:caps_toggle
@@ -48,7 +53,7 @@ unclutter -idle 3 -jitter 5 -noevents &
 [[ -z "$(pgrep tmux)" ]] && tmux start &
 [[ -z "$(pgrep urxvtd)" ]] && urxvtd -q -o -f
 [[ -z "$(pgrep redshift)" ]] && /usr/bin/redshift &
-[[ -z "$(pgrep xcmenu)" ]] && /usr/bin/xcmenu --daemon
+[[ -z "$(pgrep gpaste)" ]] && /usr/bin/gpaste start
 [[ -z "$(pgrep keepassx)" ]] && /usr/bin/keepassx &
 
 # Load the supreme i3 and start domination
