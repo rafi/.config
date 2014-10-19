@@ -15,8 +15,13 @@ set $mod Mod4
 
 # i3 behavior
 workspace_auto_back_and_forth yes
-focus_follows_mouse yes
+
+# Disable mouse features
+focus_follows_mouse no
 mouse_warping none
+
+# Be pixel stingy <none|vertical|horizontal|both>
+hide_edge_borders vertical
 
 # Use Mouse+$alt to drag and resize floating windows
 floating_modifier $alt
@@ -54,10 +59,10 @@ workspace "$w3" output DFP9
 
 # Change focus, special wrapper for seamless movement between:
 # i3 windows, tmux panes, and VIM windows.
-bindsym $alt+h exec "i3-focus left"
-bindsym $alt+j exec "i3-focus down"
-bindsym $alt+k exec "i3-focus up"
-bindsym $alt+l exec "i3-focus right"
+bindsym $alt+h exec --no-startup-id "i3-focus left"
+bindsym $alt+j exec --no-startup-id "i3-focus down"
+bindsym $alt+k exec --no-startup-id "i3-focus up"
+bindsym $alt+l exec --no-startup-id "i3-focus right"
 
 # Alternatively, you can use the Super+Arrows:
 bindsym $mod+Left  focus left
@@ -172,8 +177,8 @@ bindsym F12 exec --no-startup-id amixer set Master 3%+
 # Workspaces
 # ----------
 
-# Helpful: Nename workspace names on the spot
-bindsym $alt+Ctrl+a exec i4-input -F 'rename workspace to %s' -P 'New name: '
+# Helpful: Rename workspaces on-the-fly
+bindsym $alt+Ctrl+a exec i3-input -F 'rename workspace to %s' -P 'New name: '
 
 # Moving whole workspaces or containers to other outputs
 bindsym $alt+Home      move workspace to output left
@@ -292,7 +297,6 @@ bar {
 # Media
 assign [class="Vlc"] → $w2
 assign [class="mpv"] → $w2
-assign [class="Sxiv"] → $w3
 assign [class="Google-chrome-stable"] → $w3
 
 #==============================================================================
