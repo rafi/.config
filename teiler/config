@@ -3,6 +3,10 @@
 # general variables
 
 # the path where images, videos and pastes should be saved
+backend=rofi
+slop_color="0,255,0"
+slop_border=1
+
 img_path=$HOME/pix/screens
 vid_path=$HOME/vid/casts
 paste_path=$HOME/pix/paste
@@ -20,7 +24,7 @@ paste_ul=fb
 archive_vid=1
 archive_img=1
 archive_paste=0
-
+upload_vid=0
 
 # For scp you need to provide the actual path on your server
 # where your files should be stored
@@ -66,19 +70,20 @@ output=DFP1
 encoder=ffmpeg
 ffmpeg_display=$(echo $DISPLAY)
 ffmpeg_offset=1600,212
-rect_encopts="-r 30 -c:v libx264 -preset slow -crf 18 -c:a libvorbis"
 encopts="-r 30 -vcodec libx264 -pix_fmt yuv420p -s $res -acodec libmp3lame"
-ffaudio="-f alsa -ac 2 -i default"
+rect_encopts="-r 30 -c:v libx264 -preset slow -crf 18 -c:a libvorbis"
+#ffaudio="-f alsa -ac 2 -i pulse"
+ffaudio=""
 
 # record indicator
 
-rec_text="Capturing..."
-rec_w=100
+rec_text="!"
+rec_w=10
 rec_x=3400
 rec_y=0
-rec_font=PragmataPro-11
-rec_nf=\#FFFFFF
-rec_sf=\#000000
+rec_font=PragmataPro-9
+rec_nf=\#AAAAAA
+rec_sf=\#444444
 
 
 # quick option to quickly make a screenshot and upload in one go...
@@ -101,8 +106,6 @@ paste_filemask=$random_string
 
 
 ###### dmenu/rofi/dzen2 configuration ######
-
-backend=rofi
 
 # here you can override options for rofi. normally rofi options
 # are read from ~/.Xresources, so setting options there is recommended.

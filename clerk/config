@@ -19,7 +19,7 @@ track_maxratings=10
 music_path="/mnt/media/music"
 
 # Number of Songs to be added for "Random Tracks"
-value=20
+value=50
 
 # Change this, if you have subfolders for multi-disc albums.
 # This should match the name of your subfolders, exluding the number
