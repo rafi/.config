@@ -9,6 +9,7 @@
 /dconf
 /fb-client
 /gconf
+/gdrive
 /gimp-2.8
 /gnupg
 /google-chrome
@@ -21,6 +22,8 @@
 /pulse/cookie
 /spacefm
 /syncthing
+/systemd/**/*.wants
+/systemd/**/dbus-org.gnome.*.service
 /virtualbox
 /vlc
 /QtProject.conf

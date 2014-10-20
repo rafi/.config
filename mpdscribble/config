@@ -13,7 +13,7 @@ log = /home/rafi/.cache/mpdscribble/mpdscribble.log
 #proxy = http://the.proxy.server:3128
 
 # Change to this system user after daemonization.
-daemon_user = rafi
+#daemon_user = rafi
 
 # How verbose mpdscribble's logging should be.  Default is 1.
 verbose = 1

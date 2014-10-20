@@ -98,6 +98,7 @@ schedule = untied_directory,10,10,stop_untied=
 # }}}
 # Post-process {{{
 # ------------
+# Reference: https://code.google.com/p/gi-torrent/wiki/rTorrent_XMLRPC_reference
 # log.execute=/tmp/rtorrent_exec.log
 system.method.set_key = event.download.finished,complete_process,"d.stop=;execute=dizzer,$d.get_name=,$d.get_base_path=;d.check_hash="
 system.method.set_key = event.download.hash_done,complete_restart,"branch={d.get_complete=,d.start=}"
