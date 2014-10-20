@@ -1,0 +1,10 @@
+[Unit]
+Description=MPD Statistics Daemon
+Requires=mpd.service
+After=mpd.service
+
+[Service]
+ExecStart=/usr/bin/beet mpdstats
+
+[Install]
+WantedBy=default.target

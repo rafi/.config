@@ -10,7 +10,7 @@
 export PATH="$HOME/.local/bin:$PATH:bin"
 
 # Set the systemd-style DBUS address
-#export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
+export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
 
 # XDG directories
 export XDG_CONFIG_HOME="$HOME/.config"

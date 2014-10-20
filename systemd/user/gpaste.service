@@ -1,0 +1,13 @@
+[Unit]
+Description=GPaste Daemon
+Requires=dbus.service
+After=dbus.service
+
+[Service]
+BusName=org.gnome.GPaste
+ExecStart=/usr/bin/gpaste start
+#ExecStart=@pkglibexecdir@/gpasted
+
+[Install]
+WantedBy=default.target
+Alias=dbus-org.gnome.GPaste.service

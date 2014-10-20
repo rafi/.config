@@ -1,0 +1,11 @@
+[Unit]
+Description=aria2 daemon
+After=network.target
+
+[Service]
+Type=forking
+RemainAfterExit=yes
+ExecStart=/usr/bin/aria2c --conf-path=${XDG_CONFIG_HOME}/aria2/config
+
+[Install]
+WantedBy=console.target
