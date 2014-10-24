@@ -55,6 +55,7 @@ alias logout="pkill -KILL -u "
 # XDG conformity
 alias weechat="weechat --dir $XDG_CONFIG_HOME/weechat/"
 alias gdrive="gdrive -c $XDG_CONFIG_HOME/gdrive"
+alias rssdler="rssdler --config $XDG_CONFIG_HOME/rssdler/config -o"
 
 # Misc
 alias cal='cal | grep -C6 "\(^\|\s\)$(date +%e)\s"'
