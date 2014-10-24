@@ -79,21 +79,13 @@ xterm*|rxvt*|screen*)
 	;;
 esac
 
-# Change prompt: time user@hostname:dir (git branch) $
-# IS_SSH is exported in bash/exports
-if [ -z "$IS_SSH" ]; then
-	# Local connections
-	PS1='\[\e[1;30m\][\[\e[0;38m\]\h\[\e[0;33m\]:\[\e[0;34m\]${PWD##*/}/\[\e[1;30m\]] $(__git_ps1 "(%s)\[\e[00m\] ")\[\e[0;32m\]%\[\e[00m\] '
-	#PS1='\[\e[1;30m\]\t \[\e[0;36m\]\u\[\e[0;32m\]@\[\e[0;31m\]\h\[\e[1;31m\]:\[\e[0;34m\]\w\[\e[00m\] $(__git_ps1 "(%s)\[\e[00m\] ")\$ '
-else
-	# Remote connections
-	PS1='\[\e[1;30m\][\[\e[0;31m\]\h\[\e[0;33m\]:\[\e[0;34m\]${PWD##*/}/\[\e[1;30m\]] $(__git_ps1 "(%s)\[\e[00m\] ")\[\e[0;32m\]%\[\e[00m\] '
-	#PS1='\[\e[1;30m\]\t \[\e[0;32m\]\u\[\e[0;35m\]@\[\e[1;35m\]\h\[\e[0;31m\]:\[\e[0;34m\]\w\[\e[00m\] $(__git_ps1 "(%s)\[\e[00m\] ")\$ '
-fi
+# Load a command prompt theme
+source $XDG_CONFIG_HOME/bash/themes/current
 
 # https://github.com/rupa/z
 [ -f /usr/lib/z.sh ] && source /usr/lib/z.sh
 
+# Load directory and file colors
 eval $(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")
 
-#-------8<---------------------------------------------------------------------
+# vim: set ts=2 sw=2 tw=80 noet :

@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# Theme: Minimal
+# --------------
+# [hostname:basename/] % █
+#
+# Within Git repository:
+# [hostname:basename/] (branch) % █
+#
+# Within SSH session:
+# [hostname:basename/] % █
+#
+# IS_SSH is exported in bash/exports
+if [ -z "$IS_SSH" ]; then
+
+	# Local connections
+	PS1='\[\e[1;30m\][\[\e[0;38m\]\h\[\e[0;33m\]:\[\e[0;34m\]${PWD##*/}/\[\e[1;30m\]] $(__git_ps1 "(%s)\[\e[00m\] ")\[\e[0;32m\]%\[\e[00m\] '
+else
+	# Remote connections
+	PS1='\[\e[1;30m\][\[\e[0;31m\]\h\[\e[0;33m\]:\[\e[0;34m\]${PWD##*/}/\[\e[1;30m\]] $(__git_ps1 "(%s)\[\e[00m\] ")\[\e[0;32m\]%\[\e[00m\] '
+fi
