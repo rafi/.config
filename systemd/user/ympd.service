@@ -1,0 +1,14 @@
+[Unit]
+Description=ympd server daemon
+Requires=mpd.service
+After=mpd.service
+
+[Service]
+Environment=MPD_HOST=localhost
+Environment=MPD_PORT=6600
+Environment=WEB_PORT=8282
+ExecStart=/usr/bin/ympd -h $MPD_HOST -p $MPD_PORT  -w $WEB_PORT
+Type=simple
+
+[Install]
+WantedBy=default.target
