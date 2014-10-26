@@ -23,10 +23,12 @@ Xft.dpi: 96
 ! URxvt
 !------------------------------------------------------------------------------
 
-URxvt*loginShell: True
 ! URxvt*depth: 32
+URxvt*loginShell: True
 URxvt*buffered: True
-! URxvt*cutchars: -,./?%&#:_=+@~
+URxvt*cutchars: '"\\/\'`&()*,.;:<=>?@[]^{}|│─-'
+URxvt.selection.pattern-0: '([^"&’()*,;<=>?@[\\\\]^‘{│})]+)'
+
 ! Let tmux manage scrollback
 URxvt*saveLines: 0
 
@@ -42,6 +44,9 @@ URxvt*mouseWheelScrollPage: False
 !==============================================================================
 ! Look n Feel
 !------------------------------------------------------------------------------
+
+! Make Tk applications look more modern
+*TkTheme: clearlooks
 
 URxvt*font: xft:PragmataPro:size=12:regular:antialias=false
 !URxvt*font: -misc-pragmatapro-medium-r-normal--0-0-0-0-m-0-iso10646-1

@@ -105,7 +105,7 @@ bindsym $alt+Ctrl+minus move scratchpad
 bindsym $alt+minus scratchpad show
 
 # Quickly draw out vim
-bindsym $alt+equal [class="G?vim"] scratchpad show
+#bindsym $alt+equal [class="G?vim"] scratchpad show
 
 # i3 Session
 bindsym $alt+Ctrl+q kill
@@ -114,9 +114,9 @@ bindsym $alt+Ctrl+r restart
 bindsym $alt+Ctrl+Delete exec "i3-nagbar -t warning -m 'exit i3? This will end your X session.' -b 'Yes' 'i3-msg exit'"
 
 # Change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
+bindsym $mod+d layout stacking
+bindsym $mod+f layout tabbed
+bindsym $mod+g layout toggle split
 
 # Toggle between stacking/tabbed/split (Use Super+x!)
 bindsym $mod+x layout toggle
@@ -132,9 +132,9 @@ bindsym $mod+Return exec --no-startup-id urxvtc
 
 # The awesome rofi for apps, windows, and ssh sessions.
 # (Super+Delete is awesome on the TECK keyboard)
-bindsym $alt+Tab    exec --no-startup-id /usr/bin/rofi -now
-bindsym $mod+Delete exec --no-startup-id /usr/bin/rofi -rnow
-bindsym $alt+Return exec --no-startup-id /usr/bin/rofi -snow
+bindsym $alt+Tab  exec --no-startup-id /usr/bin/rofi -now
+bindsym $mod+Tab  exec --no-startup-id /usr/bin/rofi -rnow
+bindsym $mod+s    exec --no-startup-id /usr/bin/rofi -snow
 
 # Screenshot and cast
 bindsym Print exec --no-startup-id /usr/bin/teiler
@@ -318,6 +318,7 @@ for_window [class="Gitg"]    floating enable
 for_window [class="Meld"]    floating enable
 for_window [class="Pinta"]   floating enable
 for_window [class="Klavaro"] floating enable
+for_window [title="\[Running\] - Oracle VM VirtualBox$"] floating enable
 
 #==============================================================================
 # Modes → and their key bindings
