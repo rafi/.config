@@ -54,11 +54,26 @@ then
 	export PATH="$PATH:$GOPATH/bin"
 fi
 
+# Haskell cabal configuration
+if hash cabal 2>/dev/null
+then
+	export PATH="$PATH:$HOME/.cabal/bin"
+fi
+
 # nodejs's NPM tool configuration
 if hash npm 3>/dev/null
 then
 	export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 	export PATH="$PATH:$HOME/.local/lib/nodejs/bin"
+fi
+
+# CPAN configuration
+if hash cpan 3>/dev/null
+then
+	export PERL5LIB="$HOME/.local/lib/perl5${PERL5LIB+:}${PERL5LIB}"
+	export PERL_LOCAL_LIB_ROOT="$HOME/.local${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"
+	export PERL_MB_OPT="--install_base \"$HOME/.local\""
+	export PERL_MM_OPT="INSTALL_BASE=$HOME/.local"
 fi
 
 hash http       2>/dev/null && export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
@@ -69,6 +84,7 @@ hash virtualbox 2>/dev/null && export    VBOX_USER_HOME="$XDG_CONFIG_HOME/virtua
 hash mplayer    2>/dev/null && export      MPLAYER_HOME="$XDG_CONFIG_HOME/mplayer"
 hash mpv        2>/dev/null && export          MPV_HOME="$XDG_CONFIG_HOME/mpv"
 hash vagrant    2>/dev/null && export      VAGRANT_HOME="$XDG_DATA_HOME/vagrant"
+hash cpanm      2>/dev/null && export    PERL_CPANM_OPT="-l $HOME/.local"
 
 # aria2c cli helper
 hash diana 2>/dev/null && export DIANA_SECRET_TOKEN=secret
