@@ -18,27 +18,27 @@
 /keepassx
 /klavaro/
 /menus
+/mps-youtube
 /mutt/config
 /mux
-/pulse/cookie
+/pavucontrol.ini
+/pulse
 /spacefm
 /syncthing
 /systemd/**/*.wants
 /systemd/**/dbus-org.gnome.*.service
+/sublime-text*
+/subliminal.cache.dbm
 /virtualbox
 /vlc
-/QtProject.conf
+/Popcorn-Time
+/qutebrowser/quickmarks
+/QtProject*
 /Trolltech.conf
-
-/dwb/adblock_lists
-/dwb/default
-/dwb/userscripts
 
 /ranger/bookmarks
 /ranger/history
 /ranger/tagged
-/ranger/*/__init__.py
-/ranger/*/__pycache__
 
 /weechat/irc.conf
 /weechat/sec.conf
