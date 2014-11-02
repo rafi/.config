@@ -19,7 +19,7 @@ match:
 original_date: yes
 list_format_album: '$albumartist - $album ($year)'
 clutter: [ "Thumbs.db", ".DS_Store", "*jpg", "*png" ]
-plugins: lastgenre scrub the zero ftintitle importfeeds mpdstats mpdupdate duplicates info lastimport mbsync play
+plugins: lastgenre scrub the zero ftintitle importfeeds mpdstats mpdupdate duplicates info lastimport mbsync play echonest
 zero:
   fields: month day comments lyrics albumartist_credit artist_credit
 importfeeds:
@@ -40,5 +40,6 @@ lastfm:
   user: username
   api_key: secret
 echonest:
-  auto: no
+  auto: yes
+  codegen: /usr/bin/echoprint-codegen
   apikey: secret

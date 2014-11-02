@@ -55,7 +55,7 @@
 
 --langdef=scss
 --langmap=scss:.scss
---regex-scss=/^[ \t]*([^\t {][^{]{1,100})(\t| )*{/| \1/d,definition/
+--regex-scss=/^[ \t]*([^\t {][^{]{1,100})(\t| )*\{/| \1/d,definition/
 --regex-scss=/^[@]mixin ([^ (]+).*/\1/m,mixin/
 --regex-scss=/^[@]function ([^ (]+).*/\1/f,function/
 
