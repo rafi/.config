@@ -31,7 +31,8 @@
 --exclude=public/sites
 --exclude=tcpdf
 --exclude=swiftmailer
---exclude=google-chrome
+--exclude=google-chrome*
+--exclude=chromium*
 
 --langdef=markdown
 --langmap=markdown:.md

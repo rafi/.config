@@ -12,7 +12,8 @@
 /gdrive
 /gimp-2.8
 /gnupg
-/google-chrome
+/google-chrome*
+/chromium*
 /gtk-2.0/gtkfilechooser.ini
 /keepassx
 /klavaro/
