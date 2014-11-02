@@ -7,8 +7,8 @@
 downloadDir = /home/rafi/dl/_new
 
 # makes this the 'working directory' of RSSDler. anytime you specify a filename
-# without an absolute path, it will be relative to this, this s the default:
-workingDir = /home/rafi/.config/rssdler
+# without an absolute path, it will be relative to this:
+workingDir = /home/rafi/.cache/rssdler
 
 # if a file is smaller than this, it will not be downloaded.
 # if filesize cannot be determined, this is ignored.
