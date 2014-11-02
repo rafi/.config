@@ -4,7 +4,7 @@ Documentation=http://jonls.dk/redshift/
 After=display-manager.service
 
 [Service]
-ExecStart=/usr/bin/redshift
+ExecStart=/usr/bin/redshift -c ${XDG_CONFIG_HOME}/redshift/config
 Restart=always
 
 [Install]

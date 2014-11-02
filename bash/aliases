@@ -57,6 +57,9 @@ alias weechat="weechat --dir $XDG_CONFIG_HOME/weechat/"
 alias gdrive="gdrive -c $XDG_CONFIG_HOME/gdrive"
 alias rssdler="rssdler --config $XDG_CONFIG_HOME/rssdler/config -o"
 alias cpan="cpan -j $XDG_CONFIG_HOME/cpan/config.pm"
+alias subliminal="subliminal -c $XDG_CACHE_HOME/subliminal.dbm"
+alias archey3="archey3 --config=$XDG_CONFIG_HOME/archey3/config"
+alias redshift="redshift -c $XDG_CONFIG_HOME/redshift/config"
 
 # Misc
 alias cal='cal | grep -C6 "\(^\|\s\)$(date +%e)\s"'

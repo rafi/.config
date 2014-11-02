@@ -16,7 +16,7 @@
 /chromium*
 /gtk-2.0/gtkfilechooser.ini
 /keepassx
-/klavaro/
+/klavaro
 /menus
 /mps-youtube
 /mutt/config
@@ -28,7 +28,6 @@
 /systemd/**/*.wants
 /systemd/**/dbus-org.gnome.*.service
 /sublime-text*
-/subliminal.cache.dbm
 /virtualbox
 /vlc
 /Popcorn-Time
