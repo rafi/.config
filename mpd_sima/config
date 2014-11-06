@@ -1,0 +1,25 @@
+[MPD]
+host=localhost
+port=6600
+;password=
+
+[log]
+verbosity=warning   # Logging verbosity among: debug, info, warning, error
+
+[sima]
+history_duration=8  # Hours to look back in history to avoid to play title twice
+queue_length=1      # Playlist length to trigger queue process
+user_db=false       # Look for user defined similarities in user data base
+
+[lastfm]
+queue_mode=top      # Queue mode to use among: track, top, album
+similarity=15       # Percentage, used to filter similar artists results
+depth=2
+max_art=10
+dynamic=20          # How many similar artists to retrieve
+single_album=false  # Queue tracks from the same album (track mode)
+track_to_add=3      # How many tracks to add (only in top/track mode)
+album_to_add=1      # How many albums to add (only in album mode)
+
+[crop]
+consume=0           # How many played tracks to keep in the play list

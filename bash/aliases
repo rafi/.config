@@ -60,6 +60,7 @@ alias cpan="cpan -j $XDG_CONFIG_HOME/cpan/config.pm"
 alias subliminal="subliminal -c $XDG_CACHE_HOME/subliminal.dbm"
 alias archey3="archey3 --config=$XDG_CONFIG_HOME/archey3/config"
 alias redshift="redshift -c $XDG_CONFIG_HOME/redshift/config"
+alias mpd-sima="mpd-sima -c $XDG_CONFIG_HOME/mpd_sima/config"
 
 # Misc
 alias cal='cal | grep -C6 "\(^\|\s\)$(date +%e)\s"'
