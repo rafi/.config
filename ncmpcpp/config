@@ -220,8 +220,8 @@ song_status_format = "‣ $2%a $1$b $3%t $1$b $4%b$9{ ($5%y$9)}"
 now_playing_prefix = "$b$3► $9"
 now_playing_suffix = $/b
 browser_playlist_prefix = "$b$1‣ $5playlist $4$/b"
-selected_item_prefix = "$8✓ $6"
-selected_item_suffix = $9
+selected_item_prefix = "$b$r$1✓$/r$8 "
+selected_item_suffix = $9$/b
 modified_item_prefix = $2+ $9
 
 ## Note: colors are not supported for below variable.
@@ -263,7 +263,7 @@ modified_item_prefix = $2+ $9
 ##   tag and then composer and performer if previous ones are
 ##   not available.
 ##
-song_columns_list_format = "(20)[red]{A|a} (6f)[blue]{NE} (26)[green]{t|f:Title} (26)[yellow]{br} (5f)[blue]{yr} (8)[magenta]{g} (5f)[cyan]{lr}"
+song_columns_list_format = "(20)[red]{a} (6f)[blue]{NE} (26)[green]{t|f:Title} (26)[yellow]{br} (5f)[blue]{yr} (8)[magenta]{g} (5f)[cyan]{lr}"
 #song_columns_list_format = (20)[]{a} (6f)[green]{NE} (50)[white]{t|f:Title} (20)[cyan]{b} (7f)[magenta]{l}
 #
 ##### various settings #####
@@ -306,9 +306,9 @@ playlist_editor_display_mode = columns
 ## Note: You can specify third character which will
 ## be used to build 'empty' part of progressbar.
 
-progressbar_look = ─╼·
+progressbar_look = ─∰┄
 
-#progressbar_boldness = no
+progressbar_boldness = yes
 
 ## Available values: database, playlist.
 ##
@@ -403,8 +403,8 @@ ask_for_locked_screen_width_part = no
 #ask_before_clearing_playlists = yes
 #
 #clock_display_seconds = no
-#
-#display_volume_level = yes
+
+display_volume_level = yes
 
 display_bitrate = yes
 
@@ -465,29 +465,29 @@ colors_enabled = yes
 #
 #header_window_color = default
 #
-#volume_color = default
+#volume_color = black
 
 state_line_color = black
 
-#state_flags_color = default
+state_flags_color = white
 
 main_window_color = yellow
 
-#color1 = white
-#
-#color2 = green
+color1 = yellow
+
+color2 = white
 
 main_window_highlight_color = yellow
 
 progressbar_color = black
 
-progressbar_elapsed_color = black
+progressbar_elapsed_color = blue
 
 statusbar_color = magenta
 
 #alternative_ui_separator_color = black
 
-active_column_color = blue
+active_column_color = white
 
 #
 #window_border_color = green
