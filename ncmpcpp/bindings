@@ -142,7 +142,6 @@
 ## The following actions are not bound to any key/command:
 ##
 ##  - set_volume
-##  - filter_playlist_on_priorities
 ##
 #
 
@@ -190,6 +189,9 @@ def_key "'"
 
 def_key "d"
   delete_playlist_items
+
+def_key "d"
+  delete_browser_items
 
 def_key "d"
   delete_stored_playlist
@@ -245,7 +247,7 @@ def_key "4"
 def_key "2"
   show_media_library
 
-# def_key "2"
+# DISABLED def_key "2"
 #   toggle_media_library_columns_mode
 
 def_key "3"
@@ -352,10 +354,7 @@ def_key "o"
 
 #def_key "ctrl_r"
 #  reverse_playlist
-
-def_key "ctrl_a"
-  apply_filter
-
+#
 #def_key "/"
 #  find
 #
@@ -500,7 +499,7 @@ def_key "f"
 def_key "ctrl_l"
   toggle_lyrics_fetcher
 
-#Disabled:def_key "F"
+# DISABLED def_key "F"
 #  toggle_fetching_lyrics_in_background
 
 def_key "ctrl_w"
