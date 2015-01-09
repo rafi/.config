@@ -26,7 +26,7 @@ Xft.dpi: 96
 ! URxvt*depth: 32
 URxvt*loginShell: True
 URxvt*buffered: True
-URxvt*cutchars: '"\'`&()*,;:<=>?@[]^{}|│─'
+URxvt*cutchars: '"\'`&()*,;<=>?@[]^{}|│─'
 URxvt.selection.pattern-0: '([^"&’()*,;<=>?@[\\\\]^‘{│})]+)'
 
 ! Let tmux manage scrollback

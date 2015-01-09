@@ -29,10 +29,14 @@ alias gl='git lg -15'
 alias gll='git lgd -15'
 alias gs='git s'
 
-# Use GNU tools on OSX instead of BSD
+# OSX
 if [[ "$OSTYPE" == "darwin"* ]]; then
+	# Use GNU tools on OSX instead of BSD
 	alias sort='gsort'
 	alias dircolors='gdircolors'
+
+	# OSX tools
+	alias apache2ctl='sudo /opt/local/apache2/bin/apachectl'
 fi
 
 # Storage
@@ -66,7 +70,8 @@ alias redshift="redshift -c $XDG_CONFIG_HOME/redshift/config"
 alias mpd-sima="mpd-sima -c $XDG_CONFIG_HOME/mpd_sima/config"
 
 # Misc
-alias cal='cal | grep -C6 "\(^\|\s\)$(date +%e)\s"'
+alias cal='cal | grep -C6 "$(date +%e)"'
+#alias cal='cal | grep -C6 "\(^\|\s\)$(date +%e)\s"'
 alias cbyank='xsel -ib --logfile $XDG_CACHE_HOME/xsel.log'
 alias cbput='xsel -ob --logfile $XDG_CACHE_HOME/xsel.log'
 alias fontcache='fc-cache -f -v'
@@ -88,4 +93,4 @@ alias .....='cd ../../../../'
 alias .4='cd ../../../../'
 alias .5='cd ../../../../..'
 
-#-------8<---------------------------------------------------------------------
+#  vim: set ts=2 sw=2 tw=80 noet :

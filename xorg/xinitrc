@@ -17,14 +17,8 @@ setxkbmap -layout us,il -option grp:caps_toggle
 # Map a single Shift-L keypress to Escape with a low delay
 xcape -t 300 -e 'Shift_L=Escape'
 
-# Prepare a flag for xrdb to indicate this is OSX or not
-OSX=""
-if [[ "$OSTYPE" == "darwin"* ]]; then
-	OSX="-DOSX"
-fi
 # Load user X resource config
-xrdb $OSX -merge $XDG_CONFIG_HOME/xorg/Xresources
-unset OSX
+xrdb -merge $XDG_CONFIG_HOME/xorg/Xresources
 
 # Load all fonts in all shared dirs
 xset +fp /usr/share/fonts/local

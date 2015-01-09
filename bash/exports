@@ -7,10 +7,19 @@
 # - https://github.com/milomouse/dotfiles
 # - https://github.com/EvanPurkhiser/dots-personal
 
-export PATH="$HOME/.local/bin:$PATH:bin"
+# OSX
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	# MacPorts
+	export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+	export PATH=/opt/local/lib/percona/bin:$PATH
+	export PATH=/opt/local/apache2/bin:$PATH
 
-# Set the systemd-style DBUS address
-export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
+	# Applications
+	export PATH=/Applications/packer:$PATH
+fi
+
+# Local bin
+export PATH="$HOME/.local/bin:$PATH:bin"
 
 # XDG directories
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -18,9 +27,13 @@ export  XDG_CACHE_HOME="$HOME/.cache"
 export   XDG_DATA_HOME="$HOME/.local/share"
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    export XDG_RUNTIME_HOME="/tmp"
+	export XDG_RUNTIME_DIR="$XDG_CACHE_HOME"
 else
-    export VDPAU_DRIVER=va_gl
+	export XAUTHORITY="$XDG_CACHE_HOME/Xauthority"
+
+	# Set the systemd-style DBUS address
+	export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
+	export VDPAU_DRIVER=va_gl
 fi
 
 export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
@@ -124,11 +137,6 @@ export _Z_DATA="$XDG_CACHE_HOME/z/data"
 export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
 
-# Not sure this works on OSX:
-if [[ "$OSTYPE" != "darwin"* ]]; then
-    export XAUTHORITY="$XDG_CACHE_HOME/Xauthority"
-fi
-
 # settings:
 export LESS="-eFiQwMXR"
 export LESSCHARSET="UTF-8"
@@ -140,4 +148,4 @@ if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
 	export IS_SSH=1
 fi
 
-#-------8<---------------------------------------------------------------------
+# vim: set ts=2 sw=2 tw=80 noet :

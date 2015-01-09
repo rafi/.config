@@ -7,12 +7,21 @@
 PATH="/opt/local/bin:/opt/local/sbin:$PATH"
 
 export SHELL="/opt/local/bin/bash"
-
 export LANG="en_US.UTF-8"
 export LANGUAGE="en_US.UTF-8"
 export LCTYPE="en_US.UTF-8"
 export LC_ALL=$LANG
 
+# TODO: Duplicated from exports
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_RUNTIME_DIR="$XDG_CACHE_HOME"
+export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
+export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
+export FONTCONFIG_PATH=/opt/X11/lib/X11/fontconfig
+
+# Use herbstluftwm on OSX
 USERWM=/opt/local/bin/herbstluftwm
 
 # Load keyboard hacks
@@ -20,14 +29,8 @@ USERWM=/opt/local/bin/herbstluftwm
 #	xmodmap $XDG_CONFIG_HOME/xorg/Xmodmap
 #fi
 
-# Prepare a flag for xrdb to indicate this is OSX or not
-OSX=""
-if [[ "$OSTYPE" == "darwin"* ]]; then
-	OSX="-DOSX"
-fi
-# Load user X resource config
-xrdb $OSX -merge $XDG_CONFIG_HOME/xorg/Xresources
-unset OSX
+# Load user X resource config with OSX flag
+xrdb -DOSX -merge $HOME/.config/xorg/Xresources
 
 # Load all fonts in all shared dirs
 #xset +fp /usr/share/fonts/local
@@ -39,22 +42,11 @@ unset OSX
 # X11 Key repeat: delay 300, rate 50
 /opt/X11/bin/xset r rate 300 50
 
-# Hide mouse and allow jitter
-# Dont send pseudo events - prevents flickering ontop of some GTK apps
-unclutter -idle 3 -jitter 5 -noevents &
-
-# start apps in background (only if not already running)
-[[ -z "$(pgrep mpd)" ]] && mpd
-#[[ -z "$(pgrep mpdscribble)" ]] && mpdscribble
-#[[ -z "$(pgrep beet)" ]] && beet mpdstats &
-[[ -z "$(pgrep tmux)" ]] && tmux start &
-[[ -z "$(pgrep urxvtd)" ]] && urxvtd -q -o -f
-
-exit
-
 if [ -d /opt/X11/lib/X11/xinit/xinitrc.d ] ; then
 	for f in /opt/X11/lib/X11/xinit/xinitrc.d/?*.sh ; do
 		[ -x "$f" ] && . "$f"
 	done
 	unset f
 fi
+
+#  vim: set ts=2 sw=2 tw=80 noet :

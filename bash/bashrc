@@ -30,7 +30,8 @@ export HISTSIZE=2000
 export HISTFILESIZE=50000
 export HISTFILE="$XDG_CACHE_HOME/bash_history"
 export HISTCONTROL=ignoreboth
-export EDITOR="/usr/bin/vim"
+export VISUAL=vim
+export EDITOR="$VISUAL"
 export PAGER=less
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -48,25 +49,21 @@ for f in $XDG_CONFIG_HOME/bash/functions.d/*; do source "$f"; done
 #[ -d "$XDG_CACHE_HOME" ] || mkdir "$XDG_CACHE_HOME"
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    # OSX GNU bash-completion
-    if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
-	source /opt/local/etc/profile.d/bash_completion.sh
-    fi
-    # edit the /opt/X11/lib/X11/fontconfig/fonts.conf and added the directory
-    # "/Library/Fonts" to the font directory list
-    export FONTCONFIG_PATH=/opt/X11/lib/X11/fontconfig
+	# OSX GNU bash-completion
+	if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
+		source /opt/local/etc/profile.d/bash_completion.sh
+	fi
+	# Edit the /opt/X11/lib/X11/fontconfig/fonts.conf and added the directory
+	# "/Library/Fonts" to the font directory list
+#	export FONTCONFIG_PATH=/opt/X11/lib/X11/fontconfig
 fi
 
 # Git prompt helpers
-#GIT_PS1_SHOWDIRTYSTATE=1
-#GIT_PS1_SHOWSTASHSTATE=1
-#GIT_PS1_SHOWUNTRACKEDFILES=1
-#GIT_PS1_SHOWUPSTREAM="auto"
 if [ -d /usr/share/git/completion ]; then
-    source /usr/share/git/completion/git-prompt.sh
-    source /usr/share/git/completion/git-completion.bash
+	source /usr/share/git/completion/git-prompt.sh
+	source /usr/share/git/completion/git-completion.bash
 elif [ -d /opt/local/share/git ]; then
-    source /opt/local/share/git/git-prompt.sh
+	source /opt/local/share/git/git-prompt.sh
 fi
 
 # If this is an xterm/rxvt/screen/tmux set the window title to user@host:dir
@@ -83,7 +80,11 @@ esac
 source $XDG_CONFIG_HOME/bash/themes/current
 
 # https://github.com/rupa/z
-[ -f /usr/lib/z.sh ] && source /usr/lib/z.sh
+if [ -f /usr/lib/z.sh ]; then
+	source /usr/lib/z.sh
+elif [ -f ~/.local/bin/bundle/z/z.sh ]; then
+	source ~/.local/bin/bundle/z/z.sh
+fi
 
 # Load directory and file colors
 eval $(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")
