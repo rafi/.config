@@ -1,8 +1,8 @@
---totals
 --recurse=yes
 --tag-relative=yes
 --fields=+ailmnS
 --sort=yes
+--verbose=no
 
 --languages=-html
 --languages=-javascript
