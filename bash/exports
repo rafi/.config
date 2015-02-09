@@ -13,6 +13,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 	export PATH=/opt/local/lib/percona/bin:$PATH
 	export PATH=/opt/local/apache2/bin:$PATH
+	export MANPATH=/opt/local/share/man:$MANPATH
 
 	# Applications
 	export PATH=/Applications/packer:$PATH

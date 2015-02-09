@@ -5,12 +5,11 @@
 #
 [user]
 	name = Rafael Bodill
-	email = rafi@sortex.co.il
+	email = justrafi@gmail.com
 [github]
 	user = rafi
 [core]
 	pager = /usr/bin/less -EFRSX
-	editor = /usr/bin/vim -f
 	# Do NOT auto-convert CRLF line endings into LF
 	autocrlf = false
 	# Do NOT check if converting CRLF is reversible
@@ -26,18 +25,30 @@
 	templatedir = ~/.config/git/template
 [http]
 	# Do NOT verify the SSL certificate when fetching or pushing over HTTPS
-	sslVerify = false
-[merge]
-	tool = meld
-	summary = true
-[mergetool]
-	keepBackup = false
-[diff]
-	tool = /usr/bin/vimdiff
+#	sslVerify = false
 [push]
 	# Defines the action git push should take if no refspec is explicitly given:
 	# current = Push the current branch to update a branch with the same name on the receiving end
 	default = current
+[difftool]
+	prompt = false
+[difftool "Kaleidoscope"]
+	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[diff]
+	tool = vimdiff
+#	tool = meld
+#	tool = Kaleidoscope
+[mergetool]
+	prompt = false
+	keepBackup = false
+	trustExitCode = true
+[mergetool "Kaleidoscope"]
+	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+[merge]
+#	tool = vimdiff
+#	tool = Kaleidoscope
+	tool = meld
+	summary = true
 [gui]
 	fontdiff = -family \"Liberation Mono\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
 [web]

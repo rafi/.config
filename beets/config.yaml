@@ -40,6 +40,6 @@ lastfm:
   user: username
   api_key: secret
 echonest:
-  auto: yes
+  auto: no
   codegen: /usr/bin/echoprint-codegen
   apikey: secret

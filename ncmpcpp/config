@@ -293,16 +293,16 @@ browser_display_mode = columns
 search_engine_display_mode = columns
 playlist_editor_display_mode = columns
 
-#discard_colors_if_item_is_selected = yes
-#
+discard_colors_if_item_is_selected = no
+
 #incremental_seeking = yes
-#
-#seek_time = 1
-#
-#volume_change_step = 2
-#
-#autocenter_mode = no
-#
+
+seek_time = 3
+
+volume_change_step = 1
+
+autocenter_mode = yes
+
 #centered_cursor = no
 #
 ##
