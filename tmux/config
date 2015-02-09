@@ -72,11 +72,16 @@ bind k select-pane -U
 bind l select-pane -R
 
 # smart pane switching with awareness of vim splits
-bind -n C-h run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)g?(view|n?vim?)(diff)?$' && tmux send-keys C-h) || tmux select-pane -L"
-bind -n C-j run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)g?(view|n?vim?)(diff)?$' && tmux send-keys C-j) || tmux select-pane -D"
-bind -n C-k run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)g?(view|n?vim?)(diff)?$' && tmux send-keys C-k) || tmux select-pane -U"
-bind -n C-l run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)g?(view|n?vim?)(diff)?$' && tmux send-keys C-l) || tmux select-pane -R"
-bind -n C-\ run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)g?(view|n?vim?)(diff)?$' && tmux send-keys 'C-\\') || tmux select-pane -l"
+is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?)(diff)?$"'
+bind -n C-h if-shell "$is_vim" "send-keys C-h" "select-pane -L"
+bind -n C-j if-shell "$is_vim" "send-keys C-j" "select-pane -D"
+bind -n C-k if-shell "$is_vim" "send-keys C-k" "select-pane -U"
+bind -n C-l if-shell "$is_vim" "send-keys C-l" "select-pane -R"
+bind -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
+#bind -n C-h run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)g?(view|n?vim?)(diff)?$' && tmux send-keys C-h) || tmux select-pane -L || i3-focus left"
+#bind -n C-j run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)g?(view|n?vim?)(diff)?$' && tmux send-keys C-j) || tmux select-pane -D || i3-focus down"
+#bind -n C-k run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)g?(view|n?vim?)(diff)?$' && tmux send-keys C-k) || tmux select-pane -U || i3-focus up"
+#bind -n C-l run "(tmux display-message -p '#{pane_current_command}' | grep -iqE '(^|\/)g?(view|n?vim?)(diff)?$' && tmux send-keys C-l) || tmux select-pane -R || i3-focus right"
 
 # Bring back clear screen under tmux prefix
 bind C-l send-keys 'C-l'
@@ -220,7 +225,7 @@ set -g status-right-length 65
 set -g status-right-fg colour245
 set -g status-right-bg default
 set -g status-right-attr none
-set -g status-right '#{?client_prefix,#[fg=colour253]#[bg=colour4]<Prefix>#[default]  ,}#[default]#h #[fg=colour241]⮃ #[default]%d %b %R #[fg=colour241]⮃#[default]#(uptime | rev | cut -d":" -f1 | rev | sed s/,//g) #[fg=colour236,bg=colour2]▓░#(rainbarf --bright --norgb --tmux --width 10 --noremaining --nobattery --nobolt --datfile $XDG_CACHE_HOME/rainbarf.dat)'
+set -g status-right '#{?client_prefix,#[fg=colour253]#[bg=colour4]<Prefix>#[default]  ,}#[default]#(cut -d " " -f 1-3 /proc/loadavg) #[fg=colour241]⮃ #[default]#h '
 
 set-window-option -g window-status-fg colour247
 set-window-option -g window-status-bg colour236

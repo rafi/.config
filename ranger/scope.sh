@@ -84,11 +84,10 @@ case "$mimetype" in
     image/*)
         img2txt --gamma=0.6 --width="$width" "$path" && exit 4 || exit 1;;
     # Display information about media files:
-    video/* | audio/*)
-        try id3ted -L "$path" && { dump | trim | sed 's/(User defined.\+): //;'; exit 5; }
-        exiftool -v "$path" && exit 5
-        # Use sed to remove spaces so the output fits into the narrow window
-        try mediainfo "$path" && { dump | trim | sed 's/  \+:/: /;';  exit 5; } || exit 1;;
+    video/* | audio/* | */octet-stream)
+        exiftool -v "$path" && exit 5 || exit 1;;
+#        try id3ted -L "$path" && { dump | trim | sed 's/(User defined.\+): //;'; exit 5; }
+#        try mediainfo "$path" && { dump | trim | sed 's/  \+:/: /;';  exit 5; } || exit 1;;
 esac
 
 exit 1

@@ -38,6 +38,7 @@ fi
 
 export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
 
+# https://github.com/zealdocs/zeal/issues/172
 export QT_QPA_PLATFORMTHEME=gnome
 
 export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"

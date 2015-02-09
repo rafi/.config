@@ -309,7 +309,7 @@ playlist_editor_display_mode = columns
 ## Note: You can specify third character which will
 ## be used to build 'empty' part of progressbar.
 
-progressbar_look = ─∰┄
+#progressbar_look = ─∰┄
 
 progressbar_boldness = yes
 
@@ -499,7 +499,7 @@ state_line_color = black
 
 state_flags_color = white
 
-main_window_color = yellow
+main_window_color = 16
 
 color1 = yellow
 
