@@ -1,2 +1,6 @@
-#!/bin/sh
-ctags
+#!/usr/bin/env bash
+#
+# POST COMMIT
+# https://github.com/rafi/.config
+
+$GIT_DIR/hooks/plugin-ctags.sh
