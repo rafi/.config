@@ -64,16 +64,16 @@ case "$extension" in
         try w3m    -dump "$path" && { dump | trim | fmt -s -w $width; exit 4; }
         try lynx   -dump "$path" && { dump | trim | fmt -s -w $width; exit 4; }
         try elinks -dump "$path" && { dump | trim | fmt -s -w $width; exit 4; }
-        ;; # fall back to highlight/cat if the text browsers fail
-    # Markdown:
-    md)
-        mad "$path" && exit 0 || exit 1;;
+        highlight --out-format=ansi --syntax=html "$path" && exit 5 || exit 1;;
     # Bash dotfiles:
     bash*)
         highlight --out-format=ansi --syntax=bash "$path" && exit 5 || exit 2;;
     # Git dotfiles:
     git*)
         highlight --out-format=ansi --syntax=ini "$path" && exit 5 || exit 2;;
+    # Markdown:
+    md)
+        mad "$path" && exit 0 || exit 1;;
 esac
 
 case "$mimetype" in
@@ -85,9 +85,11 @@ case "$mimetype" in
         img2txt --gamma=0.6 --width="$width" "$path" && exit 4 || exit 1;;
     # Display information about media files:
     video/* | audio/* | */octet-stream)
-        exiftool -v "$path" && exit 5 || exit 1;;
-#        try id3ted -L "$path" && { dump | trim | sed 's/(User defined.\+): //;'; exit 5; }
-#        try mediainfo "$path" && { dump | trim | sed 's/  \+:/: /;';  exit 5; } || exit 1;;
+        try mediainfo "$path" && { dump | trim | sed 's/  \+:/: /;';  exit 5; }
+        try id3info "$path" && { dump | trim; exit 5; }
+        try id3ted -L "$path" && { dump | trim | sed 's/(User defined.\+): //;'; exit 5; }
+        try exiftool -v "$path" && { dump | trim; exit 5; }
+        try exiftool-5.16 -v "$path" && { dump | trim; exit 5; } || exit 1;;
 esac
 
 exit 1
