@@ -10,17 +10,20 @@ backend=rofi
 # will be copied to their associated album
 music_dir_access=yes
 
-# maximum rating for album ratings
-maxratings=10
-
-# maximum ratings for track ratings
-track_maxratings=10
-
 # path to your music
 music_path="/mnt/media/music"
 
+# mpd socket file (for local filebrowser)
+#mpd_socket=/path/to/mpd/socket
+
 # Number of Songs to be added for "Random Tracks"
 value=50
+
+# stop on suspend?
+stop_after_suspend=no
+
+# instantly play newly added tracks
+add_auto_play=yes
 
 # Change this, if you have subfolders for multi-disc albums.
 # This should match the name of your subfolders, exluding the number
@@ -31,8 +34,11 @@ cd_divider=
 # If you change seperator, update caches with clerk -update
 seperator=•
 
-# use artist or albumartist for album ratings
+# use artist or albumartist for general artist of an album.
 mpd_artist=albumartist
+
+# use artist or albumartist for random tracks
+random_artist=artist
 
 # if you have missing tags and experience non-adding albums, set these
 # to "Flat", otherwise leave the default of "Tags"
@@ -42,7 +48,7 @@ quirkTrack="Tags"
 # Fill these if mpdscribble runs on a different host
 # set to 0 if mpdscribble runs locally
 ssh_lastfm=0
-ssh_host=picon
+ssh_host=
 
 ##### DO NOT EDIT #####
 change_db=DBUpdated:ThuAug1416:24:192014
