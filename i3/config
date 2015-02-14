@@ -59,10 +59,14 @@ workspace "$w3" output DFP9
 
 # Change focus, special wrapper for seamless movement between:
 # i3 windows, tmux panes, and VIM windows.
-bindsym $alt+h exec --no-startup-id "i3-focus left"
-bindsym $alt+j exec --no-startup-id "i3-focus down"
-bindsym $alt+k exec --no-startup-id "i3-focus up"
-bindsym $alt+l exec --no-startup-id "i3-focus right"
+#bindsym $alt+h exec --no-startup-id "i3-focus left"
+#bindsym $alt+j exec --no-startup-id "i3-focus down"
+#bindsym $alt+k exec --no-startup-id "i3-focus up"
+#bindsym $alt+l exec --no-startup-id "i3-focus right"
+bindsym $alt+h focus left
+bindsym $alt+j focus down
+bindsym $alt+k focus up
+bindsym $alt+l focus right
 
 # Alternatively, you can use the Super+Arrows:
 bindsym $mod+Left  focus left

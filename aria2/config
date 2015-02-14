@@ -22,15 +22,15 @@ max-concurrent-downloads=8
 check-integrity=true
 
 # HTTP/FTP
-max-connection-per-server=8
-max-tries=8
-min-split-size=3M
-remote-time=true
-retry-wait=3
-split=16
+max-connection-per-server=4
+#max-tries=8
+#min-split-size=3M
+#remote-time=true
+#retry-wait=3
+#split=16
 
 # BitTorrent
-bt-max-peers=70
+bt-max-peers=50
 listen-port=49164
 max-overall-upload-limit=3K
 follow-torrent=mem

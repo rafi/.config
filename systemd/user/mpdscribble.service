@@ -4,7 +4,7 @@ Requires=mpd.service
 After=mpd.service
 
 [Service]
-ExecStart=/usr/bin/mpdscribble --conf ${XDG_CONFIG_HOME}/mpdscribble/config --no-daemon
+ExecStart=/usr/bin/mpdscribble --conf %h/.config/mpdscribble/config --no-daemon
 
 [Install]
 WantedBy=default.target
