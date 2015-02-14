@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#
+# PRE COMMIT
+# https://github.com/rafi/.config
+
+$GIT_DIR/hooks/plugin-protect.sh
