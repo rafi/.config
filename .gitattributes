@@ -3,4 +3,6 @@ bash/exports filter=vault
 beets/config.yaml filter=vault
 bugwarrior/config filter=vault
 clerk/config filter=vault
+git/gitk filter=vault
+mpd/mpd.conf filter=vault
 mpdscribble/config filter=vault
