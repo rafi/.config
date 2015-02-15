@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#
+# PRE PUSH
+# https://github.com/rafi/.config
+
+# There is no $GIT_DIR
+git_dir="$(git rev-parse --git-dir)"
+$git_dir/hooks/plugin-push-deny.sh
