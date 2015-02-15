@@ -1,4 +1,4 @@
-gtk-theme-name="Dust"
+#gtk-theme-name="Dust"
 gtk-icon-theme-name="Faience-Azur"
 gtk-font-name="Ubuntu 10"
 gtk-cursor-theme-name="Neutral"
