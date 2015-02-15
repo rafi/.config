@@ -14,7 +14,7 @@ file-allocation=falloc
 rpc-listen-all=true
 rpc-allow-origin-all=true
 rpc-save-upload-metadata=false
-rpc-secret=secret
+rpc-secret={{ ARIA2_TOKEN }}
 
 # Basic
 continue=true

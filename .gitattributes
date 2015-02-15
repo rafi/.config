@@ -1,0 +1,6 @@
+aria2/config filter=vault
+bash/exports filter=vault
+beets/config.yaml filter=vault
+bugwarrior/config filter=vault
+clerk/config filter=vault
+mpdscribble/config filter=vault

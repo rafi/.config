@@ -37,9 +37,9 @@ mpd:
   host: localhost
   port: 6600
 lastfm:
-  user: username
-  api_key: secret
+  user: {{ LASTFM_USER }}
+  api_key: {{ LASTFM_TOKEN }}
 echonest:
   auto: no
   codegen: /usr/bin/echoprint-codegen
-  apikey: secret
+  apikey: {{ ECHONEST_TOKEN }}

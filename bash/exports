@@ -102,7 +102,7 @@ hash vagrant    2>/dev/null && export      VAGRANT_HOME="$XDG_DATA_HOME/vagrant"
 hash cpanm      2>/dev/null && export    PERL_CPANM_OPT="-l $HOME/.local"
 
 # aria2c cli helper
-hash diana 2>/dev/null && export DIANA_SECRET_TOKEN=secret
+hash diana 2>/dev/null && export DIANA_SECRET_TOKEN={{ DIANA_TOKEN }}
 
 # Always install ruby gems local to the user
 if hash gem 2>/dev/null

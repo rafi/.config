@@ -23,6 +23,7 @@
 /mux
 /pavucontrol.ini
 /pulse
+/smudge.sed
 /spacefm
 /syncthing
 /systemd/**/*.wants
