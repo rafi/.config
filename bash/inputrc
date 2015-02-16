@@ -59,11 +59,13 @@ $if mode=vi
 	# Insert mode settings
 	set keymap vi-insert
 
-	# shortcut for inserting a grep pipeline at eol
-	"\C-g": "\e$a | grep "
-
-	# clear screen
+	"jj": vi-movement-mode
+	"\C-p": history-search-backward
+	"\C-n": history-search-forward
 	"\C-l": clear-screen
+
+	# Shortcut for inserting a grep pipeline at eol
+	"\C-g": "\e$a | grep "
 
 	# Ctrl+left/right for word movement
 	"\e\e[C": forward-word
@@ -71,14 +73,17 @@ $if mode=vi
 	"\e[1;5C": forward-word
 	"\e[1;5D": backward-word
 
-	# disable left and right cursor movement so that we learn to use command mode
+	# Disable left and right cursor movement
 	"\e[C": redraw-current-line
 	"\e[D": redraw-current-line
 
 	# Command mode settings
 	set keymap vi-command
 
-	# shortcut for inserting a grep pipeline at eol
+	"gg": beginning-of-history
+	"G": end-of-history
+
+	# Shortcut for inserting a grep pipeline at eol
 	"\C-g": "$a | grep "
 
 	# Ctrl+left/right for word movement
@@ -87,7 +92,7 @@ $if mode=vi
 	"\e[1;5C": forward-word
 	"\e[1;5D": backward-word
 
-	# disable left and right arrows
+	# Disable left and right cursor movement
 	"\e[C": redraw-current-line
 	"\e[D": redraw-current-line
 $endif
