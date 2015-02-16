@@ -40,8 +40,8 @@ set-option -g repeat-time 300
 setw -g aggressive-resize on
 
 # Start windows and panes from 1
-set-option -g base-index 1
-set-window-option -g pane-base-index 1
+set -g base-index 1
+set -g pane-base-index 1
 
 # Activity monitoring
 set-window-option -g monitor-activity on
@@ -247,4 +247,4 @@ set-window-option -g window-status-last-fg colour247
 set-window-option -g window-status-last-bg colour236
 set-window-option -g window-status-last-attr none
 
-#-------8<---------------------------------------------------------------------
+#  vim: set ts=2 sw=2 tw=80 noet :

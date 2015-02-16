@@ -18,7 +18,7 @@ main()
 	current_branch=$(git symbolic-ref HEAD 2>/dev/null)
 
 	# Stop accidental pushes of protected branches
-	if [ "$current_branch" != "$branch_allow" ]; then
+	if [ "$branch_allow" -a "$current_branch" != "$branch_allow" ]; then
 		abort "[hooks.push-deny] Pushing this branch is not allowed."
 	fi
 	if [ "$current_branch" == "$branch_deny" ]; then

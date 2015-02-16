@@ -40,8 +40,8 @@ Protecting Secrets
 Using `.gitattributes` filters clean and smudge. Setup custom filter:
 ```sh
 cd ~/.config
-git config --local filter.vault.clean "sed -f ~/.config/clean.sed %f"
-git config --local filter.vault.smudge "sed -f ~/.config/smudge.sed %f"
+git config --local filter.vault.clean "sed -f ~/.config/clean.sed"
+git config --local filter.vault.smudge "sed -f ~/.config/smudge.sed"
 ```
 The sed script `clean.sed` is [included](./clean.sed).
 You have to create `smudge.sed`:
@@ -51,6 +51,8 @@ s/{{ \(DIANA\|ARIA2\)_TOKEN }}/secret/
 s/{{ LASTFM_USER }}/username/
 s/{{ LASTFM_TOKEN }}/token/
 s/{{ LASTFM_PASS }}/token/
+s/{{ SPOTIFY_USER }}/username/
+s/{{ SPOTIFY_PASS }}/password/
 s/{{ ECHONEST_TOKEN }}/token/
 s/{{ JIRA_URL }}/url/
 s/{{ JIRA_USER }}/username/
