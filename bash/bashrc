@@ -45,9 +45,6 @@ source "$XDG_CONFIG_HOME/bash/aliases"
 # Source all extra functions
 for f in $XDG_CONFIG_HOME/bash/functions.d/*; do source "$f"; done
 
-#[ -d "$XDG_CONFIG_HOME" ] || mkdir "$XDG_CONFIG_HOME"
-#[ -d "$XDG_CACHE_HOME" ] || mkdir "$XDG_CACHE_HOME"
-
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	# OSX GNU bash-completion
 	if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then

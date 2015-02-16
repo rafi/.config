@@ -9,9 +9,7 @@ if [ -z "$geometry" ] ;then
 fi
 # geometry has the format W H X Y
 x=${geometry[0]}
-#y=${geometry[1]}
-#y=884
-y=890
+y=0
 panel_width=${geometry[2]}
 panel_height=16
 font="-*-fixed-medium-*-*-*-12-*-*-*-*-*-*-*"
@@ -34,7 +32,7 @@ fi
 # true if we are using the svn version of dzen2
 # depending on version/distribution, this seems to have version strings like
 # "dzen-" or "dzen-x.x.x-svn"
-if dzen2 -v 2>&1 | head -n 1 | grep -q '^dzen-\([^,]*-svn\|\),'; then
+if dzen2 -v 2>&1 | head -n 1 | grep -q '^dzen-[^,]*-svn'; then
 	dzen2_svn="true"
 else
 	dzen2_svn=""

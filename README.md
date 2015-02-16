@@ -44,7 +44,7 @@ git config --local filter.vault.clean "sed -f ~/.config/clean.sed"
 git config --local filter.vault.smudge "sed -f ~/.config/smudge.sed"
 ```
 The sed script `clean.sed` is [included](./clean.sed).
-You have to create `smudge.sed`:
+You have to create `smudge.sed` yourself:
 ```sh
 cat > ~/.config/smudge.sed
 s/{{ \(DIANA\|ARIA2\)_TOKEN }}/secret/

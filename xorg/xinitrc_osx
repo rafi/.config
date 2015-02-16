@@ -44,14 +44,23 @@ unclutter -idle 3 -jitter 5 -noevents &
 [[ -z "$(pgrep tmux)" ]] && tmux start &
 [[ -z "$(pgrep urxvtd)" ]] && urxvtd -q -o -f
 
-#urxvtc -cd "$HOME" -e /opt/local/bin/tmux -f "$HOME/.config/tmux/config" -c "/opt/local/bin/bash -l"
+# Load urxvt-client and tmux on startup
 urxvtc -cd "$HOME" -e /opt/local/bin/tmux -f "$HOME/.config/tmux/config"
 
-if [ -d /opt/X11/lib/X11/xinit/xinitrc.d ] ; then
-	for f in /opt/X11/lib/X11/xinit/xinitrc.d/?*.sh ; do
-		[ -x "$f" ] && . "$f"
+if [ -d /opt/X11/lib/X11/xinit/xinitrc.d ]; then
+	for f in /opt/X11/lib/X11/xinit/xinitrc.d/?*.sh; do
+		# Skip the wm loader which is loaded afterwards below
+		if [ "${f##*/}" != "99-quartz-wm.sh" ]; then
+			[ -x "$f" ] && . "$f"
+		fi
 	done
 	unset f
 fi
+
+# Start XQuartz (OSX Xorg)
+#exec /opt/X11/bin/quartz-wm
+
+# Start herbstluftwm window-manager
+exec /opt/local/bin/herbstluftwm
 
 #  vim: set ts=2 sw=2 tw=80 noet :
