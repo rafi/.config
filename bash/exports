@@ -57,6 +57,8 @@ hash bspwm 2>/dev/null && export BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
 # directories:
+export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
+export PASSWORD_STORE_DIR="$HOME/docs/pass"
 export PACKER_CACHE_DIR="$XDG_CACHE_HOME/packer"
 export COMPOSER_HOME="$XDG_DATA_HOME/composer"
 export MPDCRON_DIR="$XDG_CONFIG_HOME/mpdcron"
@@ -93,7 +95,6 @@ fi
 
 hash http       2>/dev/null && export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
 hash psql       2>/dev/null && export            PSQLRC="$XDG_CONFIG_HOME/psql/config"
-hash gpg        2>/dev/null && export         GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
 hash gimp       2>/dev/null && export   GIMP2_DIRECTORY="$XDG_CONFIG_HOME/gimp-2.8"
 hash virtualbox 2>/dev/null && export    VBOX_USER_HOME="$XDG_CONFIG_HOME/virtualbox"
 hash mplayer    2>/dev/null && export      MPLAYER_HOME="$XDG_CONFIG_HOME/mplayer"

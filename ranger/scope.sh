@@ -84,7 +84,7 @@ case "$mimetype" in
     image/*)
         img2txt --gamma=0.6 --width="$width" "$path" && exit 4 || exit 1;;
     # Display information about media files:
-    video/* | audio/* | */octet-stream)
+    video/* | audio/*)
         try mediainfo "$path" && { dump | trim | sed 's/  \+:/: /;';  exit 5; }
         try id3info "$path" && { dump | trim; exit 5; }
         try id3ted -L "$path" && { dump | trim | sed 's/(User defined.\+): //;'; exit 5; }
