@@ -11,6 +11,7 @@ set autoselect 1
 set autosellen 40
 set showneartags 1
 set maxrefs 20
+set visiblerefs {"master"}
 set hideremotes 0
 set showlocalchanges 1
 set datetimeformat {%Y-%m-%d %H:%M:%S}

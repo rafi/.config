@@ -56,6 +56,9 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 # Git prompt helpers
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWCOLORHINTS=0
 if [ -d /usr/share/git/completion ]; then
 	source /usr/share/git/completion/git-prompt.sh
 	source /usr/share/git/completion/git-completion.bash
@@ -66,7 +69,7 @@ fi
 # If this is an xterm/rxvt/screen/tmux set the window title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*|screen*)
-	# Show a "user@host: /dir" in term title
+	# Show a "user@host: /dir" in terminal title
 	PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
 	;;
 *)

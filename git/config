@@ -33,14 +33,16 @@
 	default = current
 [hooks "ctags"]
 	enabled = false
-[difftool]
-	prompt = false
+[rerere]
+	enabled = true
+[diff]
+	renames = copies
+	mnemonicprefix = true
+#	tool = vimdiff
+	tool = Kaleidoscope
+#	tool = meld
 [difftool "Kaleidoscope"]
 	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
-[diff]
-	tool = vimdiff
-#	tool = meld
-#	tool = Kaleidoscope
 [mergetool]
 	prompt = false
 	keepBackup = false
@@ -49,9 +51,10 @@
 	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 [merge]
 #	tool = vimdiff
-#	tool = Kaleidoscope
-	tool = meld
+	tool = Kaleidoscope
+#	tool = meld
 	summary = true
+	stat = true
 [gui]
 	fontdiff = -family \"Liberation Mono\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
 [web]
