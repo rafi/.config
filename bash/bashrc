@@ -35,9 +35,9 @@ export EDITOR="$VISUAL"
 export PAGER=less
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    export BROWSER="open"
+	export BROWSER="open"
 else
-    export BROWSER="/usr/bin/google-chrome-stable"
+	export BROWSER="/usr/bin/google-chrome-stable"
 fi
 
 source "$XDG_CONFIG_HOME/bash/aliases"
@@ -82,8 +82,8 @@ source $XDG_CONFIG_HOME/bash/themes/current
 # https://github.com/rupa/z
 if [ -f /usr/lib/z.sh ]; then
 	source /usr/lib/z.sh
-elif [ -f ~/.local/bin/bundle/z/z.sh ]; then
-	source ~/.local/bin/bundle/z/z.sh
+elif [ -f /opt/local/lib/z.sh ]; then
+	source /opt/local/lib/z.sh
 fi
 
 # Load directory and file colors
