@@ -118,7 +118,7 @@
 	tree = log --graph --all --oneline --decorate
 	lb   = log --graph --simplify-by-decoration --pretty=format:'%C(auto)%d' --all
 	lg   = !git lgd --all
-	lgd  = log --graph --all --pretty=format:'%C(bold black)%h%Creset -%C(auto)%d%Creset %s %C(bold black)(%an %ar)%Creset'
+	lgd  = log --graph --pretty=format:'%C(bold black)%h%Creset -%C(auto)%d%Creset %s %C(bold black)(%an %ar)%Creset'
 	#==============================================================================
 	logx = log --all --graph --decorate=short --color --format=format:'%C(bold blue)%h%C(reset)+%C(dim black)(%cr)%C(reset)+%C(auto)%d%C(reset)++\n+++       %C(bold black)%an%C(reset)%C(black):%C(reset) %s'
 	vtree = !bash -c '"                                                                             \
