@@ -68,6 +68,8 @@ bind v split-window -v -c "#{pane_current_path}"
 
 bind -n M-Left previous-window
 bind -n M-Right next-window
+bind -n M-9 previous-window
+bind -n M-0 next-window
 
 bind h select-pane -L
 bind j select-pane -D

@@ -53,8 +53,8 @@ hc keybind $Mod-Control-k       resize up +$resizestep
 hc keybind $Mod-Control-l       resize right +$resizestep
 
 # tags
-tag_names=( {1..9} )
-tag_keys=( {1..9} 0 )
+tag_names=( {1..5} )
+tag_keys=( {1..5} 0 )
 
 hc rename default "${tag_names[0]}" || true
 for i in ${!tag_names[@]} ; do
@@ -142,9 +142,9 @@ hc set tree_style '╾│ ├└╼─┐'
 # do multi monitor setup here, e.g.:
 # hc set_monitors 1280x1024+0+0 1280x1024+1280+0
 # or simply:
-# hc detect_monitors
+hc detect_monitors
 #hc set_monitors 1440x884+0-22
-hc set_monitors 1440x860+0+16
+#hc set_monitors 1440x860+0+16
 
 # find the panel
 panel="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm/panel.sh"
