@@ -38,23 +38,17 @@
 [diff]
 	renames = copies
 	mnemonicprefix = true
-#	tool = vimdiff
-	tool = Kaleidoscope
-#	tool = meld
-[difftool "Kaleidoscope"]
-	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+	tool = bc3
+[difftool]
+	bc3 = trustExitCode
+[merge]
+	tool = bc3
+	summary = true
+	stat = true
 [mergetool]
 	prompt = false
 	keepBackup = false
-	trustExitCode = true
-[mergetool "Kaleidoscope"]
-	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-[merge]
-#	tool = vimdiff
-	tool = Kaleidoscope
-#	tool = meld
-	summary = true
-	stat = true
+	bc3 = trustExitCode
 [gui]
 	fontdiff = -family \"Liberation Mono\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
 [web]
