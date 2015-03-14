@@ -1,4 +1,4 @@
-s/change_db\=.*/change_db=/
+s/change_db \=.*/change_db =/
 /^set geometry(/d
 s/\(rpc-secret=\).*/\1{{ ARIA2_TOKEN }}/
 s/\(DIANA_SECRET_TOKEN=\).*/\1{{ DIANA_TOKEN }}/
