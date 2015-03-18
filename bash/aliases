@@ -6,7 +6,7 @@
 # Carry over aliases to the root account when using sudo
 alias sudo='sudo '
 
-# ls
+# List
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	# Use GNU ls on OSX
 	alias ls='LC_COLLATE=C gls --color=auto --group-directories-first'
@@ -20,10 +20,10 @@ alias lf='ls -Gl | grep ^d' #Only list directories
 alias lsd='ls -Gal | grep ^d' #Only list directories, including hidden ones
 
 # Git
-alias gfl='git fetch --prune --all && git lg -15'
+alias gfl='git fetch --prune && git lg -15'
 alias gf='git fetch --prune'
 alias gl='git lg -15'
-alias gll='git lgd -15'
+alias gld='git lgd -15'
 alias gs='git s'
 
 # OSX
@@ -40,9 +40,16 @@ fi
 alias dut="du -hsx * | sort -rh | head -10"
 alias dfu="df -hT -x devtmpfs -x tmpfs"
 
+# Places
+alias ww="cd /srv/http"
+
 # Shortcuts
 alias diff='colordiff'
-alias ww="cd /srv/http"
+
+# File and directory find
+alias f='find . -name '
+alias ff='find . -type f -name '
+alias fd='find . -type d -name '
 
 # Tmux
 alias tmux-shared='tmux -S /tmp/tmux-shared'
@@ -78,7 +85,8 @@ alias freq='cut -f1 -d" " $HISTFILE | sort | uniq -c | sort -nr | head -n 30'
 alias c='clear'
 alias traceapache="ps auxw | grep sbin/apache | awk '{print\"-p \" $2}' | xargs strace"
 
-# Set vim as default
+# Vim shortcuts
+alias vless='vim -u /opt/local/share/vim/vim74/macros/less.vim'
 alias vi=vim
 alias suvim='sudo -E vim'
 
