@@ -24,6 +24,12 @@ hc keybind $Mod-Ctrl-q quit
 hc keybind $Mod-Ctrl-r reload
 hc keybind $Mod-Ctrl-c close
 hc keybind $Mod-Return spawn /opt/local/bin/urxvtc -cd "$HOME"
+hc keybind $Mod-F7 spawn /opt/local/bin/mpc prev
+hc keybind $Mod-F8 spawn /opt/local/bin/mpc toggle
+hc keybind $Mod-F9 spawn /opt/local/bin/mpc next
+hc keybind $Mod-Shift-F7 spawn /opt/local/bin/mpc seek -10
+hc keybind $Mod-Shift-F8 spawn /opt/local/bin/mpc stop
+hc keybind $Mod-Shift-F9 spawn /opt/local/bin/mpc seek +10
 
 # basic movement
 # focusing clients
