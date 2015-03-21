@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<root>
+  <item>
+	<name>Music Controls to Command_L+F7,F8,F9</name>
+	<appendix>* Music Prev to Command_L+F7</appendix>
+	<appendix>* Music Play/Pause to Command_L+F8</appendix>
+	<appendix>* Music Next to Command_L+F9</appendix>
+	<identifier>remap.consumer_to_cmd_fkeys_f7</identifier>
+	<autogen>__KeyToKey__ ConsumerKeyCode::MUSIC_PREV, KeyCode::F7, ModifierFlag::COMMAND_L</autogen>
+	<autogen>__KeyToKey__ ConsumerKeyCode::MUSIC_PLAY, KeyCode::F8, ModifierFlag::COMMAND_L</autogen>
+	<autogen>__KeyToKey__ ConsumerKeyCode::MUSIC_NEXT, KeyCode::F9, ModifierFlag::COMMAND_L</autogen>
+  </item>
+</root>
