@@ -1,0 +1,5 @@
+[user]
+	name = {{ GIT_WORK_NAME }}
+	email = {{ GIT_WORK_EMAIL }}
+[github]
+	user = {{ GIT_WORK_USER }}

@@ -1,0 +1,5 @@
+[user]
+	name = {{ GIT_PERSONAL_NAME }}
+	email = {{ GIT_PERSONAL_EMAIL }}
+[github]
+	user = {{ GIT_PERSONAL_USER }}

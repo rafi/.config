@@ -4,11 +4,8 @@
 # Git config
 # https://github.com/rafi/.config
 #
-[user]
-	name = Rafael Bodill
-	email = justrafi@gmail.com
-[github]
-	user = rafi
+[include]
+	path = users/current
 [core]
 	pager = /usr/bin/less -EFRSX
 	# Do NOT auto-convert CRLF line endings into LF
