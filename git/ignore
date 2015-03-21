@@ -1,0 +1,31 @@
+# Compiled files
+*.sass-cache
+*.cache
+*.class
+*.o
+*.so
+*.pyc
+
+# Pacakges
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# OS Generated files
+.DS_Store
+.DS_Store?
+._*
+.Trashes
+
+# Other things
+.bundle
+.vagrant
+.idea
+tmp/
+node_modules/
+bower_components/

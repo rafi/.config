@@ -8,6 +8,7 @@
 	path = users/current
 [core]
 	pager = /usr/bin/less -EFRSX
+	excludesfile = ~/.config/git/ignore
 	# Do NOT auto-convert CRLF line endings into LF
 	autocrlf = false
 	# Do NOT check if converting CRLF is reversible
@@ -52,6 +53,8 @@
 	browser = google-chrome-stable
 [browser "google-chrome-stable"]
 	cmd = "/usr/bin/google-chrome-stable"
+[url "git@github.com:"]
+	insteadOf = gh:
 [color]
 	ui = true
 	pager = true
@@ -82,6 +85,8 @@
 	untracked = blue bold
 	branch = green bold
 	nobranch = red
+[pretty]
+	ls = format:%C(cyan)%h %C(red)%ad %C(blue)[%an]%C(magenta)%d %C(white)%s
 [alias]
 	s  = status -sb
 	f  = fetch --prune
