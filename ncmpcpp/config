@@ -486,9 +486,9 @@ use_console_editor = yes
 ## default background color, or all pairs from 1_1 up to 254_127,
 ## depending on the ncurses version used.
 ##
-#
-#colors_enabled = yes
-#
+
+colors_enabled = yes
+
 #empty_tag_color = cyan
 #
 #header_window_color = default
@@ -499,23 +499,23 @@ state_line_color = black
 
 state_flags_color = white
 
-main_window_color = 16
+main_window_color = blue
 
 color1 = yellow
 
 color2 = white
 
-main_window_highlight_color = yellow
+main_window_highlight_color = blue
 
 progressbar_color = black
 
-progressbar_elapsed_color = blue
+progressbar_elapsed_color = black
 
 statusbar_color = magenta
 
 #alternative_ui_separator_color = black
 
-active_column_color = white
+active_column_color = yellow
 
 #
 #window_border_color = green
