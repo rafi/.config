@@ -11,7 +11,7 @@
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	# MacPorts
 	export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-	export PATH=/opt/local/lib/percona/bin:$PATH
+	export PATH=/opt/local/lib/postgresql93/bin:$PATH
 	export PATH=/opt/local/apache2/bin:$PATH
 	export MANPATH=/opt/local/share/man:$MANPATH
 
@@ -55,6 +55,9 @@ hash bspwm 2>/dev/null && export BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
 
 # Set vimrc's location and source it on vim startup
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
+
+# PIP global cache
+hash pip 2>/dev/null && export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip2.7"
 
 # directories:
 export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
