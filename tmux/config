@@ -19,20 +19,20 @@ set-window-option -g automatic-rename on
 set-window-option -g xterm-keys on
 set-window-option -g utf8 on
 
-# Monitor content in the window.  When fnmatch(3) pattern
-# match-string appears in the window, it is highlighted in
-# the status line.
-#set-window-option -g monitor-content "error"
-
 # scrollback buffer size increase
-set -g history-limit 4000
+set -g history-limit 6000
 
-# Allows for faster key repetition
-# Make vim more pleasant
-set-option -sg escape-time 30
+# Address vim mode switching delay (http://superuser.com/a/252717/65504)
+set-option -sg escape-time 0
+
+# tmux messages are displayed for 4 seconds
+set-option -g display-time 4000
 
 # Allow the arrow key to be used immediately after changing windows, default is 500
 set-option -g repeat-time 300
+
+# focus events enabled for terminals that support them
+set-option -g focus-events on
 
 # Rather than constraining window size to the maximum size of any client
 # connected to the *session*, constrain window size to the maximum size of any
@@ -43,12 +43,18 @@ setw -g aggressive-resize on
 set -g base-index 1
 set -g pane-base-index 1
 
-# Activity monitoring
-set-window-option -g monitor-activity off
+# Visual notifications
+set-option -g visual-bell off
 set-option -g visual-activity on
-set-option -g visual-bell on
+set-option -g visual-content on
+set-option -g visual-silence on
 
-#===============================================================
+# Window Monitoring
+
+set-window-option -g monitor-activity on
+set-window-option -g monitor-content "error"
+set-window-option -g monitor-silence 60
+
 # Key bindings
 #---------------------------------------------------------------
 
@@ -59,6 +65,8 @@ bind-key C-a send-prefix
 
 # Open new window from current path
 bind c new-window -c "#{pane_current_path}"
+bind C run-shell 'TMUX= tmux new-session -t $(tmux display-message -p #S) -s $(tmux display-message -p #S-clone) -d \; switch-client -n \; display-message "session #S cloned"'
+bind N run-shell 'TMUX= tmux new-session -d \; switch-client -n'
 
 # Use v and g for splitting from current path
 unbind %
@@ -113,7 +121,7 @@ bind-key R refresh-client
 bind-key * list-clients
 
 # Search for previous error
-bind-key e copy-mode \; send-keys "?Error" C-m
+bind-key e copy-mode \; send-keys "?error" C-m
 
 # Disable Ctrl+Arrows to maintain word jump in non vi-mode
 unbind -n C-Left
@@ -211,7 +219,9 @@ set-window-option -g clock-mode-style 24
 set -g status on
 set -g status-position top
 set -g status-utf8 on
-set -g status-interval 2
+
+# Refresh 'status-left' and 'status-right' more often
+set -g status-interval 8
 
 set -g status-fg colour239
 set -g status-bg colour236
@@ -238,9 +248,12 @@ set-window-option -g window-status-current-bg colour239
 set-window-option -g window-status-current-attr none
 set-window-option -g window-status-current-format "#[fg=colour235]░#[fg=colour235]#I#[fg=colour235]#F#[default]#W #[fg=colour238]#[fg=colour239,bg=colour235]⮀#[fg=colour234,bg=colour236]░"
 
-set-window-option -g window-status-activity-fg colour147
+set-window-option -g window-status-activity-fg colour254
 set-window-option -g window-status-activity-bg colour236
 set-window-option -g window-status-activity-attr none
+set-window-option -g window-status-content-fg colour70
+set-window-option -g window-status-content-bg colour236
+set-window-option -g window-status-content-attr none
 set-window-option -g window-status-bell-fg colour169
 set-window-option -g window-status-bell-bg colour236
 set-window-option -g window-status-bell-attr none
