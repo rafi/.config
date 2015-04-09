@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+	<dict>
+		<key>Label</key>
+		<string>org.musicpd.mpdscribble</string>
+
+		<key>WorkingDirectory</key>
+		<string>/opt/local</string>
+
+		<key>ProgramArguments</key>
+		<array>
+			<string>/opt/local/bin/mpdscribble</string>
+			<string>--no-daemon</string>
+			<string>--conf</string>
+			<string>/Users/rafi/.config/mpdscribble/config</string>
+		</array>
+
+		<key>RunAtLoad</key>
+		<true/>
+
+		<key>KeepAlive</key>
+		<true/>
+	</dict>
+</plist>
