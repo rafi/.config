@@ -29,11 +29,18 @@ mkdir -p ~/.local/lib/{nodejs,python2.7,ruby}
 mkdir -p ~/.local/lib/python2.7/virtualenvs
 ```
 
+## OSX-specific Software
+- [launchctl](./launch/README.md)
+- [Karabiner](./karabiner/README.md)
+
 XDG Conformity
 ---
 Configuration directories are organized neatly by defining
 specific environment variables in [bash/exports](./bash/exports) and
 aliases in [bash/aliases](./bash/aliases).
+There are some programs you'll need to create custom scripts to load the
+proper config files: bug-warrior, mpdscribble, mutt, mysql, ncmpc,
+ncmpcpp, rtorrent, tmux. See examples at [rafi/.local].
 
 Protecting Secrets
 ---
@@ -62,3 +69,5 @@ Now whenever you stage files, the `clean.sed` will prevent secrets being
 committed. And on checkout, the `smudge.sed` will inject your secrets into
 their proper placeholders. _Note_ that `smudge.sed` is ignored from being
 committed mistakenly.
+
+[rafi/.local]: https://github.com/rafi/.local
