@@ -101,21 +101,21 @@
 	dh = diff --color-words HEAD
 	w  = whatchanged --decorate
 	wp = whatchanged --decorate -p
-	#==============================================================================
+	#===============================================
 	sm    = submodule
 	smu   = submodule foreach git pull origin master
 	lcrev = log --reverse --no-merges --stat @{1}..
 	lcp   = diff @{1}..
-	#==============================================================================
+	#===============================================
 	count = shortlog -sn
 	post  = !sh -c 'git format-patch --stdout $1 | ix' -
 	alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
-	#==============================================================================
+	#===============================================
 	tree = log --graph --all --oneline --decorate
 	lb   = log --graph --simplify-by-decoration --pretty=format:'%C(auto)%d' --all
 	lg   = !git lgd --all
 	lgd  = log --graph --pretty=format:'%C(bold black)%h%Creset -%C(auto)%d%Creset %s %C(bold black)(%an %ar)%Creset'
-	#==============================================================================
+	#===============================================
 	logx = log --all --graph --decorate=short --color --format=format:'%C(bold blue)%h%C(reset)+%C(dim black)(%cr)%C(reset)+%C(auto)%d%C(reset)++\n+++       %C(bold black)%an%C(reset)%C(black):%C(reset) %s'
 	vtree = !bash -c '"                                                                             \
 			while IFS=+ read -r hash time branch message; do                                            \

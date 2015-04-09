@@ -27,7 +27,7 @@ fi
 
 # Use keychain to load keys
 # https://github.com/funtoo/keychain
-eval `keychain --dir "$XDG_CACHE_HOME/keychain" --eval --agents ssh -Q --quiet id_rsa rafi_sortex_rsa`
+eval `keychain --dir "$XDG_CACHE_HOME/keychain" --eval --agents ssh -Q --quiet id_rsa`
 
 #if [ -n "$IS_SSH" ]; then
 #	hash tmux 2>/dev/null && tmux has 2>/dev/null && exec tmux attach
