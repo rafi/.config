@@ -30,8 +30,8 @@ mkdir -p ~/.local/lib/python2.7/virtualenvs
 ```
 
 ## OSX-specific Software
-- [launchctl](./launch/README.md)
-- [Karabiner](./karabiner/README.md)
+- [launchctl](./launch/)
+- [Karabiner](./karabiner/)
 
 XDG Conformity
 ---
@@ -40,7 +40,7 @@ specific environment variables in [bash/exports](./bash/exports) and
 aliases in [bash/aliases](./bash/aliases).
 There are some programs you'll need to create custom scripts to load the
 proper config files: bug-warrior, mpdscribble, mutt, mysql, ncmpc,
-ncmpcpp, rtorrent, tmux. See examples at [rafi/.local].
+ncmpcpp, rtorrent, tmux. See examples at [rafi/.local/bin].
 
 Protecting Secrets
 ---
@@ -70,4 +70,4 @@ committed. And on checkout, the `smudge.sed` will inject your secrets into
 their proper placeholders. _Note_ that `smudge.sed` is ignored from being
 committed mistakenly.
 
-[rafi/.local]: https://github.com/rafi/.local
+[rafi/.local/bin]: https://github.com/rafi/.local/tree/master/bin
