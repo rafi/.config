@@ -59,6 +59,9 @@ export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 # PIP global cache
 hash pip 2>/dev/null && export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip2.7"
 
+# Remote/local MPD host
+export MPD_HOST="music.host"
+
 # directories:
 export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
 export PASSWORD_STORE_DIR="$HOME/docs/pass/"
