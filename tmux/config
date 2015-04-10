@@ -19,6 +19,8 @@ set-window-option -g automatic-rename on
 set-window-option -g xterm-keys on
 set-window-option -g utf8 on
 
+set-option -g set-remain-on-exit off
+
 # scrollback buffer size increase
 set-option -g history-limit 6000
 

@@ -17,6 +17,9 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 
 	# Applications
 	export PATH=/Applications/packer:$PATH
+	export PREFIX=/opt/local
+else
+	export PREFIX=/usr
 fi
 
 # Local bin
