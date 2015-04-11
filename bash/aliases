@@ -81,6 +81,8 @@ alias cal='cal | grep -C6 "$(date +%e)"'
 alias cbyank='xsel -ib --logfile $XDG_CACHE_HOME/xsel.log'
 alias cbput='xsel -ob --logfile $XDG_CACHE_HOME/xsel.log'
 alias fontcache='fc-cache -f -v'
+alias grep="grep $GREP_OPTIONS"
+unset GREP_OPTIONS
 
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias freq='cut -f1 -d" " $HISTFILE | sort | uniq -c | sort -nr | head -n 30'
