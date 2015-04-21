@@ -64,6 +64,10 @@ s/{{ ECHONEST_TOKEN }}/token/
 s/{{ JIRA_URL }}/url/
 s/{{ JIRA_USER }}/username/
 s/{{ JIRA_PASS }}/password/
+s/{{ GIT_\(PERSONAL\|WORK\)_NAME }}/Joe Shmoe/
+s/{{ GIT_PERSONAL_EMAIL }}/name@gmail.com/
+s/{{ GIT_WORK_EMAIL }}/name@work.com/
+s/{{ GIT_\(PERSONAL\|WORK\)_USER }}/joe/
 ```
 Now whenever you stage files, the `clean.sed` will prevent secrets being
 committed. And on checkout, the `smudge.sed` will inject your secrets into

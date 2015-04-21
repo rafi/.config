@@ -12,3 +12,7 @@ s/\(apikey: \).*/\1{{ ECHONEST_TOKEN }}/
 s/^\(jira\.base_uri = \).*/\1{{ JIRA_URL }}/
 s/^\(jira\.username = \).*/\1{{ JIRA_USER }}/
 s/^\(jira\.password = \).*/\1{{ JIRA_PASS }}/
+s/^\(jira\.password = \).*/\1{{ JIRA_PASS }}/
+s/^\(	email = \).*\# \(.*\)$/\1{{ GIT_\2_EMAIL }}/
+s/^\(	name = \).*\# \(.*\)$/\1{{ GIT_\2_NAME }}/
+s/^\(	user = \).*\# \(.*\)$/\1{{ GIT_\2_USER }}/
