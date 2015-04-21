@@ -47,9 +47,9 @@ set-option -g pane-base-index 1
 
 # Visual notifications
 set-option -g visual-bell off
-set-option -g visual-activity on
-set-option -g visual-content on
-set-option -g visual-silence on
+set-option -g visual-activity off
+set-option -g visual-content off
+set-option -g visual-silence off
 
 # Window Monitoring
 

@@ -59,6 +59,9 @@ hash bspwm 2>/dev/null && export BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
 # Set vimrc's location and source it on vim startup
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
+# Python per user site-packages directory
+export PYTHONUSERBASE="$HOME/.local"
+
 # PIP global cache
 hash pip 2>/dev/null && export PIP_DOWNLOAD_CACHE="$XDG_CACHE_HOME/pip2.7"
 
