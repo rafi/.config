@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.rafi.login</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>sh</string>
+		<string>-c</string>
+		<string>
+			launchctl setenv XDG_CONFIG_HOME $HOME/.config
+			launchctl setenv XDG_CACHE_HOME $HOME/.cache
+			launchctl setenv XDG_DATA_HOME $HOME/.local/share
+			launchctl setenv XDG_RUNTIME_DIR $XDG_CACHE_HOME
+			launchctl setenv XAUTHORITY $HOME/.cache/Xauthority
+			launchctl setenv GNUPGHOME $HOME/.config/gnupg
+			launchctl setenv VBOX_USER_HOME $HOME/.config/virtualbox
+			launchctl setenv RXVT_SOCKET $HOME/.cache/urxvtd
+			launchctl setenv URXVT_PERL_LIB $HOME/.config/urxvt/ext
+			launchctl setenv FONTCONFIG_PATH /opt/X11/lib/X11/fontconfig
+		</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+</dict>
+</plist>

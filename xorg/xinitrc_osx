@@ -12,15 +12,6 @@ export LANGUAGE="en_US.UTF-8"
 export LCTYPE="en_US.UTF-8"
 export LC_ALL=$LANG
 
-# TODO: Duplicated from exports
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CACHE_HOME="$HOME/.cache"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_RUNTIME_DIR="$XDG_CACHE_HOME"
-export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
-export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
-export FONTCONFIG_PATH=/opt/X11/lib/X11/fontconfig
-
 # Use herbstluftwm on OSX
 USERWM=/opt/local/bin/herbstluftwm
 
@@ -39,8 +30,7 @@ xrdb -DOSX -merge $HOME/.config/xorg/Xresources
 # Dont send pseudo events - prevents flickering ontop of some GTK apps
 unclutter -idle 3 -jitter 5 -noevents &
 
-# Start apps in background (only if not already running)
-#[[ -z "$(pgrep beet)" ]] && beet mpdstats &
+# Start daemons (only if not already running)
 [[ -z "$(pgrep tmux)" ]] && tmux start &
 [[ -z "$(pgrep urxvtd)" ]] && urxvtd -q -o -f
 
