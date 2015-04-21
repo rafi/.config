@@ -59,18 +59,16 @@ fi
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWCOLORHINTS=0
-if [ -d /usr/share/git/completion ]; then
-	source /usr/share/git/completion/git-prompt.sh
-	source /usr/share/git/completion/git-completion.bash
-elif [ -d /opt/local/share/git ]; then
-	source /opt/local/share/git/git-prompt.sh
+if [ -d $PREFIX/share/git/contrib/completion ]; then
+	source $PREFIX/share/git/contrib/completion/git-prompt.sh
+#	source $PREFIX/share/git/contrib/completion/git-completion.bash
 fi
 
 # If this is an xterm/rxvt/screen/tmux set the window title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*|screen*)
 	# Show a "user@host: /dir" in terminal title
-	PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
+	PROMPT_COMMAND='history -a; echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
 	;;
 *)
 	;;
@@ -80,10 +78,8 @@ esac
 source $XDG_CONFIG_HOME/bash/themes/current
 
 # https://github.com/rupa/z
-if [ -f /usr/lib/z.sh ]; then
-	source /usr/lib/z.sh
-elif [ -f /opt/local/lib/z.sh ]; then
-	source /opt/local/lib/z.sh
+if [ -f $PREFIX/lib/z.sh ]; then
+	source $PREFIX/lib/z.sh
 fi
 
 # Load directory and file colors

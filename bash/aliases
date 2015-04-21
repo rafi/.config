@@ -84,13 +84,14 @@ alias fontcache='fc-cache -f -v'
 alias grep="grep $GREP_OPTIONS"
 unset GREP_OPTIONS
 
+alias ccat='pygmentize -O style=monokai -f console256 -g'
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias freq='cut -f1 -d" " $HISTFILE | sort | uniq -c | sort -nr | head -n 30'
 alias c='clear'
 alias traceapache="ps auxw | grep sbin/apache | awk '{print\"-p \" $2}' | xargs strace"
 
 # Vim shortcuts
-alias vless='vim -u /opt/local/share/vim/vim74/macros/less.vim'
+alias vless='vim -u $PREFIX/share/vim/vim74/macros/less.vim'
 alias vi=vim
 alias suvim='sudo -E vim'
 
