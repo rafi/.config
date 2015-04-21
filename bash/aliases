@@ -94,7 +94,7 @@ alias vless='vim -u /opt/local/share/vim/vim74/macros/less.vim'
 alias vi=vim
 alias suvim='sudo -E vim'
 
-## a quick way to get out of current directory
+# A quick way to get out of current directory
 alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'

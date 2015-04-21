@@ -6,6 +6,7 @@
 /beets/state.pickle
 /configstore
 /clerk/ratings*
+/clerk/*cache*
 /dconf
 /fb-client
 /fontforge
@@ -30,6 +31,7 @@
 /systemd/**/*.wants
 /systemd/**/dbus-org.gnome.*.service
 /sublime-text*
+/subliminal.cache*
 /virtualbox
 /vlc
 /Popcorn-Time
