@@ -15,8 +15,8 @@ hc keyunbind --all
 
 # keybindings
 # if you have a super key you will be much happier with Mod set to Mod4
-#Mod=Mod1    # Use alt as the main modifier
-Mod=Mod2   # Use the super key as the main modifier
+Mod=Mod2     # Use the super key as the main modifier
+ModAlt=Mod1  # Use alt for bindings that conflict with OS
 
 hc set focus_follows_mouse 1
 
@@ -49,14 +49,14 @@ hc keybind $Mod-Shift-l     shift right
 hc keybind $Mod-Ctrl-g  split   right   0.5
 hc keybind $Mod-Ctrl-v  split   bottom  0.5
 # let the current frame explode into subframes
-hc keybind $Mod-Control-space split explode
+hc keybind $Mod-Ctrl-space split explode
 
 # resizing frames
 resizestep=0.05
-hc keybind $Mod-Control-h       resize left +$resizestep
-hc keybind $Mod-Control-j       resize down +$resizestep
-hc keybind $Mod-Control-k       resize up +$resizestep
-hc keybind $Mod-Control-l       resize right +$resizestep
+hc keybind $Mod-Ctrl-h  resize left +$resizestep
+hc keybind $Mod-Ctrl-j  resize down +$resizestep
+hc keybind $Mod-Ctrl-k  resize up +$resizestep
+hc keybind $Mod-Ctrl-l  resize right +$resizestep
 
 # tags
 tag_names=( {1..5} )
@@ -90,11 +90,11 @@ hc mousebind $Mod-Button2 zoom
 hc mousebind $Mod-Shift-Button1 resize
 
 # focus
-hc keybind $Mod-BackSpace   cycle_monitor
-hc keybind $Mod-Tab         cycle_all +1
-hc keybind $Mod-Shift-Tab   cycle_all -1
-hc keybind $Mod-c cycle
-hc keybind $Mod-i jumpto urgent
+hc keybind $ModAlt-Tab        cycle_all +1
+hc keybind $ModAlt-Shift-Tab  cycle_all -1
+hc keybind $Mod-BackSpace     cycle_monitor
+hc keybind $Mod-c  cycle
+hc keybind $Mod-i  jumpto urgent
 
 # theme
 hc attr theme.tiling.reset 1

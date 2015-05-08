@@ -11,9 +11,9 @@ fi
 x=${geometry[0]}
 y=0
 panel_width=${geometry[2]}
-panel_height=16
-font="-*-fixed-medium-*-*-*-12-*-*-*-*-*-*-*"
-bgcolor=$(hc get frame_border_normal_color)
+panel_height=13
+font="-*-fixed-medium-*-*-*-9-*-*-*-*-*-*-*"
+bgcolor="#202020"
 selbg=$(hc get window_border_active_color)
 selfg='#101010'
 
