@@ -82,8 +82,9 @@ case "$mimetype" in
         try highlight --out-format=ansi "$path" && { dump | trim; exit 5; } || exit 2;;
     # Ascii-previews of images:
     image/*)
-        img2txt --gamma=0.6 --width="$width" "$path" && exit 4 || exit 1;;
-    # Display information about media files:
+        try cam -W "$width" "$path" && { dump | trim; exit 5; }
+        try img2txt --gamma=0.6 --width="$width" "$path" && { dump | trim; exit 5; } || exit 1;;
+#    # Display information about media files:
     video/* | audio/*)
         try mediainfo "$path" && { dump | trim | sed 's/  \+:/: /;';  exit 5; }
         try id3info "$path" && { dump | trim; exit 5; }
