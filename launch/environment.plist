@@ -19,6 +19,7 @@
 			launchctl setenv RXVT_SOCKET $HOME/.cache/urxvtd
 			launchctl setenv URXVT_PERL_LIB $HOME/.config/urxvt/ext
 			launchctl setenv FONTCONFIG_PATH /opt/X11/lib/X11/fontconfig
+			launchctl setenv RANDFILE $HOME/.cache/randfile
 		</string>
 	</array>
 	<key>RunAtLoad</key>

@@ -8,6 +8,8 @@
 		<key>ProgramArguments</key>
 		<array>
 			<string>/Users/rafi/.local/bin/syncthing</string>
+			<string>-home</string>
+			<string>/Users/rafi/.config/syncthing</string>
 		</array>
 
 		<key>EnvironmentVariables</key>
