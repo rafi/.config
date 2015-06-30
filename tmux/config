@@ -1,11 +1,11 @@
-#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
-# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+#      .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `
 #
 # github.com/rafi tmux config
+#
 
-#===============================================================
 # Behavior
-#---------------------------------------------------------------
+#-------------------------------------------------
 
 #set-option -g default-shell "/bin/bash"
 #set-option -g default-command "bash -l"
@@ -55,14 +55,15 @@ set-window-option -g monitor-activity on
 set-window-option -g monitor-silence 60
 
 # Key bindings
-#---------------------------------------------------------------
+#-------------------------------------------------
 
-# Act like GNU screen, yse Ctrl+A instead of Ctrl+B
+# Act like GNU screen, use C-a instead of C-b
 unbind-key C-b
 set-option -g prefix C-a
 
-# When tmux is running inside tmux, send prefix with C-a C-a
+# In nested tmux clients, send prefix with C-a C-a, or C-a a
 bind-key C-a send-prefix
+bind-key a send-prefix
 
 # Open new window from current path
 bind-key c new-window -c "#{pane_current_path}"
@@ -100,9 +101,8 @@ bind-key C-l send-keys 'C-l'
 bind-key S set-window-option synchronize-panes
 
 bind-key Tab last-window
-bind-key a send-prefix
 
-# Use a tick for renaming the window prompt.
+# Use a tick for renaming the window prompt
 unbind-key ','
 bind-key ` command-prompt -I '#W' "rename-window '%%'"
 
@@ -117,7 +117,7 @@ bind-key '~' split-window -h "exec htop"
 # Help screen: rebind list-keys window into a new pane
 bind-key ? split-window -h 'exec tmux list-keys | less'
 
-# force a reload of the config file
+# Force a reload of the config file
 bind-key r source-file $XDG_CONFIG_HOME/tmux/config
 
 #bind-key R respawn-window
@@ -127,7 +127,7 @@ bind-key * list-clients
 # Search for previous error
 bind-key e copy-mode \; send-keys "?error" C-m
 
-# Disable Ctrl+Arrows to maintain word jump in non vi-mode
+# Disable Ctrl+Arrows to maintain word jump
 unbind-key -n C-Left
 unbind-key -n C-Right
 unbind-key -n C-Up
@@ -139,9 +139,8 @@ bind-key -n M-. resize-pane -R 5
 bind-key -n M-m resize-pane -D 5
 bind-key -n M-, resize-pane -U 5
 
-#===============================================================
 # Control
-#---------------------------------------------------------------
+#-------------------------------------------------
 
 # bind vi key-mapping
 set-option -g status-keys vi
@@ -161,9 +160,8 @@ bind-key -t vi-copy 'y' copy-pipe "xsel -ib --logfile $XDG_CACHE_HOME/xsel.log >
 bind-key -t vi-copy 'v' begin-selection
 bind-key -t vi-copy 'V' rectangle-toggle
 
-#===============================================================
 # Mouse
-#---------------------------------------------------------------
+#-------------------------------------------------
 
 # Allows scrolling and selecting in copy-mode
 set-option -g mouse-utf8 on
@@ -188,9 +186,8 @@ bind-key M \
   set-option -g mouse-select-window off \;\
   display 'Mouse: OFF'
 
-#===============================================================
 # Look n Feel
-#---------------------------------------------------------------
+#-------------------------------------------------
 #
 # *-attr options accept: none, bright (or bold), dim, underscore, blink,
 #                        reverse, hidden, or italics.
@@ -216,9 +213,8 @@ set-window-option -g mode-attr none
 set-window-option -g clock-mode-colour colour64
 set-window-option -g clock-mode-style 24
 
-#===============================================================
 # Status lines
-#---------------------------------------------------------------
+#-------------------------------------------------
 
 set-option -g status on
 set-option -g status-position top
