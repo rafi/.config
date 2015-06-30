@@ -240,16 +240,16 @@ set-option -g status-fg colour239
 set-option -g status-bg colour236
 set-option -g status-attr default
 
-set-option -g status-left-length 30
+set-option -g status-left-length 15
 set-option -g status-left-fg colour254
 set-option -g status-left-bg colour241
 set-option -g status-left-attr none
-set-option -g status-left ' #S #[fg=colour241,bg=colour235]⮀#[fg=colour234,bg=colour236]░'
-set-option -g status-right-length 65
-set-option -g status-right-fg colour245
+set-option -g status-left '#{?client_prefix,#[fg=colour0]#[bg=colour2],} #S #{?client_prefix,#[fg=colour2],#[fg=colour241]}#[bg=colour235]⮀#[fg=colour234,bg=colour236]░'
+set-option -g status-right-fg colour241
 set-option -g status-right-bg default
 set-option -g status-right-attr none
-set-option -g status-right '#{?client_prefix,#[fg=colour253]#[bg=colour4]<Prefix>#[default]  ,}#[default]#(cut -d " " -f 1-3 /proc/loadavg) #[fg=colour241]⮃ #[default]#h '
+set-option -g status-right-length 80
+set-option -g status-right "#(mpc current) #[fg=colour234]#[default] #(cat /tmp/agenda.txt) #[fg=colour234]#[default] #h "
 
 set-window-option -g window-status-fg colour247
 set-window-option -g window-status-bg colour236
