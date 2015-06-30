@@ -115,10 +115,13 @@ bind-key '$' command-prompt -I '#S' -p 'Rename session>' "rename-session '%%'"
 # Open a man page in new vertical pane
 bind-key / command-prompt -p 'Man>' "split-window -d -v 'exec man %%'"
 
-bind-key \ command-prompt -p "Set default-path to: " "set default-path %%"
+# Open ncmpcpp in new pane
+bind-key C-m split-window -h "exec ~/.local/bin/ncmpcpp"
 
-# open a man page in new pane
-bind-key / command-prompt "split-window -h 'exec man %%'"
+# Use Facebook PathPicker to select paths from buffer interactively
+bind-key f capture-pane \; \
+	save-buffer /tmp/tmux-buffer \; \
+	new-window -c "#{pane_current_path}" "sh -c 'cat /tmp/tmux-buffer | fpp && rm /tmp/tmux-buffer'"
 
 # Use urlview for displaying all links from buffer
 bind-key u capture-pane -J \; save-buffer /tmp/tmux-buffer \; split-window -l 10 "urlview '/tmp/tmux-buffer' && rm /tmp/tmux-buffer"
