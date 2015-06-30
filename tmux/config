@@ -7,9 +7,7 @@
 # Behavior
 #-------------------------------------------------
 
-#set-option -g default-shell "/bin/bash"
-#set-option -g default-command "bash -l"
-#set-option -g default-path $HOME
+set-option -g default-shell "$PREFIX/bin/bash"
 set-option -g default-terminal "screen-256color"
 
 set-option -g set-titles on
