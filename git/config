@@ -112,14 +112,15 @@
 	alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
 	#===============================================
 	tree = log --graph --all --oneline --decorate
-	lb   = log --graph --simplify-by-decoration --pretty=format:'%C(auto)%d' --all
+	lb   = log --graph --simplify-by-decoration --pretty=format:'%C(auto)%D %C(black)--%C(bold black)%gD%N %ad by %C(white)%cn%C(reset)' --topo-order --notes --relative-date --all -15
+	lba  = log --graph --simplify-by-decoration --pretty=format:'%C(auto)%d' --all
 	lg   = !git lgd --all
 	lgd  = log --graph --pretty=format:'%C(bold black)%h%Creset -%C(auto)%d%Creset %s %C(bold black)(%an %ar)%Creset'
 	#===============================================
-	logx = log --all --graph --decorate=short --color --format=format:'%C(bold blue)%h%C(reset)+%C(dim black)(%cr)%C(reset)+%C(auto)%d%C(reset)++\n+++       %C(bold black)%an%C(reset)%C(black):%C(reset) %s'
+	logx = log --all -15 --graph --decorate=short --color --format=format:'%C(bold blue)%h%C(reset)+%C(bold black)(%cr)%C(reset)+%C(auto)%D%C(reset)++\n+++       %C(bold black)%an%C(reset)%C(black):%C(reset) %s'
 	vtree = !bash -c '"                                                                             \
 			while IFS=+ read -r hash time branch message; do                                            \
-					timelength=$(echo \"$time\" | sed -r \"s:[^ ][[]([0-9]{1,2}(;[0-9]{1,2})?)?m::g\");     \
+					timelength=$(echo \"$time\" | gsed -r \"s:[^ ][[]([0-9]{1,2}(;[0-9]{1,2})?)?m::g\");     \
 					timelength=$(echo \"16+${#time}-${#timelength}\" | bc);                                 \
 					printf \"%${timelength}s    %s %s %s\n\" \"$time\" \"$hash\" \"$branch\" \"$message\";  \
-			done < <(git logx && echo);"'
+			done < <(git logx && echo) | less -EFRXS"'

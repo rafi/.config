@@ -40,6 +40,10 @@
 --regex-markdown=/^##[ \t]+(.*)/\1/i,Heading_L2/
 --regex-markdown=/^###[ \t]+(.*)/\1/k,Heading_L3/
 
+--langdef=ansible
+--langmap=ansible:.yml.yaml
+--regex-ansible=/^[ \t]*-[ \t]*name:[ \t]*(.+)/\1/k,tasks/
+
 --langdef=css
 --langmap=css:.css
 --regex-css=/^[ \t]*\.([A-Za-z0-9_-]+)/#\1/c,class,classes/
