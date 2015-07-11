@@ -26,6 +26,7 @@ alias gl='git lg -15'
 alias gll='git lg'
 alias gld='git lgd -15'
 alias gs='git s'
+alias gd='git d'
 
 # OSX
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -56,7 +57,7 @@ alias fd='find . -type d -name '
 alias tmux-shared='tmux -S /tmp/tmux-shared'
 
 # Media
-alias dl="aria2c -x4"
+alias dl="aria2c --file-allocation=prealloc -x4"
 alias volup="amixer set Master playback 3dB+"
 alias voldown="amixer set Master playback 3dB-"
 
@@ -69,6 +70,7 @@ alias weechat="weechat --dir $XDG_CONFIG_HOME/weechat/"
 alias gdrive="gdrive -c $XDG_CONFIG_HOME/gdrive"
 alias rssdler="rssdler --config $XDG_CONFIG_HOME/rssdler/config -o"
 alias cpan="cpan -j $XDG_CONFIG_HOME/cpan/config.pm"
+alias gcal="gcalcli --configFolder $XDG_CONFIG_HOME/gcalcli"
 alias subliminal="subliminal -c $XDG_CACHE_HOME/subliminal.dbm"
 alias archey3="archey3 --config=$XDG_CONFIG_HOME/archey3/config"
 alias redshift="redshift -c $XDG_CONFIG_HOME/redshift/config"

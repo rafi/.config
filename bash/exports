@@ -90,14 +90,14 @@ then
 fi
 
 # nodejs's NPM tool configuration
-if hash npm 3>/dev/null
+if hash npm 2>/dev/null
 then
 	export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 	export PATH="$PATH:$HOME/.local/lib/nodejs/bin"
 fi
 
 # CPAN configuration
-if hash cpan 3>/dev/null
+if hash cpan 2>/dev/null
 then
 	export PERL5LIB="$HOME/.local/lib/perl5${PERL5LIB+:}${PERL5LIB}"
 	export PERL_LOCAL_LIB_ROOT="$HOME/.local${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"
@@ -144,8 +144,8 @@ fi
 [ -e /etc/gtk-2.0 ] && export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
 
 # configs:
-export ANSIBLE_CONFIG="$XDG_CONFIG_HOME/ansible/config"
 export MAD_CONFIG="$XDG_CONFIG_HOME/mad/config"
+export WEGORC="$XDG_CONFIG_HOME/wego/config"
 export _Z_DATA="$XDG_CACHE_HOME/z/data"
 
 # files:
