@@ -1,5 +1,5 @@
-#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
-# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+#      .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
 #
 # github.com/rafi xorg xinitrc OSX
 
@@ -12,8 +12,7 @@ export LANGUAGE="en_US.UTF-8"
 export LCTYPE="en_US.UTF-8"
 export LC_ALL=$LANG
 
-# Use herbstluftwm on OSX
-USERWM=/opt/local/bin/herbstluftwm
+exec >>~/.cache/xsession-errors 2>&1
 
 # Load keyboard hacks
 #if [ -s $XDG_CONFIG_HOME/xorg/Xmodmap ]; then
@@ -37,9 +36,12 @@ unclutter -idle 3 -jitter 5 -noevents &
 # Load urxvt-client and tmux on startup
 urxvtc -cd "$HOME" -e /opt/local/bin/tmux -f "$HOME/.config/tmux/config"
 
+# Use herbstluftwm on OSX
+USERWM=/opt/local/bin/herbstluftwm
+
 if [ -d /opt/X11/lib/X11/xinit/xinitrc.d ]; then
 	for f in /opt/X11/lib/X11/xinit/xinitrc.d/?*.sh; do
-		# Skip the wm loader which is loaded afterwards below
+		# Skip the wm autoloader, I'm doing it manually below
 		if [ "${f##*/}" != "99-quartz-wm.sh" ]; then
 			[ -x "$f" ] && . "$f"
 		fi
@@ -48,9 +50,12 @@ if [ -d /opt/X11/lib/X11/xinit/xinitrc.d ]; then
 fi
 
 # Start XQuartz (OSX Xorg)
-#exec /opt/X11/bin/quartz-wm
+# exec /opt/X11/bin/quartz-wm
 
 # Start herbstluftwm window-manager
 exec /opt/local/bin/herbstluftwm
+
+# /opt/local/bin/sxhkd &
+# exec /opt/local/bin/bspwm
 
 #  vim: set ts=2 sw=2 tw=80 noet :

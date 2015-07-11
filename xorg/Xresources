@@ -26,7 +26,7 @@ Xft.dpi: 96
 ! URxvt*depth: 32
 URxvt*loginShell: True
 URxvt*buffered: True
-URxvt*cutchars: '"\'`&()*,;<=>?@[]^{}|│─'
+!URxvt*cutchars: '"\'`&()*,;<=>?@[]^{}|│─'
 
 ! Let tmux manage scrollback
 URxvt*saveLines: 0
@@ -91,7 +91,7 @@ URxvt*skipScroll: True
 
 ! True: set the urgency hint for the wm on receipt of a bell character.  False: do not set the urgency hint [default] urxvt resets the urgency hint on every focus change.
 URxvt*urgentOnBell: True
-URxvt*visualBell: True
+URxvt*visualBell: False
 
 ! True: scroll to bottom when tty receives output; option -si.  False: do not scroll to bottom when tty receives output; option +si.
 URxvt*scrollTtyOutput: False

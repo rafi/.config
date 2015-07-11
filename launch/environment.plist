@@ -20,6 +20,7 @@
 			launchctl setenv URXVT_PERL_LIB $HOME/.config/urxvt/ext
 			launchctl setenv FONTCONFIG_PATH /opt/X11/lib/X11/fontconfig
 			launchctl setenv RANDFILE $HOME/.cache/randfile
+			launchctl setenv MPD_HOST music.host
 		</string>
 	</array>
 	<key>RunAtLoad</key>
