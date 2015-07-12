@@ -7,3 +7,4 @@ git/gitk filter=vault
 git/users/* filter=vault
 mpd/mpd.conf filter=vault
 mpdscribble/config filter=vault
+wego/config filter=vault

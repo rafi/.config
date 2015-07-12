@@ -68,6 +68,7 @@ s/{{ GIT_\(PERSONAL\|WORK\)_NAME }}/Joe Shmoe/
 s/{{ GIT_PERSONAL_EMAIL }}/name@gmail.com/
 s/{{ GIT_WORK_EMAIL }}/name@work.com/
 s/{{ GIT_\(PERSONAL\|WORK\)_USER }}/joe/
+s/{{ WEATHER_TOKEN }}/token/
 ```
 Now whenever you stage files, the `clean.sed` will prevent secrets being
 committed. And on checkout, the `smudge.sed` will inject your secrets into

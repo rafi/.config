@@ -16,3 +16,4 @@ s/^\(jira\.password = \).*/\1{{ JIRA_PASS }}/
 s/^\(	email = \).*\# \(.*\)$/\1{{ GIT_\2_EMAIL }}/
 s/^\(	name = \).*\# \(.*\)$/\1{{ GIT_\2_NAME }}/
 s/^\(	user = \).*\# \(.*\)$/\1{{ GIT_\2_USER }}/
+s/^\(\t"APIKey": "\).*\(",\)/\1{{ WEATHER_TOKEN }}\2/

@@ -1,0 +1,6 @@
+{
+	"APIKey": "{{ WEATHER_TOKEN }}",
+	"City": "Tel Aviv",
+	"Imperial": false,
+	"Lang": "en"
+}
