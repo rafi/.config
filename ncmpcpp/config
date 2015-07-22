@@ -81,17 +81,11 @@ mpd_music_dir = /mnt/media/music
 ## you need to compile ncmpcpp with fftw3 support.
 ##
 #
-## Available values: spectrum, wave, wave_filled, ellipse.
+## Available values: spectrum, wave.
 ##
 #visualizer_type = wave
 #
 #visualizer_look = ●▮
-#
-#visualizer_color = blue, cyan, green, yellow, magenta, red
-#
-## Alternative subset of 256 colors for terminals that support it.
-##
-#visualizer_color = 41, 83, 119, 155, 185, 215, 216, 209, 203, 197, 161
 #
 ##### system encoding #####
 ##
@@ -143,17 +137,22 @@ mpd_music_dir = /mnt/media/music
 ## %P - priority
 ## $R - begin right alignment
 ##
-## You can also put them in { } and then it will be displayed
+## you can also put them in { } and then it will be displayed
 ## only if all requested values are available and/or define alternate
-## value with { }|{ } eg. {%a - %t}|{%f}. It is worth noting that
-## a single bracket {..} is equivalent to the alternative {..}|{}.
+## value with { }|{ } eg. {%a - %t}|{%f}
 ##
 ## Note: If you want to set limit on maximal length of a tag, just
 ## put the appropriate number between % and character that defines
 ## tag type, e.g. to make album take max. 20 terminal cells, use '%20b'.
 ##
-## In addition, formats support markers used for text attributes.
-## They are followed by character '$'. After that you can put:
+## Note: Format that is similar to "%a - %t" (i.e. without any additional
+## braces) is equal to "{%a - %t}", so if one of the tags is missing,
+## you'll get nothing.
+##
+## text can also have different color than the main window has,
+## eg. if you want length to be green, write "$3%l$9".
+##
+## Available values:
 ##
 ## - 0 - default window color (discards all other colors)
 ## - 1 - black
@@ -193,17 +192,51 @@ song_status_format = "‣ $2%a $1$b $3%t $1$b $4%b$9{ ($5%y$9)}"
 #song_status_format = {{%a{ "%b"{ (%y)}} - }{%t}}|{%f}
 #
 #song_library_format = {%n - }{%t}|{%f}
-
+#
+#tag_editor_album_format = {(%y) }%b
+#
+##
+## Note: Below variables are used for sorting songs in browser.
+## The sort mode determines how songs are sorted, and can be used
+## in combination with a sort format to specify a custom sorting format.
+## Available values for browser_sort_mode are "name", "mtime", "format"
+## and "noop".
+##
+#
+#browser_sort_mode = name
+#
+#browser_sort_format = {%a - }{%t}|{%f} {(%l)}
+#
+##
+## Note: Below variables are for alternative version of user's interface.
+## Their syntax supports all tags and colors listed above plus some extra
+## markers used for text attributes. They are followed by character '$'.
+## After that you can put:
+##
+## - b - bold text
+## - u - underline text
+## - r - reverse colors
+## - a - use alternative character set
+##
+## If you don't want to use an attribute anymore, just put it again, but
+## this time insert character '/' between '$' and attribute character,
+## e.g. {$b%t$/b}|{$r%f$/r} will display bolded title tag or filename
+## with reversed colors.
+##
+#
+#alternative_header_first_line_format = $b$1$aqqu$/a$9 {%t}|{%f} $1$atqq$/a$9$/b
+#
+#alternative_header_second_line_format = {{$4$b%a$/b$9}{ - $7%b$9}{ ($4%y$9)}}|{%D}
+#
+##
+## Note: below variables also support text attributes listed above.
+##
 now_playing_prefix = "$b$3► $9"
 now_playing_suffix = $/b
 browser_playlist_prefix = "$b$1‣ $5playlist $4$/b"
 selected_item_prefix = "$b$r$1✓$/r$8 "
 selected_item_suffix = $9$/b
 modified_item_prefix = $2+ $9
-
-#alternative_header_first_line_format = $b$1$aqqu$/a$9 {%t}|{%f} $1$atqq$/a$9$/b
-#
-#alternative_header_second_line_format = {{$4$b%a$/b$9}{ - $7%b$9}{ ($4%y$9)}}|{%D}
 #
 #now_playing_prefix = $b
 #
@@ -217,21 +250,9 @@ modified_item_prefix = $2+ $9
 #
 #modified_item_prefix = $3> $9
 #
-##
-## Note: attributes are not supported for the following variables.
+## Note: colors are not supported for below variable.
 ##
 #song_window_title_format = {%a - }{%t}|{%f}
-##
-## Note: Below variables are used for sorting songs in browser.
-## The sort mode determines how songs are sorted, and can be used
-## in combination with a sort format to specify a custom sorting format.
-## Available values for browser_sort_mode are "name", "mtime", "format"
-## and "noop".
-##
-#
-#browser_sort_mode = name
-#
-#browser_sort_format = {%a - }{%t}|{%f} {(%l)}
 #
 ##### columns settings #####
 ##
@@ -239,16 +260,15 @@ modified_item_prefix = $2+ $9
 ##
 ## - syntax for each column is:
 ##
-## (width of the column)[color of the column]{displayed tag}
+## (width of column)[column's color]{displayed tag}
 ##
 ## Note: Width is by default in %, if you want a column to
 ## have fixed size, add 'f' after the value, e.g. (10)[white]{a}
-## will be the column that take 10% of screen (so the real width
-## will depend on actual screen size), whereas (10f)[white]{a}
+## will be the column that take 10% of screen (so the real column's
+## width will depend on actual screen size), whereas (10f)[white]{a}
 ## will take 10 terminal cells, no matter how wide the screen is.
 ##
-## - color is optional (if you want the default one,
-##   leave the field empty).
+## - color is optional (if you want the default one, type [])
 ##
 ## Note: You can give a column additional attributes by putting appropriate
 ## character after displayed tag character. Available attributes are:
@@ -277,6 +297,9 @@ song_columns_list_format = "(20)[red]{a} (6f)[blue]{NE} (26)[green]{t|f:Title} (
 ##
 ## Note: Custom command that will be executed each
 ## time song changes. Useful for notifications etc.
+##
+## Attention: It doesn't support song format anymore.
+## Use `ncmpcpp --now-playing SONG_FORMAT` instead.
 ##
 #execute_on_song_change = ""
 #
@@ -308,11 +331,11 @@ autocenter_mode = yes
 ##
 ## Note: You can specify third character which will
 ## be used to build 'empty' part of progressbar.
-
-#progressbar_look = ─∰┄
-
-progressbar_boldness = yes
-
+##
+#progressbar_look = =>
+#
+#progressbar_boldness = yes
+#
 ## Available values: database, playlist.
 ##
 #default_place_to_search_in = database
@@ -387,17 +410,10 @@ follow_now_playing_lyrics = yes
 #screen_switcher_mode = playlist, browser
 #
 ##
-## Note: You can define startup screen
+## Note: You can define startup screen for ncmpcpp
 ## by choosing screen from the list above.
-
-startup_screen = playlist
-
 ##
-## Note: You can define startup slave screen
-## by choosing screen from the list above or
-## an empty value for no slave screen.
-##
-#startup_slave_screen = "browser"
+#startup_screen = playlist
 #
 ##
 ## Default width of locked screen (in %).
@@ -517,6 +533,7 @@ statusbar_color = magenta
 
 active_column_color = yellow
 
+#visualizer_color = yellow
 #
 #window_border_color = green
 #
