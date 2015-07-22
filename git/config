@@ -1,5 +1,5 @@
-#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
-# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+#      .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `
 #
 # Git config
 # https://github.com/rafi/.config
@@ -13,11 +13,8 @@
 	autocrlf = false
 	# Do NOT check if converting CRLF is reversible
 	safecrlf = false
-	# Whitespace detection:
-	# - Spaces at the end of a line
-	# - Spaces before tabs at the beginning of a line
+	# Whitespace detection
 	whitespace = trailing-space,space-before-tab
-	#whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
 [credential]
 	helper = cache --timeout=3600
 [init]
@@ -37,16 +34,14 @@
 	renames = copies
 	mnemonicprefix = true
 	tool = bc3
-[difftool]
-	bc3 = trustExitCode
 [merge]
 	tool = bc3
 	summary = true
 	stat = true
 [mergetool]
 	prompt = false
-	keepBackup = false
-	bc3 = trustExitCode
+	keepBackup = true
+	writeToTemp = true
 [gui]
 	fontdiff = -family \"Liberation Mono\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
 [web]
@@ -86,7 +81,10 @@
 	branch = green bold
 	nobranch = red
 [pretty]
-	ls = format:%C(cyan)%h %C(red)%ad %C(blue)[%an]%C(magenta)%d %C(white)%s
+	default = %C(bold black)%h%Creset -%C(auto)%d%Creset %s %C(bold black)(%an %ar)%Creset
+	detailed = format:%C(cyan)%h %C(red)%ad %C(blue)[%an]%C(magenta)%d %C(white)%s
+	shorter = %C(auto)%D %C(black)--%C(bold black)%gD%N %ad by %C(white)%cn%C(reset)
+	vtree = %C(bold blue)%h%C(reset)+%C(bold black)(%cr)%C(reset)+%C(auto)%D%C(reset)++\n+++       %C(bold black)%an%C(reset)%C(black):%C(reset) %s
 [alias]
 	s  = status -sb
 	f  = fetch --prune
@@ -95,6 +93,8 @@
 	br = branch
 	st = status
 	ck = checkout
+	t  = tag --column
+	tn = tag -n
 	d  = diff
 	ds = diff --staged
 	dw = diff --color-words
@@ -109,18 +109,17 @@
 	#===============================================
 	count = shortlog -sn
 	post  = !sh -c 'git format-patch --stdout $1 | ix' -
-	alias = !git config --list | grep 'alias\\.' | sed 's/alias\\.\\([^=]*\\)=\\(.*\\)/\\1\\\t => \\2/' | sort
 	#===============================================
 	tree = log --graph --all --oneline --decorate
-	lb   = log --graph --simplify-by-decoration --pretty=format:'%C(auto)%D %C(black)--%C(bold black)%gD%N %ad by %C(white)%cn%C(reset)' --topo-order --notes --relative-date --all -15
-	lba  = log --graph --simplify-by-decoration --pretty=format:'%C(auto)%d' --all
-	lg   = !git lgd --all
-	lgd  = log --graph --pretty=format:'%C(bold black)%h%Creset -%C(auto)%d%Creset %s %C(bold black)(%an %ar)%Creset'
+	lb   = log --graph --simplify-by-decoration --pretty=shorter --all --notes --date-order --relative-date
+	lg   = log --graph --pretty=default --all
+	lgd  = log --graph --pretty=default
+	lgw  = !sh -c '"while true; do clear; git lg -15; sleep 5; done"'
 	#===============================================
-	logx = log --all -15 --graph --decorate=short --color --format=format:'%C(bold blue)%h%C(reset)+%C(bold black)(%cr)%C(reset)+%C(auto)%D%C(reset)++\n+++       %C(bold black)%an%C(reset)%C(black):%C(reset) %s'
+	vtreelog = log --all --graph --decorate=short --color --format=vtree
 	vtree = !bash -c '"                                                                             \
 			while IFS=+ read -r hash time branch message; do                                            \
 					timelength=$(echo \"$time\" | gsed -r \"s:[^ ][[]([0-9]{1,2}(;[0-9]{1,2})?)?m::g\");     \
 					timelength=$(echo \"16+${#time}-${#timelength}\" | bc);                                 \
 					printf \"%${timelength}s    %s %s %s\n\" \"$time\" \"$hash\" \"$branch\" \"$message\";  \
-			done < <(git logx && echo) | less -EFRXS"'
+			done < <(git vtreelog && echo) | less -EFRXS"'
