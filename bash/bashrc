@@ -77,6 +77,12 @@ esac
 # Load a command prompt theme
 source $XDG_CONFIG_HOME/bash/themes/current
 
+# Load Docker bash completion
+# https://github.com/docker/docker/blob/master/contrib
+if [ -f "$HOME/.local/share/docker/bash_completion" ]; then
+	source "$HOME/.local/share/docker/bash_completion"
+fi
+
 # https://github.com/rupa/z
 if [ -f $PREFIX/lib/z.sh ]; then
 	source $PREFIX/lib/z.sh

@@ -53,7 +53,7 @@ export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
 # Set the session ssh-agent socket path (If it's not set)
 [ -z "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent"
 
-# TODO: Using i3, remove this?
+# bspwm socket location
 hash bspwm 2>/dev/null && export BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
 
 # Set vimrc's location and source it on vim startup
@@ -61,6 +61,8 @@ export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
 # Python per user site-packages directory
 export PYTHONUSERBASE="$HOME/.local"
+# IPython profile directory
+export IPYTHONDIR="$XDG_DATA_HOME/ipython"
 
 # Remote/local MPD host
 export MPD_HOST="music.host"
@@ -111,6 +113,8 @@ hash mplayer    2>/dev/null && export      MPLAYER_HOME="$XDG_CONFIG_HOME/mplaye
 hash mpv        2>/dev/null && export          MPV_HOME="$XDG_CONFIG_HOME/mpv"
 hash vagrant    2>/dev/null && export      VAGRANT_HOME="$XDG_DATA_HOME/vagrant"
 hash cpanm      2>/dev/null && export    PERL_CPANM_OPT="-l $HOME/.local"
+
+hash boot2docker 2>/dev/null && export BOOT2DOCKER_DIR="$XDG_DATA_HOME/boot2docker"
 
 # aria2c cli helper
 hash diana 2>/dev/null && export DIANA_SECRET_TOKEN={{ DIANA_TOKEN }}
