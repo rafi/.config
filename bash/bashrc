@@ -33,35 +33,41 @@ export HISTCONTROL=ignoreboth
 export VISUAL=vim
 export EDITOR="$VISUAL"
 export PAGER=less
+export BROWSER="/usr/bin/google-chrome-stable"
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	export BROWSER="open"
-else
-	export BROWSER="/usr/bin/google-chrome-stable"
+	# OSX bash-completion isn't loaded automatically.
+	# Archlinux: https://wiki.archlinux.org/index.php/Bash#Configuration_files
+	if [ -f "$PREFIX/etc/profile.d/bash_completion.sh" ]; then
+		source "$PREFIX/etc/profile.d/bash_completion.sh"
+	fi
 fi
 
+# Source all my custom aliases
 source "$XDG_CONFIG_HOME/bash/aliases"
 
 # Source all extra functions
 for f in $XDG_CONFIG_HOME/bash/functions.d/*; do source "$f"; done
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-	# OSX GNU bash-completion
-	if [ -f /opt/local/etc/profile.d/bash_completion.sh ]; then
-		source /opt/local/etc/profile.d/bash_completion.sh
-	fi
-	# Edit the /opt/X11/lib/X11/fontconfig/fonts.conf and added the directory
-	# "/Library/Fonts" to the font directory list
-#	export FONTCONFIG_PATH=/opt/X11/lib/X11/fontconfig
-fi
+unset f
 
 # Git prompt helpers
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWCOLORHINTS=0
-if [ -d $PREFIX/share/git/contrib/completion ]; then
-	source $PREFIX/share/git/contrib/completion/git-prompt.sh
-#	source $PREFIX/share/git/contrib/completion/git-completion.bash
+if [ -f "$PREFIX/share/git/git-prompt.sh" ]; then
+	source "$PREFIX/share/git/git-prompt.sh"
+fi
+
+# Load Docker bash completion
+# https://github.com/docker/docker/blob/master/contrib
+if [ -f "$HOME/.local/share/docker/bash_completion" ]; then
+	source "$HOME/.local/share/docker/bash_completion"
+fi
+
+# Load mpc bash completion
+if [ -f "$PREFIX/share/doc/mpc/mpc-completion.bash" ]; then
+	source "$PREFIX/share/doc/mpc/mpc-completion.bash"
 fi
 
 # If this is an xterm/rxvt/screen/tmux set the window title to user@host:dir
@@ -74,21 +80,16 @@ xterm*|rxvt*|screen*)
 	;;
 esac
 
-# Load a command prompt theme
-source $XDG_CONFIG_HOME/bash/themes/current
-
-# Load Docker bash completion
-# https://github.com/docker/docker/blob/master/contrib
-if [ -f "$HOME/.local/share/docker/bash_completion" ]; then
-	source "$HOME/.local/share/docker/bash_completion"
-fi
-
 # https://github.com/rupa/z
-if [ -f $PREFIX/lib/z.sh ]; then
-	source $PREFIX/lib/z.sh
+# Must be loaded _after_ setting PROMPT_COMMAND
+if [ -f "$PREFIX/lib/z.sh" ]; then
+	source "$PREFIX/lib/z.sh"
 fi
 
-# Load directory and file colors
+# Load my symlinked command prompt theme
+source "$XDG_CONFIG_HOME/bash/themes/current"
+
+# Load directory and file colors for GNU ls
 eval $(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")
 
 # vim: set ts=2 sw=2 tw=80 noet :
