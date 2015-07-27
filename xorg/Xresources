@@ -161,13 +161,16 @@ URxvt*keysym.C-F2:command:\033]710;-misc-fixed-medium-r-normal--10-*-*-*-c-*-iso
 URxvt*keysym.C-F3:command:\033]710;-misc-fixed-medium-r-semicondensed--13-*-*-*-c-*-iso10646-1\007
 URxvt*keysym.C-F4:command:\033]710;-misc-fixed-medium-r-normal--13-*-*-*-c-*-iso10646-1\007
 URxvt*keysym.C-F5:command:\033]710;-misc-fixed-medium-r-normal--14-*-*-*-c-*-iso10646-1\007
-URxvt*keysym.C-F6:command:\033]710;xft:Envy Code R:style=Regular:size=10\007
-URxvt*keysym.C-F7:command:\033]710;xft:PragmataPro:size=12:regular:antialias=false\007
-URxvt*keysym.C-F8:command:\033]710;-*-terminus  ttf -medium-r-normal--18-*-*-*-m-*-iso10646-1\007
-URxvt*keysym.C-F9:command:\033]710;-misc-fixed-medium-r-normal--18-*-*-*-c-*-iso10646-1\007
-URxvt*keysym.C-F10:command:\033]710;xft:Monospace:style=Medium:size=12\007
-URxvt*keysym.C-F11:command:\033]710;xft:PragmataPro:size=14:regular:antialias=false\007
-URxvt*keysym.C-F12:command:\033]710;xft:Monospace:size=14:minspace=true\007
+URxvt*keysym.C-F6:command:\033]710;-*-terminus  ttf -medium-r-normal--18-*-*-*-m-*-iso10646-1\007
+URxvt*keysym.C-F7:command:\033]710;xft:Envy Code R:style=Regular:size=10\007
+URxvt*keysym.C-F8:command:\033]710;xft:PragmataPro:size=11:regular:antialias=false\007
+!URxvt*keysym.C-F9:command:\033]710;-misc-fixed-medium-r-normal--18-*-*-*-c-*-iso10646-1\007
+!URxvt*keysym.C-F10:command:\033]710;xft:Monospace:style=Medium:size=12\007
+URxvt*keysym.C-F9:command:\033]710;xft:PragmataPro:size=12:regular:antialias=false\007
+URxvt*keysym.C-F10:command:\033]710;xft:PragmataPro:size=14:regular:antialias=false\007
+URxvt*keysym.C-F11:command:\033]710;xft:PragmataPro:size=18:regular:antialias=false\007
+URxvt*keysym.C-F12:command:\033]710;xft:PragmataPro:size=20:regular:antialias=false\007
+!URxvt*keysym.C-F12:command:\033]710;xft:Monospace:size=14:minspace=true\007
 !URxvt*keysym.C-1:command:\033]720;12\007
 !URxvt*keysym.C-2:command:\033]721;12\007
 

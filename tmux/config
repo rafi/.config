@@ -246,8 +246,8 @@ set-option -g status-left '#{?client_prefix,#[fg=colour0]#[bg=colour2],} #S #{?c
 set-option -g status-right-fg colour241
 set-option -g status-right-bg default
 set-option -g status-right-attr none
-set-option -g status-right-length 80
-set-option -g status-right "#($HOME/.local/bin/current-song 35) #[fg=colour234]#[default] #(cat /tmp/agenda.txt | cut -c -30) #[fg=colour234]#[default] #h "
+set-option -g status-right-length 83
+set-option -g status-right "#($HOME/.local/bin/current-song 35) #[fg=colour234]#[default] #(cat $HOME/.cache/agenda.txt | cut -c -30) #[fg=colour234]#[default] #h "
 
 set-window-option -g window-status-fg colour247
 set-window-option -g window-status-bg colour236
