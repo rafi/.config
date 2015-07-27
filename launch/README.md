@@ -18,7 +18,7 @@ launchctl unload -w ~/Library/LaunchAgents/org.musicpd.mpd.plist
 
 Available Services
 ---
-- `com.rafi.login.plist` - XDG system-wide environment variables
+- `environment.plist` - XDG system-wide environment variables
 - `net.syncthing.syncthing.plist` - [Syncthing]
 - `org.macports.gpg-agent.plist` - GPG agent (Installed via Macports)
 - `org.musicpd.mpd.plist` - [MPD] (Music Player Daemon)

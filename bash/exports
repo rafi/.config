@@ -7,23 +7,29 @@
 # - https://github.com/milomouse/dotfiles
 # - https://github.com/EvanPurkhiser/dots-personal
 
-# OSX
 if [[ "$OSTYPE" == "darwin"* ]]; then
+	# OSX
+	export PREFIX=/opt/local
+
 	# MacPorts
+	PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
 	export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-	export PATH=/opt/local/lib/postgresql93/bin:$PATH
-	export PATH=/opt/local/apache2/bin:$PATH
 	export MANPATH=/opt/local/share/man:$MANPATH
 
 	# Applications
 	export PATH=/Applications/packer:$PATH
-	export PREFIX=/opt/local
+	export PATH=/opt/local/lib/postgresql93/bin:$PATH
+	export PATH=/opt/local/apache2/bin:$PATH
 else
+	# Other, Linux
 	export PREFIX=/usr
 fi
 
 # Local bin
 export PATH="$HOME/.local/bin:$PATH:bin"
+
+# Python user installations
+export PATH="$PATH:$HOME/.local/lib/python/bin"
 
 # XDG directories
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -60,7 +66,7 @@ hash bspwm 2>/dev/null && export BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
 # Python per user site-packages directory
-export PYTHONUSERBASE="$HOME/.local"
+export PYTHONUSERBASE="$HOME/.local/lib/python"
 # IPython profile directory
 export IPYTHONDIR="$XDG_DATA_HOME/ipython"
 

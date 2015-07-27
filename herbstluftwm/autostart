@@ -5,7 +5,7 @@
 # github.com/rafi herbstluftwm configuration
 
 hc() {
-	herbstclient "$@"
+	/opt/local/bin/herbstclient "$@"
 }
 
 hc emit_hook reload
