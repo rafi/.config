@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
-# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+#      .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `
 #
 # github.com/rafi herbstluftwm configuration
 
@@ -58,24 +58,6 @@ hc keybind $Mod-Ctrl-j  resize down +$resizestep
 hc keybind $Mod-Ctrl-k  resize up +$resizestep
 hc keybind $Mod-Ctrl-l  resize right +$resizestep
 
-# tags
-tag_names=( {1..5} )
-tag_keys=( {1..5} 0 )
-
-hc rename default "${tag_names[0]}" || true
-for i in ${!tag_names[@]} ; do
-	hc add "${tag_names[$i]}"
-	key="${tag_keys[$i]}"
-	if ! [ -z "$key" ] ; then
-		hc keybind "$Mod-$key" use_index "$i"
-		hc keybind "$Mod-Shift-$key" move_index "$i"
-	fi
-done
-
-# cycle through tags
-#hc keybind $Mod-n use_index +1 --skip-visible
-#hc keybind $Mod-p use_index -1 --skip-visible
-
 # layouting
 hc keybind $Mod-r remove
 hc keybind $Mod-x cycle_layout 1
@@ -105,8 +87,8 @@ hc set frame_bg_normal_color '#565656'
 hc set frame_bg_active_color '#345F0C'
 hc set frame_border_width 0
 hc set always_show_frame 0
-hc set frame_bg_transparent 1
-hc set frame_transparent_width 5
+hc set frame_bg_transparent 0
+hc set frame_transparent_width 0
 hc set frame_gap 0
 
 hc attr theme.active.color '#9fbc00'
@@ -114,7 +96,7 @@ hc attr theme.normal.color '#454545'
 hc attr theme.urgent.color orange
 hc attr theme.inner_width 1
 hc attr theme.inner_color black
-hc attr theme.border_width 3
+hc attr theme.border_width 2
 hc attr theme.floating.border_width 4
 hc attr theme.floating.outer_width 1
 hc attr theme.floating.outer_color black
@@ -148,16 +130,7 @@ hc set tree_style '╾│ ├└╼─┐'
 # do multi monitor setup here, e.g.:
 # hc set_monitors 1280x1024+0+0 1280x1024+1280+0
 # or simply:
-hc detect_monitors
-#hc set_monitors 1440x884+0-22
-#hc set_monitors 1440x860+0+16
-
-# find the panel
-panel="${XDG_CONFIG_HOME:-$HOME/.config}/herbstluftwm/panel.sh"
-[ -x "$panel" ] || panel=/etc/xdg/herbstluftwm/panel.sh
-for monitor in $(herbstclient list_monitors | cut -d: -f1) ; do
-	# start it on each monitor
-	"$panel" $monitor &
-done
+#hc detect_monitors
+hc set_monitors 1440x900+0-23
 
 # vim: set ts=2 sw=2 tw=80 noet :
