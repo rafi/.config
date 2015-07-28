@@ -28,9 +28,6 @@ xset r rate 300 50
 [[ -z "$(pgrep tmux)" ]] && $HOME/.local/bin/tmux start &
 [[ -z "$(pgrep urxvtd)" ]] && /opt/local/bin/urxvtd -q -o -f
 
-# Load urxvt-client and tmux on startup
-/opt/local/bin/urxvtc -cd "$HOME" -e /opt/local/bin/tmux -f "$HOME/.config/tmux/config"
-
 if [ -d /opt/X11/lib/X11/xinit/xinitrc.d ]; then
 	for f in /opt/X11/lib/X11/xinit/xinitrc.d/?*.sh; do
 		# Skip the wm autoloader, I'm doing it manually below
@@ -44,10 +41,11 @@ fi
 # Start XQuartz (OSX Xorg)
 # exec /opt/X11/bin/quartz-wm
 
-# Start herbstluftwm window-manager
-exec /opt/local/bin/herbstluftwm
+# Start herbstluftwm
+# exec /opt/local/bin/herbstluftwm
 
-# /opt/local/bin/sxhkd &
-# exec /opt/local/bin/bspwm
+# Start bspwm
+/opt/local/bin/sxhkd &
+exec /opt/local/bin/bspwm
 
 #  vim: set ts=2 sw=2 tw=80 noet :

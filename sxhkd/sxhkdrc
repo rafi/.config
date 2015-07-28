@@ -1,0 +1,88 @@
+#
+# bspwm hotkeys
+#
+
+mod2 + alt + Escape
+	bspc quit
+
+mod2 + w
+	bspc window -c
+
+mod2 + t
+	bspc desktop -l next
+
+mod2 + b
+	bspc desktop -B
+
+mod2 + {s,f}
+	bspc window -t {floating,fullscreen}
+
+mod2 + {grave,Tab}
+	bspc {window,desktop} -f last
+
+mod2 + apostrophe
+	bspc window -s last
+
+mod2 + {o,i}
+	bspc control --record-history off; \
+	bspc window {older,newer} -f; \
+	bspc control --record-history on
+
+mod2 + y
+	bspc window -w last.manual
+
+mod2 + m
+	bspc window -s biggest
+
+mod2 + {_,shift + }{h,j,k,l}
+	bspc window -{f,s} {left,down,up,right}
+
+mod2 + {_,shift + }c
+	bspc window -f {next,prev}
+
+mod2 + {comma,period}
+	bspc desktop -C {backward,forward}
+
+mod2 + bracket{left,right}
+	bspc desktop -f {prev,next}
+
+mod2 + ctrl + {h,j,k,l}
+	bspc window -p {left,down,up,right}
+
+mod2 + ctrl + {_,shift + }space
+	bspc {window -p cancel,desktop -c}
+
+mod2 + alt + {h,j,k,l}
+	bspc window -e {left -10,down +10,up -10,right +10}
+
+mod2 + alt + shift + {h,j,k,l}
+	bspc window -e {right -10,up +10,down -10,left +10}
+
+mod2 + ctrl + {1-9}
+	bspc window -r 0.{1-9}
+
+mod2 + {_,shift + }{1-9,0}
+	bspc {desktop -f,window -d} ^{1-9,10}
+
+~button1
+	bspc pointer -g focus
+
+mod2 + button{1-3}
+	; bspc pointer -g {move,resize_side,resize_corner}
+
+mod2 + @button{1-3}
+	bspc pointer -u
+
+#
+# wm independent hotkeys
+#
+
+mod2 + Return
+	/opt/local/bin/urxvtc -cd /Users/rafi -e /opt/local/bin/tmux -f /Users/rafi/.config/tmux/config
+
+mod2 + space
+	dmenu_run
+
+# make sxhkd reload its configuration files:
+mod2 + Escape
+	/usr/bin/pkill -USR1 -x sxhkd
