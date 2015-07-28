@@ -51,6 +51,9 @@ export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
 # https://github.com/zealdocs/zeal/issues/172
 export QT_QPA_PLATFORMTHEME=gnome
 
+# Forces QT to use GTK icons
+#export DESKTOP_SESSION=gnome
+
 export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
 
 # Look for terminfo files under data
@@ -58,6 +61,9 @@ export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
 
 # Set the session ssh-agent socket path (If it's not set)
 [ -z "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent"
+
+# Look for terminfo files under data
+[ -d "$XDG_DATA_HOME/terminfo" ] && export TERMINFO="$XDG_DATA_HOME/terminfo"
 
 # bspwm socket location
 hash bspwm 2>/dev/null && export BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
