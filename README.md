@@ -19,7 +19,7 @@ ln -s .config/xorg/xinitrc_osx .xinitrc  # Just for OSX
 
 # Prepare cache directories
 mkdir -p ~/.cache/vim/{backup,bookmarks,swap,plugins,tags,undo}
-mkdir -p ~/.cache/{aria2,beets,mpd,mpdscribble,npm,pacaur,rtorrent,mux,z}
+mkdir -p ~/.cache/{aria2,beets,mpd,mpdscribble,npm,pacaur,rtorrent,subtitles,mux,z}
 mkdir -p ~/.cache/ncmpcpp/lyrics
 
 # Prepare user local
