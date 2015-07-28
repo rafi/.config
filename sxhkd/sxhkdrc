@@ -55,7 +55,7 @@ mod2 + ctrl + {_,shift + }space
 mod2 + alt + {h,j,k,l}
 	bspc window -e {left -10,down +10,up -10,right +10}
 
-mod2 + alt + shift + {h,j,k,l}
+mod2 + shift + {h,j,k,l}
 	bspc window -e {right -10,up +10,down -10,left +10}
 
 mod2 + ctrl + {1-9}
