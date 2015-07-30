@@ -129,7 +129,10 @@ hash cpanm      2>/dev/null && export    PERL_CPANM_OPT="-l $HOME/.local"
 hash boot2docker 2>/dev/null && export BOOT2DOCKER_DIR="$XDG_DATA_HOME/boot2docker"
 
 # aria2c cli helper
-hash diana 2>/dev/null && export DIANA_SECRET_TOKEN={{ DIANA_TOKEN }}
+if hash diana 2>/dev/null; then
+	export DIANA_SECRET_TOKEN={{ DIANA_TOKEN }}
+	export DIANA_HOST=file.host
+fi
 
 # Always install ruby gems local to the user
 if hash gem 2>/dev/null

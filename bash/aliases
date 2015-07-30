@@ -57,7 +57,7 @@ alias fd='find . -type d -name '
 alias tmux-shared='tmux -S /tmp/tmux-shared'
 
 # Media
-alias dl="aria2c --file-allocation=prealloc -x4"
+alias aria2c="aria2c --conf-path=$XDG_CONFIG_HOME/aria2/config"
 alias volup="amixer set Master playback 3dB+"
 alias voldown="amixer set Master playback 3dB-"
 
