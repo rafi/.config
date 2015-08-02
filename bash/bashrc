@@ -33,44 +33,14 @@ export HISTCONTROL=ignoreboth
 export VISUAL=vim
 export EDITOR="$VISUAL"
 export PAGER=less
-export BROWSER="/usr/bin/google-chrome-stable"
 
-if [[ "$OSTYPE" == "darwin"* ]]; then
-	export BROWSER="open"
-	# OSX bash-completion isn't loaded automatically.
-	# Archlinux: https://wiki.archlinux.org/index.php/Bash#Configuration_files
-	if [ -f "$PREFIX/etc/profile.d/bash_completion.sh" ]; then
-		source "$PREFIX/etc/profile.d/bash_completion.sh"
-	fi
-fi
-
-# Source all my custom aliases
+# Source aliases
 source "$XDG_CONFIG_HOME/bash/aliases"
 
-# Source all extra functions
-for f in $XDG_CONFIG_HOME/bash/functions.d/*; do source "$f"; done
-unset f
+# Source bash completions
+source "$XDG_CONFIG_HOME/bash/completion"
 
-# Git prompt helpers
-export GIT_PS1_SHOWDIRTYSTATE=1
-export GIT_PS1_SHOWSTASHSTATE=1
-export GIT_PS1_SHOWCOLORHINTS=0
-if [ -f "$PREFIX/share/git/git-prompt.sh" ]; then
-	source "$PREFIX/share/git/git-prompt.sh"
-fi
-
-# Load Docker bash completion
-# https://github.com/docker/docker/blob/master/contrib
-if [ -f "$HOME/.local/share/docker/bash_completion" ]; then
-	source "$HOME/.local/share/docker/bash_completion"
-fi
-
-# Load mpc bash completion
-if [ -f "$PREFIX/share/doc/mpc/mpc-completion.bash" ]; then
-	source "$PREFIX/share/doc/mpc/mpc-completion.bash"
-fi
-
-# If this is an xterm/rxvt/screen/tmux set the window title to user@host:dir
+# Set the window title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*|screen*)
 	# Show a "user@host: /dir" in terminal title
@@ -80,13 +50,10 @@ xterm*|rxvt*|screen*)
 	;;
 esac
 
-# https://github.com/rupa/z
-# Must be loaded _after_ setting PROMPT_COMMAND
-if [ -f "$PREFIX/lib/z.sh" ]; then
-	source "$PREFIX/lib/z.sh"
-fi
+# Load CLI utilities
+source "$XDG_CONFIG_HOME/bash/utils"
 
-# Load my symlinked command prompt theme
+# Load symlinked command prompt theme
 source "$XDG_CONFIG_HOME/bash/themes/current"
 
 # Load directory and file colors for GNU ls

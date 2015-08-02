@@ -18,12 +18,7 @@ if [[ "$OSTYPE" != "darwin"* ]]; then
 	unset target
 fi
 
-source "$HOME/.bashrc"
-
-# Extra OSX stuff
-if [[ "$OSTYPE" == "darwin"* ]]; then
-	source "$HOME/.config/bash/osx"
-fi
+source "$XDG_CONFIG_HOME/bash/bashrc"
 
 # Use keychain to load keys
 # https://github.com/funtoo/keychain

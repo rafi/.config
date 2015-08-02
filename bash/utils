@@ -1,0 +1,30 @@
+# github.com/rafi/.config
+
+# Source all extra functions
+for func in "$XDG_CONFIG_HOME/bash/functions.d/"*; do
+	source "$func"
+done
+unset func
+
+# Set default browser
+if [[ "$OSTYPE" == "darwin"* ]]; then
+	export BROWSER="open"
+else
+	export BROWSER="/usr/bin/google-chrome-stable"
+fi
+
+# Git prompt helpers
+export GIT_PS1_SHOWDIRTYSTATE=1
+export GIT_PS1_SHOWSTASHSTATE=1
+export GIT_PS1_SHOWCOLORHINTS=0
+if [ -f "$PREFIX/share/git/git-prompt.sh" ]; then
+	source "$PREFIX/share/git/git-prompt.sh"
+fi
+
+# https://github.com/rupa/z
+# Must be loaded _after_ setting PROMPT_COMMAND
+if [ -f "$PREFIX/lib/z.sh" ]; then
+	source "$PREFIX/lib/z.sh"
+fi
+
+# vim: set ts=2 sw=2 tw=80 et :
