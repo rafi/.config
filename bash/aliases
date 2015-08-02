@@ -6,37 +6,43 @@
 # Carry over aliases to the root account when using sudo
 alias sudo='sudo '
 
-# List
-if [[ "$OSTYPE" == "darwin"* ]]; then
-	# Use GNU ls on OSX
-	alias ls='LC_COLLATE=C gls --color=auto --group-directories-first'
-else
-	alias ls='LC_COLLATE=C ls --color=auto --group-directories-first'
-fi
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
-alias lf='ls -Gl | grep ^d' #Only list directories
-alias lsd='ls -Gal | grep ^d' #Only list directories, including hidden ones
-
-# Git
-alias gfl='git fetch --prune && git lg -15'
-alias gf='git fetch --prune'
-alias gl='git lg -15'
-alias gll='git lg'
-alias gld='git lgd -15'
-alias gs='git s'
-alias gd='git d'
-
-# OSX
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	# Use GNU tools on OSX instead of BSD
 	alias sort='gsort'
 	alias dircolors='gdircolors'
 
-	# OSX tools
-	alias apache2ctl='sudo /opt/local/apache2/bin/apachectl'
+	# Use GNU ls on OSX
+	alias ls='LC_COLLATE=C gls --color=auto --group-directories-first'
+else
+	alias ls='LC_COLLATE=C ls --color=auto --group-directories-first'
 fi
+
+alias l='ls -CFa'
+alias ll='ls -alF'
+alias lsd='ls -Gal | grep ^d'
+
+alias grep="grep $GREP_OPTIONS"
+unset GREP_OPTIONS
+
+# File and directory find
+alias f='find . -name '
+alias ff='find . -type f -name '
+alias fd='find . -type d -name '
+
+# Git
+alias gco='git checkout'
+alias gd='git diff'
+alias gds='git diff --cached'
+alias gfl='git fetch --prune && git lg -15'
+alias gf='git fetch --prune'
+alias gs='git status -sb'
+alias gl='git lg -15'
+alias gll='git lg'
+alias gld='git lgd -15'
+
+# Shortcuts
+alias c='clear'
+alias diff='colordiff'
 
 # Storage
 alias dut="du -hsx * | sort -rh | head -10"
@@ -44,17 +50,6 @@ alias dfu="df -hT -x devtmpfs -x tmpfs"
 
 # Places
 alias ww="cd /srv/http"
-
-# Shortcuts
-alias diff='colordiff'
-
-# File and directory find
-alias f='find . -name '
-alias ff='find . -type f -name '
-alias fd='find . -type d -name '
-
-# Tmux
-alias tmux-shared='tmux -S /tmp/tmux-shared'
 
 # Media
 alias aria2c="aria2c --conf-path=$XDG_CONFIG_HOME/aria2/config"
@@ -78,23 +73,18 @@ alias v="viminfo=$XDG_CACHE_HOME/vim/viminfo v"
 
 # Misc
 alias cal='cal | grep -C6 "$(date +%e)"'
-#alias cal='cal | grep -C6 "\(^\|\s\)$(date +%e)\s"'
 alias subdl="subliminal download -v -s -l en -d $XDG_CACHE_HOME/subtitles"
 alias cbyank='xsel -ib --logfile $XDG_CACHE_HOME/xsel.log'
 alias cbput='xsel -ob --logfile $XDG_CACHE_HOME/xsel.log'
 alias fontcache='fc-cache -f -v'
-alias grep="grep $GREP_OPTIONS"
-unset GREP_OPTIONS
-
 alias ccat='pygmentize -O style=monokai -f console256 -g'
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias freq='cut -f1 -d" " $HISTFILE | sort | uniq -c | sort -nr | head -n 30'
-alias c='clear'
 alias traceapache="ps auxw | grep sbin/apache | awk '{print\"-p \" $2}' | xargs strace"
 
 # Vim shortcuts
-alias vless='vim -u $PREFIX/share/vim/vim74/macros/less.vim'
 alias vi=vim
+alias vless='vim -u $PREFIX/share/vim/vim74/macros/less.vim'
 alias suvim='sudo -E vim'
 
 # A quick way to get out of current directory
@@ -102,7 +92,5 @@ alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 alias .....='cd ../../../../'
-alias .4='cd ../../../../'
-alias .5='cd ../../../../..'
 
 #  vim: set ts=2 sw=2 tw=80 noet :
