@@ -6,16 +6,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# https://wiki.archlinux.org/index.php/RTorrent
-# Ctrl-s is often used for terminal control to stop screen output while Ctrl-q is used to
-# start it. These mappings may interfere with rTorrent. Check to see if these terminal
-# options are bound to a mapping:
-#   $ stty -a
-# Remove the ^S ^Q mappings
-stty stop undef
-stty start undef
-
-# Bash options
+# Bash settings
 shopt -s cdspell        # autocorrects cd misspellings
 shopt -s checkwinsize   # update the value of LINES and COLUMNS after each command if altered
 shopt -s cmdhist        # save multi-line commands in history as single line
