@@ -10,9 +10,9 @@
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	# OSX
 	export PREFIX=/opt/local
+	PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
 
 	# MacPorts
-	PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
 	export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 	export MANPATH=/opt/local/share/man:$MANPATH
 
@@ -28,8 +28,11 @@ fi
 # Local bin
 export PATH="$HOME/.local/bin:$PATH:bin"
 
-# Python user installations
-export PATH="$PATH:$HOME/.local/lib/python/bin"
+# Python per user site-packages directory
+export PYTHONUSERBASE="$HOME/.local/lib/python"
+export PATH="$PATH:$PYTHONUSERBASE/bin"
+# IPython profile directory
+export IPYTHONDIR="$XDG_DATA_HOME/ipython"
 
 # XDG directories
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -43,7 +46,6 @@ else
 
 	# Set the systemd-style DBUS address
 	export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
-	export VDPAU_DRIVER=va_gl
 fi
 
 export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
@@ -56,9 +58,6 @@ export QT_QPA_PLATFORMTHEME=gnome
 
 export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
 
-# Look for terminfo files under data
-[ -d "$XDG_DATA_HOME/terminfo" ] && export TERMINFO="$XDG_DATA_HOME/terminfo"
-
 # Set the session ssh-agent socket path (If it's not set)
 [ -z "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent"
 
@@ -70,11 +69,6 @@ hash bspwm 2>/dev/null && export BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
 
 # Set vimrc's location and source it on vim startup
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
-
-# Python per user site-packages directory
-export PYTHONUSERBASE="$HOME/.local/lib/python"
-# IPython profile directory
-export IPYTHONDIR="$XDG_DATA_HOME/ipython"
 
 # Remote/local MPD host
 export MPD_HOST="music.host"
@@ -100,7 +94,7 @@ then
 	export PATH="$PATH:$HOME/.cabal/bin"
 fi
 
-# nodejs's NPM tool configuration
+# Node NPM tool configuration
 if hash npm 2>/dev/null
 then
 	export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
@@ -174,9 +168,7 @@ export LESS="-eFiQwMXR"
 export LESSCHARSET="UTF-8"
 export GREP_OPTIONS="--color=auto --exclude-dir=.git"
 
-# Custom flags:
-
-# Detect if SSH connection
+# Detect SSH connection
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
 	export IS_SSH=1
 fi
