@@ -73,7 +73,7 @@ alias v="viminfo=$XDG_CACHE_HOME/vim/viminfo v"
 
 # Misc
 alias cal='cal | grep -C6 "$(date +%e)"'
-alias subdl="subliminal download -v -s -l en -d $XDG_CACHE_HOME/subtitles"
+alias subdl="subliminal download -l en -d $XDG_CACHE_HOME/subtitles"
 alias cbyank='xsel -ib --logfile $XDG_CACHE_HOME/xsel.log'
 alias cbput='xsel -ob --logfile $XDG_CACHE_HOME/xsel.log'
 alias fontcache='fc-cache -f -v'

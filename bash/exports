@@ -113,6 +113,7 @@ fi
 hash http       2>/dev/null && export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
 hash wget       2>/dev/null && export            WGETRC="$XDG_CONFIG_HOME/wget/config"
 hash psql       2>/dev/null && export            PSQLRC="$XDG_CONFIG_HOME/psql/config"
+hash pgcli      2>/dev/null && export           PGCLIRC="$XDG_CONFIG_HOME/pgcli/config"
 hash gimp       2>/dev/null && export   GIMP2_DIRECTORY="$XDG_CONFIG_HOME/gimp-2.8"
 hash virtualbox 2>/dev/null && export    VBOX_USER_HOME="$XDG_CONFIG_HOME/virtualbox"
 hash mplayer    2>/dev/null && export      MPLAYER_HOME="$XDG_CONFIG_HOME/mplayer"
