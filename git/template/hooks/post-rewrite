@@ -4,5 +4,5 @@
 # https://github.com/rafi/.config
 
 case "$1" in
-  rebase) $GIT_DIR/hooks/plugin-ctags.sh ;;
+  rebase) "$GIT_DIR/hooks/plugin-ctags.sh" ;;
 esac
