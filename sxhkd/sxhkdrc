@@ -58,11 +58,11 @@ mod2 + alt + {h,j,k,l}
 mod2 + shift + {h,j,k,l}
 	bspc window -e {right -10,up +10,down -10,left +10}
 
-mod2 + ctrl + {1-9}
-	bspc window -r 0.{1-9}
+mod2 + ctrl + {1-5}
+	bspc window -r 0.{1-5}
 
-mod2 + {_,shift + }{1-9,0}
-	bspc {desktop -f,window -d} ^{1-9,10}
+mod2 + {_,shift + }{1-5}
+	bspc {desktop -f,window -d} ^{1-5}
 
 ~button1
 	bspc pointer -g focus
@@ -87,6 +87,8 @@ mod2 + {F7,F8,F9}
 	/opt/local/bin/mpc {prev,toggle,next}
 mod2 + shift + {F7,F8,F9}
 	/opt/local/bin/mpc {seek -5,stop,seek +5}
+{F10,F11,F12}
+	/opt/local/bin/mpc vol {0,-5,+5}
 
 # Reload sxhkd configuration files
 mod2 + Escape
