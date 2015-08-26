@@ -1,4 +1,4 @@
-aria2/config filter=vault
+aria2/daemon filter=vault
 bash/exports filter=vault
 beets/config.yaml filter=vault
 bugwarrior/config filter=vault

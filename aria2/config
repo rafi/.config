@@ -1,20 +1,5 @@
-dir=/home/rafi/dl/incomplete
-log=/home/rafi/.cache/aria2/aria2.log
-save-session=/home/rafi/.cache/aria2/session.dat
-input-file=/home/rafi/.cache/aria2/session.dat
-on-download-complete=/home/rafi/.local/bin/dizzer
-on-bt-download-complete=/home/rafi/.local/bin/dizzer
-dht-file-path=/home/rafi/.cache/aria2/dht.dat
-dht-file-path6=/home/rafi/.cache/aria2/dht6.dat
-
-daemon=true
 log-level=notice
-enable-rpc=true
 file-allocation=falloc
-rpc-listen-all=true
-rpc-allow-origin-all=true
-rpc-save-upload-metadata=false
-rpc-secret={{ ARIA2_TOKEN }}
 
 # Basic
 continue=true
@@ -23,11 +8,6 @@ check-integrity=true
 
 # HTTP/FTP
 max-connection-per-server=4
-#max-tries=8
-#min-split-size=3M
-#remote-time=true
-#retry-wait=3
-#split=16
 
 # BitTorrent
 bt-max-peers=50

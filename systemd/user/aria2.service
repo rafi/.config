@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=forking
 RemainAfterExit=yes
-ExecStart=/usr/bin/aria2c --conf-path=%h/.config/aria2/config
+ExecStart=/usr/bin/aria2c --conf-path=%h/.config/aria2/daemon
 
 [Install]
 WantedBy=console.target
