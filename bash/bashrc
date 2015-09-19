@@ -6,6 +6,12 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+# Remove the ^S ^Q mappings
+# Options are bound to a mapping:
+#   $ stty -a
+stty stop undef
+stty start undef
+
 # Bash settings
 shopt -s cdspell        # autocorrects cd misspellings
 shopt -s checkwinsize   # update the value of LINES and COLUMNS after each command if altered
