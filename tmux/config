@@ -41,7 +41,7 @@ set-window-option -g aggressive-resize on
 
 # Start windows and panes from 1
 set-option -g base-index 1
-set-option -g pane-base-index 1
+set-window-option -g pane-base-index 1
 
 # Visual notifications
 set-option -g visual-bell off
@@ -165,36 +165,38 @@ set-window-option -g mode-keys vi
 bind-key C-c run "tmux show-buffer | xsel -ib --logfile $XDG_CACHE_HOME/xsel.log"
 bind-key C-v run "tmux set-buffer \"$(xsel -ob --logfile $XDG_CACHE_HOME/xsel.log)\"; tmux paste-buffer"
 
-#bind-key -t vi-copy 'y' copy-selection
-bind-key -t vi-copy 'y' copy-pipe "xsel -ib --logfile $XDG_CACHE_HOME/xsel.log >/dev/null"
-bind-key -t vi-copy 'v' begin-selection
-bind-key -t vi-copy 'V' rectangle-toggle
+bind-key Escape copy-mode
+bind-key -t vi-copy y copy-pipe "xsel -ib --logfile $XDG_CACHE_HOME/xsel.log >/dev/null"
+bind-key -t vi-copy v begin-selection
+bind-key -t vi-copy V select-line
+bind-key -t vi-copy C-v rectangle-toggle
+bind-key -t vi-copy Escape clear-selection
 
-# Mouse
+# Mouse (tmux >= 2.1)
 #-------------------------------------------------
 
 # Allows scrolling and selecting in copy-mode
 set-option -g mouse-utf8 on
-set-option -g mode-mouse on
-set-option -g mouse-select-window on
-set-option -g mouse-select-pane on
-set-option -g mouse-resize-pane on
+set-option -g -q mouse on
 
-# Toggle mouse on with ^a m
-bind-key m \
-  set-option -g mode-mouse on \;\
-  set-option -g mouse-resize-pane on \;\
-  set-option -g mouse-select-pane on \;\
-  set-option -g mouse-select-window on \;\
-  display 'Mouse: ON'
+# Enable mouse copy-mode scrolling
+bind-key -T root WheelUpPane   if-shell -F -t = "#{alternate_on}" "send-keys -M" "select-pane -t =; copy-mode -e; send-keys -M"
+bind-key -T root WheelDownPane if-shell -F -t = "#{alternate_on}" "send-keys -M" "select-pane -t =; send-keys -M"
 
-# Toggle mouse off with ^a M
-bind-key M \
-  set-option -g mode-mouse off \;\
-  set-option -g mouse-resize-pane off \;\
-  set-option -g mouse-select-pane off \;\
-  set-option -g mouse-select-window off \;\
-  display 'Mouse: OFF'
+# Enable fast scrolling with Ctrl
+bind-key -T root C-WheelUpPane if-shell -F -t = "#{alternate_on}" "send-keys -M" "select-pane -t =; copy-mode -e; send-keys -M"
+bind-key -t vi-copy C-WheelUpPane   halfpage-up
+bind-key -t vi-copy C-WheelDownPane halfpage-down
+
+# Make mouse-drag work only with Ctrl
+unbind -T root MouseDrag1Pane
+unbind -t vi-copy MouseDrag1Pane
+bind-key -n C-MouseDrag1Pane if -Ft= '#{mouse_any_flag}' 'if -Ft= \"#{pane_in_mode}\" \"copy-mode -M\" \"send-keys -M\"' 'copy-mode -M'
+bind-key -t vi-copy C-MouseDrag1Pane begin-selection
+
+# Toggle mouse on/off
+bind-key m set-option -g mouse on \; display 'Mouse: ON'
+bind-key M set-option -g mouse off \; display 'Mouse: OFF'
 
 # Look n Feel
 #-------------------------------------------------
@@ -248,6 +250,10 @@ set-option -g status-right-bg default
 set-option -g status-right-attr none
 set-option -g status-right-length 83
 set-option -g status-right "#($HOME/.local/bin/current-song 35) #[fg=colour234]#[default] #(cat $HOME/.cache/agenda.txt | cut -c -30) #[fg=colour234]#[default] #h "
+
+set-window-option -g window-style ''
+set-window-option -g window-active-style ''
+set-window-option -g pane-active-border-style ''
 
 set-window-option -g window-status-fg colour247
 set-window-option -g window-status-bg colour236
