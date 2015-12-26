@@ -6,28 +6,27 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-# Remove the ^S ^Q mappings
-# Options are bound to a mapping:
-#   $ stty -a
+# Remove the ^S ^Q mappings. See all mappings: stty -a
 stty stop undef
 stty start undef
 
 # Bash settings
-shopt -s cdspell        # autocorrects cd misspellings
-shopt -s checkwinsize   # update the value of LINES and COLUMNS after each command if altered
-shopt -s cmdhist        # save multi-line commands in history as single line
-shopt -s dotglob        # include dotfiles in pathname expansion
-shopt -s expand_aliases # expand aliases
-shopt -s extglob        # enable extended pattern-matching features
+shopt -s cdspell        # Autocorrects cd misspellings
+shopt -s cmdhist        # Save multi-line commands in history as single line
+shopt -s dotglob        # Include dotfiles in pathname expansion
+shopt -s expand_aliases # Expand aliases
+shopt -s extglob        # Enable extended pattern-matching features
 shopt -s histreedit     # Add failed commands to the bash history
 shopt -s histappend     # Append each session's history to $HISTFILE
-shopt -s autocd         # Autocd
+shopt -s histverify     # Edit a recalled history line before executing
 
 export HISTSIZE=2000
 export HISTFILESIZE=50000
-export HISTFILE="$XDG_CACHE_HOME/bash_history"
+export HISTTIMEFORMAT='[%F %T] '
+export HISTIGNORE='pwd:jobs:ll:ls:l:fg:gl:gll:gs:gd:history:clear:exit'
 export HISTCONTROL=ignoreboth
-export VISUAL=vim
+export HISTFILE="$XDG_CACHE_HOME/bash_history"
+export VISUAL=nvim
 export EDITOR="$VISUAL"
 export PAGER=less
 
@@ -37,15 +36,8 @@ source "$XDG_CONFIG_HOME/bash/aliases"
 # Source bash completions
 source "$XDG_CONFIG_HOME/bash/completion"
 
-# Set the window title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*|screen*)
-	# Show a "user@host: /dir" in terminal title
-	PROMPT_COMMAND='history -a; echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
-	;;
-*)
-	;;
-esac
+# Append to history and set the window title to user@host:dir
+PROMPT_COMMAND='history -a; echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
 
 # Load CLI utilities
 source "$XDG_CONFIG_HOME/bash/utils"
@@ -54,6 +46,6 @@ source "$XDG_CONFIG_HOME/bash/utils"
 source "$XDG_CONFIG_HOME/bash/themes/current"
 
 # Load directory and file colors for GNU ls
-eval $(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")
+eval "$(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")"
 
 # vim: set ts=2 sw=2 tw=80 noet :

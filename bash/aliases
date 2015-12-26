@@ -82,8 +82,9 @@ alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias freq='cut -f1 -d" " $HISTFILE | sort | uniq -c | sort -nr | head -n 30'
 alias traceapache="ps auxw | grep sbin/apache | awk '{print\"-p \" $2}' | xargs strace"
 
-# Vim shortcuts
-alias vi=vim
+# Neovim shortcuts
+alias vi=nvim
+alias vim=nvim
 alias vless='vim -u $PREFIX/share/vim/vim74/macros/less.vim'
 alias suvim='sudo -E vim'
 
