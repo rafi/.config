@@ -31,6 +31,7 @@
 [rerere]
 	enabled = true
 [diff]
+	algorithm = patience
 	renames = copies
 	mnemonicprefix = true
 	tool = bc3

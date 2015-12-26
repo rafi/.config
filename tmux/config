@@ -23,7 +23,7 @@ set-option -g set-remain-on-exit off
 set-option -g history-limit 6000
 
 # Address vim mode switching delay (http://superuser.com/a/252717/65504)
-set-option -sg escape-time 0
+set-option -s escape-time 0
 
 # tmux messages are displayed for 4 seconds
 set-option -g display-time 4000

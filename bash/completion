@@ -21,6 +21,11 @@ if [ -f "$PREFIX/share/doc/mpc/mpc-completion.bash" ]; then
 	source "$PREFIX/share/doc/mpc/mpc-completion.bash"
 fi
 
+# Load github.com/rafi/workon-py completion
+if [ -f "$HOME/.local/bin/workon.bash-completion" ]; then
+	source "$HOME/.local/bin/workon.bash-completion"
+fi
+
 # Extra OSX stuff
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards

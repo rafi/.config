@@ -131,6 +131,10 @@ hc set tree_style '╾│ ├└╼─┐'
 # hc set_monitors 1280x1024+0+0 1280x1024+1280+0
 # or simply:
 #hc detect_monitors
-hc set_monitors 1440x900+0-23
+#hc set_monitors 1440x900+0-23
+hc set_monitors 1440x878+0-1
+
+# Load urxvt-client and tmux on startup
+/opt/local/bin/urxvtc -cd "$HOME" -e /opt/local/bin/tmux -f "$HOME/.config/tmux/config"
 
 # vim: set ts=2 sw=2 tw=80 noet :
