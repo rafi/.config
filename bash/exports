@@ -28,12 +28,6 @@ fi
 # Local bin
 export PATH="$HOME/.local/bin:$PATH:bin"
 
-# Python per user site-packages directory
-export PYTHONUSERBASE="$HOME/.local/lib/python"
-export PATH="$PATH:$PYTHONUSERBASE/bin"
-# IPython profile directory
-export IPYTHONDIR="$XDG_DATA_HOME/ipython"
-
 # XDG directories
 export XDG_CONFIG_HOME="$HOME/.config"
 export  XDG_CACHE_HOME="$HOME/.cache"
@@ -41,9 +35,15 @@ export   XDG_DATA_HOME="$HOME/.local/share"
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	export XDG_RUNTIME_DIR="$XDG_CACHE_HOME"
+	# Python per user site-packages directory
+	export PATH="$PATH:$HOME/Library/Python/3.4/bin"
+	export PATH="$PATH:$HOME/Library/Python/2.7/bin"
 else
-	export XAUTHORITY="$XDG_CACHE_HOME/Xauthority"
+	# Python per user site-packages directory
+	export PATH="$PATH:$HOME/.local/lib/python3.4/bin"
+	export PATH="$PATH:$HOME/.local/lib/python2.7/bin"
 
+	export XAUTHORITY="$XDG_CACHE_HOME/Xauthority"
 	# Set the systemd-style DBUS address
 	export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
 fi
