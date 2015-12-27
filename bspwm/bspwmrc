@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-bspc config top_padding       -23
+bspc config top_padding         0
 bspc config split_ratio      0.52
 bspc config border_width        2
 bspc config window_gap         10
