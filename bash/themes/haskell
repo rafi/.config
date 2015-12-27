@@ -2,20 +2,30 @@
 
 # Theme: Haskell
 # --------------
-# basename/ λ: █
+# basename/ λ: ▏
 #
 # Within Git repository:
-# basename/branch λ: █
+# basename/branch λ: ▏
 #
 # Within SSH session:
-# hostname:basename/branch λ: █
+# hostname:basename/branch λ: ▏
 #
+# Within virtualenv:
+# venv/basename/branch λ: ▏
+
+function ps1_context {
+	local virtualenv
+	if [ -n "$VIRTUAL_ENV" ]; then
+		virtualenv="$(basename "$VIRTUAL_ENV")"
+		echo -n "${virtualenv:+${virtualenv}/}"
+	fi
+}
+
 # IS_SSH is exported in bash/exports
 if [ -z "$IS_SSH" ]; then
-
 	# Local connections
-	PS1='\[\e[0;34m\]${PWD##*/}/\[\e[1;30m\]$(__git_ps1 "%s") \[\e[0;32m\]λ\[\e[00m\]: '
+	PS1='\[\e[0;31m\]$(ps1_context)\[\e[0;34m\]${PWD##*/}/\[\e[1;30m\]$(__git_ps1 "%s") \[\e[0;32m\]λ\[\e[00m\]: '
 else
 	# Remote connections
-	PS1='\[\e[0;33m\]\h\[\e[1;30m\]:\[\e[0;34m\]${PWD##*/}/\[\e[1;30m\]$(__git_ps1 "%s") \[\e[0;32m\]λ\[\e[00m\]: '
+	PS1='\[\e[0;31m\]$(ps1_context)\[\e[0;33m\]\h\[\e[1;30m\]:\[\e[0;34m\]${PWD##*/}/\[\e[1;30m\]$(__git_ps1 "%s") \[\e[0;32m\]λ\[\e[00m\]: '
 fi
