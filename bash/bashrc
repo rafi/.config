@@ -48,4 +48,4 @@ source "$XDG_CONFIG_HOME/bash/themes/current"
 # Load directory and file colors for GNU ls
 eval "$(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")"
 
-# vim: set ts=2 sw=2 tw=80 noet :
+# vim: set ft=sh ts=2 sw=2 tw=80 noet :

@@ -169,10 +169,14 @@ export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
 export LESS="-eFiQwMXR"
 export LESSCHARSET="UTF-8"
 export GREP_OPTIONS="--color=auto --exclude-dir=.git"
+if hash fzf 2>/dev/null
+then
+	export FZF_DEFAULT_OPTS="--bind=ctrl-d:page-down,ctrl-u:page-up,y:yank --inline-info --reverse"
+fi
 
 # Detect SSH connection
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
 	export IS_SSH=1
 fi
 
-# vim: set ts=2 sw=2 tw=80 noet :
+# vim: set ft=sh ts=2 sw=2 tw=80 noet :

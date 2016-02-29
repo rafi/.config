@@ -22,8 +22,8 @@ if [ -f "$PREFIX/share/doc/mpc/mpc-completion.bash" ]; then
 fi
 
 # Load github.com/rafi/workon-py completion
-if [ -f "$HOME/.local/bin/workon.bash-completion" ]; then
-	source "$HOME/.local/bin/workon.bash-completion"
+if [ -f "$HOME/.local/bin/workon-completion.bash" ]; then
+	source "$HOME/.local/bin/workon-completion.bash"
 fi
 
 # Extra OSX stuff
@@ -39,4 +39,4 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall
 fi
 
-# vim: set ts=2 sw=2 tw=80 et :
+# vim: set ft=sh ts=2 sw=2 tw=80 et :

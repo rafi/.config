@@ -27,4 +27,4 @@ if [ -f "$PREFIX/lib/z.sh" ]; then
 	source "$PREFIX/lib/z.sh"
 fi
 
-# vim: set ts=2 sw=2 tw=80 et :
+# vim: set ft=sh ts=2 sw=2 tw=80 et :

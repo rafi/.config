@@ -85,6 +85,7 @@ alias traceapache="ps auxw | grep sbin/apache | awk '{print\"-p \" $2}' | xargs 
 # Neovim shortcuts
 alias vi=nvim
 alias vim=nvim
+alias v='vim $(fzf)'
 alias vless='vim -u $PREFIX/share/vim/vim74/macros/less.vim'
 alias suvim='sudo -E vim'
 
@@ -94,4 +95,4 @@ alias ...='cd ../../'
 alias ....='cd ../../../'
 alias .....='cd ../../../../'
 
-#  vim: set ts=2 sw=2 tw=80 noet :
+#  vim: set ft=sh ts=2 sw=2 tw=80 noet :
