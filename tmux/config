@@ -17,6 +17,8 @@ set-window-option -g automatic-rename on
 set-window-option -g xterm-keys on
 set-window-option -g utf8 on
 
+set-option -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
+
 set-option -g set-remain-on-exit off
 
 # scrollback buffer size increase
@@ -78,17 +80,23 @@ unbind-key '"'
 bind-key g split-window -h -c "#{pane_current_path}"
 bind-key v split-window -v -c "#{pane_current_path}"
 
+# Session movement
+bind-key n switch-client -n
+bind-key p switch-client -p
+
+# Window movement
 bind-key -n M-Left previous-window
 bind-key -n M-Right next-window
 bind-key -n M-9 previous-window
 bind-key -n M-0 next-window
 
+# Pane movement
 bind-key h select-pane -L
 bind-key j select-pane -D
 bind-key k select-pane -U
 bind-key l select-pane -R
 
-# smart pane switching with awareness of vim splits
+# Smart pane switching with awareness of vim splits
 is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?)(diff)?$"'
 bind-key -n C-h if-shell "$is_vim" "send-keys C-h" "select-pane -L"
 bind-key -n C-j if-shell "$is_vim" "send-keys C-j" "select-pane -D"
@@ -101,8 +109,6 @@ bind-key C-l send-keys 'C-l'
 
 # Toggle synchronized input to all panes in current window
 bind-key S set-window-option synchronize-panes
-
-bind-key Tab last-window
 
 # Use a tick for renaming the window prompt
 unbind-key ','
@@ -245,11 +251,11 @@ set-option -g status-left-fg colour254
 set-option -g status-left-bg colour241
 set-option -g status-left-attr none
 set-option -g status-left '#{?client_prefix,#[fg=colour0]#[bg=colour2],} #S #{?client_prefix,#[fg=colour2],#[fg=colour241]}#[bg=colour235]⮀#[fg=colour234,bg=colour236]░'
-set-option -g status-right-fg colour241
+set-option -g status-right-fg colour240
 set-option -g status-right-bg default
 set-option -g status-right-attr none
 set-option -g status-right-length 83
-set-option -g status-right "#($HOME/.local/bin/current-song 35) #[fg=colour234]#[default] #(cat $HOME/.cache/agenda.txt | cut -c -30) #[fg=colour234]#[default] #h "
+set-option -g status-right "#($HOME/.local/bin/current-song 35) #[fg=colour237]#[fg=colour242] #(uptime | sed 's/^.*: //') #[fg=colour237]#[fg=colour245] #(pmset -g batt | tail -n1 | awk '{print $2}' | sed 's/;//') #[fg=colour237]#[fg=colour250] #h "
 
 set-window-option -g window-style ''
 set-window-option -g window-active-style ''
