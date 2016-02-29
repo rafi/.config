@@ -7,7 +7,8 @@
 [include]
 	path = users/current
 [core]
-	pager = /usr/bin/less -EFRSX
+	pager = diff-so-fancy | less --tabs=1,5
+#	pager = /usr/bin/less -EFRSX
 	excludesfile = ~/.config/git/ignore
 	# Do NOT auto-convert CRLF line endings into LF
 	autocrlf = false

@@ -166,7 +166,7 @@ export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
 
 # settings:
-export LESS="-eFiQwMXR"
+export LESS="-FiQMXR"
 export LESSCHARSET="UTF-8"
 export GREP_OPTIONS="--color=auto --exclude-dir=.git"
 if hash fzf 2>/dev/null
