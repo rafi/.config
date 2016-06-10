@@ -166,13 +166,13 @@ ao=alsa,oss
 # cache settings
 #
 # Use 8MB input cache by default.
-cache = 4096
-#
+cache = 8192
+
 # Prefill cache before starting playback.
-cache-min = 2.0
-#
-# Prefill 50% of the cache before restarting playback after the cache emptied.
-#cache-seek-min = 50
+cache-min = 1.1
+
+# Prefill 90% of the cache before restarting playback after the cache emptied.
+cache-seek-min = 90
 
 # DVD: Display English subtitles if available.
 #slang = en
