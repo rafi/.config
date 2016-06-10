@@ -23,3 +23,5 @@ source "$XDG_CONFIG_HOME/bash/bashrc"
 # Use keychain to load keys
 # https://github.com/funtoo/keychain
 eval `keychain --dir "$XDG_CACHE_HOME/keychain" --eval --agents ssh -Q --quiet current`
+
+# vim: set ft=sh ts=2 sw=0 tw=80 noet :

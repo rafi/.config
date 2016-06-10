@@ -7,7 +7,7 @@
 [include]
 	path = users/current
 [core]
-	pager = diff-so-fancy | less --tabs=1,5
+	pager = diff-so-fancy | less --tabs=4 -FRX
 #	pager = /usr/bin/less -EFRSX
 	excludesfile = ~/.config/git/ignore
 	# Do NOT auto-convert CRLF line endings into LF
@@ -68,13 +68,18 @@
 	upstream = green bold
 [color "diff"]
 	plain = normal
-	meta = blue
-	frag = magenta bold
-	func = yellow ul
 	old = red
-	new = green bold
+	new = green
 	commit = yellow
+	meta = blue
+	frag = cyan
+	func = yellow bold
 	whitespace = red reverse
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
 [color "status"]
 	header = black bold
 	added = green bold

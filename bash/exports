@@ -7,6 +7,9 @@
 # - https://github.com/milomouse/dotfiles
 # - https://github.com/EvanPurkhiser/dots-personal
 
+# Linux
+export PREFIX=/usr
+
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	# OSX
 	export PREFIX=/opt/local
@@ -15,14 +18,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	# MacPorts
 	export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 	export MANPATH=/opt/local/share/man:$MANPATH
-
-	# Applications
-	export PATH=/Applications/packer:$PATH
-	export PATH=/opt/local/lib/postgresql93/bin:$PATH
-	export PATH=/opt/local/apache2/bin:$PATH
-else
-	# Other, Linux
-	export PREFIX=/usr
 fi
 
 # Local bin
@@ -69,6 +64,9 @@ hash bspwm 2>/dev/null && export BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
 
 # IPython profile directory
 export IPYTHONDIR="$XDG_DATA_HOME/ipython"
+
+# Disable virtualenv's prompt display
+hash virtualenv 2>/dev/null && export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 # Set vimrc's location and source it on vim startup
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'

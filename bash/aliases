@@ -35,10 +35,32 @@ alias gd='git diff'
 alias gds='git diff --cached'
 alias gfl='git fetch --prune && git lg -15'
 alias gf='git fetch --prune'
+alias gfa='git fetch --all --tags --prune'
 alias gs='git status -sb'
 alias gl='git lg -15'
 alias gll='git lg'
 alias gld='git lgd -15'
+__git_complete gco _git_checkout
+__git_complete gd _git_diff
+__git_complete gds _git_diff
+__git_complete gf _git_fetch
+__git_complete gfa _git_fetch
+__git_complete gs _git_status
+__git_complete gl _git_log
+__git_complete gll _git_log
+__git_complete gld _git_log
+
+# Docker
+alias dps="docker ps -q | xargs docker inspect --format '{{.Id}} @{{.Name}} @{{.Config.Image}} @{{.Config.Cmd}} @{{range \$p, \$conf := .NetworkSettings.Ports}}{{\$p}}->{{(index \$conf 0).HostPort}}{{end}} @{{.NetworkSettings.IPAddress}} @{{.State.Status}}' | column -t -s='@' | cut -c 1-5,64-"
+alias dls='docker ps -a --format "table{{ .Names }}\\t{{ .ID }}\\t{{ .Image }}\\t{{ .Status }}\\t{{ .Ports }}\\t{{ .Command }}\\t{{ .CreatedAt }}" | cut -c-$(tput cols)'
+alias dim='docker images --format "table{{ .Repository }}\\t{{ .Tag }}\\t{{ .ID }}\\t{{ .Size }}\\t{{ .CreatedAt }}" | cut -c-$(tput cols)'
+alias dgc='docker rmi $(docker images -qf "dangling=true")'
+alias dtop='docker stats $(docker ps --format="{{.Names}}")'
+alias dlog='docker logs -f'
+alias dexe='docker exec -it'
+alias drun='docker run -it'
+complete -F __docker_complete_container_names dlog dexe
+complete -F __docker_complete_images drun
 
 # Shortcuts
 alias c='clear'

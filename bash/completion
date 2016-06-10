@@ -10,10 +10,16 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	fi
 fi
 
+# Load Git bash completion
+# https://github.com/git/git/blob/master/contrib/completion
+if [ -f "$PREFIX/share/git/contrib/completion/git-completion.bash" ]; then
+	source "$PREFIX/share/git/contrib/completion/git-completion.bash"
+fi
+
 # Load Docker bash completion
 # https://github.com/docker/docker/blob/master/contrib
-if [ -f "$HOME/.local/share/docker/bash_completion" ]; then
-	source "$HOME/.local/share/docker/bash_completion"
+if [ -f "$HOME/.local/share/docker/docker-completion.sh" ]; then
+	source "$HOME/.local/share/docker/docker-completion.sh"
 fi
 
 # Load mpc bash completion

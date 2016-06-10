@@ -30,11 +30,11 @@ export VISUAL=nvim
 export EDITOR="$VISUAL"
 export PAGER=less
 
-# Source aliases
-source "$XDG_CONFIG_HOME/bash/aliases"
-
 # Source bash completions
 source "$XDG_CONFIG_HOME/bash/completion"
+
+# Source aliases
+source "$XDG_CONFIG_HOME/bash/aliases"
 
 # Append to history and set the window title to user@host:dir
 PROMPT_COMMAND='history -a; echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'

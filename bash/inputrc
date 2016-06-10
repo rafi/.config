@@ -97,4 +97,4 @@ $if mode=vi
 	"\e[D": redraw-current-line
 $endif
 
-#  vim: set ts=2 sw=2 tw=80 noet :
+#  vim: set ft=readline ts=2 sw=2 tw=80 noet :
