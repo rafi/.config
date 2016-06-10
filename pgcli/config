@@ -26,7 +26,7 @@ history_file = ~/.cache/pgcli-history
 log_level = WARNING
 
 # Timing of sql statments and table rendering.
-timing = True
+timing = False
 
 # Table format. Possible values: psql, plain, simple, grid, fancy_grid, pipe,
 # orgtbl, rst, mediawiki, html, latex, latex_booktabs.
@@ -42,7 +42,7 @@ syntax_style = default
 # When Vi mode is enabled you can use modal editing features offered by Vi in the REPL.
 # When Vi mode is disabled emacs keybindings such as Ctrl-A for home and Ctrl-E
 # for end are available in the REPL.
-vi = False
+vi = True
 
 # Named queries are queries you can rexecute by name
 [named queries]
