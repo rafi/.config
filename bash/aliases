@@ -6,20 +6,19 @@
 # Carry over aliases to the root account when using sudo
 alias sudo='sudo '
 
+# Listing directory contents
+LS='ls'
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	# Use GNU tools on OSX instead of BSD
 	alias sort='gsort'
 	alias dircolors='gdircolors'
-
-	# Use GNU ls on OSX
-	alias ls='LC_COLLATE=C gls --color=auto --group-directories-first'
-else
-	alias ls='LC_COLLATE=C ls --color=auto --group-directories-first'
+	LS='gls'
 fi
-
+alias ls='LC_COLLATE=C '$LS' --color=auto --group-directories-first'
 alias l='ls -CFa'
 alias ll='ls -alF'
 alias lsd='ls -Gal | grep ^d'
+unset LS
 
 alias grep="grep $GREP_OPTIONS"
 unset GREP_OPTIONS
@@ -30,7 +29,9 @@ alias ff='find . -type f -name '
 alias fd='find . -type d -name '
 
 # Git
-alias gco='git checkout'
+alias gb='git branch'
+alias gc='git checkout'
+alias gcb='git checkout -b'
 alias gd='git diff'
 alias gds='git diff --cached'
 alias gfl='git fetch --prune && git lg -15'
@@ -40,7 +41,9 @@ alias gs='git status -sb'
 alias gl='git lg -15'
 alias gll='git lg'
 alias gld='git lgd -15'
-__git_complete gco _git_checkout
+__git_complete gb _git_branch
+__git_complete gc _git_checkout
+__git_complete gcb _git_checkout
 __git_complete gd _git_diff
 __git_complete gds _git_diff
 __git_complete gf _git_fetch
@@ -56,11 +59,7 @@ alias dls='docker ps -a --format "table{{ .Names }}\\t{{ .ID }}\\t{{ .Image }}\\
 alias dim='docker images --format "table{{ .Repository }}\\t{{ .Tag }}\\t{{ .ID }}\\t{{ .Size }}\\t{{ .CreatedAt }}" | cut -c-$(tput cols)'
 alias dgc='docker rmi $(docker images -qf "dangling=true")'
 alias dtop='docker stats $(docker ps --format="{{.Names}}")'
-alias dlog='docker logs -f'
-alias dexe='docker exec -it'
-alias drun='docker run -it'
-complete -F __docker_complete_container_names dlog dexe
-complete -F __docker_complete_images drun
+alias dlast='docker inspect --format "{{.State.Running}}" $(docker ps -lq)'
 
 # Shortcuts
 alias c='clear'
@@ -83,6 +82,8 @@ alias process='ps -ax'
 alias logout="pkill -KILL -u "
 
 # XDG conformity
+alias tmux="tmux -f '$XDG_CONFIG_HOME/tmux/config'"
+alias mysql="mysql --defaults-extra-file='$XDG_CONFIG_HOME/mysql/config'"
 alias weechat="weechat --dir $XDG_CONFIG_HOME/weechat/"
 alias gdrive="gdrive -c $XDG_CONFIG_HOME/gdrive"
 alias rssdler="rssdler --config $XDG_CONFIG_HOME/rssdler/config -o"
@@ -94,6 +95,9 @@ alias mpd-sima="mpd-sima -c $XDG_CONFIG_HOME/mpd_sima/config"
 alias v="viminfo=$XDG_CACHE_HOME/vim/viminfo v"
 
 # Misc
+alias aspell="aspell -c -l en_US"
+alias ungzip='gzip -d'
+alias untar='tar xvf'
 alias cal='cal | grep -C6 "$(date +%e)"'
 alias subdl="subliminal download -l en -d $XDG_CACHE_HOME/subtitles"
 alias cbyank='xsel -ib --logfile $XDG_CACHE_HOME/xsel.log'
@@ -104,9 +108,12 @@ alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias freq='cut -f1 -d" " $HISTFILE | sort | uniq -c | sort -nr | head -n 30'
 alias traceapache="ps auxw | grep sbin/apache | awk '{print\"-p \" $2}' | xargs strace"
 
-# Neovim shortcuts
-alias vi=nvim
-alias vim=nvim
+# Neovim/vim shortcuts
+if hash nvim 2>/dev/null
+then
+	alias vi=nvim
+	alias vim=nvim
+fi
 alias v='vim $(fzf)'
 alias vless='vim -u $PREFIX/share/vim/vim74/macros/less.vim'
 alias suvim='sudo -E vim'
