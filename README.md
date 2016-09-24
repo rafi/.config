@@ -39,8 +39,8 @@ Configuration directories are organized neatly by defining
 specific environment variables in [bash/exports](./bash/exports) and
 aliases in [bash/aliases](./bash/aliases).
 There are some programs you'll need to create custom scripts to load the
-proper config files: bug-warrior, mpdscribble, mutt, ncmpc, ncmpcpp, rtorrent.
-See examples at [rafi/.local/bin].
+proper config files: bug-warrior, mpdscribble, mutt, mysql, ncmpc,
+ncmpcpp, rtorrent, tmux. See examples at [rafi/.local/bin].
 
 Protecting Secrets
 ---

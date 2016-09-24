@@ -49,7 +49,7 @@ export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
 export QT_QPA_PLATFORMTHEME=gnome
 
 # Forces QT to use GTK icons
-#export DESKTOP_SESSION=gnome
+export DESKTOP_SESSION=gnome
 
 export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
 
@@ -67,6 +67,9 @@ export IPYTHONDIR="$XDG_DATA_HOME/ipython"
 
 # Disable virtualenv's prompt display
 hash virtualenv 2>/dev/null && export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+# Set luarocks user config
+hash luarocks 2>/dev/null && export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
 
 # Set vimrc's location and source it on vim startup
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
@@ -121,6 +124,7 @@ hash mplayer    2>/dev/null && export      MPLAYER_HOME="$XDG_CONFIG_HOME/mplaye
 hash mpv        2>/dev/null && export          MPV_HOME="$XDG_CONFIG_HOME/mpv"
 hash vagrant    2>/dev/null && export      VAGRANT_HOME="$XDG_DATA_HOME/vagrant"
 hash cpanm      2>/dev/null && export    PERL_CPANM_OPT="-l $HOME/.local"
+hash sshrc      2>/dev/null && export           SSHHOME="$XDG_CONFIG_HOME/sshrc"
 
 # aria2c cli helper
 if hash diana 2>/dev/null; then
@@ -164,6 +168,7 @@ export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
 
 # settings:
+hash nvim 2>/dev/null && export MANPAGER="nvim -c 'set ft=man' -"
 export LESS="-FiQMXR"
 export LESSCHARSET="UTF-8"
 export GREP_OPTIONS="--color=auto --exclude-dir=.git"

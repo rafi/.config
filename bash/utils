@@ -14,9 +14,11 @@ else
 fi
 
 # Git prompt helpers
-export GIT_PS1_SHOWDIRTYSTATE=1
-export GIT_PS1_SHOWSTASHSTATE=1
-export GIT_PS1_SHOWCOLORHINTS=0
+GIT_PS1_SHOWDIRTYSTATE=1
+GIT_PS1_SHOWSTASHSTATE=1
+GIT_PS1_SHOWCOLORHINTS=0
+#GIT_PS1_SHOWUNTRACKEDFILES=1
+#GIT_PS1_SHOWUPSTREAM="auto"
 if [ -f "$PREFIX/share/git/git-prompt.sh" ]; then
 	source "$PREFIX/share/git/git-prompt.sh"
 fi

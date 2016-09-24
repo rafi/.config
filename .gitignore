@@ -25,7 +25,8 @@
 /mutt/config
 /mux
 /pavucontrol.ini
-/pulse
+/pulse/*
+!/pulse/*conf
 /smudge.sed
 /spacefm
 /syncthing
