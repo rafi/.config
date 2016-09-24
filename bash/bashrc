@@ -12,6 +12,7 @@ stty start undef
 
 # Bash settings
 shopt -s cdspell        # Autocorrects cd misspellings
+shopt -s checkwinsize   # update the value of LINES and COLUMNS after each command if altered
 shopt -s cmdhist        # Save multi-line commands in history as single line
 shopt -s dotglob        # Include dotfiles in pathname expansion
 shopt -s expand_aliases # Expand aliases

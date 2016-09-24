@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
+# View man pages in OSX Preview.app
+pman() { man -t "$@" | ps2pdf - - | open -f -a Preview; }
+
 # Man page coloring using less
-man()
-{
+man() {
 	env \
 		LESS_TERMCAP_mb=$(printf "\e[1;31m") \
 		LESS_TERMCAP_md=$(printf "\e[0;35m") \

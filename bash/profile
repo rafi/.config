@@ -6,22 +6,26 @@
 
 source "$HOME/.config/bash/exports"
 
-if [[ "$OSTYPE" != "darwin"* ]]; then
+if [[ "$OSTYPE" != "darwin"* ]] && \
+	[ -f "$XDG_CONFIG_HOME/systemd/user/console.target" ]; then
+	systemctl --user set-environment XDG_VTNR=1
 	# Import environment on local login
-	[ -n "$XDG_VTNR" ] && systemctl --user import-environment
-
-	# Default systemd to the console target
-	target="console"
-
+	systemctl --user import-environment
 	# Bring up systemd --user to the specified target
-	systemctl --user start ${target}.target
-	unset target
+	systemctl --user start console.target
 fi
 
 source "$XDG_CONFIG_HOME/bash/bashrc"
 
+# If SSH session and not running tmux, list tmux sessions on log-in.
+if [ -n "$SSH_TTY" ] && [ -z "$TMUX" ] && hash tmux 2>/dev/null; then
+	tmux list-sessions 2>/dev/null | sed 's/^/# tmux /'
+fi
+
 # Use keychain to load keys
 # https://github.com/funtoo/keychain
-eval `keychain --dir "$XDG_CACHE_HOME/keychain" --eval --agents ssh -Q --quiet current`
+if hash keychain 2>/dev/null; then
+	eval `keychain --dir "$XDG_CACHE_HOME/keychain" --eval --agents ssh -Q --quiet current`
+fi
 
 # vim: set ft=sh ts=2 sw=0 tw=80 noet :

@@ -23,8 +23,14 @@ EIGHTBIT 1
 ##+ Background color codes:
 ##+ 40=black 41=red 42=green 43=yellow 44=blue 45=magenta 46=cyan 47=white
 
-NORMAL         00
-FILE           00
+# No color code at all
+NORMAL 00
+# Regular file: use no color at all
+FILE 00
+# Reset to "normal" color
+RESET 0
+
+# Directory
 DIR            00;34
 LINK           01;31
 FIFO           01;33
@@ -33,6 +39,20 @@ BLK            40;31;01
 CHR            40;37
 ORPHAN         01;30
 MISSING        01;30
+
+# File that is setuid (u+s)
+SETUID 48;5;160;38;5;230
+
+# File that is setgid (g+s)
+SETGID 48;5;136;38;5;230
+
+# File with capability
+CAPABILITY 30;41
+
+# Dir that is other-writable (o+w) and not sticky
+OTHER_WRITABLE 38;5;154
+
+# This is for files with execute permission:
 EXEC           01;36
 
 ##+ executables:
