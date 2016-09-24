@@ -9,13 +9,32 @@
 # │ 1600x1200 │┃ 1920x1200 ┃│ 1920 │
 # ┕-----┉-----┙┗─────┅─────┛│      │
 #                           ┕--┈---┙
-xrandr --output DFP10 --auto --output DFP1 --primary --auto --left-of DFP9 --right-of DFP10 --output DFP9 --auto --rotate right --right-of DFP1
+#xrandr --output DFP10 --auto --output DFP1 --primary --auto --left-of DFP9 --right-of DFP10 --output DFP9 --auto --rotate right --right-of DFP1
+xrandr --output HDMI-0 --auto --output DVI-0 --off --output DisplayPort-1 --off
 
-# Load language layouts and set toggler
-setxkbmap -layout us,il -option grp:caps_toggle
+# True Ergonomic Keyboard:
+if xinput -list | grep 'keyboard' | grep -q 'True Ergonomic'; then
+	# Load language layouts and set toggler
+	setxkbmap -layout us,il -option grp:caps_toggle
+	# Map a single Shift-L keypress to Escape with a low delay
+	xcape -t 300 -e 'Shift_L=Escape'
 
-# Map a single Shift-L keypress to Escape with a low delay
-xcape -t 300 -e 'Shift_L=Escape'
+# Microsoft All-in-one Media Keyboard:
+elif xinput -list | grep 'keyboard' | grep -q 'Microsoft.*Nano'; then
+	# Re-map CapsLock to Hyper_L and behave as Shift,
+	# if pressed by itself, behave as Escape.
+	spare_modifier="Hyper_L"
+	xmodmap -e "remove Lock = Caps_Lock"
+	xmodmap -e "keycode 66 = $spare_modifier"
+	xmodmap -e "remove mod4 = $spare_modifier"
+	xmodmap -e "add Shift mod4 = $spare_modifier"
+	xcape -t 300 -e "$spare_modifier=Escape"
+
+	# Re-map Shift_L to Control_R
+	xmodmap -e "keycode 50 = Control_R NoSymbol Control_R"
+	xmodmap -e "remove Shift = Control_R"
+	xmodmap -e "add Control = Control_R"
+fi
 
 # Load user X resource config
 xrdb -merge $XDG_CONFIG_HOME/xorg/Xresources
@@ -28,10 +47,10 @@ xset +fp /usr/share/fonts/cantarell
 xset fp rehash
 
 # X11 Key repeat (delay / rate)
-xset r rate 300 35
+xset r rate 230 35
 
 # DPMS monitor setting (Standby -> Suspend -> Off, in seconds)
-xset dpms 300 600 900
+xset dpms 500 700 900
 
 # Disable PC speaker beeps
 xset -b
