@@ -45,13 +45,11 @@ set $w5 5 ¨
 set $w6 6 ©
 set $w7 7 ©
 set $w8 8 ©
-set $w9 9 ©
-set $w0 10 ©
 
 # Force workspaces to specific output monitor
-workspace "$w1" output DFP10
-workspace "$w2" output DFP1
-workspace "$w3" output DFP9
+#workspace "$w1" output DFP10
+#workspace "$w2" output DFP1
+#workspace "$w3" output DFP9
 
 #==============================================================================
 # Key binding →
@@ -59,14 +57,14 @@ workspace "$w3" output DFP9
 
 # Change focus, special wrapper for seamless movement between:
 # i3 windows, tmux panes, and VIM windows.
-#bindsym $alt+h exec --no-startup-id "i3-focus left"
-#bindsym $alt+j exec --no-startup-id "i3-focus down"
-#bindsym $alt+k exec --no-startup-id "i3-focus up"
-#bindsym $alt+l exec --no-startup-id "i3-focus right"
-bindsym $alt+h focus left
-bindsym $alt+j focus down
-bindsym $alt+k focus up
-bindsym $alt+l focus right
+bindsym $alt+h exec --no-startup-id i3-focus left
+bindsym $alt+j exec --no-startup-id i3-focus down
+bindsym $alt+k exec --no-startup-id i3-focus up
+bindsym $alt+l exec --no-startup-id i3-focus right
+#bindsym $alt+h focus left
+#bindsym $alt+j focus down
+#bindsym $alt+k focus up
+#bindsym $alt+l focus right
 
 # Alternatively, you can use the Super+Arrows:
 bindsym $mod+Left  focus left
@@ -136,9 +134,9 @@ bindsym $mod+Return exec --no-startup-id urxvtc
 
 # The awesome rofi for apps, windows, and ssh sessions.
 # (Super+Delete is awesome on the TECK keyboard)
-bindsym $alt+Tab  exec --no-startup-id /usr/bin/rofi -now
-bindsym $mod+Tab  exec --no-startup-id /usr/bin/rofi -rnow
-bindsym $mod+s    exec --no-startup-id /usr/bin/rofi -snow
+bindsym $alt+Tab  exec --no-startup-id /usr/bin/rofi -show window
+bindsym $mod+r    exec --no-startup-id /usr/bin/rofi -show run
+bindsym $mod+s    exec --no-startup-id /usr/bin/rofi -show ssh
 
 # Screenshot and cast
 bindsym Print exec --no-startup-id /usr/bin/teiler
@@ -205,8 +203,6 @@ bindsym $alt+5 workspace $w5
 bindsym $alt+6 workspace $w6
 bindsym $alt+7 workspace $w7
 bindsym $alt+8 workspace $w8
-bindsym $alt+9 workspace $w9
-bindsym $alt+0 workspace $w0
 
 # Move focused container to workspace
 bindsym $alt+Ctrl+1 move container to workspace $w1
@@ -217,8 +213,6 @@ bindsym $alt+Ctrl+5 move container to workspace $w5
 bindsym $alt+Ctrl+6 move container to workspace $w6
 bindsym $alt+Ctrl+7 move container to workspace $w7
 bindsym $alt+Ctrl+8 move container to workspace $w8
-bindsym $alt+Ctrl+9 move container to workspace $w9
-bindsym $alt+Ctrl+0 move container to workspace $w0
 
 # DISABLED: Workspace nav for Microsoft Ergonomic Keyboard 4000
 #bindsym XF86Forward workspace next
@@ -299,9 +293,9 @@ bar {
 #------------------------------------------------------------------------------
 
 # Media
-assign [class="Vlc"] → $w2
-assign [class="mpv"] → $w2
-assign [class="Google-chrome-stable"] → $w3
+#assign [class="Vlc"] → $w2
+#assign [class="mpv"] → $w2
+#assign [class="Google-chrome-stable"] → $w3
 
 #==============================================================================
 # App window behavior →
@@ -315,7 +309,7 @@ for_window [class="Keepassx" title="^(?!Auto\-Type\ \-\ KeePassX$)"] move scratc
 # Misc app behavior
 for_window [class="Gvim"]    floating enable, border none
 for_window [class="Sxiv"]    floating enable, border none
-for_window [class="mpv"]     floating enable, border none
+#for_window [class="mpv"]     floating enable, border none
 for_window [class="Vlc"]     floating enable, border none
 for_window [class="zeal"]    floating enable, border none
 for_window [class="Gitg"]    floating enable
