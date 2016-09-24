@@ -7,7 +7,6 @@
 [include]
 	path = users/current
 [core]
-	pager = diff-so-fancy | less --tabs=4 -FRX
 #	pager = /usr/bin/less -EFRSX
 	excludesfile = ~/.config/git/ignore
 	# Do NOT auto-convert CRLF line endings into LF
@@ -20,6 +19,9 @@
 	helper = cache --timeout=3600
 [init]
 	templatedir = ~/.config/git/template
+[pager]
+	diff = diff-so-fancy | less --tabs=1,3
+	show = diff-so-fancy | less --tabs=1,3
 [http]
 	# Do NOT verify the SSL certificate when fetching or pushing over HTTPS
 #	sslVerify = false
@@ -29,6 +31,8 @@
 	default = current
 [hooks "ctags"]
 	enabled = false
+[submodule]
+	fetchJobs = 8
 [rerere]
 	enabled = true
 [diff]
@@ -36,6 +40,7 @@
 	renames = copies
 	mnemonicprefix = true
 	tool = bc3
+	compactionHeuristic = true
 [merge]
 	tool = bc3
 	summary = true
@@ -113,6 +118,8 @@
 	smu   = submodule foreach git pull origin master
 	lcrev = log --reverse --no-merges --stat @{1}..
 	lcp   = diff @{1}..
+	#===============================================
+	sync-tags = fetch --prune origin '+refs/tags/*:refs/tags/*'
 	#===============================================
 	count = shortlog -sn
 	post  = !sh -c 'git format-patch --stdout $1 | ix' -
