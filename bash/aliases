@@ -6,14 +6,15 @@
 # Carry over aliases to the root account when using sudo
 alias sudo='sudo '
 
-# Listing directory contents
-LS='ls'
+# Use GNU tools on OSX instead of BSD
+hash gls 2>/dev/null && LS="gls" || LS="ls"
 if [[ "$OSTYPE" == "darwin"* ]]; then
-	# Use GNU tools on OSX instead of BSD
-	alias sort='gsort'
-	alias dircolors='gdircolors'
+	hash gdircolors 2>/dev/null && alias dircolors='gdircolors'
+	hash sort 2>/dev/null && alias sort='gsort'
 	LS='gls'
 fi
+
+# Listing directory contents
 alias ls='LC_COLLATE=C '$LS' --color=auto --group-directories-first'
 alias l='ls -CFa'
 alias ll='ls -alF'
@@ -27,6 +28,10 @@ unset GREP_OPTIONS
 alias f='find . -name '
 alias ff='find . -type f -name '
 alias fd='find . -type d -name '
+
+# Head and tail will show as much possible without scrolling
+alias h='ghead -n $((${LINES:-12}-4))'
+alias t='gtail -n $((${LINES:-12}-4)) -s.1'
 
 # Git
 alias gb='git branch'
@@ -73,7 +78,7 @@ alias dfu="df -hT -x devtmpfs -x tmpfs"
 alias ww="cd /srv/http"
 
 # Media
-alias aria2c="aria2c --conf-path=$XDG_CONFIG_HOME/aria2/config"
+alias aria2c='aria2c --conf-path="$XDG_CONFIG_HOME/aria2/config"'
 alias volup="amixer set Master playback 3dB+"
 alias voldown="amixer set Master playback 3dB-"
 
@@ -82,41 +87,49 @@ alias process='ps -ax'
 alias logout="pkill -KILL -u "
 
 # XDG conformity
-alias tmux="tmux -f '$XDG_CONFIG_HOME/tmux/config'"
-alias mysql="mysql --defaults-extra-file='$XDG_CONFIG_HOME/mysql/config'"
-alias weechat="weechat --dir $XDG_CONFIG_HOME/weechat/"
-alias gdrive="gdrive -c $XDG_CONFIG_HOME/gdrive"
-alias rssdler="rssdler --config $XDG_CONFIG_HOME/rssdler/config -o"
-alias cpan="cpan -j $XDG_CONFIG_HOME/cpan/config.pm"
-alias gcal="gcalcli --configFolder $XDG_CONFIG_HOME/gcalcli"
-alias archey3="archey3 --config=$XDG_CONFIG_HOME/archey3/config"
-alias redshift="redshift -c $XDG_CONFIG_HOME/redshift/config"
-alias mpd-sima="mpd-sima -c $XDG_CONFIG_HOME/mpd_sima/config"
-alias v="viminfo=$XDG_CACHE_HOME/vim/viminfo v"
+alias tmux='tmux -f "$XDG_CONFIG_HOME/tmux/config"'
+alias mysql='mysql --defaults-extra-file="$XDG_CONFIG_HOME/mysql/config"'
+alias weechat='weechat --dir "$XDG_CONFIG_HOME/weechat/"'
+alias gdrive='gdrive -c "$XDG_CONFIG_HOME/gdrive"'
+alias cpan='cpan -j "$XDG_CONFIG_HOME/cpan/config.pm"'
+alias gcal='gcalcli --configFolder "$XDG_CONFIG_HOME/gcalcli"'
+alias archey3='archey3 --config="$XDG_CONFIG_HOME/archey3/config"'
+alias redshift='redshift -c "$XDG_CONFIG_HOME/redshift/config"'
+alias mpd-sima='mpd-sima -c "$XDG_CONFIG_HOME/mpd_sima/config"'
 
 # Misc
 alias aspell="aspell -c -l en_US"
+alias cal='cal | grep -C6 "$(date +%e)"'
+alias ccat='pygmentize -O style=monokai -f console256 -g'
+alias yank='xsel -ib --logfile "$XDG_CACHE_HOME/xsel.log"'
+alias put='xsel -ob --logfile "$XDG_CACHE_HOME/xsel.log"'
+alias fontcache='fc-cache -f -v'
+alias freq='cut -f1 -d" " "$HISTFILE" | sort | uniq -c | sort -nr | head -n 30'
+alias serve='python3 -m http.server'
+alias subdl='subliminal download -l en -d "$XDG_CACHE_HOME/subtitles"'
+alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias ungzip='gzip -d'
 alias untar='tar xvf'
-alias cal='cal | grep -C6 "$(date +%e)"'
-alias subdl="subliminal download -l en -d $XDG_CACHE_HOME/subtitles"
-alias cbyank='xsel -ib --logfile $XDG_CACHE_HOME/xsel.log'
-alias cbput='xsel -ob --logfile $XDG_CACHE_HOME/xsel.log'
-alias fontcache='fc-cache -f -v'
-alias ccat='pygmentize -O style=monokai -f console256 -g'
-alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
-alias freq='cut -f1 -d" " $HISTFILE | sort | uniq -c | sort -nr | head -n 30'
-alias traceapache="ps auxw | grep sbin/apache | awk '{print\"-p \" $2}' | xargs strace"
 
-# Neovim/vim shortcuts
-if hash nvim 2>/dev/null
-then
-	alias vi=nvim
-	alias vim=nvim
+# Alias python utilities installed inside virtual-environments.
+for app in "gcalcli" "percol" "httpie" "subliminal" "pgcli"; do
+	alias $app="\$XDG_DATA_HOME/python/utils/$app/bin/$app"
+done
+
+# Neovim shortcuts
+if hash nvim 2>/dev/null; then
+	VIM=nvim
+	alias vim=$VIM
+	alias vless="$VIM -u $PREFIX/share/nvim/runtime/macros/less.vim"
+else
+	VIM=vim
+	alias vless="$VIM -u $PREFIX/share/vim/vim74/macros/less.vim"
 fi
-alias v='vim $(fzf)'
-alias vless='vim -u $PREFIX/share/vim/vim74/macros/less.vim'
-alias suvim='sudo -E vim'
+alias v="$VIM \$(fzf)"
+alias vi=${VIM}
+alias vimdiff="$VIM -d"
+alias suvim="sudo -E $VIM"
+unset VIM
 
 # A quick way to get out of current directory
 alias ..='cd ..'
