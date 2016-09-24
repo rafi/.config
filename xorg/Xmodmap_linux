@@ -4,3 +4,5 @@ keycode 66 = Super_L
 
 ! Change TECK's Super_L to Super_R
 keycode 133 = Super_R
+
+!  vim: set ft=xmodmap ts=2 sw=2 tw=80 noet :

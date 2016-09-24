@@ -410,6 +410,9 @@ def_key "ctrl_g"
 def_key "L"
   show_lyrics
 
+#def_key "ctrl-v"
+#  select_range
+#
 #def_key "v"
 #  reverse_selection
 #

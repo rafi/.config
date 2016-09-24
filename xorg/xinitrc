@@ -1,5 +1,5 @@
-#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
-# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
+#      .-.     .-.     .-.     .-.     .-.     .-.
+# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
 #
 # github.com/rafi xorg xinitrc Linux
 
@@ -57,4 +57,4 @@ fi
 # Start i3 window-manager
 exec i3
 
-#  vim: set ts=2 sw=2 tw=80 noet :
+#  vim: set ft=sh ts=2 sw=2 tw=80 noet :

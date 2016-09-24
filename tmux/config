@@ -7,7 +7,7 @@
 # Behavior
 #-------------------------------------------------
 
-set-option -g default-shell "$PREFIX/bin/bash"
+#set-option -g default-shell "$PREFIX/bin/bash"
 set-option -g default-terminal "screen-256color"
 
 set-option -g set-titles on
@@ -51,7 +51,7 @@ set-option -g visual-silence off
 
 # Window Monitoring
 set-window-option -g monitor-activity on
-set-window-option -g monitor-silence 60
+set-window-option -g monitor-silence 0
 
 # Key bindings
 #-------------------------------------------------
