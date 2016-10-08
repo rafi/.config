@@ -63,7 +63,7 @@ export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
 hash bspwm 2>/dev/null && export BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
 
 # IPython profile directory
-export IPYTHONDIR="$XDG_DATA_HOME/ipython"
+export IPYTHONDIR="$XDG_CONFIG_HOME/ipython"
 
 # Disable virtualenv's prompt display
 hash virtualenv 2>/dev/null && export VIRTUAL_ENV_DISABLE_PROMPT=1

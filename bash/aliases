@@ -112,8 +112,9 @@ alias ungzip='gzip -d'
 alias untar='tar xvf'
 
 # Alias python utilities installed inside virtual-environments.
-for app in "gcalcli" "percol" "httpie" "subliminal" "pgcli"; do
-	alias $app="\$XDG_DATA_HOME/python/utils/$app/bin/$app"
+for app in gcalcli percol httpie subliminal pgcli ipython jupyter; do
+	[ -d "$XDG_DATA_HOME/python/utils/$app/bin" ] && \
+		alias $app="\$XDG_DATA_HOME/python/utils/$app/bin/$app"
 done
 
 # Neovim shortcuts
