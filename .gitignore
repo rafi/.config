@@ -2,7 +2,6 @@
 *.log
 *.cache
 
-/Atlassian
 /beets/state.pickle
 /configstore
 /clerk/ratings*
@@ -10,20 +9,19 @@
 /dconf
 /fb-client
 /fontforge
-/gconf
+/gcalcli
+/gconr
 /gdrive
 /gimp-2.8
 /gnupg
 /google-chrome*
 /chromium*
 /gtk-2.0/gtkfilechooser.ini
-/keepassx
 /klavaro
 /menus
 /mps-youtube
 /mpv/watch_later
 /mutt/config
-/mux
 /pavucontrol.ini
 /pulse/*
 !/pulse/*conf

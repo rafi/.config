@@ -19,13 +19,14 @@ ln -s .config/xorg/xinitrc_osx .xinitrc  # Just for OSX
 
 # Prepare cache directories
 mkdir -p ~/.cache/vim/{backup,bookmarks,swap,plugins,tags,undo}
-mkdir -p ~/.cache/{aria2,beets,mpd,mpdscribble,npm,pacaur,rtorrent,subtitles,mux,z}
+mkdir -p ~/.cache/{aria2,beets,mpd,mpdscribble,pacaur,rtorrent,subtitles,mux,z}
 mkdir -p ~/.cache/ncmpcpp/lyrics
+mkdir -p ~/.cache/node/{npm,gyp}
 
 # Prepare user local
 mkdir -p ~/.local/bin
 mkdir -p ~/.local/share/{composer,vagrant,virtualbox}
-mkdir -p ~/.local/lib/{nodejs,python2.7,ruby}
+mkdir -p ~/.local/lib/{node,python2.7,ruby}
 mkdir -p ~/.local/lib/python2.7/virtualenvs
 ```
 
