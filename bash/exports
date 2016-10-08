@@ -81,7 +81,7 @@ export MPD_HOST="music.host"
 export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
 export PASSWORD_STORE_DIR="$HOME/docs/pass/"
 export PACKER_CACHE_DIR="$XDG_CACHE_HOME/packer"
-export COMPOSER_HOME="$XDG_DATA_HOME/composer"
+export COMPOSER_HOME="$XDG_CACHE_HOME/composer"
 export MPDCRON_DIR="$XDG_CONFIG_HOME/mpdcron"
 export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
 

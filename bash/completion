@@ -6,40 +6,34 @@
 # OSX and Ubuntu/Debian bash completions aren't loaded automatically.
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	if [ -f "$PREFIX/etc/profile.d/bash_completion.sh" ]; then
-		source "$PREFIX/etc/profile.d/bash_completion.sh"
+		. "$PREFIX/etc/profile.d/bash_completion.sh"
 	fi
 elif [ -f /etc/lsb-release ]; then
 	if [ -f /usr/share/bash-completion/bash_completion ]; then
-		source /usr/share/bash-completion/bash_completion
+		. /usr/share/bash-completion/bash_completion
 	elif [ -f /etc/bash_completion ]; then
-		source /etc/bash_completion
+		. /etc/bash_completion
 	fi
 fi
 
 # Load Git bash completion
 # https://github.com/git/git/blob/master/contrib/completion
 if [ -f "$PREFIX/share/git/completion/git-completion.bash" ]; then
-	source "$PREFIX/share/git/completion/git-completion.bash"
+	. "$PREFIX/share/git/completion/git-completion.bash"
 elif [ -f "$PREFIX/share/git/contrib/completion/git-completion.bash" ]; then
-	source "$PREFIX/share/git/contrib/completion/git-completion.bash"
+	. "$PREFIX/share/git/contrib/completion/git-completion.bash"
 elif [ -f "$PREFIX/share/bash-completion/completions/git" ]; then
-	source "$PREFIX/share/bash-completion/completions/git"
-fi
-
-# Load Docker bash completion
-# https://github.com/docker/docker/blob/master/contrib
-if [ -f "$HOME/.local/share/docker/docker-completion.sh" ]; then
-	source "$HOME/.local/share/docker/docker-completion.sh"
+	. "$PREFIX/share/bash-completion/completions/git"
 fi
 
 # Load mpc bash completion
 if [ -f "$PREFIX/share/doc/mpc/mpc-completion.bash" ]; then
-	source "$PREFIX/share/doc/mpc/mpc-completion.bash"
+	. "$PREFIX/share/doc/mpc/mpc-completion.bash"
 fi
 
 # Load github.com/rafi/workon-py completion
 if [ -f "$HOME/.local/bin/workon-completion.bash" ]; then
-	source "$HOME/.local/bin/workon-completion.bash"
+	. "$HOME/.local/bin/workon-completion.bash"
 fi
 
 # Extra OSX stuff

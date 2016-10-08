@@ -2,7 +2,7 @@
 
 # Source all extra functions
 for func in "$XDG_CONFIG_HOME/bash/functions.d/"*; do
-	source "$func"
+	. "$func"
 done
 unset func
 
@@ -17,16 +17,16 @@ fi
 GIT_PS1_SHOWDIRTYSTATE=1
 GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWCOLORHINTS=0
-#GIT_PS1_SHOWUNTRACKEDFILES=1
-#GIT_PS1_SHOWUPSTREAM="auto"
+GIT_PS1_SHOWUNTRACKEDFILES=1
+GIT_PS1_SHOWUPSTREAM="auto"
 if [ -f "$PREFIX/share/git/git-prompt.sh" ]; then
-	source "$PREFIX/share/git/git-prompt.sh"
+	. "$PREFIX/share/git/git-prompt.sh"
 fi
 
 # https://github.com/rupa/z
 # Must be loaded _after_ setting PROMPT_COMMAND
 if [ -f "$PREFIX/lib/z.sh" ]; then
-	source "$PREFIX/lib/z.sh"
+	. "$PREFIX/lib/z.sh"
 fi
 
 # vim: set ft=sh ts=2 sw=2 tw=80 et :
