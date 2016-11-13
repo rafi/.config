@@ -1,33 +1,27 @@
-Rafi's Workstations Config
+Archlinux/OSX Workstations Config
 ---
-Workstation software configuration, tested on Archlinux and OSX (using Macports).
+Workstation software configuration, tested on:
+
+* Archlinux
+* OSX (using Macports)
 
 Install
 ---
+There is **no** installation script.
 ```sh
 # Clone
-git clone --recursive git://github.com/rafi/.config.git ~/.config
-cd ~/.config
+cd ~
+git clone --recursive git://github.com/rafi/.config.git
 
 # Symlink 4 files manually:
-cd ~
 ln -s .config/bash/bashrc .bashrc
 ln -s .config/bash/profile .profile
 ln -s .config/ctags/config .ctags
 ln -s .config/xorg/xinitrc .xinitrc      # Just for Linux
 ln -s .config/xorg/xinitrc_osx .xinitrc  # Just for OSX
 
-# Prepare cache directories
-mkdir -p ~/.cache/vim/{backup,bookmarks,swap,plugins,tags,undo}
-mkdir -p ~/.cache/{aria2,beets,mpd,mpdscribble,pacaur,rtorrent,subtitles,mux,z}
-mkdir -p ~/.cache/ncmpcpp/lyrics
-mkdir -p ~/.cache/node/{npm,gyp}
-
-# Prepare user local
-mkdir -p ~/.local/bin
-mkdir -p ~/.local/share/{composer,vagrant,virtualbox}
-mkdir -p ~/.local/lib/{node,python2.7,ruby}
-mkdir -p ~/.local/lib/python2.7/virtualenvs
+# Cache/shared directories
+./mkdirs.sh
 ```
 
 ## OSX-specific Software
