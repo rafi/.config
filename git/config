@@ -121,7 +121,7 @@
 	#===============================================
 	sync-tags = fetch --prune origin '+refs/tags/*:refs/tags/*'
 	#===============================================
-	count = shortlog -sn
+#	count = shortlog -sn
 	post  = !sh -c 'git format-patch --stdout $1 | ix' -
 	#===============================================
 	tree = log --graph --all --oneline --decorate

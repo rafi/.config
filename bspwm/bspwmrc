@@ -7,7 +7,7 @@ bspc config window_gap          5
 
 bspc config borderless_monocle  true
 bspc config gapless_monocle     true
-bspc config focus_by_distance   true
+#bspc config focus_by_distance   true
 
 bspc config normal_border_color   "#5E7175"
 bspc config focused_border_color  "#536B3D"
@@ -15,7 +15,7 @@ bspc config focused_border_color  "#536B3D"
 xsetroot -cursor_name left_ptr
 
 # Adopt ophan windows
-bspc control --adopt-orphans
+#bspc control --adopt-orphans
 
 bspc rule -a mpv floating=on
 bspc rule -a Gimp follow=on floating=on
