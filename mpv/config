@@ -2,8 +2,15 @@
 #
 # mpv configuration file
 #
+# Warning:
+#
+# The commented example options usually do _not_ set the default values. Call
+# mpv with --list-options to see the default values for most options. There is
+# no builtin or example mpv.conf with all the defaults.
+#
+#
 # Configuration files are read system-wide from /usr/local/etc/mpv.conf
-# and per-user from ~/.mpv/config, where per-user settings override
+# and per-user from ~/.config/mpv/mpv.conf, where per-user settings override
 # system-wide settings, all of which are overridden by the command line.
 #
 # Configuration file settings and the command line options use the same
@@ -11,9 +18,11 @@
 # by dropping the preceding '--'. See the man page for a complete list of
 # options.
 #
-# Note that the commented example options usually do _not_ set the default
-# values. Calling mpv with --list-options is a nice way to see the default
-# values for most options.
+# See the CONFIGURATION FILES section in the man page
+# for a detailed description of the syntax.
+#
+# Profiles should be placed at the bottom of the configuration file to ensure
+# that settings wanted as defaults are not restricted to specific profiles.
 
 ###########
 # General #
@@ -106,9 +115,9 @@ alang=jp,jpn,en,eng,de,deu,ger          # automatically select these audio track
 
 audio-file-auto=fuzzy                   # external audio doesn't has to match the file name exactly to autoload
 audio-pitch-correction=yes              # automatically insert scaletempo when playing with higher speed
-softvol=yes
-softvol-max=200                         # maximum volume in %, everything above 100 results in amplification
 volume=100                              # default volume, 100 = unchanged
+volume-max=200                          # maximum volume in %, everything above 100 results in amplification
+softvol=yes
 
 ################
 # Video Output #
@@ -120,10 +129,8 @@ vo=opengl-hq
 # Profiles #
 ############
 
-# Profiles should be placed at the bottom of the configuration file to ensure
-# that settings wanted as defaults are not restricted to specific profiles.
-
-# The following profile can be enabled on the command line with: --profile=vdpau
+# The options declared as part of profiles override global default settings,
+# but only take effect when the profile is active.
 
 [high-quality]
 profile-desc="High quality VO settings"
