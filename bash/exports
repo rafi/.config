@@ -6,44 +6,46 @@
 # references:
 # - https://github.com/milomouse/dotfiles
 # - https://github.com/EvanPurkhiser/dots-personal
-
-# Linux
-export PREFIX=/usr
-
-if [[ "$OSTYPE" == "darwin"* ]]; then
-	# OSX
-	export PREFIX=/opt/local
-	PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
-
-	# MacPorts
-	export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-	export MANPATH=/opt/local/share/man:$MANPATH
-fi
-
-# Local bin
-export PATH="$HOME/.local/bin:$PATH:bin"
+# - https://wiki.archlinux.org/index.php/XDG_Base_Directory_support
+# - https://github.com/davidosomething/dotfiles
 
 # XDG directories
 export XDG_CONFIG_HOME="$HOME/.config"
 export  XDG_CACHE_HOME="$HOME/.cache"
 export   XDG_DATA_HOME="$HOME/.local/share"
 
+# OSX
 if [[ "$OSTYPE" == "darwin"* ]]; then
+	export PREFIX=/opt/local
+	export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc_osx
 	export XDG_RUNTIME_DIR="$XDG_CACHE_HOME"
+
+	PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
+
+	# MacPorts
+	export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+	export MANPATH=/opt/local/share/man:$MANPATH
+
 	# Python per user site-packages directory
 	export PATH="$PATH:$HOME/Library/Python/3.4/bin"
 	export PATH="$PATH:$HOME/Library/Python/2.7/bin"
+
+# Linux
 else
+	export PREFIX=/usr
+	export XAUTHORITY="$XDG_CACHE_HOME/Xauthority"
+	export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc
+
 	# Python per user site-packages directory
 	export PATH="$PATH:$HOME/.local/lib/python3.4/bin"
 	export PATH="$PATH:$HOME/.local/lib/python2.7/bin"
 
-	export XAUTHORITY="$XDG_CACHE_HOME/Xauthority"
 	# Set the systemd-style DBUS address
 	export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
 fi
 
-export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
+# Local bin
+export PATH="$HOME/.local/bin:$PATH:bin"
 
 # https://github.com/zealdocs/zeal/issues/172
 export QT_QPA_PLATFORMTHEME=gnome
@@ -51,69 +53,37 @@ export QT_QPA_PLATFORMTHEME=gnome
 # Forces QT to use GTK icons
 export DESKTOP_SESSION=gnome
 
-export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
+# Pull GTK2 RC files from the standard config location, similar to gtk-3.0
+[ -e /etc/gtk-2.0 ] && export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
 
 # Set the session ssh-agent socket path (If it's not set)
 [ -z "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent"
 
-# Look for terminfo files under data
-[ -d "$XDG_DATA_HOME/terminfo" ] && export TERMINFO="$XDG_DATA_HOME/terminfo"
-
-# bspwm socket location
-hash bspwm 2>/dev/null && export BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
-
-# IPython profile directory
-export IPYTHONDIR="$XDG_CONFIG_HOME/ipython"
-
-# Disable virtualenv's prompt display
-hash virtualenv 2>/dev/null && export VIRTUAL_ENV_DISABLE_PROMPT=1
-
-# Set luarocks user config
-hash luarocks 2>/dev/null && export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
-
 # Set vimrc's location and source it on vim startup
 export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
-# Remote/local MPD host
-export MPD_HOST="music.host"
+# Look for terminfo files under data
+if [ -d "$XDG_DATA_HOME/terminfo" ]; then
+	export TERMINFO="$XDG_DATA_HOME/terminfo"
+	export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:$PREFIX/share/terminfo"
+fi
 
-# directories:
+export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
+export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
 export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
 export PASSWORD_STORE_DIR="$HOME/docs/pass/"
 export PACKER_CACHE_DIR="$XDG_CACHE_HOME/packer"
 export COMPOSER_HOME="$XDG_CACHE_HOME/composer"
 export MPDCRON_DIR="$XDG_CONFIG_HOME/mpdcron"
 export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
+export MAD_CONFIG="$XDG_CONFIG_HOME/mad/config"
+export WEGORC="$XDG_CONFIG_HOME/wego/config"
+export _Z_DATA="$XDG_CACHE_HOME/z/data"
+export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
+export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
+export WAKATIME_HOME="$XDG_DATA_HOME/wakatime"
 
-# GO configuration
-if hash go 2>/dev/null
-then
-	export GOPATH="$HOME/code/go"
-	export PATH="$PATH:$GOPATH/bin"
-fi
-
-# Haskell cabal configuration
-if hash cabal 2>/dev/null
-then
-	export PATH="$PATH:$HOME/.cabal/bin"
-fi
-
-# Node NPM tool configuration
-if hash npm 2>/dev/null
-then
-	export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
-	export PATH="$PATH:$HOME/.local/lib/nodejs/bin"
-fi
-
-# CPAN configuration
-if hash cpan 2>/dev/null
-then
-	export PERL5LIB="$HOME/.local/lib/perl5${PERL5LIB+:}${PERL5LIB}"
-	export PERL_LOCAL_LIB_ROOT="$HOME/.local${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"
-	export PERL_MB_OPT="--install_base \"$HOME/.local\""
-	export PERL_MM_OPT="INSTALL_BASE=$HOME/.local"
-fi
-
+hash bspwm      2>/dev/null && export      BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
 hash http       2>/dev/null && export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
 hash wget       2>/dev/null && export            WGETRC="$XDG_CONFIG_HOME/wget/config"
 hash psql       2>/dev/null && export            PSQLRC="$XDG_CONFIG_HOME/psql/config"
@@ -123,13 +93,37 @@ hash virtualbox 2>/dev/null && export    VBOX_USER_HOME="$XDG_CONFIG_HOME/virtua
 hash mplayer    2>/dev/null && export      MPLAYER_HOME="$XDG_CONFIG_HOME/mplayer"
 hash mpv        2>/dev/null && export          MPV_HOME="$XDG_CONFIG_HOME/mpv"
 hash vagrant    2>/dev/null && export      VAGRANT_HOME="$XDG_DATA_HOME/vagrant"
-hash cpanm      2>/dev/null && export    PERL_CPANM_OPT="-l $HOME/.local"
 hash sshrc      2>/dev/null && export           SSHHOME="$XDG_CONFIG_HOME/sshrc"
 
-# aria2c cli helper
-if hash diana 2>/dev/null; then
-	export DIANA_SECRET_TOKEN={{ DIANA_TOKEN }}
-	export DIANA_HOST=file.host
+# IPython profile directory
+export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython
+#export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter
+
+# Set luarocks user config
+hash luarocks 2>/dev/null && export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
+
+# GO configuration
+if hash go 2>/dev/null
+then
+	export GOPATH="$HOME/code/go"
+	export PATH="$PATH:$GOPATH/bin"
+fi
+
+# Node NPM tool configuration
+if hash npm 2>/dev/null
+then
+	export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
+	export PATH="$PATH:$HOME/.local/lib/node/bin"
+fi
+
+# CPAN configuration
+if hash cpan 2>/dev/null
+then
+	export PERL5LIB="$HOME/.local/lib/perl5${PERL5LIB+:}${PERL5LIB}"
+	export PERL_LOCAL_LIB_ROOT="$HOME/.local${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"
+	export PERL_MB_OPT="--install_base \"$HOME/.local\""
+	export PERL_MM_OPT="INSTALL_BASE=$HOME/.local"
+	hash cpanm 2>/dev/null && export PERL_CPANM_OPT="-l $HOME/.local"
 fi
 
 # Always install ruby gems local to the user
@@ -148,6 +142,17 @@ then
 	export ACK_PAGER_COLOR="less -x4SRFX"
 fi
 
+# cURL .netrc location
+if [ -d "$HOME/docs/netrc" ]; then
+	CURLOPT_NETRC_FILE="$HOME/docs/netrc/config"
+fi
+
+# Haskell cabal configuration
+if hash cabal 2>/dev/null
+then
+	export PATH="$PATH:$HOME/.cabal/bin"
+fi
+
 # Task warrior configuration
 if hash task 2>/dev/null
 then
@@ -155,31 +160,28 @@ then
 	export TASKDATA="$XDG_DATA_HOME/task"
 fi
 
-# Pull GTK2 RC files from the standard config location, similar to gtk-3.0
-[ -e /etc/gtk-2.0 ] && export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
-
-# configs:
-export MAD_CONFIG="$XDG_CONFIG_HOME/mad/config"
-export WEGORC="$XDG_CONFIG_HOME/wego/config"
-export _Z_DATA="$XDG_CACHE_HOME/z/data"
-
-# files:
-export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
-export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
-
-# settings:
+# Settings
 hash nvim 2>/dev/null && export MANPAGER="nvim -c 'set ft=man' -"
+
+# aria2c cli helper
+if hash diana 2>/dev/null; then
+	export DIANA_SECRET_TOKEN={{ DIANA_TOKEN }}
+	export DIANA_HOST=file.host
+fi
+
+# Remote/local MPD host
+export MPD_HOST="music.host"
+
 export LESS="-FiQMXR"
 export LESSCHARSET="UTF-8"
 export GREP_OPTIONS="--color=auto --exclude-dir=.git"
+
+# Disable virtualenv's prompt display
+hash virtualenv 2>/dev/null && export VIRTUAL_ENV_DISABLE_PROMPT=1
+
 if hash fzf 2>/dev/null
 then
 	export FZF_DEFAULT_OPTS="--bind=ctrl-d:page-down,ctrl-u:page-up,y:yank --inline-info --reverse"
-fi
-
-# Detect SSH connection
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-	export IS_SSH=1
 fi
 
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :

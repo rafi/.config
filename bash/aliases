@@ -107,6 +107,7 @@ alias fontcache='fc-cache -f -v'
 alias freq='cut -f1 -d" " "$HISTFILE" | sort | uniq -c | sort -nr | head -n 30'
 alias subdl='subliminal download -l en -d "$XDG_CACHE_HOME/subtitles"'
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
+alias mutt='mutt -F "$XDG_CONFIG_HOME"/mutt/config'
 alias pst='pstree -g 3 -ws'
 alias ungzip='gzip -d'
 alias untar='tar xvf'
