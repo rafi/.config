@@ -17,15 +17,15 @@ exec >> ~/.cache/xsession-errors 2>&1
 # Load user X resource config with OSX flag
 xrdb -DOSX -merge $HOME/.config/xorg/Xresources
 
-# X11 Key repeat: delay 300, rate 50
-xset r rate 300 50
+# X11 Key repeat: delay / rate
+/opt/X11/bin/xset r rate 350 40
 
 # Hide mouse and allow jitter
 # Dont send pseudo events - prevents flickering ontop of some GTK apps
 /opt/local/bin/unclutter -idle 3 -jitter 5 -noevents &
 
 # Start daemons (only if not already running)
-[[ -z "$(pgrep tmux)" ]] && $HOME/.local/bin/tmux start &
+[[ -z "$(pgrep tmux)" ]] && tmux start &
 [[ -z "$(pgrep urxvtd)" ]] && /opt/local/bin/urxvtd -q -o -f
 
 if [ -d /opt/X11/lib/X11/xinit/xinitrc.d ]; then
