@@ -47,7 +47,8 @@ URxvt*mouseWheelScrollPage: False
 ! Make Tk applications look more modern
 *TkTheme: clearlooks
 
-URxvt*font: xft:PragmataPro:size=12:regular:antialias=false
+URxvt*font: xft:PragmataPro Mono:size=12
+!URxvt*font: -misc-operator mono medium-medium-r-normal--0-0-0-0-m-0-iso10646-1
 !URxvt*font: -misc-pragmatapro-medium-r-normal--0-0-0-0-m-0-iso10646-1
 
 ! Setting font variations to empty will disable and use the main
@@ -107,7 +108,7 @@ URxvt*scrollTtyKeypress: True
 !------------------------------------------------------------------------------
 
 URxvt*perl-ext:
-URxvt*perl-ext-common: clipboard,url-select
+URxvt*perl-ext-common: default,clipboard,selection-to-clipboard,matcher
 
 ! Colon-separated list of additional directories that hold extension scripts.
 ! When looking for perl extensions, urxvt will first look in these directories,
@@ -118,18 +119,36 @@ URxvt*perl-ext-common: clipboard,url-select
 !==============================================================================
 ! Extension settings
 !------------------------------------------------------------------------------
-URxvt.clipboard.autocopy: true
 
 #ifndef OSX
 	URxvt.clipboard.copycmd:  xsel -ib --logfile "$XDG_CACHE_HOME/xsel.log"
 	URxvt.clipboard.pastecmd: xsel -ob --logfile "$XDG_CACHE_HOME/xsel.log"
-	URxvt.url-select.launcher: /usr/bin/google-chrome-stable
+	URxvt.matcher.launcher.0: /usr/bin/google-chrome-stable
 #else
-	URxvt.clipboard.copycmd:  pbcopy
+	URxvt.clipboard.copycmd: pbcopy
 	URxvt.clipboard.pastecmd: pbpaste
+	URxvt.matcher.launcher.0: open
 #endif
 
-URxvt.keysym.M-u: perl:url-select:select_next
+URxvt.matcher.pattern.1:  (^|\\s)([$\\.\\w~_-]*\/[\\w_\.#$%&+=\\/@-]*)
+URxvt.matcher.launcher.1: tmux set-buffer $2
+URxvt.matcher.rend.0: -Uline
+URxvt.matcher.rend.1: -Uline
+
+!URxvt.matcher.rend.2: -Uline
+
+!URxvt.matcher.pattern.1:  \\B(/\\S+?):(\\d+)(?=:|$)
+!URxvt.matcher.pattern.2:  (?:\\s)([\\~\\.]?\\/\{1,1\}[\\.\\w]\\S+)\\b
+!URxvt.matcher.launcher.1: /opt/local/bin/nvim +$2 $1
+!URxvt.matcher.launcher.2: /opt/local/bin/nvim $1
+!URxvt.matcher.pattern.1:  \\bwww\\.[\\w-]+\\.[\\w./?&@#-]*[\\w/-]
+!URxvt.matcher.pattern.2:  \\B(/\\S+?):(\\d+)(?=:|$)
+!URxvt.matcher.launcher.2: vim +$2 $1
+
+!URxvt.matcher.pattern.2:  \\B(/\\S+?):(\\d+)(?=:|$)
+!URxvt.matcher.pattern.3:  \\B"(/\\S+?)",\\sline\\s(\\d+)(?=,|$)
+!URxvt.matcher.pattern.4:  \\#(\\d+)
+!URxvt.matcher.launcher.4: firefox https://redmine.ivi.ru/issues/$1
 
 !==============================================================================
 ! Key bindings
@@ -144,6 +163,8 @@ URxvt*meta8: False
 
 ! Paste with Alt+v
 URxvt.keysym.M-v: perl:clipboard:paste
+
+URxvt.keysym.M-n: matcher:select
 
 ! Make Ctrl+Tab work nicely with Vim
 URxvt.keysym.S-Return:         \033[13;2u
@@ -160,20 +181,24 @@ URxvt.keysym.C-Left:   \033[1;5D
 URxvt.keysym.C-Right:  \033[1;5C
 
 ! Font shortcuts
-URxvt*keysym.C-F1:command:\033]710;-misc-fixed-medium-r-normal--8-*-*-*-c-*-iso10646-1\007
-URxvt*keysym.C-F2:command:\033]710;-misc-fixed-medium-r-normal--10-*-*-*-c-*-iso10646-1\007
-URxvt*keysym.C-F3:command:\033]710;-misc-fixed-medium-r-semicondensed--13-*-*-*-c-*-iso10646-1\007
-URxvt*keysym.C-F4:command:\033]710;-misc-fixed-medium-r-normal--13-*-*-*-c-*-iso10646-1\007
-URxvt*keysym.C-F5:command:\033]710;-misc-fixed-medium-r-normal--14-*-*-*-c-*-iso10646-1\007
-URxvt*keysym.C-F6:command:\033]710;-*-terminus  ttf -medium-r-normal--18-*-*-*-m-*-iso10646-1\007
-URxvt*keysym.C-F7:command:\033]710;xft:Envy Code R:style=Regular:size=10\007
-URxvt*keysym.C-F8:command:\033]710;xft:PragmataPro:size=11:regular:antialias=false\007
+URxvt*keysym.C-F1:command:\033]710;xft:PragmataPro Mono:size=12:antialias=true\007
+URxvt*keysym.C-F2:command:\033]710;xft:PragmataPro Mono:size=9:antialias=false\007
+URxvt*keysym.C-F3:command:\033]710;xft:PragmataPro Mono:size=8:antialias=false\007
+!URxvt*keysym.C-F2:command:\033]710;xft:Envy Code R:style=Regular:size=10\007
+!URxvt*keysym.C-F3:command:\033]710;xft:PragmataPro:size=20:regular:antialias=false\007
+
+URxvt*keysym.C-F4:command:\033]710;xft:PragmataPro:size=18:regular:antialias=false\007
+URxvt*keysym.C-F5:command:\033]710;xft:PragmataPro:size=14:regular:antialias=false\007
+URxvt*keysym.C-F6:command:\033]710;xft:PragmataPro:size=11:regular:antialias=false\007
+URxvt*keysym.C-F7:command:\033]710;-*-terminus  ttf -medium-r-normal--18-*-*-*-m-*-iso10646-1\007
+URxvt*keysym.C-F8:command:\033]710;-misc-fixed-medium-r-normal--14-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F9:command:\033]710;-misc-fixed-medium-r-normal--13-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F10:command:\033]710;-misc-fixed-medium-r-semicondensed--13-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F11:command:\033]710;-misc-fixed-medium-r-normal--10-*-*-*-c-*-iso10646-1\007
+URxvt*keysym.C-F12:command:\033]710;-misc-fixed-medium-r-normal--8-*-*-*-c-*-iso10646-1\007
+
 !URxvt*keysym.C-F9:command:\033]710;-misc-fixed-medium-r-normal--18-*-*-*-c-*-iso10646-1\007
 !URxvt*keysym.C-F10:command:\033]710;xft:Monospace:style=Medium:size=12\007
-URxvt*keysym.C-F9:command:\033]710;xft:PragmataPro:size=12:regular:antialias=false\007
-URxvt*keysym.C-F10:command:\033]710;xft:PragmataPro:size=14:regular:antialias=false\007
-URxvt*keysym.C-F11:command:\033]710;xft:PragmataPro:size=18:regular:antialias=false\007
-URxvt*keysym.C-F12:command:\033]710;xft:PragmataPro:size=20:regular:antialias=false\007
 !URxvt*keysym.C-F12:command:\033]710;xft:Monospace:size=14:minspace=true\007
 !URxvt*keysym.C-1:command:\033]720;12\007
 !URxvt*keysym.C-2:command:\033]721;12\007
