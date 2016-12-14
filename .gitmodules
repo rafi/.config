@@ -1,5 +1,5 @@
 [submodule "vim"]
-	path = vim
+	path = nvim
 	url = git://github.com/rafi/vim-config.git
 [submodule "phpstorm"]
 	path = phpstorm
