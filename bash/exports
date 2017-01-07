@@ -59,9 +59,6 @@ export DESKTOP_SESSION=gnome
 # Set the session ssh-agent socket path (If it's not set)
 [ -z "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent"
 
-# Set vimrc's location and source it on vim startup
-export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
-
 # Look for terminfo files under data
 if [ -d "$XDG_DATA_HOME/terminfo" ]; then
 	export TERMINFO="$XDG_DATA_HOME/terminfo"
@@ -94,6 +91,9 @@ hash mplayer    2>/dev/null && export      MPLAYER_HOME="$XDG_CONFIG_HOME/mplaye
 hash mpv        2>/dev/null && export          MPV_HOME="$XDG_CONFIG_HOME/mpv"
 hash vagrant    2>/dev/null && export      VAGRANT_HOME="$XDG_DATA_HOME/vagrant"
 hash sshrc      2>/dev/null && export           SSHHOME="$XDG_CONFIG_HOME/sshrc"
+
+# Load only ranger's user config
+export RANGER_LOAD_DEFAULT_RC=FALSE
 
 # IPython profile directory
 export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython
