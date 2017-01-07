@@ -47,7 +47,7 @@ URxvt*mouseWheelScrollPage: False
 ! Make Tk applications look more modern
 *TkTheme: clearlooks
 
-URxvt*font: xft:PragmataPro Mono:size=12
+URxvt*font: xft:PragmataPro:size=12
 !URxvt*font: -misc-operator mono medium-medium-r-normal--0-0-0-0-m-0-iso10646-1
 !URxvt*font: -misc-pragmatapro-medium-r-normal--0-0-0-0-m-0-iso10646-1
 
@@ -181,15 +181,14 @@ URxvt.keysym.C-Left:   \033[1;5D
 URxvt.keysym.C-Right:  \033[1;5C
 
 ! Font shortcuts
-URxvt*keysym.C-F1:command:\033]710;xft:PragmataPro Mono:size=12:antialias=true\007
-URxvt*keysym.C-F2:command:\033]710;xft:PragmataPro Mono:size=9:antialias=false\007
-URxvt*keysym.C-F3:command:\033]710;xft:PragmataPro Mono:size=8:antialias=false\007
+URxvt*keysym.C-F1:command:\033]710;xft:PragmataPro:size=12:antialias=true\007
+URxvt*keysym.C-F2:command:\033]710;xft:PragmataPro:size=10:antialias=false\007
+URxvt*keysym.C-F3:command:\033]710;xft:PragmataPro:size=8:antialias=false\007
 !URxvt*keysym.C-F2:command:\033]710;xft:Envy Code R:style=Regular:size=10\007
-!URxvt*keysym.C-F3:command:\033]710;xft:PragmataPro:size=20:regular:antialias=false\007
 
-URxvt*keysym.C-F4:command:\033]710;xft:PragmataPro:size=18:regular:antialias=false\007
-URxvt*keysym.C-F5:command:\033]710;xft:PragmataPro:size=14:regular:antialias=false\007
-URxvt*keysym.C-F6:command:\033]710;xft:PragmataPro:size=11:regular:antialias=false\007
+URxvt*keysym.C-F4:command:\033]710;xft:PragmataPro:size=20:regular:antialias=true\007
+URxvt*keysym.C-F5:command:\033]710;xft:PragmataPro:size=18:regular:antialias=true\007
+URxvt*keysym.C-F6:command:\033]710;xft:PragmataPro:size=14:regular:antialias=true\007
 URxvt*keysym.C-F7:command:\033]710;-*-terminus  ttf -medium-r-normal--18-*-*-*-m-*-iso10646-1\007
 URxvt*keysym.C-F8:command:\033]710;-misc-fixed-medium-r-normal--14-*-*-*-c-*-iso10646-1\007
 URxvt*keysym.C-F9:command:\033]710;-misc-fixed-medium-r-normal--13-*-*-*-c-*-iso10646-1\007

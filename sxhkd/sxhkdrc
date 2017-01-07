@@ -2,11 +2,11 @@
 # bspwm hotkeys
 #
 
-mod2 + alt + Escape
-	bspc quit
+#mod2 + alt + Escape
+#	bspc quit
 
-mod2 + w
-	bspc window -c
+#mod2 + w
+#	bspc node -c
 
 mod2 + t
 	bspc desktop -l next
@@ -64,14 +64,14 @@ mod2 + ctrl + {1-5}
 mod2 + {_,shift + }{1-5}
 	bspc {desktop -f,node -d} ^{1-5}
 
-~button1
-	bspc pointer -g focus
+#~button1
+#	bspc pointer -g focus
 
-mod2 + button{1-3}
-	; bspc pointer -g {move,resize_side,resize_corner}
+#mod2 + button{1-3}
+#	; bspc pointer -g {move,resize_side,resize_corner}
 
-mod2 + @button{1-3}
-	bspc pointer -u
+#mod2 + @button{1-3}
+#	bspc pointer -u
 
 #
 # wm independent hotkeys
