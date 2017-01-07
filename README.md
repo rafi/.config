@@ -17,6 +17,7 @@ git clone --recursive git://github.com/rafi/.config.git
 ln -s .config/bash/bashrc .bashrc
 ln -s .config/bash/profile .profile
 ln -s .config/ctags/config .ctags
+ln -s .config/ag/ignore .agignore
 ln -s .config/xorg/xinitrc .xinitrc      # Just for Linux
 ln -s .config/xorg/xinitrc_osx .xinitrc  # Just for OSX
 

@@ -1,0 +1,6 @@
+.git
+.idea
+.stversions
+.tmp
+bower_modules
+node_modules
