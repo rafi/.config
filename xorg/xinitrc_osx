@@ -17,6 +17,11 @@ exec >> ~/.cache/xsession-errors 2>&1
 # Load user X resource config with OSX flag
 xrdb -DOSX -merge $HOME/.config/xorg/Xresources
 
+xset fp+ /opt/local/share/fonts
+xset fp+ /opt/local/share/fonts/Type1/gsfonts
+#xset fp+ "$HOME"/Library/Fonts
+xset fp rehash
+
 # X11 Key repeat: delay / rate
 /opt/X11/bin/xset r rate 350 40
 

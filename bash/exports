@@ -44,6 +44,11 @@ else
 	export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
 fi
 
+# Google Cloud SDK PATH setting
+if [ -d "$XDG_DATA_HOME/gcloud/bin" ]; then
+	export PATH="$XDG_DATA_HOME/gcloud/bin:$PATH"
+fi
+
 # Local bin
 export PATH="$HOME/.local/bin:$PATH:bin"
 
@@ -114,6 +119,11 @@ if hash npm 2>/dev/null
 then
 	export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 	export PATH="$PATH:$HOME/.local/lib/node/bin"
+fi
+
+# Rust Cargo configuration
+if [ -d "$HOME/.cargo/bin" ]; then
+	export PATH="$HOME/.cargo/bin:$PATH"
 fi
 
 # CPAN configuration

@@ -36,6 +36,11 @@ if [ -f "$HOME/.local/bin/workon-completion.bash" ]; then
 	. "$HOME/.local/bin/workon-completion.bash"
 fi
 
+# Google Cloud SDK
+if [ -f "$XDG_DATA_HOME/gcloud/completion.bash.inc" ]; then
+	. "$XDG_DATA_HOME/gcloud/completion.bash.inc"
+fi
+
 # Extra OSX stuff
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
