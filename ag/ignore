@@ -2,5 +2,8 @@
 .idea
 .stversions
 .tmp
+*.swp
+*.pyc
 bower_modules
 node_modules
+dist
