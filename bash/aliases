@@ -100,6 +100,9 @@ alias mpd-sima='mpd-sima -c "$XDG_CONFIG_HOME/mpd_sima/config"'
 
 # Misc
 alias aspell="aspell -c -l en_US"
+alias ttycast="ttyd -p 8888 bash -c 'tmux new-session -d -s cast \; split-window -d \; attach -t cast'"
+alias ttycast-this="tmux split-window \'ttyd -p 8888 bash -c \'tmux a\'\'"
+alias mux="tmuxp load -y ."
 alias cal='cal | grep -C6 "$(date +%e)"'
 alias ccat='pygmentize -O style=monokai -f console256 -g'
 alias yank='xsel -ib --logfile "$XDG_CACHE_HOME/xsel.log"'
@@ -108,13 +111,14 @@ alias fontcache='fc-cache -f -v'
 alias freq='cut -f1 -d" " "$HISTFILE" | sort | uniq -c | sort -nr | head -n 30'
 alias subdl='subliminal download -l en -d "$XDG_CACHE_HOME/subtitles"'
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
+alias m='memo'
 alias multiopen='while read i; do open "$i"; done <<<'
 alias pst='pstree -g 3 -ws'
 alias ungzip='gzip -d'
 alias untar='tar xvf'
 
 # Alias python utilities installed inside virtual-environments.
-for app in gcalcli percol httpie subliminal pgcli jupyter; do
+for app in gcalcli percol httpie subliminal pgcli jupyter tmuxp; do
 	[ -d "$XDG_DATA_HOME/python/utils/$app/bin" ] && \
 		alias $app="\$XDG_DATA_HOME/python/utils/$app/bin/$app"
 done

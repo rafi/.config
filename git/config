@@ -102,7 +102,7 @@
 	f  = fetch --prune
 	c  = commit -v
 	cm = commit -vm
-	br = branch
+	br = branch -v
 	st = status
 	ck = checkout
 	t  = tag --column
@@ -119,10 +119,17 @@
 	lcrev = log --reverse --no-merges --stat @{1}..
 	lcp   = diff @{1}..
 	#===============================================
-	sync-tags = fetch --prune origin '+refs/tags/*:refs/tags/*'
-	#===============================================
 #	count = shortlog -sn
 	post  = !sh -c 'git format-patch --stdout $1 | ix' -
+	sync-tags = fetch --prune origin '+refs/tags/*:refs/tags/*'
+	recent-branches = !git for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)'
+	ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
+	theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+	#===============================================
+	# Take a snapshot of your current working tree without removing the changes from your tree.
+	# via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
+	snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+	snapshots = !git stash list --grep snapshot
 	#===============================================
 	tree = log --graph --all --oneline --decorate
 	lb   = log --graph --simplify-by-decoration --pretty=shorter --all --notes --date-order --relative-date
