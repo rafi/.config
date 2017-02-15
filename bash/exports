@@ -18,7 +18,8 @@ export   XDG_DATA_HOME="$HOME/.local/share"
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	export PREFIX=/opt/local
 	export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc_osx
-	export XDG_RUNTIME_DIR="$XDG_CACHE_HOME"
+	export XDG_RUNTIME_DIR="/tmp/run"
+	[ -d "$XDG_RUNTIME_DIR" ] || mkdir -m 0700 -p "$XDG_RUNTIME_DIR"
 
 	PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
 
@@ -81,15 +82,15 @@ export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
 export MAD_CONFIG="$XDG_CONFIG_HOME/mad/config"
 export WEGORC="$XDG_CONFIG_HOME/wego/config"
 export _Z_DATA="$XDG_CACHE_HOME/z/data"
+export MEMO_HOME="$HOME/docs/blog"
 export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
+export LESSKEY="$XDG_CONFIG_HOME/lesskey"
 export WAKATIME_HOME="$XDG_DATA_HOME/wakatime"
 
 hash bspwm      2>/dev/null && export      BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
 hash http       2>/dev/null && export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
 hash wget       2>/dev/null && export            WGETRC="$XDG_CONFIG_HOME/wget/config"
-hash psql       2>/dev/null && export            PSQLRC="$XDG_CONFIG_HOME/psql/config"
-hash pgcli      2>/dev/null && export           PGCLIRC="$XDG_CONFIG_HOME/pgcli/config"
 hash gimp       2>/dev/null && export   GIMP2_DIRECTORY="$XDG_CONFIG_HOME/gimp-2.8"
 hash virtualbox 2>/dev/null && export    VBOX_USER_HOME="$XDG_CONFIG_HOME/virtualbox"
 hash mplayer    2>/dev/null && export      MPLAYER_HOME="$XDG_CONFIG_HOME/mplayer"
@@ -100,9 +101,14 @@ hash sshrc      2>/dev/null && export           SSHHOME="$XDG_CONFIG_HOME/sshrc"
 # Load only ranger's user config
 export RANGER_LOAD_DEFAULT_RC=FALSE
 
+# Atom editor
+export ATOM_HOME="$XDG_DATA_HOME"/atom
+
 # IPython profile directory
 export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython
 #export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter
+export PSQLRC="$XDG_CONFIG_HOME/psql/config"
+#export PGCLIRC="$XDG_CONFIG_HOME/pgcli/config"
 
 # Set luarocks user config
 hash luarocks 2>/dev/null && export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
@@ -122,8 +128,10 @@ then
 fi
 
 # Rust Cargo configuration
-if [ -d "$HOME/.cargo/bin" ]; then
-	export PATH="$HOME/.cargo/bin:$PATH"
+if [ -d "$XDG_DATA_HOME"/cargo ]; then
+	export CARGO_HOME="$XDG_DATA_HOME"/cargo
+	export PATH="$XDG_DATA_HOME/cargo/bin:$PATH"
+	export MULTIRUST_HOME="$XDG_DATA_HOME"/rustup
 fi
 
 # CPAN configuration

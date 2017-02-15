@@ -12,7 +12,7 @@
 			launchctl setenv XDG_CONFIG_HOME $HOME/.config
 			launchctl setenv XDG_CACHE_HOME $HOME/.cache
 			launchctl setenv XDG_DATA_HOME $HOME/.local/share
-			launchctl setenv XDG_RUNTIME_DIR $XDG_CACHE_HOME
+			launchctl setenv XDG_RUNTIME_DIR /tmp/run
 			launchctl setenv XAUTHORITY $HOME/.cache/Xauthority
 			launchctl setenv XINITRC $XDG_CONFIG_HOME/xorg/xinitrc_osx
 			launchctl setenv GNUPGHOME $HOME/.config/gnupg
