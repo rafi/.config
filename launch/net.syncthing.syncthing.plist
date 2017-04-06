@@ -28,5 +28,11 @@
 
 		<key>ProcessType</key>
 		<string>Background</string>
+
+		<key>StandardOutPath</key>
+		<string>/tmp/syncthing.log</string>
+
+		<key>StandardErrorPath</key>
+		<string>/tmp/syncthing-errors.log</string>
 	</dict>
 </plist>

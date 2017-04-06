@@ -9,6 +9,7 @@
 
 set-option -g default-shell $SHELL
 set-option -g default-terminal "tmux-256color"
+set -g default-command "reattach-to-user-namespace -l ${SHELL}"
 
 set-option -g set-titles on
 set-option -g set-titles-string '#T #W tmux{#S}:#I.#P'
@@ -16,7 +17,14 @@ set-option -g set-titles-string '#T #W tmux{#S}:#I.#P'
 set-window-option -g automatic-rename on
 set-window-option -g xterm-keys on
 
-set-option -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
+set-option -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q,*:Tc'
+# set-option -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
+
+#set-option -ga terminal-overrides ",rxvt-uni*:Tc"
+#set-option -ga terminal-overrides ',rxvt*:Ss=\E[%p1%d q:Se=\E[2 q'
+#set-option -ga terminal-overrides ',rxvt*:XT:Ms=\E]52;%p1%s;%p2%s\007'
+#set -ga terminal-overrides ',rxvt*:smcup@:rmcup@'
+#set -ga terminal-overrides ',rxvt-uni*:XT:Ms=\E]52;%p1%s;%p2%s\007'
 
 set-option -g set-remain-on-exit off
 
@@ -79,17 +87,21 @@ unbind-key '"'
 bind-key g split-window -h -c "#{pane_current_path}"
 bind-key v split-window -v -c "#{pane_current_path}"
 
-# Session movement
+# Session navigation
 bind-key n switch-client -n
 bind-key p switch-client -p
 
-# Window movement
+# Window navigation
 bind-key -n M-Left previous-window
 bind-key -n M-Right next-window
 bind-key -n M-9 previous-window
 bind-key -n M-0 next-window
 
-# Pane movement
+# Window Re-order
+bind-key -n M-< swap-window -t -1
+bind-key -n M-> swap-window -t +1
+
+# Pane navigation
 bind-key h select-pane -L
 bind-key j select-pane -D
 bind-key k select-pane -U
@@ -168,11 +180,12 @@ set-option -g status-keys vi
 set-window-option -g mode-keys vi
 
 # Copy/paste interop
-bind-key C-c run "tmux show-buffer | xsel -ib --logfile $XDG_CACHE_HOME/xsel.log"
-bind-key C-v run "tmux set-buffer \"$(xsel -ob --logfile $XDG_CACHE_HOME/xsel.log)\"; tmux paste-buffer"
+#bind-key C-c run "tmux show-buffer | xsel -ib --logfile $XDG_CACHE_HOME/xsel.log"
+#bind-key C-v run "tmux set-buffer \"$(xsel -ob --logfile $XDG_CACHE_HOME/xsel.log)\"; tmux paste-buffer"
 
 bind-key Escape copy-mode
-bind-key -t vi-copy y copy-pipe "xsel -ib --logfile $XDG_CACHE_HOME/xsel.log >/dev/null"
+#bind-key -t vi-copy y copy-pipe "xsel -ib --logfile $XDG_CACHE_HOME/xsel.log >/dev/null"
+bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
 bind-key -t vi-copy v begin-selection
 bind-key -t vi-copy V select-line
 bind-key -t vi-copy C-v rectangle-toggle
@@ -194,10 +207,22 @@ bind-key -t vi-copy C-WheelUpPane   halfpage-up
 bind-key -t vi-copy C-WheelDownPane halfpage-down
 
 # Make mouse-drag work only with Ctrl
-unbind -T root MouseDrag1Pane
-unbind -t vi-copy MouseDrag1Pane
-bind-key -n C-MouseDrag1Pane if -Ft= '#{mouse_any_flag}' 'if -Ft= \"#{pane_in_mode}\" \"copy-mode -M\" \"send-keys -M\"' 'copy-mode -M'
-bind-key -t vi-copy C-MouseDrag1Pane begin-selection
+# unbind -T root MouseDrag1Pane
+# unbind -T root MouseDragEnd1Pane
+# unbind -t vi-copy MouseDrag1Pane
+# unbind -t vi-copy MouseDragEnd1Pane
+# unbind -t vi-copy M-MouseDrag1Pane
+# unbind -t vi-copy C-MouseDrag1Pane
+
+bind-key -t vi-copy MouseDrag1Pane begin-selection
+# bind-key -t vi-copy MouseDragEnd1Pane copy-pipe "xsel -ib --logfile $XDG_CACHE_HOME/xsel.log >/dev/null"
+bind-key -t vi-copy MouseDragEnd1Pane copy-pipe "reattach-to-user-namespace pbcopy"
+
+#bind -n C-MouseDrag1Pane if -Ft= '#{mouse_any_flag}' 'if -Ft= "#{pane_in_mode}" "copy-mode -M" "send-keys -M"' 'copy-mode -M'
+#bind -n -t vi-copy C-MouseDrag1Pane begin-selection
+
+#bind-key -n S-MouseDrag1Pane if -Ft= '#{mouse_any_flag}' 'if -Ft= \"#{pane_in_mode}\" \"copy-mode -M\" \"send-keys -M\"' 'copy-mode -M'
+#bind-key -t vi-copy C-MouseDrag1Pane begin-selection
 
 # Toggle mouse on/off
 bind-key m set-option -g mouse on \; display 'Mouse: ON'
@@ -248,7 +273,7 @@ set-option -g status-left-length 15
 set-option -g status-left-fg colour254
 set-option -g status-left-bg colour241
 set-option -g status-left-attr none
-set-option -g status-left '#{?client_prefix,#[fg=colour0]#[bg=colour2],} #S #{?client_prefix,#[fg=colour2],#[fg=colour241]}#[bg=colour235]#[fg=colour234,bg=colour236]░'
+set-option -g status-left '#{?client_prefix,#[fg=colour236]#[bg=colour2],} #S #{?client_prefix,#[fg=colour2],#[fg=colour241]}#[bg=colour235]#[fg=colour234,bg=colour236]░'
 set-option -g status-right-fg colour240
 set-option -g status-right-bg default
 set-option -g status-right-attr none
