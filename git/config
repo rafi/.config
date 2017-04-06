@@ -113,7 +113,6 @@
 	default = %C(240)%h%C(reset) -%C(auto)%d%Creset %s %C(242)(%an %ar)
 	detailed = %C(cyan)%h %C(red)%ad %C(blue)[%an]%C(magenta)%d %C(white)%s
 	shorter = %C(auto)%D %C(240)--%C(242)%gD%N %ad by %C(white)%cn%C(reset)
-	vtree = %C(bold blue)%h%C(reset)+%C(242)(%cr)%C(reset)+%C(auto)%D%C(reset)++\n+++       %C(242)%an%C(reset)%C(242):%C(reset) %s
 [alias]
 	s  = status -sb
 	f  = fetch --prune
@@ -140,7 +139,12 @@
 	lcrev = log --reverse --no-merges --stat @{1}..
 	lcp   = diff @{1}..
 	#===============================================
-#	count = shortlog -sn
+	tree = log --graph --all --oneline --decorate
+	lb   = log --graph --simplify-by-decoration --pretty=shorter --all --notes --date-order --relative-date
+	lg   = log --graph --pretty=default --all
+	lgd  = log --graph --pretty=default
+	lgw  = !sh -c '"while true; do clear; git lg -15; sleep 5; done"'
+	#===============================================
 	post  = !sh -c 'git format-patch --stdout $1 | ix' -
 	sync-tags = fetch --prune origin '+refs/tags/*:refs/tags/*'
 	recent-branches = !git for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)'
@@ -151,17 +155,3 @@
 	# via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
 	snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
 	snapshots = !git stash list --grep snapshot
-	#===============================================
-	tree = log --graph --all --oneline --decorate
-	lb   = log --graph --simplify-by-decoration --pretty=shorter --all --notes --date-order --relative-date
-	lg   = log --graph --pretty=default --all
-	lgd  = log --graph --pretty=default
-	lgw  = !sh -c '"while true; do clear; git lg -15; sleep 5; done"'
-	#===============================================
-	vtreelog = log --all --graph --decorate=short --color --format=vtree
-	vtree = !bash -c '"                                                                             \
-			while IFS=+ read -r hash time branch message; do                                            \
-					timelength=$(echo \"$time\" | gsed -r \"s:[^ ][[]([0-9]{1,2}(;[0-9]{1,2})?)?m::g\");     \
-					timelength=$(echo \"16+${#time}-${#timelength}\" | bc);                                 \
-					printf \"%${timelength}s    %s %s %s\n\" \"$time\" \"$hash\" \"$branch\" \"$message\";  \
-			done < <(git vtreelog && echo) | less -EFRXS"'
