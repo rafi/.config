@@ -1,32 +1,30 @@
 {
+    "global": {
+        "check_for_updates_on_startup": true,
+        "show_in_menu_bar": true,
+        "show_profile_name_in_menu_bar": false
+    },
     "profiles": [
         {
             "name": "Apple Internal Keyboard",
             "selected": true,
             "devices": [
                 {
+                    "ignore": false,
+                    "disable_built_in_keyboard_if_exists": false,
                     "identifiers": {
                         "is_keyboard": true,
                         "is_pointing_device": false,
                         "product_id": 611,
                         "vendor_id": 1452
-                    },
-                    "ignore": false,
-                    "keyboard_type": 0,
-                    "disable_built_in_keyboard_if_exists": false
+                    }
                 }
             ],
-            "simple_modifications": {
-                "caps_lock": "left_shift",
-                "left_shift": "left_control",
-                "grave_accent_and_tilde": "non_us_backslash",
-                "non_us_backslash": "grave_accent_and_tilde"
-            },
-            "standalone_keys": {
-                "caps_lock": "escape"
-            },
             "fn_function_keys": {
                 "f1": "vk_consumer_brightness_down",
+                "f10": "mute",
+                "f11": "volume_down",
+                "f12": "volume_up",
                 "f2": "vk_consumer_brightness_up",
                 "f3": "vk_mission_control",
                 "f4": "vk_launchpad",
@@ -34,10 +32,72 @@
                 "f6": "vk_consumer_illumination_up",
                 "f7": "f7",
                 "f8": "f8",
-                "f9": "f9",
+                "f9": "f9"
+            },
+            "simple_modifications": {
+                "caps_lock": "left_shift",
+                "grave_accent_and_tilde": "non_us_backslash",
+                "left_shift": "left_control",
+                "non_us_backslash": "grave_accent_and_tilde"
+            },
+            "standalone_keys": {
+                "caps_lock": "escape"
+            },
+            "virtual_hid_keyboard": {
+                "keyboard_type": "ansi",
+                "caps_lock_delay_milliseconds": 150,
+                "standalone_keys_delay_milliseconds": 150
+            }
+        },
+        {
+            "name": "True Ergonomic Keyboard",
+            "selected": false,
+            "devices": [
+                {
+                    "ignore": false,
+                    "disable_built_in_keyboard_if_exists": false,
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": false,
+                        "product_id": 780,
+                        "vendor_id": 3690
+                    }
+                },
+                {
+                    "ignore": true,
+                    "disable_built_in_keyboard_if_exists": false,
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": false,
+                        "product_id": 611,
+                        "vendor_id": 1452
+                    }
+                }
+            ],
+            "fn_function_keys": {
+                "f1": "vk_consumer_brightness_down",
                 "f10": "mute",
                 "f11": "volume_down",
-                "f12": "volume_up"
+                "f12": "volume_up",
+                "f2": "vk_consumer_brightness_up",
+                "f3": "vk_mission_control",
+                "f4": "vk_launchpad",
+                "f5": "vk_consumer_illumination_down",
+                "f6": "vk_consumer_illumination_up",
+                "f7": "f7",
+                "f8": "f8",
+                "f9": "f9"
+            },
+            "simple_modifications": {
+                "left_option": "left_command"
+            },
+            "standalone_keys": {
+                "left_shift": "escape"
+            },
+            "virtual_hid_keyboard": {
+                "keyboard_type": "ansi",
+                "caps_lock_delay_milliseconds": 150,
+                "standalone_keys_delay_milliseconds": 150
             }
         }
     ]
