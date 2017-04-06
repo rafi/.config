@@ -47,7 +47,7 @@ URxvt*mouseWheelScrollPage: False
 ! Make Tk applications look more modern
 *TkTheme: clearlooks
 
-URxvt*font: xft:PragmataPro:size=12
+URxvt*font: xft:PragmataPro:size=12:regular:antialias=true
 !URxvt*font: -misc-operator mono medium-medium-r-normal--0-0-0-0-m-0-iso10646-1
 !URxvt*font: -misc-pragmatapro-medium-r-normal--0-0-0-0-m-0-iso10646-1
 
@@ -108,7 +108,7 @@ URxvt*scrollTtyKeypress: True
 !------------------------------------------------------------------------------
 
 URxvt*perl-ext:
-URxvt*perl-ext-common: default,clipboard,selection-to-clipboard,matcher
+URxvt*perl-ext-common: default,clipboard,selection-to-clipboard
 
 ! Colon-separated list of additional directories that hold extension scripts.
 ! When looking for perl extensions, urxvt will first look in these directories,
@@ -179,6 +179,11 @@ URxvt.keysym.C-Up:     \033[1;5A
 URxvt.keysym.C-Down:   \033[1;5B
 URxvt.keysym.C-Left:   \033[1;5D
 URxvt.keysym.C-Right:  \033[1;5C
+
+URxvt.keysym.C-S-H: \033[1;6h
+URxvt.keysym.C-S-J: \033[1;6j
+URxvt.keysym.C-S-K: \033[1;6k
+URxvt.keysym.C-S-L: \033[1;6l
 
 ! Font shortcuts
 URxvt*keysym.C-F1:command:\033]710;xft:PragmataPro:size=12:antialias=true\007

@@ -27,4 +27,11 @@ bspc rule -a Screenkey manage=off
 bspc rule -a crx_nckgahadagoaajjgafhacjanaoiihapd floating=on
 
 # Load urxvt-client and tmux on startup
-/opt/local/bin/urxvtc -cd "$HOME" -e /opt/local/bin/tmux -f "$HOME/.config/tmux/config"
+#/opt/local/bin/urxvtc -cd "$HOME" -e /opt/local/bin/tmux -f "$HOME/.config/tmux/config"
+
+# Replace cmd with alt
+/opt/X11/bin/xmodmap -e "remove mod2 = Meta_L Meta_R"
+/opt/X11/bin/xmodmap -e "add mod1 = Meta_L Meta_R"
+# Load st with tmux
+cd "$HOME"
+/opt/local/bin/st -e /opt/local/bin/tmux -f "$HOME/.config/tmux/config"

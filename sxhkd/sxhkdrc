@@ -77,9 +77,9 @@ mod2 + {_,shift + }{1-5}
 # wm independent hotkeys
 #
 
-# urxvtc
+# Terminal
 mod2 + Return
-	/opt/local/bin/urxvtc -cd "$HOME"
+	/opt/local/bin/st
 #	/opt/local/bin/urxvtc -cd /Users/rafi -e /opt/local/bin/tmux -f /Users/rafi/.config/tmux/config
 
 # Music
