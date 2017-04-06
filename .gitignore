@@ -1,6 +1,7 @@
 *.swp
 *.log
 *.cache
+*.py[co]
 
 /beets/state.pickle
 /configstore
@@ -10,7 +11,7 @@
 /fb-client
 /fontforge
 /gcalcli
-/gconr
+/gconf
 /gdrive
 /gimp-2.8
 /gnupg
@@ -34,10 +35,7 @@
 /subliminal.cache*
 /virtualbox
 /vlc
-/Popcorn-Time
 /qutebrowser/quickmarks
-/QtProject*
-/Trolltech.conf
 
 /ranger/bookmarks
 /ranger/history
