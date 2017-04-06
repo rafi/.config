@@ -1,0 +1,72 @@
+--- st-0.4.1/st.c.orig	2013-04-20 09:29:39.000000000 -0400 
++++ st-0.4.1/st.c	2014-03-30 11:06:19.157465821 -0400 
+_AT_@ -283,7 +283,7 @@ 
+ /* Drawing Context */ 
+ typedef struct { 
+         Colour col[LEN(colorname) < 256 ? 256 : LEN(colorname)]; 
+-	Font font, bfont, ifont, ibfont; 
++	Font font; 
+         GC gc; 
+ } DC; 
+  
+_AT_@ -2536,21 +2536,6 @@ 
+         xw.cw = dc.font.width; 
+         xw.ch = dc.font.height; 
+  
+-	FcPatternDel(pattern, FC_SLANT); 
+-	FcPatternAddInteger(pattern, FC_SLANT, FC_SLANT_ITALIC); 
+-	if(xloadfont(&dc.ifont, pattern)) 
+-	die("st: can't open font %s\n", fontstr); 
+- 
+-	FcPatternDel(pattern, FC_WEIGHT); 
+-	FcPatternAddInteger(pattern, FC_WEIGHT, FC_WEIGHT_BOLD); 
+-	if(xloadfont(&dc.ibfont, pattern)) 
+-	die("st: can't open font %s\n", fontstr); 
+- 
+-	FcPatternDel(pattern, FC_SLANT); 
+-	FcPatternAddInteger(pattern, FC_SLANT, FC_SLANT_ROMAN); 
+-	if(xloadfont(&dc.bfont, pattern)) 
+-	die("st: can't open font %s\n", fontstr); 
+- 
+         FcPatternDestroy(pattern); 
+ } 
+  
+_AT_@ -2573,15 +2558,6 @@ 
+         XftFontClose(xw.dpy, dc.font.match); 
+         FcPatternDestroy(dc.font.pattern); 
+         FcFontSetDestroy(dc.font.set); 
+-	XftFontClose(xw.dpy, dc.bfont.match); 
+-	FcPatternDestroy(dc.bfont.pattern); 
+-	FcFontSetDestroy(dc.bfont.set); 
+-	XftFontClose(xw.dpy, dc.ifont.match); 
+-	FcPatternDestroy(dc.ifont.pattern); 
+-	FcFontSetDestroy(dc.ifont.set); 
+-	XftFontClose(xw.dpy, dc.ibfont.match); 
+-	FcPatternDestroy(dc.ibfont.pattern); 
+-	FcFontSetDestroy(dc.ibfont.set); 
+ } 
+  
+ void 
+_AT_@ -2721,13 +2697,9 @@ 
+         if(base.mode & ATTR_ITALIC) { 
+                 if(base.fg == defaultfg) 
+                         base.fg = defaultitalic; 
+-	font = &dc.ifont; 
+-	frcflags = FRC_ITALIC; 
+         } else if((base.mode & ATTR_ITALIC) && (base.mode & ATTR_BOLD)) { 
+                 if(base.fg == defaultfg) 
+                         base.fg = defaultitalic; 
+-	font = &dc.ibfont; 
+-	frcflags = FRC_ITALICBOLD; 
+         } else if(base.mode & ATTR_UNDERLINE) { 
+                 if(base.fg == defaultfg) 
+                         base.fg = defaultunderline; 
+_AT_@ -2752,8 +2724,6 @@ 
+                  *	196 - 231 – highest 256 color cube 
+                  *	252 - 255 – brightest colors in greyscale 
+                  */ 
+-	font = &dc.bfont; 
+-	frcflags = FRC_BOLD; 
+         } 
+  
+         if(IS_SET(MODE_REVERSE)) { 
