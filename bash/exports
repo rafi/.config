@@ -28,7 +28,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	export MANPATH=/opt/local/share/man:$MANPATH
 
 	# Python per user site-packages directory
-	export PATH="$PATH:$HOME/Library/Python/3.4/bin"
+	export PATH="$PATH:$HOME/Library/Python/3.5/bin"
 	export PATH="$PATH:$HOME/Library/Python/2.7/bin"
 
 # Linux
@@ -38,7 +38,7 @@ else
 	export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc
 
 	# Python per user site-packages directory
-	export PATH="$PATH:$HOME/.local/lib/python3.4/bin"
+	export PATH="$PATH:$HOME/.local/lib/python3.5/bin"
 	export PATH="$PATH:$HOME/.local/lib/python2.7/bin"
 
 	# Set the systemd-style DBUS address
@@ -129,9 +129,9 @@ fi
 
 # Rust Cargo configuration
 if [ -d "$XDG_DATA_HOME"/cargo ]; then
+	export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 	export CARGO_HOME="$XDG_DATA_HOME"/cargo
 	export PATH="$XDG_DATA_HOME/cargo/bin:$PATH"
-	export MULTIRUST_HOME="$XDG_DATA_HOME"/rustup
 fi
 
 # CPAN configuration
@@ -162,7 +162,7 @@ fi
 
 # cURL .netrc location
 if [ -d "$HOME/docs/netrc" ]; then
-	CURLOPT_NETRC_FILE="$HOME/docs/netrc/config"
+	export CURLOPT_NETRC_FILE="$HOME/docs/netrc/config"
 fi
 
 # Haskell cabal configuration

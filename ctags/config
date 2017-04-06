@@ -5,6 +5,7 @@
 --verbose=no
 
 --languages=-javascript
+--languages=-JSON
 
 --exclude=.cache
 --exclude=.git
