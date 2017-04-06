@@ -11,8 +11,10 @@ env:
 
 tabspaces: 4
 render_timer: false
-visual_bell: { duration: 1 }
-dimensions: { columns: 120, lines: 40 }
+visual_bell: { duration: 0 }
+window:
+  dimensions: { columns: 160, lines: 80 }
+  padding: 4
 
 mouse:
   double_click: { threshold: 300 }
@@ -26,25 +28,29 @@ dpi: { x: 96.0, y: 96.0 }
 
 font:
   size: 17.0
-  offset: { x: 1, y: -1 }
+  offset: { x: 0, y: -1 }
   use_thin_strokes: true  # OSX retina displays only
   normal: { family: PragmataPro Mono, style: Regular }
   bold:   { family: PragmataPro Mono, style: Regular }
   italic: { family: PragmataPro Mono, style: Regular }
 
 draw_bold_text_with_bright_colors: false
-custom_cursor_colors: false
+
+cursor_style: Block
+custom_cursor_colors: true
+hide_cursor_when_typing: true
+
 colors:
   primary:
     background: '0x232323'
     foreground: '0xA0A0A0'
 
   cursor:
-    background: '0xdd4467'
-    foreground: '0x000000'
+    text: '0x000000'
+    cursor: '0xB1FA32'
 
   normal:
-    black:   '0x6A6A6A'
+    black:   '0x2A2A2A'
     red:     '0xD370A3'
     green:   '0x6D9E3F'
     yellow:  '0xB58858'
@@ -92,57 +98,77 @@ colors:
 # be escape sequences, but they can be configured to send arbitrary strings of
 # bytes. Possible values of `action` include `Paste` and `PasteSelection`.
 key_bindings:
-  - { key: V,        mods: Command, action: Paste                        }
-  - { key: C,        mods: Command, action: Copy                         }
-  - { key: Q,        mods: Command, action: Quit                         }
-  - { key: W,        mods: Command, action: Quit                         }
-  - { key: Left,     mods: Command, chars: "\x1b[1;3D"                   }
-  - { key: Right,    mods: Command, chars: "\x1b[1;3C"                   }
-  - { key: Key9,     mods: Command, chars: "\x1b[1;3D"                   }
-  - { key: Key0,     mods: Command, chars: "\x1b[1;3C"                   }
-  - { key: Home,                    chars: "\x1bOH",   mode: AppCursor   }
-  - { key: Home,                    chars: "\x1b[1~",  mode: ~AppCursor  }
-  - { key: End,                     chars: "\x1bOF",   mode: AppCursor   }
-  - { key: End,                     chars: "\x1b[4~",  mode: ~AppCursor  }
-  - { key: PageUp,                  chars: "\x1b[5~"                     }
-  - { key: PageDown,                chars: "\x1b[6~"                     }
-  - { key: Left,     mods: Shift,   chars: "\x1b[1;2D"                   }
-  - { key: Left,     mods: Control, chars: "\x1b[1;5D"                   }
-  - { key: Left,     mods: Alt,     chars: "\x1b[1;3D"                   }
-  - { key: Left,                    chars: "\x1b[D",   mode: ~AppCursor  }
-  - { key: Left,                    chars: "\x1bOD",   mode: AppCursor   }
-  - { key: Right,    mods: Shift,   chars: "\x1b[1;2C"                   }
-  - { key: Right,    mods: Control, chars: "\x1b[1;5C"                   }
-  - { key: Right,    mods: Alt,     chars: "\x1b[1;3C"                   }
-  - { key: Right,                   chars: "\x1b[C",   mode: ~AppCursor  }
-  - { key: Right,                   chars: "\x1bOC",   mode: AppCursor   }
-  - { key: Up,       mods: Shift,   chars: "\x1b[1;2A"                   }
-  - { key: Up,       mods: Control, chars: "\x1b[1;5A"                   }
-  - { key: Up,       mods: Alt,     chars: "\x1b[1;3A"                   }
-  - { key: Up,                      chars: "\x1b[A",   mode: ~AppCursor  }
-  - { key: Up,                      chars: "\x1bOA",   mode: AppCursor   }
-  - { key: Down,     mods: Shift,   chars: "\x1b[1;2B"                   }
-  - { key: Down,     mods: Control, chars: "\x1b[1;5B"                   }
-  - { key: Down,     mods: Alt,     chars: "\x1b[1;3B"                   }
-  - { key: Down,                    chars: "\x1b[B",   mode: ~AppCursor  }
-  - { key: Down,                    chars: "\x1bOB",   mode: AppCursor   }
-  - { key: Tab,      mods: Shift,   chars: "\x1b[Z"                      }
-  - { key: F1,                      chars: "\x1bOP"                      }
-  - { key: F2,                      chars: "\x1bOQ"                      }
-  - { key: F3,                      chars: "\x1bOR"                      }
-  - { key: F4,                      chars: "\x1bOS"                      }
-  - { key: F5,                      chars: "\x1b[15~"                    }
-  - { key: F6,                      chars: "\x1b[17~"                    }
-  - { key: F7,                      chars: "\x1b[18~"                    }
-  - { key: F8,                      chars: "\x1b[19~"                    }
-  - { key: F9,                      chars: "\x1b[20~"                    }
-  - { key: F10,                     chars: "\x1b[21~"                    }
-  - { key: F11,                     chars: "\x1b[23~"                    }
-  - { key: F12,                     chars: "\x1b[24~"                    }
-  - { key: Back,                    chars: "\x7f"                        }
-  - { key: Back,     mods: Alt,     chars: "\x1b\x7f"                    }
-  - { key: Insert,                  chars: "\x1b[2~"                     }
-  - { key: Delete,                  chars: "\x1b[3~",  mode: AppKeypad   }
-  - { key: Delete,                  chars: "\x1b[P",   mode: ~AppKeypad  }
+  - { key: Return,   mods: Shift,   chars: "\x1b[13;2u" }
+  - { key: Return,   mods: Control, chars: "\x1b[13;5u" }
+  - { key: N,        mods: Command, chars: "\x1bn" }
+  - { key: M,        mods: Command, chars: "\x1bm" }
+  - { key: Comma,    mods: Command, chars: "\x1b," }
+  - { key: Period,   mods: Command, chars: "\x1b." }
+  - { key: Comma,    mods: Command|Shift, chars: "\x1b<" }
+  - { key: Period,   mods: Command|Shift, chars: "\x1b>" }
+  - { key: V,        mods: Command, action: Paste }
+  - { key: C,        mods: Command, action: Copy }
+  - { key: Q,        mods: Command, action: Quit }
+  - { key: W,        mods: Command, action: Quit }
+  - { key: Left,     mods: Command, chars: "\x1b[1;3D" }
+  - { key: Right,    mods: Command, chars: "\x1b[1;3C" }
+  - { key: LBracket, mods: Command, chars: "\x1b[1;3D" }
+  - { key: RBracket, mods: Command, chars: "\x1b[1;3C" }
+  - { key: LBracket, mods: Alt,     chars: "\x1bgT" }
+  - { key: RBracket, mods: Alt,     chars: "\x1bgt" }
+  - { key: Key9,     mods: Alt,     chars: "\x1bgT" }
+  - { key: Key0,     mods: Alt,     chars: "\x1bgt" }
+  - { key: Key6,     mods: Control, chars: "\x1b30" }
+  - { key: Key9,     mods: Command, chars: "\x1b9" }
+  - { key: Key0,     mods: Command, chars: "\x1b0" }
+  - { key: H,        mods: Command, chars: "\x1b[1;3D" }
+  - { key: J,        mods: Command, chars: "\x1bgt" }
+  - { key: K,        mods: Command, chars: "\x1bgT" }
+  - { key: L,        mods: Command, chars: "\x1b[1;3C" }
+
+  - { key: Home,                    chars: "\x1bOH",   mode: AppCursor }
+  - { key: Home,                    chars: "\x1b[1~",  mode: ~AppCursor }
+  - { key: End,                     chars: "\x1bOF",   mode: AppCursor }
+  - { key: End,                     chars: "\x1b[4~",  mode: ~AppCursor }
+  - { key: PageUp,                  chars: "\x1b[5~" }
+  - { key: PageDown,                chars: "\x1b[6~" }
+  - { key: Left,     mods: Shift,   chars: "\x1b[1;2D" }
+  - { key: Left,     mods: Control, chars: "\x1b[1;5D" }
+  - { key: Left,     mods: Alt,     chars: "\x1b[1;3D" }
+  - { key: Left,                    chars: "\x1b[D",   mode: ~AppCursor }
+  - { key: Left,                    chars: "\x1bOD",   mode: AppCursor }
+  - { key: Right,    mods: Shift,   chars: "\x1b[1;2C" }
+  - { key: Right,    mods: Control, chars: "\x1b[1;5C" }
+  - { key: Right,    mods: Alt,     chars: "\x1b[1;3C" }
+  - { key: Right,                   chars: "\x1b[C",   mode: ~AppCursor }
+  - { key: Right,                   chars: "\x1bOC",   mode: AppCursor }
+  - { key: Up,       mods: Shift,   chars: "\x1b[1;2A" }
+  - { key: Up,       mods: Control, chars: "\x1b[1;5A" }
+  - { key: Up,       mods: Alt,     chars: "\x1b[1;3A" }
+  - { key: Up,                      chars: "\x1b[A",   mode: ~AppCursor }
+  - { key: Up,                      chars: "\x1bOA",   mode: AppCursor }
+  - { key: Down,     mods: Shift,   chars: "\x1b[1;2B" }
+  - { key: Down,     mods: Control, chars: "\x1b[1;5B" }
+  - { key: Down,     mods: Alt,     chars: "\x1b[1;3B" }
+  - { key: Down,                    chars: "\x1b[B",   mode: ~AppCursor }
+  - { key: Down,                    chars: "\x1bOB",   mode: AppCursor }
+  - { key: Tab,      mods: Shift,   chars: "\x1b[Z" }
+  - { key: F1,                      chars: "\x1bOP" }
+  - { key: F2,                      chars: "\x1bOQ" }
+  - { key: F3,                      chars: "\x1bOR" }
+  - { key: F4,                      chars: "\x1bOS" }
+  - { key: F5,                      chars: "\x1b[15~" }
+  - { key: F6,                      chars: "\x1b[17~" }
+  - { key: F7,                      chars: "\x1b[18~" }
+  - { key: F8,                      chars: "\x1b[19~" }
+  - { key: F9,                      chars: "\x1b[20~" }
+  - { key: F10,                     chars: "\x1b[21~" }
+  - { key: F11,                     chars: "\x1b[23~" }
+  - { key: F12,                     chars: "\x1b[24~" }
+  - { key: Back,                    chars: "\x7f" }
+  - { key: Back,     mods: Alt,     chars: "\x1b\x7f" }
+  - { key: Insert,                  chars: "\x1b[2~" }
+  - { key: Delete,                  chars: "\x1b[3~", mode: AppKeypad }
+  - { key: Delete,                  chars: "\x1b[P", mode: ~AppKeypad }
 
 #  vim: set ts=2 sw=2 tw=80 et :
