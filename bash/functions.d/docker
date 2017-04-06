@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+dfixtime() {
+	docker run -it --rm --privileged --pid=host "$1" nsenter -t 1 -m -u -n -i date -u "$(date -u +%m%d%H%M%Y)"
+}

@@ -1,0 +1,23 @@
+---
+
+extends: default
+rules:
+  indentation:
+    level: warning
+    indent-sequences: whatever
+  braces:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+  brackets:
+    min-spaces-inside: 0
+    max-spaces-inside: 1
+  colons:
+    max-spaces-before: 0
+    max-spaces-after: -1
+  commas:
+    min-spaces-after: 1
+    max-spaces-after: -1
+  comments:
+    require-starting-space: false
+
+#  vim: set ft=yaml ts=2 sw=2 tw=80 et :
