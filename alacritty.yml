@@ -13,14 +13,9 @@ tabspaces: 4
 render_timer: false
 visual_bell: { duration: 0 }
 window:
-  dimensions: { columns: 160, lines: 80 }
-  padding: 4
+  dimensions: { columns: 80, lines: 160 }
 
-mouse:
-  double_click: { threshold: 300 }
-  triple_click: { threshold: 300 }
-
-selection: { semantic_escape_chars: ",│`|:\"' ()[]{}<>" }
+padding: { x: 2, y: 2 }
 
 dpi: { x: 96.0, y: 96.0 }
 # dpi: { x: 220.53, y: 220.53 }
@@ -28,11 +23,19 @@ dpi: { x: 96.0, y: 96.0 }
 
 font:
   size: 17.0
-  offset: { x: 0, y: -1 }
+  offset: { x: 0, y: 0 }
+  glyph_offset: { x: 0.0, y: 0.0 }
   use_thin_strokes: true  # OSX retina displays only
   normal: { family: PragmataPro Mono, style: Regular }
   bold:   { family: PragmataPro Mono, style: Regular }
   italic: { family: PragmataPro Mono, style: Regular }
+
+
+mouse:
+  double_click: { threshold: 300 }
+  triple_click: { threshold: 300 }
+
+selection: { semantic_escape_chars: ",│`|:\"' ()[]{}<>" }
 
 draw_bold_text_with_bright_colors: false
 
@@ -47,7 +50,7 @@ colors:
 
   cursor:
     text: '0x000000'
-    cursor: '0xB1FA32'
+    cursor: '0xE7FFB2'
 
   normal:
     black:   '0x2A2A2A'
@@ -100,6 +103,8 @@ colors:
 key_bindings:
   - { key: Return,   mods: Shift,   chars: "\x1b[13;2u" }
   - { key: Return,   mods: Control, chars: "\x1b[13;5u" }
+  - { key: I,        mods: Control, chars: "\x1b[105;5u" }
+  - { key: Key6,     mods: Control, chars: "\x1b[94;5u" }
   - { key: N,        mods: Command, chars: "\x1bn" }
   - { key: M,        mods: Command, chars: "\x1bm" }
   - { key: Comma,    mods: Command, chars: "\x1b," }
@@ -114,17 +119,14 @@ key_bindings:
   - { key: Right,    mods: Command, chars: "\x1b[1;3C" }
   - { key: LBracket, mods: Command, chars: "\x1b[1;3D" }
   - { key: RBracket, mods: Command, chars: "\x1b[1;3C" }
-  - { key: LBracket, mods: Alt,     chars: "\x1bgT" }
-  - { key: RBracket, mods: Alt,     chars: "\x1bgt" }
-  - { key: Key9,     mods: Alt,     chars: "\x1bgT" }
-  - { key: Key0,     mods: Alt,     chars: "\x1bgt" }
-  - { key: Key6,     mods: Control, chars: "\x1b30" }
+  - { key: H,        mods: Command, chars: "\x1b[1;3D" }
+  - { key: L,        mods: Command, chars: "\x1b[1;3C" }
   - { key: Key9,     mods: Command, chars: "\x1b9" }
   - { key: Key0,     mods: Command, chars: "\x1b0" }
-  - { key: H,        mods: Command, chars: "\x1b[1;3D" }
-  - { key: J,        mods: Command, chars: "\x1bgt" }
-  - { key: K,        mods: Command, chars: "\x1bgT" }
-  - { key: L,        mods: Command, chars: "\x1b[1;3C" }
+  - { key: J,        mods: Command, chars: "\x1bj" }
+  - { key: K,        mods: Command, chars: "\x1bk" }
+  - { key: LBracket, mods: Alt,     chars: "\x1bj" }
+  - { key: RBracket, mods: Alt,     chars: "\x1bk" }
 
   - { key: Home,                    chars: "\x1bOH",   mode: AppCursor }
   - { key: Home,                    chars: "\x1b[1~",  mode: ~AppCursor }
@@ -153,6 +155,8 @@ key_bindings:
   - { key: Down,                    chars: "\x1b[B",   mode: ~AppCursor }
   - { key: Down,                    chars: "\x1bOB",   mode: AppCursor }
   - { key: Tab,      mods: Shift,   chars: "\x1b[Z" }
+  - { key: Tab,      mods: Control, chars: "\x1b[27;5;9~" }
+  - { key: Tab,      mods: Control|Shift, chars: "\x1b[27;6;9~" }
   - { key: F1,                      chars: "\x1bOP" }
   - { key: F2,                      chars: "\x1bOQ" }
   - { key: F3,                      chars: "\x1bOR" }
@@ -168,7 +172,6 @@ key_bindings:
   - { key: Back,                    chars: "\x7f" }
   - { key: Back,     mods: Alt,     chars: "\x1b\x7f" }
   - { key: Insert,                  chars: "\x1b[2~" }
-  - { key: Delete,                  chars: "\x1b[3~", mode: AppKeypad }
-  - { key: Delete,                  chars: "\x1b[P", mode: ~AppKeypad }
+  - { key: Delete,                  chars: "\x1b[3~" }
 
 #  vim: set ts=2 sw=2 tw=80 et :
