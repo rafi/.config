@@ -46,6 +46,7 @@ alias gs='git status -sb'
 alias gl='git lg -15'
 alias gll='git lg'
 alias gld='git lgd -15'
+alias glf='git-foresta --all --style=10 | less -RS'
 __git_complete gb _git_branch
 __git_complete gc _git_checkout
 __git_complete gcb _git_checkout
@@ -84,7 +85,8 @@ alias voldown="amixer set Master playback 3dB-"
 
 # Processes
 alias process='ps -ax'
-alias logout="pkill -KILL -u "
+alias psk='ps -ax | fzf | cut -d " " -f1 | xargs -o kill'
+alias pst='pstree -g 3 -ws'
 
 # XDG conformity
 alias tmux='tmux -f "$XDG_CONFIG_HOME/tmux/config"'
@@ -96,7 +98,6 @@ alias cpan='cpan -j "$XDG_CONFIG_HOME/cpan/config.pm"'
 alias gcal='gcalcli --configFolder "$XDG_CONFIG_HOME/gcalcli"'
 alias archey3='archey3 --config="$XDG_CONFIG_HOME/archey3/config"'
 alias redshift='redshift -c "$XDG_CONFIG_HOME/redshift/config"'
-alias mpd-sima='mpd-sima -c "$XDG_CONFIG_HOME/mpd_sima/config"'
 
 # Misc
 alias aspell="aspell -c -l en_US"
@@ -113,12 +114,11 @@ alias subdl='subliminal download -l en -d "$XDG_CACHE_HOME/subtitles"'
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias m='memo'
 alias multiopen='while read i; do open "$i"; done <<<'
-alias pst='pstree -g 3 -ws'
 alias ungzip='gzip -d'
 alias untar='tar xvf'
 
 # Alias python utilities installed inside virtual-environments.
-for app in gcalcli percol httpie subliminal pgcli jupyter tmuxp; do
+for app in gcalcli percol httpie subliminal pgcli tmuxp we-get; do
 	[ -d "$XDG_DATA_HOME/python/utils/$app/bin" ] && \
 		alias $app="\$XDG_DATA_HOME/python/utils/$app/bin/$app"
 done
@@ -136,7 +136,7 @@ alias v="$VIM \$(fzf)"
 alias vi=${VIM}
 alias vimdiff="$VIM -d"
 alias suvim="sudo -E $VIM"
-alias oldvim="VIMINIT='let \$MYVIMRC=\"\$XDG_CONFIG_HOME/nvim/vimrc\" | source \$MYVIMRC' /usr/bin/vim"
+alias oldvim="VIMINIT='let \$MYVIMRC=\"\$XDG_CONFIG_HOME/nvim/vimrc\" | source \$MYVIMRC' /opt/local/bin/vim"
 alias testvim="VIMINIT='let \$MYVIMRC=\"\$HOME/nvim/init.vim\" | source \$MYVIMRC' nvim"
 unset VIM
 

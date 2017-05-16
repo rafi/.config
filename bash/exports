@@ -2,7 +2,7 @@
 #      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
 # `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
 #
-# github.com/rafi bash exports
+# github.com/rafi/.config bash/exports
 # references:
 # - https://github.com/milomouse/dotfiles
 # - https://github.com/EvanPurkhiser/dots-personal
@@ -97,6 +97,15 @@ hash mplayer    2>/dev/null && export      MPLAYER_HOME="$XDG_CONFIG_HOME/mplaye
 hash mpv        2>/dev/null && export          MPV_HOME="$XDG_CONFIG_HOME/mpv"
 hash vagrant    2>/dev/null && export      VAGRANT_HOME="$XDG_DATA_HOME/vagrant"
 hash sshrc      2>/dev/null && export           SSHHOME="$XDG_CONFIG_HOME/sshrc"
+
+export TMUXP_CONFIGDIR="$XDG_CONFIG_HOME/tmuxp"
+
+# Android SDK and tools
+if [ -d "${HOME}/Library/Android/sdk" ]; then
+	export ANDROID_HOME=${HOME}/Library/Android/sdk
+	export PATH=${PATH}:${ANDROID_HOME}/tools
+	export PATH=${PATH}:${ANDROID_HOME}/platform-tools
+fi
 
 # Load only ranger's user config
 export RANGER_LOAD_DEFAULT_RC=FALSE

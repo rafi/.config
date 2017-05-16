@@ -1,4 +1,4 @@
-# github.com/rafi/.config
+# github.com/rafi/.config bash/utils
 
 # Source all extra functions
 for func in "$XDG_CONFIG_HOME/bash/functions.d/"*; do

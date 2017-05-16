@@ -24,7 +24,7 @@ shopt -s histverify     # Edit a recalled history line before executing
 export HISTSIZE=2000
 export HISTFILESIZE=50000
 export HISTTIMEFORMAT='[%F %T] '
-export HISTIGNORE='pwd:jobs:ll:ls:l:fg:gl:gll:gs:gd:history:clear:exit'
+export HISTIGNORE='pwd:jobs:ll:ls:l:fg:history:clear:exit'
 export HISTCONTROL=ignoreboth
 export HISTFILE="$XDG_CACHE_HOME/bash_history"
 export VISUAL=nvim

@@ -2,7 +2,7 @@
 #      .-.     .-.     .-.     .-.     .-.     .-.
 # `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `
 #
-# github.com/rafi ~/.profile
+# github.com/rafi/.config bash/profile
 
 source "$HOME/.config/bash/exports"
 
