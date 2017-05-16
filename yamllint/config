@@ -19,5 +19,6 @@ rules:
     max-spaces-after: -1
   comments:
     require-starting-space: false
+  truthy: disable
 
 #  vim: set ft=yaml ts=2 sw=2 tw=80 et :
