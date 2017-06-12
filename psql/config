@@ -1,5 +1,3 @@
--- vim: se ft=psql :
-
 ------------------------------------------------------------------------------
 -- sources and inspiration:                                                                 --
 -- http://opensourcedbms.com/dbms/psqlrc-psql-startup-file-for-postgres/    --
@@ -87,3 +85,5 @@
 \set sp 'SHOW search_path;'
 \set clear '\\! clear;'
 \set ll '\\! ls -lrt;'
+
+-- vim: set ft=psql ts=2 sw=2 tw=80 et :

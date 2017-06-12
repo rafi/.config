@@ -12,9 +12,7 @@ env:
 tabspaces: 4
 render_timer: false
 visual_bell: { duration: 0 }
-window:
-  dimensions: { columns: 80, lines: 160 }
-
+dimensions: { columns: 135, lines: 46 }
 padding: { x: 2, y: 2 }
 
 dpi: { x: 96.0, y: 96.0 }
@@ -37,11 +35,12 @@ mouse:
 
 selection: { semantic_escape_chars: ",│`|:\"' ()[]{}<>" }
 
+hide_cursor_when_typing: true
+
 draw_bold_text_with_bright_colors: false
 
 cursor_style: Block
 custom_cursor_colors: true
-hide_cursor_when_typing: true
 
 colors:
   primary:

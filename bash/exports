@@ -87,6 +87,7 @@ export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
 export LESSKEY="$XDG_CONFIG_HOME/lesskey"
 export WAKATIME_HOME="$XDG_DATA_HOME/wakatime"
+export BABEL_CACHE_PATH="$XDG_CACHE_HOME/babel.json"
 
 hash bspwm      2>/dev/null && export      BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
 hash http       2>/dev/null && export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
@@ -208,7 +209,8 @@ hash virtualenv 2>/dev/null && export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 if hash fzf 2>/dev/null
 then
-	export FZF_DEFAULT_OPTS="--bind=ctrl-d:page-down,ctrl-u:page-up,y:yank --inline-info --reverse"
+	export FZF_DEFAULT_OPTS="--bind=ctrl-d:page-down,ctrl-u:page-up,y:yank --inline-info --reverse --height 50% --multi --preview 'highlight -O ansi -l {} 2> /dev/null || cat {}'"
+	export FZF_DEFAULT_COMMAND='ag -U --hidden --follow --nogroup --nocolor -g ""'
 fi
 
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :

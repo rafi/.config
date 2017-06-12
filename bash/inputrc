@@ -59,7 +59,6 @@ $if mode=vi
 	# Insert mode settings
 	set keymap vi-insert
 
-	"jk": vi-movement-mode
 	"\C-p": history-search-backward
 	"\C-n": history-search-forward
 	"\C-l": clear-screen

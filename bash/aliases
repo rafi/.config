@@ -105,7 +105,7 @@ alias ttycast="ttyd -p 8888 bash -c 'tmux new-session -d -s cast \; split-window
 alias ttycast-this="tmux split-window \'ttyd -p 8888 bash -c \'tmux a\'\'"
 alias mux="tmuxp load -y ."
 alias cal='cal | grep -C6 "$(date +%e)"'
-alias ccat='pygmentize -O style=monokai -f console256 -g'
+alias ccat='pygmentize -P tabsize=2 -O style=monokai -f console256 -g'
 alias yank='xsel -ib --logfile "$XDG_CACHE_HOME/xsel.log"'
 alias put='xsel -ob --logfile "$XDG_CACHE_HOME/xsel.log"'
 alias fontcache='fc-cache -f -v'
