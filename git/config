@@ -23,12 +23,14 @@
 	status = true
 	diff = diff-so-fancy | less --tabs=1,3
 	show = diff-so-fancy | less --tabs=1,3
+[pretty]
+	log = %C(240)%h%C(reset) -%C(auto)%d%Creset %s %C(242)(%an %ar)
+	detailed = %C(cyan)%h %C(red)%ad %C(blue)[%an]%C(magenta)%d %C(white)%s
+	shorter = %C(auto)%D %C(240)--%C(242)%gD%N %ad by %C(white)%cn%C(reset)
+	multiline = %C(blue)──────%Creset%n %C(auto)commit %h %C(auto) %D%Creset%n %C(cyan)%an%Creset | %Cgreen%cr%Creset%n%+B
 [status]
 	submodulesummary = true
 	showUntrackedFiles = all
-[http]
-	# Do NOT verify the SSL certificate when fetching or pushing over HTTPS
-#	sslVerify = false
 [fetch]
 	recurseSubmodules = true
 [push]
@@ -66,14 +68,6 @@
 	# https://git-scm.com/docs/git-config#git-config-transferfsckObjects
 	# via https://groups.google.com/forum/#!topic/binary-transparency/f-BI4o8HZW0
 	fsckobjects = true
-[gui]
-	fontdiff = -family \"Liberation Mono\" -size 9 -weight normal -slant roman -underline 0 -overstrike 0
-[web]
-	browser = google-chrome-stable
-[browser "google-chrome-stable"]
-	cmd = "/usr/bin/google-chrome-stable"
-[url "git@github.com:"]
-	insteadOf = gh:
 [color]
 	ui = true
 	pager = true
@@ -109,10 +103,8 @@
 	untracked = blue bold
 	branch = green bold
 	nobranch = red
-[pretty]
-	default = %C(240)%h%C(reset) -%C(auto)%d%Creset %s %C(242)(%an %ar)
-	detailed = %C(cyan)%h %C(red)%ad %C(blue)[%an]%C(magenta)%d %C(white)%s
-	shorter = %C(auto)%D %C(240)--%C(242)%gD%N %ad by %C(white)%cn%C(reset)
+[url "git@github.com:"]
+	insteadOf = gh:
 [alias]
 	s  = status -sb
 	f  = fetch --prune
@@ -141,10 +133,12 @@
 	#===============================================
 	tree = log --graph --all --oneline --decorate
 	lb   = log --graph --simplify-by-decoration --pretty=shorter --all --notes --date-order --relative-date
-	lg   = log --graph --pretty=default --all
-	lgd  = log --graph --pretty=default
+	log  = log --pretty=log
+	lg   = log --graph --pretty=log --all
+	lgd  = log --graph --pretty=log
 	lgw  = !sh -c '"while true; do clear; git lg -15; sleep 5; done"'
 	#===============================================
+	bf = !git diff --name-only "$(git base-branch)..@"
 	post  = !sh -c 'git format-patch --stdout $1 | ix' -
 	sync-tags = fetch --prune origin '+refs/tags/*:refs/tags/*'
 	recent-branches = !git for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)'

@@ -151,7 +151,7 @@ bind-key P split-window -h 'exec htop'
 bind-key ? split-window -h 'exec tmux list-keys | less'
 
 # Force a reload of the config file
-bind-key r source-file $XDG_CONFIG_HOME/tmux/config
+bind-key r source-file $XDG_CONFIG_HOME/tmux/config \; display-message "Config reloaded."
 
 #bind-key R respawn-window
 bind-key R refresh-client
