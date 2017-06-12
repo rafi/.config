@@ -26,8 +26,6 @@ set-option -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q,*:Tc'
 #set -ga terminal-overrides ',rxvt*:smcup@:rmcup@'
 #set -ga terminal-overrides ',rxvt-uni*:XT:Ms=\E]52;%p1%s;%p2%s\007'
 
-set-option -g set-remain-on-exit off
-
 # scrollback buffer size increase
 set-option -g history-limit 6000
 
@@ -122,6 +120,10 @@ bind-key C-l send-keys 'C-l'
 # Toggle synchronized input to all panes in current window
 bind-key S set-window-option synchronize-panes
 
+# Quick layout shortcuts
+bind-key b set-window-option main-pane-width 90\; select-layout main-vertical
+bind-key B set-window-option main-pane-height 30\; select-layout main-horizontal
+
 # Use a tick for renaming the window prompt
 unbind-key ','
 bind-key ` command-prompt -I '#W' -p 'Rename window>' "rename-window '%%'"
@@ -183,13 +185,19 @@ set-window-option -g mode-keys vi
 #bind-key C-c run "tmux show-buffer | xsel -ib --logfile $XDG_CACHE_HOME/xsel.log"
 #bind-key C-v run "tmux set-buffer \"$(xsel -ob --logfile $XDG_CACHE_HOME/xsel.log)\"; tmux paste-buffer"
 
+unbind -Tcopy-mode-vi Enter
 bind-key Escape copy-mode
-#bind-key -t vi-copy y copy-pipe "xsel -ib --logfile $XDG_CACHE_HOME/xsel.log >/dev/null"
-bind-key -t vi-copy y copy-pipe "reattach-to-user-namespace pbcopy"
-bind-key -t vi-copy v begin-selection
-bind-key -t vi-copy V select-line
-bind-key -t vi-copy C-v rectangle-toggle
-bind-key -t vi-copy Escape clear-selection
+# bind-key -Tcopy-mode-vi y send -X copy-pipe-and-cancel "xsel -ib --logfile $XDG_CACHE_HOME/xsel.log >/dev/null"
+bind-key -Tcopy-mode-vi y send -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
+bind-key -Tcopy-mode-vi v send -X begin-selection
+bind-key -Tcopy-mode-vi V send -X select-line
+bind-key -Tcopy-mode-vi C-v send -X rectangle-toggle
+bind-key -Tcopy-mode-vi Escape send -X clear-selection
+
+# Copy whole line
+#-------------------------------------------------
+bind-key y send-keys Escape 0 \; copy-mode \; send-keys Space
+# bind-key Y run-shell -b "$XDG_CONFIG_HOME/tmux/copy_pane_pwd.sh"
 
 # Mouse (tmux >= 2.1)
 #-------------------------------------------------
@@ -203,26 +211,23 @@ bind-key -T root WheelDownPane if-shell -F -t = "#{alternate_on}" "send-keys -M"
 
 # Enable fast scrolling with Ctrl
 bind-key -T root C-WheelUpPane if-shell -F -t = "#{alternate_on}" "send-keys -M" "select-pane -t =; copy-mode -e; send-keys -M"
-bind-key -t vi-copy C-WheelUpPane   halfpage-up
-bind-key -t vi-copy C-WheelDownPane halfpage-down
+bind-key -Tcopy-mode-vi C-WheelUpPane   send -X halfpage-up
+bind-key -Tcopy-mode-vi C-WheelDownPane send -X halfpage-down
 
 # Make mouse-drag work only with Ctrl
 # unbind -T root MouseDrag1Pane
 # unbind -T root MouseDragEnd1Pane
-# unbind -t vi-copy MouseDrag1Pane
-# unbind -t vi-copy MouseDragEnd1Pane
-# unbind -t vi-copy M-MouseDrag1Pane
-# unbind -t vi-copy C-MouseDrag1Pane
+# unbind -Tcopy-mode-vi MouseDrag1Pane
+# unbind -Tcopy-mode-vi MouseDragEnd1Pane
+# unbind -Tcopy-mode-vi M-MouseDrag1Pane
+# unbind -Tcopy-mode-vi C-MouseDrag1Pane
 
-bind-key -t vi-copy MouseDrag1Pane begin-selection
-# bind-key -t vi-copy MouseDragEnd1Pane copy-pipe "xsel -ib --logfile $XDG_CACHE_HOME/xsel.log >/dev/null"
-bind-key -t vi-copy MouseDragEnd1Pane copy-pipe "reattach-to-user-namespace pbcopy"
+bind-key -Tcopy-mode-vi MouseDrag1Pane send -X begin-selection
+# bind-key -Tcopy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel "xsel -ib --logfile $XDG_CACHE_HOME/xsel.log >/dev/null"
+bind-key -Tcopy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
 
-#bind -n C-MouseDrag1Pane if -Ft= '#{mouse_any_flag}' 'if -Ft= "#{pane_in_mode}" "copy-mode -M" "send-keys -M"' 'copy-mode -M'
-#bind -n -t vi-copy C-MouseDrag1Pane begin-selection
-
-#bind-key -n S-MouseDrag1Pane if -Ft= '#{mouse_any_flag}' 'if -Ft= \"#{pane_in_mode}\" \"copy-mode -M\" \"send-keys -M\"' 'copy-mode -M'
-#bind-key -t vi-copy C-MouseDrag1Pane begin-selection
+# bind-key -n C-MouseDrag1Pane if -Ft= '#{mouse_any_flag}' 'if -Ft= "#{pane_in_mode}" "copy-mode -M" "send-keys -M"' 'copy-mode -M'
+# bind-key -n C-MouseDrag1Pane if -Ft= '#{mouse_any_flag}' 'if -Ft= \"#{pane_in_mode}\" \"copy-mode -M\" \"send-keys -M\"' 'copy-mode -M'
 
 # Toggle mouse on/off
 bind-key m set-option -g mouse on \; display 'Mouse: ON'
@@ -278,7 +283,7 @@ set-option -g status-right-fg colour240
 set-option -g status-right-bg default
 set-option -g status-right-attr none
 set-option -g status-right-length 83
-set-option -g status-right "#($HOME/.local/bin/current-song 35) #[fg=colour237]#[fg=colour242] #(uptime | sed 's/^.*: //') #[fg=colour237]#[fg=colour245] #(pmset -g batt | tail -n +2 | awk '{print $3}' | sed 's/;//') #[fg=colour237]#[fg=colour250] #h "
+set-option -g status-right "#[fg=colour239] #(tmux-mem-cpu-load -i 3) #[fg=colour237]#[fg=colour241] #(pmset -g batt | tail -n +2 | awk '{print $3}' | sed 's/;//') #[fg=colour237]#[fg=colour243] %H:%M #[fg=colour237]#[fg=colour246] #h "
 
 set-window-option -g window-style ''
 set-window-option -g window-active-style ''
