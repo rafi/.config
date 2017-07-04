@@ -25,8 +25,8 @@ fi
 
 # https://github.com/rupa/z
 # Must be loaded _after_ setting PROMPT_COMMAND
-if [ -f "$PREFIX/lib/z.sh" ]; then
-	. "$PREFIX/lib/z.sh"
+if [ -f "$PREFIX/etc/profile.d/z.sh" ]; then
+	. "$PREFIX/etc/profile.d/z.sh"
 fi
 
 # vim: set ft=sh ts=2 sw=2 tw=80 et :

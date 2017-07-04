@@ -12,7 +12,7 @@
 	autocrlf = false
 	# Do NOT check if converting CRLF is reversible
 	safecrlf = false
-	# Whitespace detection
+	# Whitespace detection (only warnings)
 	whitespace = trailing-space,space-before-tab
 [credential]
 	helper = cache --timeout=3600

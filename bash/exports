@@ -85,7 +85,7 @@ export _Z_DATA="$XDG_CACHE_HOME/z/data"
 export MEMO_HOME="$HOME/docs/blog"
 export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
-export LESSKEY="$XDG_CONFIG_HOME/lesskey"
+export LESSKEY="$XDG_CONFIG_HOME/lesskey/output"
 export WAKATIME_HOME="$XDG_DATA_HOME/wakatime"
 export BABEL_CACHE_PATH="$XDG_CACHE_HOME/babel.json"
 

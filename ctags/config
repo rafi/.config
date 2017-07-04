@@ -22,6 +22,12 @@
 --exclude=*/js/libs
 --exclude=google-chrome*
 --exclude=chromium*
+--exclude=wp-admin
+--exclude=wp-content
+--exclude=wp-includes
+--exclude=application/vendor
+--exclude=*/vendor/ckeditor
+--exclude=media/vendor
 
 --langdef=markdown
 --langmap=markdown:.md.markdown.mdown.mkd.mkdn

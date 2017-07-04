@@ -24,10 +24,9 @@ font:
   offset: { x: 0, y: 0 }
   glyph_offset: { x: 0.0, y: 0.0 }
   use_thin_strokes: true  # OSX retina displays only
-  normal: { family: PragmataPro Mono, style: Regular }
-  bold:   { family: PragmataPro Mono, style: Regular }
-  italic: { family: PragmataPro Mono, style: Regular }
-
+  normal: { family: PragmataPro, style: Regular }
+  bold:   { family: PragmataPro, style: Regular }
+  italic: { family: PragmataPro, style: Regular }
 
 mouse:
   double_click: { threshold: 300 }
@@ -71,6 +70,17 @@ colors:
     cyan:    '0x75DAA9'
     white:   '0xCFCFCF'
 
+  # Dim colors (Optional)
+  dim:
+    black:   '0x333333'
+    red:     '0xf2777a'
+    green:   '0x99cc99'
+    yellow:  '0xffcc66'
+    blue:    '0x6699cc'
+    magenta: '0xcc99cc'
+    cyan:    '0x66cccc'
+    white:   '0xdddddd'
+
 # Key bindings
 # ---
 # Each binding is defined as an object with some properties. Most of the
@@ -95,10 +105,14 @@ colors:
 # capitalization must match exactly, and piped items must not have whitespace
 # around them.
 #
-# Either an `action` or `chars` field must be present. `chars` writes the
-# specified string every time that binding is activated. These should generally
-# be escape sequences, but they can be configured to send arbitrary strings of
-# bytes. Possible values of `action` include `Paste` and `PasteSelection`.
+# Either an `action`, `chars`, or `command` field must be present.
+#   `action` must be one of `Paste`, `PasteSelection`, `Copy`, or `Quit`.
+#   `chars` writes the specified string every time that binding is activated.
+#     These should generally be escape sequences, but they can be configured to
+#     send arbitrary strings of bytes.
+#   `command` must be a map containing a `program` string, and `args` array of
+#     strings. For example:
+#     - { ... , command: { program: "alacritty", args: ["-e", "vttest"] } }
 key_bindings:
   - { key: Return,   mods: Shift,   chars: "\x1b[13;2u" }
   - { key: Return,   mods: Control, chars: "\x1b[13;5u" }

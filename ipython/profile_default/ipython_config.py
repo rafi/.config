@@ -5,12 +5,14 @@ import os
 from pygments.token import Token
 
 def xdg_get(name, default=None):
-    return os.environ.get(name, os.path.join(default))
+    if default:
+        default = os.path.join(HOME, *default)
+    return os.environ.get(name, default)
 
 HOME = os.path.expanduser('~')
-XDG_CACHE_HOME = xdg_get('XDG_CACHE_HOME', [HOME, '.cache'])
-XDG_CONFIG_HOME = xdg_get('XDG_CONFIG_HOME', [HOME, '.config'])
-XDG_DATA_HOME = xdg_get('XDG_DATA_HOME', [HOME, '.local', 'share'])
+XDG_CACHE_HOME = xdg_get('XDG_CACHE_HOME', ['.cache'])
+XDG_CONFIG_HOME = xdg_get('XDG_CONFIG_HOME', ['.config'])
+XDG_DATA_HOME = xdg_get('XDG_DATA_HOME', ['.local', 'share'])
 XDG_RUNTIME_DIR = xdg_get('XDG_RUNTIME_DIR')
 
 #c.InteractiveShellApp.code_to_run = ''

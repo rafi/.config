@@ -24,14 +24,16 @@ unset LS
 alias grep="grep $GREP_OPTIONS"
 unset GREP_OPTIONS
 
-# File and directory find
-alias f='find . -name '
-alias ff='find . -type f -name '
-alias fd='find . -type d -name '
+# File and directory find, if fd is not installed
+if ! hash fd 2>/dev/null; then
+	alias f='find . -iname '
+	alias ff='find . -type f -iname '
+	alias fd='find . -type d -iname '
+fi
 
 # Head and tail will show as much possible without scrolling
-alias h='ghead -n $((${LINES:-12}-4))'
-alias t='gtail -n $((${LINES:-12}-4)) -s.1'
+hash ghead 2>/dev/null && alias h='ghead -n $((${LINES:-12}-4))'
+hash gtail 2>/dev/null && alias t='gtail -n $((${LINES:-12}-4)) -s.1'
 
 # Git
 alias gb='git branch'
@@ -64,6 +66,7 @@ alias dps="docker ps -q | xargs docker inspect --format '{{.Id}} @{{.Name}} @{{.
 alias dls='docker ps -a --format "table{{ .Names }}\\t{{ .ID }}\\t{{ .Image }}\\t{{ .Status }}\\t{{ .Ports }}\\t{{ .Command }}\\t{{ .CreatedAt }}" | cut -c-$(tput cols)'
 alias dim='docker images --format "table{{ .Repository }}\\t{{ .Tag }}\\t{{ .ID }}\\t{{ .Size }}\\t{{ .CreatedAt }}" | cut -c-$(tput cols)'
 alias dgc='docker rmi $(docker images -qf "dangling=true")'
+alias dvc='docker volume ls -qf dangling=true | xargs docker volume rm'
 alias dtop='docker stats $(docker ps --format="{{.Names}}")'
 alias dlast='docker inspect --format "{{.State.Running}}" $(docker ps -lq)'
 
@@ -117,11 +120,8 @@ alias multiopen='while read i; do open "$i"; done <<<'
 alias ungzip='gzip -d'
 alias untar='tar xvf'
 
-# Alias python utilities installed inside virtual-environments.
-for app in gcalcli percol httpie subliminal pgcli tmuxp we-get; do
-	[ -d "$XDG_DATA_HOME/python/utils/$app/bin" ] && \
-		alias $app="\$XDG_DATA_HOME/python/utils/$app/bin/$app"
-done
+alias ipinfo="curl -s ipinfo.io"
+alias weather="curl -s wttr.in/Tel-Aviv"
 
 # Neovim shortcuts
 if hash nvim 2>/dev/null; then
