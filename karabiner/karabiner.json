@@ -11,7 +11,6 @@
             "devices": [],
             "simple_modifications": {
                 "grave_accent_and_tilde": "non_us_backslash",
-                "left_shift": "left_control",
                 "non_us_backslash": "grave_accent_and_tilde"
             },
             "virtual_hid_keyboard": {
@@ -20,11 +19,11 @@
             },
             "complex_modifications": {
                 "parameters": {
-                    "basic.to_if_alone_timeout_milliseconds": 1000
+                    "basic.to_if_alone_timeout_milliseconds": 250
                 },
                 "rules": [
                     {
-                        "description": "Change caps-lock to left_shift. (Post escape if pressed alone)",
+                        "description": "Caps-lock multifunction: Caps-lock turns to left-shift, or escape if pressed alone.",
                         "manipulators": [
                             {
                                 "type": "basic",
@@ -34,6 +33,23 @@
                                 },
                                 "to": [ { "key_code": "left_shift" } ],
                                 "to_if_alone": [ { "key_code": "escape" } ]
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Shift-parens with a twist: Left-shift pressed alone changes to left-control.",
+                        "manipulators": [
+                            {
+                                "type": "basic",
+                                "from": {"key_code": "left_shift"},
+                                "to": [{"key_code": "left_control"}],
+                                "to_if_alone": [{"key_code": "9", "modifiers": ["left_shift"]}]
+                            },
+                            {
+                                "type": "basic",
+                                "from": {"key_code": "right_shift"},
+                                "to": [{"key_code": "right_shift"}],
+                                "to_if_alone": [{"key_code": "0", "modifiers": ["right_shift"]}]
                             }
                         ]
                     }
