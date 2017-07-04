@@ -1,0 +1,18 @@
+#command
+
+# Move to the next file with the left and right arrow keys.
+\kr         next-file
+\kl         prev-file
+# Inspiration: http://linuxgazette.net/174/grebler.html
+
+# Map the l and h keys to scroll right and left.
+# This means help must be accessed with H, not h.
+# If you need to scroll e.g. one char to the left, type 1h.
+l           right-scroll
+h           left-scroll
+# https://unix.stackexchange.com/questions/59188/how-to-set-up-hjkl-for-less
+
+# Make j/k/f move endlessly
+j           forw-line-force
+k           back-line-force
+f           forw-screen-force
