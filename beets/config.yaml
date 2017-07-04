@@ -19,14 +19,14 @@ match:
 original_date: yes
 format_album: '$albumartist - $album ($year)'
 clutter: [ "Thumbs.db", ".DS_Store", "*jpg", "*png" ]
-plugins: lastgenre scrub the zero ftintitle importfeeds mpdstats mpdupdate duplicates info lastimport mbsync play
+plugins: lastgenre scrub the zero ftintitle mpdupdate duplicates info lastimport mbsync play discogs
 zero:
   fields: month day comments lyrics albumartist_credit artist_credit
-importfeeds:
-  formats: m3u
-  relative_to: ~/music/
-  dir: ~/music/_Playlists/
-  m3u_name: new_albums.m3u
+#importfeeds:
+#  formats: m3u
+#  relative_to: /mnt/media/music/
+#  dir: /mnt/media/music/_Playlists/
+#  m3u_name: new_albums.m3u
 play:
   relative_to: ~/music/
   command: mpd-m3u-handler.sh

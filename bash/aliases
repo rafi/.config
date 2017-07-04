@@ -125,20 +125,17 @@ alias weather="curl -s wttr.in/Tel-Aviv"
 
 # Neovim shortcuts
 if hash nvim 2>/dev/null; then
-	VIM=nvim
-	alias vim=$VIM
-	alias vless="$VIM -u $PREFIX/share/nvim/runtime/macros/less.vim"
+	alias vim=nvim
+	alias vless="nvim -u $PREFIX/share/nvim/runtime/macros/less.vim"
+	alias suvim='sudo -E nvim'
+	alias oldvim="VIMINIT='let \$MYVIMRC=\"\$XDG_CONFIG_HOME/nvim/vimrc\" | source \$MYVIMRC' $PREFIX/bin/vim"
 else
-	VIM=vim
-	alias vless="$VIM -u $PREFIX/share/vim/vim74/macros/less.vim"
+	alias vless="vim -u $PREFIX/share/vim/vim74/macros/less.vim"
+	alias suvim='sudo -E vim'
 fi
-alias v="$VIM \$(fzf)"
-alias vi=${VIM}
-alias vimdiff="$VIM -d"
-alias suvim="sudo -E $VIM"
-alias oldvim="VIMINIT='let \$MYVIMRC=\"\$XDG_CONFIG_HOME/nvim/vimrc\" | source \$MYVIMRC' /opt/local/bin/vim"
-alias testvim="VIMINIT='let \$MYVIMRC=\"\$HOME/nvim/init.vim\" | source \$MYVIMRC' nvim"
-unset VIM
+alias v='vim $(fzf)'
+alias vi=vim
+alias vimdiff='vim -d'
 
 # A quick way to get out of current directory
 alias ..='cd ..'
