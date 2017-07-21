@@ -82,7 +82,6 @@ alias dfu="df -hT -x devtmpfs -x tmpfs"
 alias ww="cd /srv/http"
 
 # Media
-alias aria2c='aria2c --conf-path="$XDG_CONFIG_HOME/aria2/config"'
 alias volup="amixer set Master playback 3dB+"
 alias voldown="amixer set Master playback 3dB-"
 
@@ -99,7 +98,6 @@ alias weechat='weechat --dir "$XDG_CONFIG_HOME/weechat/"'
 alias gdrive='gdrive -c "$XDG_CONFIG_HOME/gdrive"'
 alias cpan='cpan -j "$XDG_CONFIG_HOME/cpan/config.pm"'
 alias gcal='gcalcli --configFolder "$XDG_CONFIG_HOME/gcalcli"'
-alias archey3='archey3 --config="$XDG_CONFIG_HOME/archey3/config"'
 alias redshift='redshift -c "$XDG_CONFIG_HOME/redshift/config"'
 
 # Misc
