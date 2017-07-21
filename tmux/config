@@ -77,7 +77,7 @@ bind-key c new-window -c "#{pane_current_path}"
 bind-key N new-session
 
 # Kill a session
-bind-key D choose-tree -b "kill-session -t '%%'"
+bind-key D choose-tree -sf "kill-session -t '%%'"
 
 # Use v and g for splitting from current path
 unbind-key %

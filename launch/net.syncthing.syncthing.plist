@@ -30,9 +30,9 @@
 		<string>Background</string>
 
 		<key>StandardOutPath</key>
-		<string>/tmp/syncthing.log</string>
+		<string>/Users/rafi/Library/Logs/Syncthing.log</string>
 
 		<key>StandardErrorPath</key>
-		<string>/tmp/syncthing-errors.log</string>
+		<string>/Users/rafi/Library/Logs/Syncthing-Errors.log</string>
 	</dict>
 </plist>
