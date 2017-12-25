@@ -4,6 +4,10 @@ function psg() {
 	ps auxww | grep -i --color=always "$@" | grep -v grep
 }
 
+function psmem() {
+	ps -o rss= -p $(pidof "$@") | awk '{print $1*4, "KiB"}'
+}
+
 function mtop() {
 	ps -ceo pmem,pid,pcpu,rss,vsz,time,command | sort -k 1 -r | head -15 \
 		| awk '

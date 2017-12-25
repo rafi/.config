@@ -49,26 +49,21 @@ alias gl='git lg -15'
 alias gll='git lg'
 alias gld='git lgd -15'
 alias glf='git-foresta --all --style=10 | less -RS'
-__git_complete gb _git_branch
-__git_complete gc _git_checkout
-__git_complete gcb _git_checkout
-__git_complete gd _git_diff
-__git_complete gds _git_diff
-__git_complete gf _git_fetch
-__git_complete gfa _git_fetch
-__git_complete gs _git_status
-__git_complete gl _git_log
-__git_complete gll _git_log
-__git_complete gld _git_log
 
 # Docker
-alias dps="docker ps -q | xargs docker inspect --format '{{.Id}} @{{.Name}} @{{.Config.Image}} @{{.Config.Cmd}} @{{range \$p, \$conf := .NetworkSettings.Ports}}{{\$p}}->{{(index \$conf 0).HostPort}}{{end}} @{{.NetworkSettings.IPAddress}} @{{.State.Status}}' | column -t -s='@' | cut -c 1-5,64-"
-alias dls='docker ps -a --format "table{{ .Names }}\\t{{ .ID }}\\t{{ .Image }}\\t{{ .Status }}\\t{{ .Ports }}\\t{{ .Command }}\\t{{ .CreatedAt }}" | cut -c-$(tput cols)'
-alias dim='docker images --format "table{{ .Repository }}\\t{{ .Tag }}\\t{{ .ID }}\\t{{ .Size }}\\t{{ .CreatedAt }}" | cut -c-$(tput cols)'
+alias dk='docker-compose'
+alias dps='docker ps --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{ .Ports }}\\t{{.RunningFor}}\\t{{.Command}}\\t{{ .ID }}" | cut -c-$(tput cols)'
+alias dls='docker ps -a --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{ .Ports }}\\t{{.RunningFor}}\\t{{.Command}}\\t{{ .ID }}" | cut -c-$(tput cols)'
+alias dim='docker images --format "table {{.Repository}}\\t{{.Tag}}\\t{{.ID}}\\t{{.Size}}\\t{{.CreatedSince}}"'
 alias dgc='docker rmi $(docker images -qf "dangling=true")'
 alias dvc='docker volume ls -qf dangling=true | xargs docker volume rm'
 alias dtop='docker stats $(docker ps --format="{{.Names}}")'
-alias dlast='docker inspect --format "{{.State.Running}}" $(docker ps -lq)'
+alias dnet='docker network ls && echo && docker inspect --format "{{\$e := . }}{{with .NetworkSettings}} {{\$e.Name}}
+{{range \$index, \$net := .Networks}}  - {{\$index}}	{{.IPAddress}}
+{{end}}{{end}}" $(docker ps -q)'
+alias dtag='docker inspect --format "{{.Name}}
+{{range \$index, \$label := .Config.Labels}}  - {{\$index}}={{\$label}}
+{{end}}" $(docker ps -q)'
 
 # Shortcuts
 alias c='clear'
@@ -134,6 +129,7 @@ fi
 alias v='vim $(fzf)'
 alias vi=vim
 alias vimdiff='vim -d'
+alias testvim="VIMINIT='let \$MYVIMRC=\"\$HOME/nvim/init.vim\" | source \$MYVIMRC' nvim"
 
 # A quick way to get out of current directory
 alias ..='cd ..'

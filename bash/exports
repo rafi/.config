@@ -28,7 +28,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	export MANPATH=/opt/local/share/man:$MANPATH
 
 	# Python per user site-packages directory
-	export PATH="$PATH:$HOME/Library/Python/3.5/bin"
+	export PATH="$PATH:$HOME/Library/Python/3.6/bin"
 	export PATH="$PATH:$HOME/Library/Python/2.7/bin"
 
 # Linux
@@ -38,7 +38,7 @@ else
 	export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc
 
 	# Python per user site-packages directory
-	export PATH="$PATH:$HOME/.local/lib/python3.5/bin"
+	export PATH="$PATH:$HOME/.local/lib/python3.6/bin"
 	export PATH="$PATH:$HOME/.local/lib/python2.7/bin"
 
 	# Set the systemd-style DBUS address
@@ -71,6 +71,7 @@ if [ -d "$XDG_DATA_HOME/terminfo" ]; then
 	export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:$PREFIX/share/terminfo"
 fi
 
+export ZPLUG_HOME="$XDG_DATA_HOME/zplug"
 export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
 export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
 export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
@@ -82,7 +83,7 @@ export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
 export MAD_CONFIG="$XDG_CONFIG_HOME/mad/config"
 export WEGORC="$XDG_CONFIG_HOME/wego/config"
 export _Z_DATA="$XDG_CACHE_HOME/z/data"
-export MEMO_HOME="$HOME/docs/blog"
+export MEMO_HOME="$HOME/docs/books/rafaels_computer/content/"
 export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
 export LESSKEY="$XDG_CONFIG_HOME/lesskey/output"
