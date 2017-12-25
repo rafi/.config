@@ -6,17 +6,6 @@
     },
     "profiles": [
         {
-            "name": "Macbook",
-            "selected": true,
-            "devices": [],
-            "simple_modifications": {
-                "grave_accent_and_tilde": "non_us_backslash",
-                "non_us_backslash": "grave_accent_and_tilde"
-            },
-            "virtual_hid_keyboard": {
-                "caps_lock_delay_milliseconds": 0,
-                "keyboard_type": "ansi"
-            },
             "complex_modifications": {
                 "parameters": {
                     "basic.to_if_alone_timeout_milliseconds": 250
@@ -26,48 +15,123 @@
                         "description": "Caps-lock multifunction: Caps-lock turns to left-shift, or escape if pressed alone.",
                         "manipulators": [
                             {
-                                "type": "basic",
                                 "from": {
                                     "key_code": "caps_lock",
                                     "modifiers": { "optional": [ "any" ] }
                                 },
-                                "to": [ { "key_code": "left_shift" } ],
-                                "to_if_alone": [ { "key_code": "escape" } ]
-                            }
-                        ]
-                    },
-                    {
-                        "description": "Shift-parens with a twist: Left-shift pressed alone changes to left-control.",
-                        "manipulators": [
-                            {
-                                "type": "basic",
-                                "from": {"key_code": "left_shift"},
-                                "to": [{"key_code": "left_control"}],
-                                "to_if_alone": [{"key_code": "9", "modifiers": ["left_shift"]}]
-                            },
-                            {
-                                "type": "basic",
-                                "from": {"key_code": "right_shift"},
-                                "to": [{"key_code": "right_shift"}],
-                                "to_if_alone": [{"key_code": "0", "modifiers": ["right_shift"]}]
+                                "to": [
+                                    { "key_code": "left_shift" }
+                                ],
+                                "to_if_alone": [
+                                    { "key_code": "escape" }
+                                ],
+                                "type": "basic"
                             }
                         ]
                     }
                 ]
             },
-            "fn_function_keys": {
-                "f1": "display_brightness_decrement",
-                "f10": "mute",
-                "f11": "volume_decrement",
-                "f12": "volume_increment",
-                "f2": "display_brightness_increment",
-                "f3": "mission_control",
-                "f4": "launchpad",
-                "f5": "illumination_decrement",
-                "f6": "illumination_increment",
-                "f7": "rewind",
-                "f8": "play_or_pause",
-                "f9": "fastforward"
+            "devices": [
+                {
+                    "disable_built_in_keyboard_if_exists": false,
+                    "fn_function_keys": [],
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": false,
+                        "product_id": 320,
+                        "vendor_id": 9456
+                    },
+                    "ignore": false,
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "left_option" },
+                            "to": { "key_code": "left_command" }
+                        }
+                    ]
+                },
+                {
+                    "disable_built_in_keyboard_if_exists": false,
+                    "fn_function_keys": [],
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "is_pointing_device": false,
+                        "product_id": 611,
+                        "vendor_id": 1452
+                    },
+                    "ignore": false,
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "grave_accent_and_tilde" },
+                            "to": { "key_code": "non_us_backslash" }
+                        },
+                        {
+                            "from": { "key_code": "non_us_backslash" },
+                            "to": { "key_code": "grave_accent_and_tilde" }
+                        }
+                    ]
+                }
+            ],
+            "fn_function_keys": [
+                {
+                    "from": { "key_code": "f1" },
+                    "to": { "key_code": "display_brightness_decrement" }
+                },
+                {
+                    "from": { "key_code": "f2" },
+                    "to": { "key_code": "display_brightness_increment" }
+                },
+                {
+                    "from": { "key_code": "f3" },
+                    "to": { "key_code": "mission_control" }
+                },
+                {
+                    "from": { "key_code": "f4" },
+                    "to": { "key_code": "launchpad" }
+                },
+                {
+                    "from": { "key_code": "f5" },
+                    "to": { "key_code": "illumination_decrement" }
+                },
+                {
+                    "from": { "key_code": "f6" },
+                    "to": { "key_code": "illumination_increment" }
+                },
+                {
+                    "from": { "key_code": "f7" },
+                    "to": { "key_code": "rewind" }
+                },
+                {
+                    "from": { "key_code": "f8" },
+                    "to": { "key_code": "play_or_pause" }
+                },
+                {
+                    "from": { "key_code": "f9" },
+                    "to": { "key_code": "fastforward" }
+                },
+                {
+                    "from": { "key_code": "f10" },
+                    "to": { "key_code": "mute" }
+                },
+                {
+                    "from": { "key_code": "f11" },
+                    "to": { "key_code": "volume_decrement" }
+                },
+                {
+                    "from": { "key_code": "f12" },
+                    "to": { "key_code": "volume_increment" }
+                }
+            ],
+            "name": "Macbook",
+            "selected": true,
+            "simple_modifications": [
+                {
+                    "from": { "key_code": "left_shift" },
+                    "to": { "key_code": "left_control" }
+                }
+            ],
+            "virtual_hid_keyboard": {
+                "caps_lock_delay_milliseconds": 0,
+                "keyboard_type": "ansi"
             }
         }
     ]
