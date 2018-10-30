@@ -18,13 +18,14 @@ set-window-option -g automatic-rename on
 set-window-option -g xterm-keys on
 
 set-option -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q,*:Tc'
-# set-option -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
 
-#set-option -ga terminal-overrides ",rxvt-uni*:Tc"
-#set-option -ga terminal-overrides ',rxvt*:Ss=\E[%p1%d q:Se=\E[2 q'
-#set-option -ga terminal-overrides ',rxvt*:XT:Ms=\E]52;%p1%s;%p2%s\007'
-#set -ga terminal-overrides ',rxvt*:smcup@:rmcup@'
-#set -ga terminal-overrides ',rxvt-uni*:XT:Ms=\E]52;%p1%s;%p2%s\007'
+# Enable true color & italics support
+# https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
+set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
+
+# Enable cursor shape modification in vim
+# (https://github.com/neovim/neovim/wiki/FAQ)
+set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
 
 # scrollback buffer size increase
 set-option -g history-limit 6000
@@ -32,8 +33,8 @@ set-option -g history-limit 6000
 # Address vim mode switching delay (http://superuser.com/a/252717/65504)
 set-option -s escape-time 0
 
-# tmux messages are displayed for 4 seconds
-set-option -g display-time 4000
+# tmux messages are displayed for 3 seconds
+set-option -g display-time 3000
 
 # Allow the arrow key to be used immediately after changing windows, default is 500
 set-option -g repeat-time 300
@@ -84,6 +85,8 @@ unbind-key %
 unbind-key '"'
 bind-key g split-window -h -c "#{pane_current_path}"
 bind-key v split-window -v -c "#{pane_current_path}"
+bind-key | split-window -h -c "#{pane_current_path}"
+bind-key - split-window -v -c "#{pane_current_path}"
 
 # Session navigation
 bind-key n switch-client -n
@@ -137,9 +140,9 @@ bind-key / command-prompt -p 'Man>' "split-window -d -v 'exec man %%'"
 bind-key C-m split-window -v "exec ~/.local/bin/ncmpcpp"
 
 # Use Facebook PathPicker to select paths from buffer interactively
-bind-key f capture-pane \; \
-	save-buffer /tmp/tmux-buffer \; \
-	new-window -c "#{pane_current_path}" "sh -c 'cat /tmp/tmux-buffer | fpp && rm /tmp/tmux-buffer'"
+# bind-key f capture-pane \; \
+# 	save-buffer /tmp/tmux-buffer \; \
+# 	new-window -c "#{pane_current_path}" "sh -c 'cat /tmp/tmux-buffer | fpp -c \"vim -O\" && rm /tmp/tmux-buffer'"
 
 # Use urlview for displaying all links from buffer
 bind-key u capture-pane -J \; save-buffer /tmp/tmux-buffer \; split-window -l 10 "urlview '/tmp/tmux-buffer' && rm /tmp/tmux-buffer"
@@ -181,57 +184,17 @@ set-option -g status-keys vi
 # vi-style controls for copy mode
 set-window-option -g mode-keys vi
 
-# Copy/paste interop
-#bind-key C-c run "tmux show-buffer | xsel -ib --logfile $XDG_CACHE_HOME/xsel.log"
-#bind-key C-v run "tmux set-buffer \"$(xsel -ob --logfile $XDG_CACHE_HOME/xsel.log)\"; tmux paste-buffer"
+# Allows scrolling and selecting in copy-mode
+set-option -g -q mouse on
 
 unbind -Tcopy-mode-vi Enter
 bind-key Escape copy-mode
-# bind-key -Tcopy-mode-vi y send -X copy-pipe-and-cancel "xsel -ib --logfile $XDG_CACHE_HOME/xsel.log >/dev/null"
-bind-key -Tcopy-mode-vi y send -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
+bind-key -Tcopy-mode-vi y send -X copy-pipe-and-cancel pbcopy
 bind-key -Tcopy-mode-vi v send -X begin-selection
 bind-key -Tcopy-mode-vi V send -X select-line
 bind-key -Tcopy-mode-vi C-v send -X rectangle-toggle
 bind-key -Tcopy-mode-vi Escape send -X clear-selection
-
-# Copy whole line
-#-------------------------------------------------
-bind-key y send-keys Escape 0 \; copy-mode \; send-keys Space
-# bind-key Y run-shell -b "$XDG_CONFIG_HOME/tmux/copy_pane_pwd.sh"
-
-# Mouse (tmux >= 2.1)
-#-------------------------------------------------
-
-# Allows scrolling and selecting in copy-mode
-set-option -g -q mouse on
-
-# Enable mouse copy-mode scrolling
-bind-key -T root WheelUpPane   if-shell -F -t = "#{alternate_on}" "send-keys -M" "select-pane -t =; copy-mode -e; send-keys -M"
-bind-key -T root WheelDownPane if-shell -F -t = "#{alternate_on}" "send-keys -M" "select-pane -t =; send-keys -M"
-
-# Enable fast scrolling with Ctrl
-bind-key -T root C-WheelUpPane if-shell -F -t = "#{alternate_on}" "send-keys -M" "select-pane -t =; copy-mode -e; send-keys -M"
-bind-key -Tcopy-mode-vi C-WheelUpPane   send -X halfpage-up
-bind-key -Tcopy-mode-vi C-WheelDownPane send -X halfpage-down
-
-# Make mouse-drag work only with Ctrl
-# unbind -T root MouseDrag1Pane
-# unbind -T root MouseDragEnd1Pane
-# unbind -Tcopy-mode-vi MouseDrag1Pane
-# unbind -Tcopy-mode-vi MouseDragEnd1Pane
-# unbind -Tcopy-mode-vi M-MouseDrag1Pane
-# unbind -Tcopy-mode-vi C-MouseDrag1Pane
-
-bind-key -Tcopy-mode-vi MouseDrag1Pane send -X begin-selection
-# bind-key -Tcopy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel "xsel -ib --logfile $XDG_CACHE_HOME/xsel.log >/dev/null"
-bind-key -Tcopy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel "reattach-to-user-namespace pbcopy"
-
-# bind-key -n C-MouseDrag1Pane if -Ft= '#{mouse_any_flag}' 'if -Ft= "#{pane_in_mode}" "copy-mode -M" "send-keys -M"' 'copy-mode -M'
-# bind-key -n C-MouseDrag1Pane if -Ft= '#{mouse_any_flag}' 'if -Ft= \"#{pane_in_mode}\" \"copy-mode -M\" \"send-keys -M\"' 'copy-mode -M'
-
-# Toggle mouse on/off
-bind-key m set-option -g mouse on \; display 'Mouse: ON'
-bind-key M set-option -g mouse off \; display 'Mouse: OFF'
+bind-key -Tcopy-mode-vi Y copy-mode \; send -X begin-selection \; send -X end-of-line \; send -X copy-pipe-and-cancel pbcopy
 
 # Look n Feel
 #-------------------------------------------------
@@ -308,5 +271,22 @@ set-window-option -g window-status-bell-attr none
 set-window-option -g window-status-last-fg colour247
 set-window-option -g window-status-last-bg colour236
 set-window-option -g window-status-last-attr none
+
+# Plugins
+#-------------------------------------------------
+run-shell $XDG_CONFIG_HOME/tmux/plugins/extrakto/extrakto.tmux
+
+set -g @scroll-without-changing-pane "on"
+set -g @scroll-speed-num-lines-per-scroll "1"
+run-shell $XDG_CONFIG_HOME/tmux/plugins/better-mouse/scroll_copy_mode.tmux
+
+set -g @pass-key b
+run-shell $XDG_CONFIG_HOME/tmux/plugins/pass/plugin.tmux
+
+unbind-key f
+set -g @fingers-key f
+set -g @fingers-copy-command 'pbcopy'
+set -g @fingers-compact-hints 0
+run-shell $XDG_CONFIG_HOME/tmux/plugins/fingers/tmux-fingers.tmux
 
 #  vim: set ft=tmux ts=2 sw=2 tw=80 noet :

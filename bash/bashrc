@@ -49,4 +49,21 @@ source "$XDG_CONFIG_HOME/bash/themes/current"
 # Load directory and file colors for GNU ls
 eval "$(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")"
 
+# TMUX auto-attach (or new session)
+# Local: Attach or create new session
+# Remote: Attach to an existing session only
+if which tmux >/dev/null 2>&1; then
+	test -z "$TMUX" && (tmux attach ||
+		[ -z "$SSH_CLIENT" ] && [ -z "$SSH_TTY" ] && tmux new-session
+	)
+fi
+
+# Vim: Load less plugins while SSHing to remote machines
+[ -n "$SSH_CLIENT" ] && export VIM_MINIMAL=1
+
+# If SSH session and not running tmux, list tmux sessions on log-in.
+if [ -n "$SSH_TTY" ] && [ -z "$TMUX" ] && hash tmux 2>/dev/null; then
+	tmux list-sessions 2>/dev/null | sed 's/^/# tmux /'
+fi
+
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :
