@@ -9,6 +9,7 @@
 /clerk/*cache*
 /dconf
 /fb-client
+/fish/fishd.*
 /fontforge
 /gcalcli
 /gconf

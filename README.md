@@ -3,7 +3,7 @@ Archlinux/OSX Workstations Config
 Workstation software configuration, tested on:
 
 * Archlinux
-* OSX (using Macports)
+* OSX (using Homebrew)
 
 Install
 ---

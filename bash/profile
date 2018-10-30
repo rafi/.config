@@ -17,11 +17,6 @@ fi
 
 source "$XDG_CONFIG_HOME/bash/bashrc"
 
-# If SSH session and not running tmux, list tmux sessions on log-in.
-if [ -n "$SSH_TTY" ] && [ -z "$TMUX" ] && hash tmux 2>/dev/null; then
-	tmux list-sessions 2>/dev/null | sed 's/^/# tmux /'
-fi
-
 # Use keychain to load keys
 # https://github.com/funtoo/keychain
 if hash keychain 2>/dev/null; then

@@ -16,7 +16,7 @@ export   XDG_DATA_HOME="$HOME/.local/share"
 
 # OSX
 if [[ "$OSTYPE" == "darwin"* ]]; then
-	export PREFIX=/opt/local
+	export PREFIX=/usr/local
 	export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc_osx
 	export XDG_RUNTIME_DIR="/tmp/run"
 	[ -d "$XDG_RUNTIME_DIR" ] || mkdir -m 0700 -p "$XDG_RUNTIME_DIR"
@@ -24,11 +24,11 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
 
 	# MacPorts
-	export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-	export MANPATH=/opt/local/share/man:$MANPATH
+	# export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+	# export MANPATH=/opt/local/share/man:$MANPATH
 
 	# Python per user site-packages directory
-	export PATH="$PATH:$HOME/Library/Python/3.6/bin"
+	export PATH="$PATH:$HOME/Library/Python/3.7/bin"
 	export PATH="$PATH:$HOME/Library/Python/2.7/bin"
 
 # Linux
@@ -38,16 +38,11 @@ else
 	export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc
 
 	# Python per user site-packages directory
-	export PATH="$PATH:$HOME/.local/lib/python3.6/bin"
+	export PATH="$PATH:$HOME/.local/lib/python3.7/bin"
 	export PATH="$PATH:$HOME/.local/lib/python2.7/bin"
 
 	# Set the systemd-style DBUS address
 	export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
-fi
-
-# Google Cloud SDK PATH setting
-if [ -d "$XDG_DATA_HOME/gcloud/bin" ]; then
-	export PATH="$XDG_DATA_HOME/gcloud/bin:$PATH"
 fi
 
 # Local bin
@@ -104,9 +99,9 @@ export TMUXP_CONFIGDIR="$XDG_CONFIG_HOME/tmuxp"
 
 # Android SDK and tools
 if [ -d "${HOME}/Library/Android/sdk" ]; then
-	export ANDROID_HOME=${HOME}/Library/Android/sdk
-	export PATH=${PATH}:${ANDROID_HOME}/tools
-	export PATH=${PATH}:${ANDROID_HOME}/platform-tools
+	export ANDROID_HOME="${HOME}/Library/Android/sdk"
+	export PATH="${PATH}:${ANDROID_HOME}/tools"
+	export PATH="${PATH}:${ANDROID_HOME}/platform-tools"
 fi
 
 # Load only ranger's user config
@@ -120,6 +115,16 @@ export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython
 #export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter
 export PSQLRC="$XDG_CONFIG_HOME/psql/config"
 #export PGCLIRC="$XDG_CONFIG_HOME/pgcli/config"
+export WORKON_HOME="$XDG_DATA_HOME/python/envs"
+hash pipsi 2>/dev/null && export PIPSI_HOME="$XDG_DATA_HOME/python/envs"
+hash pipx 2>/dev/null && export PIPX_HOME="$XDG_DATA_HOME/python/envs"
+hash pyenv 2>/dev/null && export PYENV_ROOT="$XDG_DATA_HOME/python/versions"
+
+# Ops
+hash kubectl 2>/dev/null && export KUBECONFIG="$XDG_CONFIG_HOME/kube/config.yml"
+hash minikube 2>/dev/null && export MINIKUBE_HOME="$XDG_DATA_HOME/minikube"
+hash helm 2>/dev/null && export HELM_HOME="$XDG_CACHE_HOME/helm"
+hash terraform 2>/dev/null && export TF_DATA_DIR="$XDG_CACHE_HOME/terraform"
 
 # Set luarocks user config
 hash luarocks 2>/dev/null && export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
@@ -210,7 +215,7 @@ hash virtualenv 2>/dev/null && export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 if hash fzf 2>/dev/null
 then
-	export FZF_DEFAULT_OPTS="--bind=ctrl-d:page-down,ctrl-u:page-up,y:yank --inline-info --reverse --height 50% --multi --preview 'highlight -O ansi -l {} 2> /dev/null || cat {}'"
+	export FZF_DEFAULT_OPTS="--bind=ctrl-d:page-down,ctrl-u:page-up,ctrl-y:yank --inline-info --reverse --height 50%"
 	export FZF_DEFAULT_COMMAND='ag -U --hidden --follow --nogroup --nocolor -g ""'
 fi
 

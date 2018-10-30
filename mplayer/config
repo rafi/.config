@@ -78,7 +78,7 @@ vo=xv,framebuffer
 subfont-text-scale = 3
 
 # never use font config
-nofontconfig = 1
+#nofontconfig = 1
 
 # set the window title using the media filename, when not set with --title.
 use-filename-title=yes

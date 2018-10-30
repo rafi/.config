@@ -2,7 +2,7 @@
 # Alacritty config
 
 shell:
-  program: /opt/local/bin/bash
+  program: /usr/local/bin/bash
   args:
     - --login
 
@@ -16,7 +16,7 @@ visual_bell: { duration: 0 }
 window:
   dimensions: { columns: 142, lines: 42 }
   padding: { x: 2, y: 2 }
-  decorations: false
+  decorations: none
 
 background_opacity: 1.0
 dpi: { x: 96.0, y: 96.0 }
@@ -28,6 +28,7 @@ font:
   offset: { x: 0, y: 0 }
   glyph_offset: { x: 0.0, y: 0.0 }
   use_thin_strokes: true  # OSX retina displays only
+  scale_with_dpi: true
   normal: { family: PragmataPro, style: Regular }
   bold:   { family: PragmataPro, style: Regular }
   italic: { family: PragmataPro, style: Regular }
@@ -35,10 +36,12 @@ font:
 mouse:
   double_click: { threshold: 300 }
   triple_click: { threshold: 300 }
+  faux_scrollback_lines: 0
 
 selection: { semantic_escape_chars: ",│`|:\"' ()[]{}<>" }
 
 live_config_reload: false
+dynamic_title: true
 hide_cursor_when_typing: true
 draw_bold_text_with_bright_colors: false
 
@@ -122,7 +125,7 @@ key_bindings:
   - { key: Key0,     mods: Command, action: ResetFontSize }
   - { key: Equals,   mods: Command, action: IncreaseFontSize }
   - { key: Minus,    mods: Command, action: DecreaseFontSize }
-
+  - { key: N, mods: Command, command: { program: "open", args: ["-n", "/Applications/Alacritty.app"] } }
   - { key: Return,   mods: Shift,   chars: "\x1b[13;2u" }
   - { key: Return,   mods: Control, chars: "\x1b[13;5u" }
   - { key: I,        mods: Control, chars: "\x1b[105;5u" }

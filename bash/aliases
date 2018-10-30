@@ -24,7 +24,7 @@ unset LS
 alias grep="grep $GREP_OPTIONS"
 unset GREP_OPTIONS
 
-# File and directory find, if fd is not installed
+# File find, if fd is not installed
 if ! hash fd 2>/dev/null; then
 	alias f='find . -iname '
 	alias ff='find . -type f -iname '
@@ -64,6 +64,9 @@ alias dnet='docker network ls && echo && docker inspect --format "{{\$e := . }}{
 alias dtag='docker inspect --format "{{.Name}}
 {{range \$index, \$label := .Config.Labels}}  - {{\$index}}={{\$label}}
 {{end}}" $(docker ps -q)'
+
+# Kubernetes
+alias k='kubectl'
 
 # Shortcuts
 alias c='clear'

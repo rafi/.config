@@ -16,8 +16,8 @@
 	whitespace = trailing-space,space-before-tab
 [credential]
 	helper = cache --timeout=3600
-[init]
-	templatedir = ~/.config/git/template
+# [init]
+# 	templatedir = ~/.config/git/template
 [pager]
 	show-branch = true
 	status = true

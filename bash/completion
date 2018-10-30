@@ -18,12 +18,16 @@ fi
 
 # Load Git bash completion
 # https://github.com/git/git/blob/master/contrib/completion
-if [ -f "$PREFIX/share/git/completion/git-completion.bash" ]; then
-	. "$PREFIX/share/git/completion/git-completion.bash"
+if [ -f "$PREFIX/etc/bash_completion.d/git-completion.bash" ]; then
+	. "$PREFIX/etc/bash_completion.d/git-completion.bash"
 elif [ -f "$PREFIX/share/git/contrib/completion/git-completion.bash" ]; then
 	. "$PREFIX/share/git/contrib/completion/git-completion.bash"
 elif [ -f "$PREFIX/share/bash-completion/completions/git" ]; then
 	. "$PREFIX/share/bash-completion/completions/git"
+fi
+
+if [ -f "$PREFIX/share/bash-completion/completions/ssh" ]; then
+	. "$PREFIX/share/bash-completion/completions/ssh"
 fi
 
 # Load mpc bash completion
@@ -41,11 +45,11 @@ if [ -f "$XDG_DATA_HOME/gcloud/completion.bash.inc" ]; then
 	. "$XDG_DATA_HOME/gcloud/completion.bash.inc"
 fi
 
+# Kubernetes
+complete -o default -F __start_kubectl k
+
 # Extra OSX stuff
 if [[ "$OSTYPE" == "darwin"* ]]; then
-	# Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
-	[ -e "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2 | tr ' ' '\n')" scp sftp ssh
-
 	# Add tab completion for `defaults read|write NSGlobalDomain`
 	# You could just use `-g` instead, but I like being explicit
 	complete -W "NSGlobalDomain" defaults

@@ -29,4 +29,4 @@ if [ -f "$PREFIX/etc/profile.d/z.sh" ]; then
 	. "$PREFIX/etc/profile.d/z.sh"
 fi
 
-# vim: set ft=sh ts=2 sw=2 tw=80 et :
+# vim: set ft=sh ts=2 sw=2 tw=80 noet :
