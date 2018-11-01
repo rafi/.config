@@ -187,6 +187,12 @@ then
 	export PATH="$PATH:$HOME/.cabal/bin"
 fi
 
+# Homebrew token
+export HOMEBREW_GITHUB_API_TOKEN="{{ HOMEBREW_GITHUB_API_TOKEN }}"
+
+# Spotify
+export TMUX_SPOTIFY_API_KEY="{{ TMUX_SPOTIFY_API_KEY }}"
+
 # Task warrior configuration
 if hash task 2>/dev/null
 then
