@@ -1,0 +1,9 @@
+---
+
+policies:
+  ProhibitMissingScriptEncoding:
+    enabled: false
+  ProhibitImplicitScopeVariable:
+    enabled: false
+
+#  vim: set ft=yaml ts=2 sw=2 tw=80 et :
