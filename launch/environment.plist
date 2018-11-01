@@ -9,6 +9,7 @@
 		<string>sh</string>
 		<string>-c</string>
 		<string>
+			launchctl setenv ATOM_HOME $HOME/.local/share/atom
 			launchctl setenv XDG_CONFIG_HOME $HOME/.config
 			launchctl setenv XDG_CACHE_HOME $HOME/.cache
 			launchctl setenv XDG_DATA_HOME $HOME/.local/share
