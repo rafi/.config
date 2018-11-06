@@ -6,22 +6,20 @@ shell:
   args:
     - --login
 
-env:
-  TERM: xterm-256color
+# env:
+#   TERM: xterm-256color
 
 tabspaces: 4
 render_timer: false
-visual_bell: { duration: 0 }
+visual_bell: { duration: 0, animation: EaseOutExpo }
+live_config_reload: false
+draw_bold_text_with_bright_colors: true
+background_opacity: 1.0
 
 window:
-  dimensions: { columns: 142, lines: 42 }
+  dimensions: { columns: 250, lines: 80 }
   padding: { x: 2, y: 2 }
   decorations: none
-
-background_opacity: 1.0
-dpi: { x: 96.0, y: 96.0 }
-# dpi: { x: 220.53, y: 220.53 }
-# dpi: { x: 108.79, y: 108.79 }
 
 font:
   size: 17.0
@@ -37,17 +35,14 @@ mouse:
   double_click: { threshold: 300 }
   triple_click: { threshold: 300 }
   faux_scrollback_lines: 0
+  hide_when_typing: true
 
-selection: { semantic_escape_chars: ",│`|:\"' ()[]{}<>" }
+selection:
+  semantic_escape_chars: ",│`|:\"' ()[]{}<>"
+  save_to_clipboard: true
 
-live_config_reload: false
-dynamic_title: true
-hide_cursor_when_typing: true
-draw_bold_text_with_bright_colors: false
-
-# Values for 'cursor_style': Block, Underline, Beam
-cursor_style: Block
-custom_cursor_colors: true
+cursor:
+  style: Beam
 
 colors:
   primary:
@@ -89,38 +84,6 @@ colors:
     cyan:    '0x66cccc'
     white:   '0xdddddd'
 
-# Key bindings
-# ---
-# Each binding is defined as an object with some properties. Most of the
-# properties are optional. All of the alphabetical keys should have a letter for
-# the `key` value such as `V`. Function keys are probably what you would expect
-# as well (F1, F2, ..). The number keys above the main keyboard are encoded as
-# `Key1`, `Key2`, etc. Keys on the number pad are encoded `Number1`, `Number2`,
-# etc.  These all match the glutin::VirtualKeyCode variants.
-#
-# Possible values for `mods`
-# `Command`, `Super` refer to the super/command/windows key
-# `Control` for the control key
-# `Shift` for the Shift key
-# `Alt` and `Option` refer to alt/option
-#
-# mods may be combined with a `|`. For example, requiring control and shift
-# looks like:
-#
-# mods: Control|Shift
-#
-# The parser is currently quite sensitive to whitespace and capitalization -
-# capitalization must match exactly, and piped items must not have whitespace
-# around them.
-#
-# Either an `action`, `chars`, or `command` field must be present.
-#   `action` must be one of `Paste`, `PasteSelection`, `Copy`, or `Quit`.
-#   `chars` writes the specified string every time that binding is activated.
-#     These should generally be escape sequences, but they can be configured to
-#     send arbitrary strings of bytes.
-#   `command` must be a map containing a `program` string, and `args` array of
-#     strings. For example:
-#     - { ... , command: { program: "alacritty", args: ["-e", "vttest"] } }
 key_bindings:
   - { key: Key0,     mods: Command, action: ResetFontSize }
   - { key: Equals,   mods: Command, action: IncreaseFontSize }
@@ -153,12 +116,24 @@ key_bindings:
   - { key: LBracket, mods: Alt,     chars: "\x1bj" }
   - { key: RBracket, mods: Alt,     chars: "\x1bk" }
 
+  - { key: Q,        mods: Command, action: Quit }
   - { key: Home,                    chars: "\x1bOH",   mode: AppCursor }
   - { key: Home,                    chars: "\x1b[1~",  mode: ~AppCursor }
   - { key: End,                     chars: "\x1bOF",   mode: AppCursor }
   - { key: End,                     chars: "\x1b[4~",  mode: ~AppCursor }
+  - { key: PageUp,   mods: Shift,   chars: "\x1b[5;2~" }
+  - { key: PageUp,   mods: Control, chars: "\x1b[5;5~" }
   - { key: PageUp,                  chars: "\x1b[5~" }
+  - { key: PageDown, mods: Shift,   chars: "\x1b[6;2~" }
+  - { key: PageDown, mods: Control, chars: "\x1b[6;5~" }
   - { key: PageDown,                chars: "\x1b[6~" }
+  - { key: Tab,      mods: Shift,   chars: "\x1b[Z" }
+  - { key: Tab,      mods: Control, chars: "\x1b[27;5;9~" }
+  - { key: Tab,      mods: Control|Shift, chars: "\x1b[27;6;9~" }
+  - { key: Back,                    chars: "\x7f" }
+  - { key: Back,     mods: Alt,     chars: "\x1b\x7f" }
+  - { key: Insert,                  chars: "\x1b[2~" }
+  - { key: Delete,                  chars: "\x1b[3~" }
   - { key: Left,     mods: Shift,   chars: "\x1b[1;2D" }
   - { key: Left,     mods: Control, chars: "\x1b[1;5D" }
   - { key: Left,     mods: Alt,     chars: "\x1b[1;3D" }
@@ -179,13 +154,6 @@ key_bindings:
   - { key: Down,     mods: Alt,     chars: "\x1b[1;3B" }
   - { key: Down,                    chars: "\x1b[B",   mode: ~AppCursor }
   - { key: Down,                    chars: "\x1bOB",   mode: AppCursor }
-  - { key: Tab,      mods: Shift,   chars: "\x1b[Z" }
-  - { key: Tab,      mods: Control, chars: "\x1b[27;5;9~" }
-  - { key: Tab,      mods: Control|Shift, chars: "\x1b[27;6;9~" }
-  - { key: Back,                    chars: "\x7f" }
-  - { key: Back,     mods: Alt,     chars: "\x1b\x7f" }
-  - { key: Insert,                  chars: "\x1b[2~" }
-  - { key: Delete,                  chars: "\x1b[3~" }
   - { key: F1,                      chars: "\x1bOP" }
   - { key: F2,                      chars: "\x1bOQ" }
   - { key: F3,                      chars: "\x1bOR" }
@@ -246,5 +214,4 @@ key_bindings:
   - { key: F10,      mods: Command, chars: "\x1b[21;3~" }
   - { key: F11,      mods: Command, chars: "\x1b[23;3~" }
   - { key: F12,      mods: Command, chars: "\x1b[24;3~" }
-
-#  vim: set ts=2 sw=2 tw=80 et :
+  - { key: NumpadEnter,             chars: "\n" }
