@@ -19,3 +19,6 @@
 [submodule "tmux/plugins/fingers"]
 	path = tmux/plugins/fingers
 	url = git://github.com/Morantron/tmux-fingers.git
+[submodule "tmux/plugins/pass"]
+	path = tmux/plugins/pass
+	url = git://github.com/rafi/tmux-pass.git
