@@ -1,7 +1,8 @@
-##########################################################
-## this is example bindings configuration file, copy it ##
-## to ~/.ncmpcpp/bindings and set up your preferences   ##
-##########################################################
+##############################################################
+## This is the example bindings file. Copy it to            ##
+## ~/.ncmpcpp/bindings or $XDG_CONFIG_HOME/ncmpcpp/bindings ##
+## and set up your preferences                              ##
+##############################################################
 ##
 ##### General rules #####
 ##
@@ -51,8 +52,11 @@
 ##      picked by ncmpcpp upon next call to readKey function.
 ##      Accepted values: mouse, up, down, page_up, page_down,
 ##      home, end, space, enter, insert, delete, left, right,
-##      tab, shift_tab, ctrl_a, ctrl_b, ..., ctrl_z, f1, f2,
-##      ..., f12, backspace, backspace_2.
+##      tab, ctrl-a, ctrl-b, ..., ctrl-z, ctrl-[, ctrl-\\,
+##      ctrl-], ctrl-^, ctrl-_, f1, f2, ..., f12, backspace.
+##      In addition, most of these names can be prefixed with
+##      alt-/ctrl-/shift- to be recognized with the appropriate
+##      modifier key(s).
 ##
 ##    - push_characters "string" - pushes given string into
 ##      input queue.
@@ -111,11 +115,12 @@
 ##    could be used. Then ncmpcpp will not wait for confirmation
 ##    (enter) and will execute the command the moment it sees it.
 ##
-## Note: Both 'backspace' and 'backspace_2' are used because some
-##       terminals interpret backspace using keycode of 'backspace'
-##       and some the one of 'backspace_2'. You can get away with
-##       binding once if all your terminal emulators use the same
-##       value.
+##    Note: while command chains are executed, internal environment
+##    update (which includes current window refresh and mpd status
+##    update) is not performed for performance reasons. However, it
+##    may be desirable to do so in some situration. Therefore it's
+##    possible to invoke by hand by performing 'update enviroment'
+##    action.
 ##
 ## Note: There is a difference between:
 ##
@@ -142,7 +147,6 @@
 ## The following actions are not bound to any key/command:
 ##
 ##  - set_volume
-##  - filter_playlist_on_priorities
 ##
 #
 
@@ -155,6 +159,25 @@ def_key "k"
 #def_key "mouse"
 #  mouse_event
 #
+#def_key "up"
+#  scroll_up
+#
+#def_key "shift-up"
+#  select_item
+#  scroll_up
+#
+#def_key "down"
+#  scroll_down
+#
+#def_key "shift-down"
+#  select_item
+#  scroll_down
+#
+
+def_key "'"
+  select_item
+  scroll_down
+
 #def_key "["
 #  scroll_up_album
 #
@@ -167,10 +190,10 @@ def_key "k"
 #def_key "}"
 #  scroll_down_artist
 
-def_key "ctrl_u"
+def_key "ctrl-u"
   page_up
 
-def_key "ctrl_d"
+def_key "ctrl-d"
   page_down
 
 def_key "g"
@@ -179,14 +202,26 @@ def_key "g"
 def_key "G"
   move_end
 
-def_key "'"
-  press_space
-
-#def_key "space"
-#  press_space
+#def_key "enter"
+#  enter_directory
 #
 #def_key "enter"
-#  press_enter
+#  toggle_output
+#
+#def_key "enter"
+#  run_action
+#
+#def_key "enter"
+#  play_item
+#
+#def_key "space"
+#  add_item_to_playlist
+#
+#def_key "space"
+#  toggle_lyrics_update_on_song_change
+#
+#def_key "space"
+#  toggle_visualization_type
 
 def_key "d"
   delete_playlist_items
@@ -221,7 +256,7 @@ def_key "h"
 #def_key "tab"
 #  next_screen
 #
-#def_key "shift_tab"
+#def_key "shift-tab"
 #  previous_screen
 
 def_key "f1"
@@ -281,10 +316,10 @@ def_key "3"
 #def_key "<"
 #  previous
 #
-#def_key "ctrl_h"
+#def_key "ctrl-h"
 #  jump_to_parent_directory
 #
-#def_key "ctrl_h"
+#def_key "ctrl-h"
 #  replay_song
 #
 #def_key "backspace"
@@ -293,16 +328,11 @@ def_key "3"
 #def_key "backspace"
 #  replay_song
 #
-#def_key "backspace_2"
-#  jump_to_parent_directory
-#
-#def_key "backspace_2"
-#  replay_song
 
-def_key "ctrl_f"
+def_key "ctrl-f"
   seek_forward
 
-def_key "ctrl_b"
+def_key "ctrl-b"
   seek_backward
 
 #def_key "r"
@@ -325,9 +355,6 @@ def_key "ctrl_b"
 #
 #def_key "Y"
 #  toggle_replay_gain_mode
-#
-#def_key "t"
-#  toggle_space_mode
 #
 #def_key "T"
 #  toggle_add_mode
@@ -353,11 +380,20 @@ def_key "ctrl_b"
 def_key "o"
   sort_playlist
 
-#def_key "ctrl_r"
+def_key "o"
+  toggle_browser_sort_mode
+
+def_key "o"
+  toggle_media_library_sort_mode
+
+#def_key "ctrl-r"
 #  reverse_playlist
 #
-#def_key "ctrl_f"
+#def_key "ctrl-f"
 #  apply_filter
+#
+#def_key "ctrl-_"
+#  select_found_items
 #
 #def_key "/"
 #  find
@@ -404,7 +440,7 @@ def_key "N"
 #def_key "I"
 #  show_artist_info
 
-def_key "ctrl_g"
+def_key "ctrl-g"
   jump_to_position_in_song
 
 def_key "L"
@@ -443,17 +479,11 @@ def_key "K"
 def_key "K"
   move_selected_items_up
 
-def_key "ctrl_k"
+def_key "ctrl-k"
   move_sort_order_up
 
-def_key "ctrl_k"
+def_key "ctrl-k"
   move_selected_items_up
-
-def_key "o"
-  toggle_media_library_sort_mode
-
-def_key "o"
-  set_visualizer_sample_multiplier
 
 def_key "J"
   move_sort_order_down
@@ -461,10 +491,10 @@ def_key "J"
 def_key "J"
   move_selected_items_down
 
-def_key "ctrl_j"
+def_key "ctrl-j"
   move_sort_order_down
 
-def_key "ctrl_j"
+def_key "ctrl-j"
   move_selected_items_down
 
 #def_key "M"
@@ -473,7 +503,7 @@ def_key "ctrl_j"
 #def_key "A"
 #  add
 
-def_key "ctrl_s"
+def_key "ctrl-s"
   save_playlist
 
 def_key "~"
@@ -503,17 +533,18 @@ def_key "f"
 #def_key "!"
 #  toggle_separators_between_albums
 
-def_key "ctrl_l"
+def_key "ctrl-l"
   toggle_lyrics_fetcher
 
-# DISABLED def_key "F"
+#def_key "F"
+#  fetch_lyrics_in_background
+#
+#def_key "alt-l"
 #  toggle_fetching_lyrics_in_background
 
-def_key "ctrl_w"
+def_key "ctrl-w"
   toggle_screen_lock
 
-#def_key "`"
-#  toggle_browser_sort_mode
 #
 #def_key "`"
 #  toggle_library_tag_type
@@ -524,7 +555,7 @@ def_key "ctrl_w"
 #def_key "`"
 #  add_random_items
 #
-#def_key "ctrl_p"
+#def_key "ctrl-p"
 #  set_selected_items_priority
 #
 #def_key "q"
