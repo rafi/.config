@@ -1,175 +1,38 @@
 # vim: syntax=config
 #
-# mpv configuration file
-#
-# Warning:
-#
-# The commented example options usually do _not_ set the default values. Call
-# mpv with --list-options to see the default values for most options. There is
-# no builtin or example mpv.conf with all the defaults.
-#
-#
-# Configuration files are read system-wide from /usr/local/etc/mpv.conf
-# and per-user from ~/.config/mpv/mpv.conf, where per-user settings override
-# system-wide settings, all of which are overridden by the command line.
-#
-# Configuration file settings and the command line options use the same
-# underlying mechanisms. Most options can be put into the configuration file
-# by dropping the preceding '--'. See the man page for a complete list of
-# options.
-#
-# See the CONFIGURATION FILES section in the man page
-# for a detailed description of the syntax.
-#
-# Profiles should be placed at the bottom of the configuration file to ensure
-# that settings wanted as defaults are not restricted to specific profiles.
-
-###########
-# General #
-###########
-
+# General
+# ---
 save-position-on-quit
-no-border                               # no window title bar
-msg-module                              # prepend module name to log messages
-msg-color                               # color log messages on terminal
-term-osd-bar                            # display a progress bar on the terminal
-use-filedir-conf                        # look for additional config files in the directory of the opened file
-#pause                                   # no autoplay
-keep-open                               # keep the player open when a file's end is reached
-framedrop=vo                            # drop frames in case your computer is to slow for realtime playback
-autofit-larger=100%x95%                 # resize window in case it's larger than W%xH% of the screen
-deinterlace=auto                        # 'auto' does not imply interlacing-detection
-cursor-autohide-fs-only                 # don't autohide the cursor in window mode, only fullscreen
-input-media-keys=yes                    # enable/disable OSX media keys
-cursor-autohide=1000                    # autohide the curser after 1s
-fs-black-out-screens
+no-border                     # no window title bar
+msg-color                     # color log messages on terminal
+term-osd-bar                  # display a progress bar on the terminal
+keep-open                     # keep the player open when a file's end is reached
+autofit-larger=100%x95%       # resize window in case it's larger than W%xH% of the screen
+cursor-autohide-fs-only       # don't autohide the cursor in window mode, only fullscreen
+input-media-keys=yes          # enable/disable OSX media keys
+cursor-autohide=1000          # autohide the curser after 1s
 
 screenshot-format=png
 screenshot-png-compression=8
 screenshot-template='~/pix/%F (%P) %n'
 
-hls-bitrate=max                         # use max quality for HLS streams
-ytdl-raw-options=format="(bestvideo+bestaudio[height>=?1080]/best)[protocol!=rtmp]"
+# Audio/Video
+# ---
+hls-bitrate=max               # use max quality for HLS streams
+volume=100                    # default volume, 100 = unchanged
+volume-max=200                # maximum volume in %, everything above 100 results in amplification
 
-#########
-# Cache #
-#########
-
+# Cache
+# ---
 cache=yes
-cache-default=50000                     # size in KB
-cache-backbuffer=25000                  # size in KB
-cache-initial=0                         # start playback when your cache is filled up with x kB
-cache-secs=10                           # how many seconds of audio/video to prefetch if the cache is active
+cache-default=50000           # size in KB
+cache-backbuffer=25000        # size in KB
+cache-initial=0               # start playback when your cache is filled up with x kB
+cache-secs=10                 # how many seconds of audio/video to prefetch if the cache is active
 
-#############
-# Subtitles #
-#############
-
-demuxer-mkv-subtitle-preroll            # try to correctly show embedded subs when seeking
-sub-auto=fuzzy                          # external subs don't have to match the file name exactly to autoload
-sub-paths=ass:srt:sub:subs:subtitles:subtitles:/Users/rafi/.cache/subtitles    # search for external subs in the listed subdirectories
-embeddedfonts=yes                       # use embedded fonts for SSA/ASS subs
-sub-fix-timing=no                       # do not try to fix gaps (which might make it worse in some cases)
-ass-force-style=Kerning=yes             # allows you to override style parameters of ASS scripts
-
-# the following options only apply to subtitles without own styling (i.e. not ASS but e.g. SRT)
-# sub-text-font="Source Sans Pro Semibold"
-sub-text-font-size=52
-sub-text-color="#FFFFFFFF"
-sub-text-border-color="#FF262626"
-sub-text-border-size=3.2
-sub-text-shadow-offset=1
-sub-text-shadow-color="#33000000"
-sub-text-spacing=0.5
-
-#############
-# OSD / OSC #
-#############
-
-osc                                     # activate on screen controls
-
-osd-level=1                             # enable osd and display --osd-status-msg on interaction
-osd-duration=2500                       # hide the osd after x ms
-osd-status-msg='${time-pos} / ${duration}${?percent-pos:　(${percent-pos}%)}${?vo-drop-frame-count:${!vo-drop-frame-count==0:　Dropped: ${vo-drop-frame-count}}}\n${?chapter:Chapter: ${chapter}}'
-
-# osd-font='Hiragino Maru Gothic Pro'
-osd-font-size=32
-osd-color='#CCFFFFFF'                   # ARGB format
-osd-border-color='#99000000'            # ARGB format
-#osd-shadow-offset=1                    # pixel width for osd text and progress bar
-osd-bar-align-y=0                       # progress bar y alignment (-1 top, 0 centered, 1 bottom)
-osd-border-size=1                       # size for osd text and progress bar
-osd-bar-h=2                             # height of osd bar as a fractional percentage of your screen height
-osd-bar-w=60                            # width of " " "
-
-#############
-# Languages #
-#############
-
-slang=enm,en,eng,de,deu,ger             # automatically select these subtitles (decreasing priority)
-alang=jp,jpn,en,eng,de,deu,ger          # automatically select these audio tracks (decreasing priority)
-
-#########
-# Audio #
-#########
-
-audio-file-auto=fuzzy                   # external audio doesn't has to match the file name exactly to autoload
-audio-pitch-correction=yes              # automatically insert scaletempo when playing with higher speed
-volume=100                              # default volume, 100 = unchanged
-volume-max=200                          # maximum volume in %, everything above 100 results in amplification
-softvol=yes
-
-################
-# Video Output #
-################
-
-vo=opengl-hq
-
-############
-# Profiles #
-############
-
-# The options declared as part of profiles override global default settings,
-# but only take effect when the profile is active.
-
-[high-quality]
-profile-desc="High quality VO settings"
-vo=opengl-hq:scale=ewa_lanczossharp:cscale=ewa_lanczossoft:dscale=mitchell:tscale=oversample:scale-antiring=0.8:cscale-antiring=0.9:dither-depth=auto:target-prim=bt.709:scaler-resizes-only=yes:sigmoid-upscaling=yes:blend-subtitles=no:deband=yes:deband-iterations=4:deband-grain=32
-# vo=opengl-hq:scale=ewa_lanczossharp:cscale=ewa_lanczossoft:dscale=mitchell:tscale=oversample:scale-antiring=0.8:cscale-antiring=0.9:dither-depth=auto:target-prim=bt.709:scaler-resizes-only=yes:sigmoid-upscaling=yes:blend-subtitles=no:correct-downscaling=yes:deband=yes:deband-iterations=4:deband-grain=32
-
-[mid-quality]
-profile-desc="Medium quality VO settings"
-vo=opengl-hq:scale=spline36:cscale=spline36:dscale=mitchell:tscale=oversample:scale-antiring=0.8:cscale-antiring=0.9:dither-depth=auto:target-prim=bt.709:scaler-resizes-only=yes:sigmoid-upscaling=yes:blend-subtitles=yes:deband=yes:deband-iterations=2:deband-grain=32
-# vo=opengl-hq:scale=spline36:cscale=spline36:dscale=mitchell:tscale=oversample:scale-antiring=0.8:cscale-antiring=0.9:dither-depth=auto:target-prim=bt.709:scaler-resizes-only=yes:sigmoid-upscaling=yes:blend-subtitles=yes:correct-downscaling=yes:deband=yes:deband-iterations=2:deband-grain=32
-
-[low-quality]
-profile-desc="Low energy VO settings"
-vo=opengl:scale=spline36:dscale=mitchell:tscale=oversample:dither-depth=auto:target-prim=bt.709:scaler-resizes-only=yes:sigmoid-upscaling=yes:blend-subtitles=yes
-hwdec=auto
-
-[default]
-
-###################################
-# Protocol Specific Configuration #
-###################################
-
-[protocol.https]
-cache=yes
-cache-default=500000                    # size in KB
-cache-backbuffer=250000                 # size in KB
-cache-secs=60                           # how many seconds of audio/video to prefetch
-#no-cache-pause                         # if the player should pause when the cache runs low
-user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:37.0) Gecko/20100101 Firefox/37.0'
-
-[protocol.http]
-cache=yes
-cache-default=500000                    # size in KB
-cache-backbuffer=250000                 # size in KB
-cache-secs=60                           # how many seconds of audio/video to prefetch
-#no-cache-pause                         # if the player should pause when the cache runs low
-user-agent='Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:37.0) Gecko/20100101 Firefox/37.0'
-
-[extension.gif]
-cache=no
-no-pause
-loop-file=yes
+# Subtitles
+# ---
+sub-auto=fuzzy                # external subs don't have to match the file name exactly to autoload
+embeddedfonts=yes             # use embedded fonts for SSA/ASS subs
+# search for external subs in the listed subdirectories
+sub-file-paths=ass:srt:sub:subs:subtitles:~/.cache/subtitles
