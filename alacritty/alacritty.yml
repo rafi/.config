@@ -6,27 +6,29 @@ shell:
   args:
     - --login
 
-# env:
-#   TERM: xterm-256color
+env:
+  TERM: alacritty
 
 tabspaces: 4
 render_timer: false
+persistent_logging: false
 visual_bell: { duration: 0, animation: EaseOutExpo }
 live_config_reload: false
 draw_bold_text_with_bright_colors: true
 background_opacity: 1.0
 
 window:
-  dimensions: { columns: 250, lines: 80 }
-  padding: { x: 2, y: 2 }
+  # dimensions: { columns: 120, lines: 40 }
+  # padding: { x: 2, y: 2 }
+  dynamic_padding: false
   decorations: none
+  start_maximized: true
 
 font:
   size: 17.0
   offset: { x: 0, y: 0 }
-  glyph_offset: { x: 0.0, y: 0.0 }
+  glyph_offset: { x: 0, y: 0 }
   use_thin_strokes: true  # OSX retina displays only
-  scale_with_dpi: true
   normal: { family: PragmataPro, style: Regular }
   bold:   { family: PragmataPro, style: Regular }
   italic: { family: PragmataPro, style: Regular }
@@ -34,7 +36,6 @@ font:
 mouse:
   double_click: { threshold: 300 }
   triple_click: { threshold: 300 }
-  faux_scrollback_lines: 0
   hide_when_typing: true
 
 selection:
@@ -42,7 +43,7 @@ selection:
   save_to_clipboard: true
 
 cursor:
-  style: Beam
+  style: Block
 
 colors:
   primary:
@@ -117,6 +118,8 @@ key_bindings:
   - { key: RBracket, mods: Alt,     chars: "\x1bk" }
 
   - { key: Q,        mods: Command, action: Quit }
+  # - { key: L,        mods: Control, action: ClearLogNotice }
+  # - { key: L,        mods: Control, chars: "\x0c" }
   - { key: Home,                    chars: "\x1bOH",   mode: AppCursor }
   - { key: Home,                    chars: "\x1b[1~",  mode: ~AppCursor }
   - { key: End,                     chars: "\x1bOF",   mode: AppCursor }
