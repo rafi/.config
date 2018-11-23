@@ -8,8 +8,13 @@
 #-------------------------------------------------
 
 set-option -g default-shell $SHELL
-set-option -g default-terminal "tmux-256color"
-set -g default-command "reattach-to-user-namespace -l ${SHELL}"
+set-option -g default-terminal "screen-256color"
+# set-option -g default-terminal "tmux18-256color"
+
+# Reattach each new window to the user bootstrap namespace
+if-shell \
+  'test "$(uname -s)" = Darwin' \
+  'set-option -g default-command "exec reattach-to-user-namespace -l $SHELL"'
 
 set-option -g set-titles on
 set-option -g set-titles-string '#T #W tmux{#S}:#I.#P'
@@ -245,8 +250,8 @@ set-option -g status-left '#{?client_prefix,#[fg=colour236]#[bg=colour2],} #S #{
 set-option -g status-right-fg colour240
 set-option -g status-right-bg default
 set-option -g status-right-attr none
-set-option -g status-right-length 83
-set-option -g status-right "#[fg=colour239] #(tmux-mem-cpu-load -i 3) #[fg=colour237]#[fg=colour241] #(pmset -g batt | tail -n +2 | awk '{print $3}' | sed 's/;//') #[fg=colour237]#[fg=colour243] %H:%M #[fg=colour237]#[fg=colour246] #h "
+set-option -g status-right-length 90
+set-option -g status-right "#[fg=colour239]#(kubectl config current-context 2>/dev/null) ⎈ #(tmux-mem-cpu-load -i 3) #[fg=colour237]#[fg=colour241] #(pmset -g batt | tail -n +2 | awk '{print $3}' | sed 's/;//') #[fg=colour237]#[fg=colour243] %H:%M #[fg=colour237]#[fg=colour246] #h "
 
 set-window-option -g window-style ''
 set-window-option -g window-active-style ''
