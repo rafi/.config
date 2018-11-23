@@ -21,7 +21,7 @@ shopt -s histreedit     # Add failed commands to the bash history
 shopt -s histappend     # Append each session's history to $HISTFILE
 shopt -s histverify     # Edit a recalled history line before executing
 
-export HISTSIZE=2000
+export HISTSIZE=3000
 export HISTFILESIZE=1500000
 export HISTTIMEFORMAT='[%F %T] '
 export HISTIGNORE='pwd:jobs:ll:ls:l:fg:history:clear:exit'

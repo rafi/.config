@@ -78,7 +78,7 @@ export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
 export MAD_CONFIG="$XDG_CONFIG_HOME/mad/config"
 export WEGORC="$XDG_CONFIG_HOME/wego/config"
 export _Z_DATA="$XDG_CACHE_HOME/z/data"
-export MEMO_HOME="$HOME/docs/books/rafaels_computer/content/"
+export MEMO_HOME="$HOME/docs/books/"
 export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
 export LESSKEY="$XDG_CONFIG_HOME/lesskey/output"
@@ -107,8 +107,9 @@ fi
 # Load only ranger's user config
 export RANGER_LOAD_DEFAULT_RC=FALSE
 
-# Atom editor
+# Editors
 export ATOM_HOME="$XDG_DATA_HOME"/atom
+export ANDROID_SDK_HOME="$XDG_DATA_HOME"/android
 
 # IPython profile directory
 export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython

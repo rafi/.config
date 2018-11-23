@@ -8,6 +8,7 @@
 	path = users/current
 [core]
 	excludesfile = ~/.config/git/ignore
+	hooksPath = ~/.config/git/hooks
 	# Do NOT auto-convert CRLF line endings into LF
 	autocrlf = false
 	# Do NOT check if converting CRLF is reversible
@@ -39,8 +40,6 @@
 	default = current
 	# https://git-scm.com/docs/git-config#git-config-pushfollowTags
 	followTags = true
-[hooks "ctags"]
-	enabled = false
 [submodule]
 	fetchJobs = 8
 [rerere]
@@ -98,9 +97,9 @@
 	newHighlight = green bold 22
 [color "status"]
 	header = 243
-	added = green bold
+	added = green
 	changed = red
-	untracked = blue bold
+	untracked = blue
 	branch = green bold
 	nobranch = red
 [url "git@github.com:"]
