@@ -49,6 +49,8 @@
 /virtualbox
 /vlc
 /qutebrowser/quickmarks
+/zsh/.zcompdump
+/zsh/*.zwc
 
 /ranger/bookmarks
 /ranger/history

@@ -66,7 +66,8 @@ alias dtag='docker inspect --format "{{.Name}}
 {{end}}" $(docker ps -q)'
 
 # Kubernetes
-alias k='kubectl'
+alias k=kubectl
+alias kctx=kubectx
 
 # Shortcuts
 alias c='clear'

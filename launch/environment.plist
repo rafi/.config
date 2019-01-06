@@ -20,6 +20,7 @@
 			launchctl setenv GNUPGHOME $HOME/.config/gnupg
 			launchctl setenv VBOX_USER_HOME $HOME/.config/virtualbox
 			launchctl setenv BSPWM_SOCKET $HOME/.cache/bswpm-socket
+			launchctl setenv PASSWORD_STORE_DIR $HOME/docs/pass/
 			launchctl setenv RXVT_SOCKET $HOME/.cache/urxvtd
 			launchctl setenv URXVT_PERL_LIB $HOME/.config/urxvt/ext
 			launchctl setenv NPM_CONFIG_USERCONFIG $XDG_CONFIG_HOME/npm/npmrc
