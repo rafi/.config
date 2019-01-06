@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+FILE="${1}"
+[ -L "${FILE}" ] && FILE="$(readlink "${FILE}")"
+
+HEIGHT="${2}"
+MIME="$(file -b --mime-type "${FILE}")"
+
+case "${FILE}" in
+	*.tar*) tar tf "$1"; exit 0;;
+	*.zip) unzip -l "$1"; exit 0;;
+	*.rar) unrar l "$1"; exit 0;;
+	*.7z) 7z l "$1";;
+	*.pdf) pdftotext "$1" -;;
+	*.gz|*.bzip|*.bzip2|*.bp|*.bz2)
+		als "${FILE}"
+		exit 0
+		;;
+esac
+
+case "${MIME}" in
+	image/*)
+		# timg "${FILE}"
+		# catimg -r2 "${FILE}"
+		cam -H "$(echo "$HEIGHT*0.6/1" | bc)" "${FILE}"
+		# imgcat --depth=256 --height "$(echo "$HEIGHT*0.9/1" | bc)" "${FILE}"
+		exit 0
+		;;
+	*)
+		bat \
+			--style=numbers,changes \
+			--decorations=always \
+			--color=always \
+			--paging=never \
+			--wrap=never \
+			--tabs=2 \
+			"${FILE}"
+		# highlight -O ansi --force "${FILE}" || cat "${FILE}"
+		exit 0
+		;;
+esac
