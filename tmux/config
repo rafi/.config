@@ -17,7 +17,7 @@ if-shell \
   'set-option -g default-command "exec reattach-to-user-namespace -l $SHELL"'
 
 set-option -g set-titles on
-set-option -g set-titles-string '#T #W tmux{#S}:#I.#P'
+set-option -g set-titles-string '#T #S:#I.#P #W'
 
 set-window-option -g automatic-rename on
 set-window-option -g xterm-keys on
@@ -33,13 +33,16 @@ set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
 set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
 
 # scrollback buffer size increase
-set-option -g history-limit 6000
+set-option -g history-limit 20000
+
+# Limit buffer stack
+set-option -g buffer-limit 20
 
 # Address vim mode switching delay (http://superuser.com/a/252717/65504)
 set-option -s escape-time 0
 
-# tmux messages are displayed for 3 seconds
-set-option -g display-time 3000
+# tmux messages are displayed for 2 seconds
+set-option -g display-time 2000
 
 # Allow the arrow key to be used immediately after changing windows, default is 500
 set-option -g repeat-time 300
@@ -82,6 +85,25 @@ bind-key c new-window -c "#{pane_current_path}"
 # Create new session
 bind-key N new-session
 
+# Link window from different session/window
+bind L command-prompt -p "Link window from (session:window):" "link-window -s %% -a"
+
+# Merge session with another one (e.g. move all windows)
+# If you use adhoc 1-window sessions, and you want to preserve session upon exit
+# but don't want to create a lot of small unnamed 1-window sessions around
+# move all windows from current session to main named one (dev, work, etc)
+bind C-u command-prompt -p "Session to merge with:" \
+  "run-shell 'yes | head -n #{session_windows} | xargs -I {} -n 1 tmux movew -t %%'"
+
+# Hide status bar on demand
+bind C-s if -F '#{s/off//:status}' 'set status off' 'set status on'
+
+# Window monitoring for activity and silence
+bind m setw monitor-activity \; display-message 'Monitor window activity [#{?monitor-activity,ON,OFF}]'
+bind M if -F '#{monitor-silence}' \
+  'setw monitor-silence 0 ; display-message "Monitor window silence [OFF]"' \
+  'command-prompt -p "Monitor silence: interval (s)" "setw monitor-silence %%"'
+
 # Kill a session
 bind-key D choose-tree -sf "kill-session -t '%%'"
 
@@ -98,10 +120,10 @@ bind-key n switch-client -n
 bind-key p switch-client -p
 
 # Window navigation
+bind-key -n M-h previous-window
+bind-key -n M-l next-window
 bind-key -n M-Left previous-window
 bind-key -n M-Right next-window
-bind-key -n M-9 previous-window
-bind-key -n M-0 next-window
 
 # Window Re-order
 bind-key -n M-< swap-window -t -1
@@ -133,10 +155,8 @@ bind-key b set-window-option main-pane-width 90\; select-layout main-vertical
 bind-key B set-window-option main-pane-height 30\; select-layout main-horizontal
 
 # Use a tick for renaming the window prompt
-unbind-key ','
-bind-key ` command-prompt -I '#W' -p 'Rename window>' "rename-window '%%'"
-unbind-key '$'
-bind-key '$' command-prompt -I '#S' -p 'Rename session>' "rename-session '%%'"
+bind-key r command-prompt -I '#W' -p '(rename window)' "rename-window '%%'"
+bind-key R command-prompt -I '#S' -p '(rename session)' "rename-session '%%'"
 
 # Open a man page in new vertical pane
 bind-key / command-prompt -p 'Man>' "split-window -d -v 'exec man %%'"
@@ -159,10 +179,8 @@ bind-key P split-window -h 'exec htop'
 bind-key ? split-window -h 'exec tmux list-keys | less'
 
 # Force a reload of the config file
-bind-key r source-file $XDG_CONFIG_HOME/tmux/config \; display-message "Config reloaded."
+bind-key C-r source-file $XDG_CONFIG_HOME/tmux/config \; display "Config reloaded"
 
-#bind-key R respawn-window
-bind-key R refresh-client
 bind-key * list-clients
 
 # Search for previous error
@@ -192,14 +210,37 @@ set-window-option -g mode-keys vi
 # Allows scrolling and selecting in copy-mode
 set-option -g -q mouse on
 
+# Trigger copy mode by Cmd-Up
+bind -n M-Up copy-mode
+
+# Copies selection to clipboard
+bind -Tcopy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel pbcopy
+
+# Setup copy-mode vi bindings
 unbind -Tcopy-mode-vi Enter
 bind-key Escape copy-mode
-bind-key -Tcopy-mode-vi y send -X copy-pipe-and-cancel pbcopy
+if "which pbcopy" "bind -Tcopy-mode-vi y send -X copy-pipe-and-cancel pbcopy"
+if "which xclip" "bind -Tcopy-mode-vi y send -X copy-pipe-and-cancel 'xclip -i -selection clipboard'"
 bind-key -Tcopy-mode-vi v send -X begin-selection
 bind-key -Tcopy-mode-vi V send -X select-line
 bind-key -Tcopy-mode-vi C-v send -X rectangle-toggle
 bind-key -Tcopy-mode-vi Escape send -X clear-selection
 bind-key -Tcopy-mode-vi Y copy-mode \; send -X begin-selection \; send -X end-of-line \; send -X copy-pipe-and-cancel pbcopy
+
+# Toggle key-bindings to inner/remote session
+# See https://github.com/tmux/tmux/issues/237
+bind -T root F12  \
+  set prefix None \;\
+  set key-table off \;\
+  set window-status-current-style "bg=colour254" \;\
+  if -F '#{pane_in_mode}' 'send-keys -X cancel' \;\
+  refresh-client -S \;\
+
+bind -T off F12 \
+  set -u prefix \;\
+  set -u key-table \;\
+  set -u window-status-current-style \;\
+  refresh-client -S
 
 # Look n Feel
 #-------------------------------------------------
@@ -279,10 +320,11 @@ set-window-option -g window-status-last-attr none
 
 # Plugins
 #-------------------------------------------------
+set -g @extrakto_split_size '12'
 run-shell $XDG_CONFIG_HOME/tmux/plugins/extrakto/extrakto.tmux
 
-set -g @scroll-without-changing-pane "on"
-set -g @scroll-speed-num-lines-per-scroll "1"
+set -g @scroll-without-changing-pane 'on'
+set -g @scroll-speed-num-lines-per-scroll '1'
 run-shell $XDG_CONFIG_HOME/tmux/plugins/better-mouse/scroll_copy_mode.tmux
 
 set -g @pass-key b
