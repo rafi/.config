@@ -179,19 +179,25 @@ handle_mime() {
                 local pygmentize_format='terminal'
                 local highlight_format='ansi'
             fi
-            # bat "${FILE_PATH}" && exit 5
-            highlight --replace-tabs="${HIGHLIGHT_TABWIDTH}" --out-format="${highlight_format}" \
-                --style="${HIGHLIGHT_STYLE}" --force -- "${FILE_PATH}" && exit 5
+            bat \
+                --style=numbers,changes \
+                --decorations=always \
+                --color=always \
+                --paging=never \
+                --wrap=never \
+                --tabs=2 \
+                "${FILE_PATH}" && exit 5
+            # highlight --replace-tabs="${HIGHLIGHT_TABWIDTH}" --out-format="${highlight_format}" \
+            #     --style="${HIGHLIGHT_STYLE}" --force -- "${FILE_PATH}" && exit 5
             # pygmentize -f "${pygmentize_format}" -O "style=${PYGMENTIZE_STYLE}" -- "${FILE_PATH}" && exit 5
             exit 2;;
 
         # Image
         image/*)
             # Preview as text conversion
-            timg "$FILE_PATH" && exit 4
+            # timg "$FILE_PATH" && exit 4
+            # catimg -w "$PV_WIDTH" "$FILE_PATH" && exit 4
             cam -W "$PV_WIDTH" "$FILE_PATH" && exit 4
-            img2txt --gamma=0.6 --width="${PV_WIDTH}" -- "${FILE_PATH}" && exit 4
-            image2ascii -f "${FILE_PATH}" -w "${PV_WIDTH}" -g "${PV_HEIGHT}" -i
             exiftool "${FILE_PATH}" && exit 5
             exit 1;;
 
