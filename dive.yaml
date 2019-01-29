@@ -1,0 +1,39 @@
+---
+
+log:
+  enabled: true
+  path: ~/.cache/dive.log
+  level: info
+
+# Note: you can specify multiple bindings by separating values with a comma.
+# Note: UI hinting is derived from the first binding
+keybinding:
+  # Global bindings
+  quit: ctrl+c
+  toggle-view: tab, ctrl+space
+  filter-files: ctrl+f, ctrl+slash
+
+  # Layer view specific bindings
+  compare-all: ctrl+b
+  compare-layer: ctrl+l
+
+  # File view specific bindings
+  toggle-collapse-dir: space
+  toggle-added-files: ctrl+b
+  toggle-removed-files: ctrl+r
+  toggle-modified-files: ctrl+m
+  toggle-unmodified-files: ctrl+u
+  page-up: ctrl+u, pgup
+  page-down: ctrl+d, pgdn
+
+diff:
+  hide:
+    - unchanged
+
+filetree:
+  collapse-dir: false
+
+  pane-width: 0.5
+
+layer:
+  show-aggregated-changes: false
