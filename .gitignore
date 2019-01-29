@@ -11,6 +11,7 @@
 /dconf
 /fb-client
 /fish/fishd.*
+/fish/fish_variables
 /fontforge
 /gcalcli
 /gcloud

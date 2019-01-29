@@ -292,7 +292,7 @@ set-option -g status-right-fg colour240
 set-option -g status-right-bg default
 set-option -g status-right-attr none
 set-option -g status-right-length 90
-set-option -g status-right "#[fg=colour239]#(kubectl config current-context 2>/dev/null) ⎈ #(tmux-mem-cpu-load -i 3) #[fg=colour237]#[fg=colour241] #(pmset -g batt | tail -n +2 | awk '{print $3}' | sed 's/;//') #[fg=colour237]#[fg=colour243] %H:%M #[fg=colour237]#[fg=colour246] #h "
+set-option -g status-right "#[fg=colour239]#(kubectl config current-context 2>/dev/null) ⎈ #(tmux-mem-cpu-load -i 3 -g 5 -m 2 -a 2) #[fg=colour237]#[fg=colour241] #(battery) #[fg=colour237]#[fg=colour243] %H:%M #[fg=colour237]#[fg=colour246] #h "
 
 set-window-option -g window-style ''
 set-window-option -g window-active-style ''

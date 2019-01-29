@@ -10,7 +10,9 @@ alias sudo='sudo '
 hash gls 2>/dev/null && LS="gls" || LS="ls"
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	hash gdircolors 2>/dev/null && alias dircolors='gdircolors'
-	hash sort 2>/dev/null && alias sort='gsort'
+	hash gfind 2>/dev/null && alias find='gfind'
+	hash gsort 2>/dev/null && alias sort='gsort'
+	hash gstat 2>/dev/null && alias stat='gstat'
 	LS='gls'
 fi
 

@@ -20,9 +20,10 @@ esac
 
 case "${MIME}" in
 	image/*)
+		chafa --fill=space -c 256 -s 80x"${HEIGHT}" "${FILE}"
 		# timg "${FILE}"
 		# catimg -r2 "${FILE}"
-		cam -H "$(echo "$HEIGHT*0.6/1" | bc)" "${FILE}"
+		# cam -H "$(echo "$HEIGHT*0.6/1" | bc)" "${FILE}"
 		# imgcat --depth=256 --height "$(echo "$HEIGHT*0.9/1" | bc)" "${FILE}"
 		exit 0
 		;;
