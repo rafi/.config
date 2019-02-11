@@ -1,42 +1,65 @@
 #!/usr/bin/env bash
 
-FILE="${1}"
-[ -L "${FILE}" ] && FILE="$(readlink "${FILE}")"
+# preview script
+# github.com/rafi/.config
 
+FILE="${1}"
 HEIGHT="${2}"
-MIME="$(file -b --mime-type "${FILE}")"
+
+[ -L "${FILE}" ] && FILE="$(readlink "${FILE}")"
 
 case "${FILE}" in
 	*.tar*) tar tf "$1"; exit 0;;
 	*.zip) unzip -l "$1"; exit 0;;
 	*.rar) unrar l "$1"; exit 0;;
 	*.7z) 7z l "$1";;
-	*.pdf) pdftotext "$1" -;;
-	*.gz|*.bzip|*.bzip2|*.bp|*.bz2)
-		als "${FILE}"
-		exit 0
-		;;
+	*.json) jq -C . "$1"; exit 0;;
+	*.odt|*.ods|*.odp|*.sxw) odt2txt "$1"; exit 0;;
+	*.htm|*.html|*.xhtml) w3m -dump "$1" || lynx -dump -- "$1"; exit 0;;
+	*.gz|*.bzip|*.bzip2|*.bp|*.bz2) als "$1"; exit 0;;
 esac
 
-case "${MIME}" in
+case "$(file -b --mime-type "${FILE}")" in
+	video/*|audio/*)
+		mediainfo "${FILE}" | sed 's/ *:/:/g' || \
+			id3ted -L "${FILE}" || \
+			exiftool "${FILE}" || \
+			id3info "${FILE}"
+		exit 0;;
+
 	image/*)
-		chafa --fill=space -c 256 -s 80x"${HEIGHT}" "${FILE}"
-		# timg "${FILE}"
-		# catimg -r2 "${FILE}"
-		# cam -H "$(echo "$HEIGHT*0.6/1" | bc)" "${FILE}"
-		# imgcat --depth=256 --height "$(echo "$HEIGHT*0.9/1" | bc)" "${FILE}"
+		chafa --fill=space -c 256 -s 80x"${HEIGHT}" "${FILE}" || \
+			timg "${FILE}" || \
+			catimg -r 2 -w 110 -t "${FILE}" || \
+			cam -H "$(echo "$HEIGHT*0.6/1" | bc)" "${FILE}" || \
+			imgcat --depth=256 --height "$(echo "$HEIGHT*0.9/1" | bc)" "${FILE}"
 		exit 0
 		;;
+
+	application/pdf)
+		if hash pdftoppm 2>/dev/null && hash chafa 2>/dev/null; then
+			chafa --fill=space -c 256 -s 80x"${HEIGHT}" <(pdftoppm -f 1 -l 1 \
+				-scale-to-x 1920 \
+				-scale-to-y -1 \
+				-singlefile \
+				-jpeg -tiffcompression jpeg \
+				-- "${FILE}")
+		else
+			pdftotext -l 10 -nopgbrk -q -- "$FILE" -
+		fi
+		exit 0;;
+
 	*)
 		bat \
-			--style=numbers,changes \
-			--decorations=always \
-			--color=always \
-			--paging=never \
-			--wrap=never \
-			--tabs=2 \
-			"${FILE}"
-		# highlight -O ansi --force "${FILE}" || cat "${FILE}"
+				--style=numbers,changes \
+				--decorations=always \
+				--color=always \
+				--paging=never \
+				--wrap=never \
+				--tabs=2 \
+				"${FILE}" || \
+			highlight -O ansi --force "${FILE}" || \
+			cat "${FILE}"
 		exit 0
 		;;
 esac

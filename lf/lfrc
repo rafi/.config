@@ -1,9 +1,12 @@
+# lf settings
+# github.com/rafi/.config
+
 set shell bash
-set ifs "\n"
 set shellopts '-eu'
+set ifs "\n"
 
 set hidden on
-set scrolloff 2
+set scrolloff 10
 set tabstop 2
 set smartcase
 set dircounts
@@ -11,88 +14,119 @@ set ratios '1:3:2'
 set info size
 set previewer ~/.config/lf/preview
 
-map x $$f
-map X !$f
+# keyboard mappings
+# ---
 
-map o &mimeopen $f
-map O $mimeopen --ask $f
+map <enter> open
+map E &$OPENER $f
 
+map o $mimeopen --ask $f
+map O $mimeopen --ask-default $f
+
+# create directory/file
 map ad push $mkdir<space>
 map af push $touch<space>
 
 map u !du -hsx * | sort -rh | less
 map f $lf -remote "send $id select $(fzf)"
-map r push :rename<space>
-map S $LFLVL=$LFLVL:+ $SHELL
-map D trash
 map i $LESS='-iWQMXR~' bat --paging=always --theme=TwoDark "$f"
+map I !gstat $f || stat $f; echo ; du -sh $f ; echo ; file -I -b -p $f
+map <esc> unselect; clear
+
+# beyond compare
+map = &bcomp $fx
+
+# show documentation (overrides 'search-back' command)
 map ? $lf -doc | less
+
+map p paste
+map D trash
+map <delete> trash
+
+# execute current file (must be executable)
+map x $$f
+map X !$f
+
+# rename file
+map r $lf -remote "send $id push :rename<space>'$(basename $f | sed 's/ /<space>/g')'<left>"
+map R push :rename<space>
 
 cmap <up> cmd-history-prev
 cmap <down> cmd-history-next
+cmap <c-b> cmd-word-back
 # waiting for https://github.com/gokcehan/lf/issues/111
-#cmap <c-right> cmd-word
-#cmap <c-left> cmd-word-back
+# cmap <c-right> cmd-word
+# cmap <c-left> cmd-word-back
 
-cmd rename %[ -e $1 ] && printf "file exists" || mv $f $1
-cmd mc ${{ tmux split-window -h lf }}
+# tmux tabs
+map gn &tmux split-window -v lf
+
+# directory aliases
+map gv cd ~/.config/nvim
+map gc cd ~/.config
+map gp cd ~/code
+map gd cd ~/dl
+map gD cd ~/docs
+
+# commands
+# ---
+
+cmd rename %[ -e $1 ] && printf "file exists" || mv "$f" "$1"
 cmd mkdir %[ -n "${1}" ] && mkdir ${1} || echo "Argument needed"
 cmd mkfile %[ -n "${1}" ] && touch ${1} || echo "Argument needed"
-cmd trash $IFS="`printf '\n\t'`"; mv $fx $HOME/.trash
+cmd trash %set -f; mv -f $fx ~/.trash
 
 cmd open ${{
-  case $(file --dereference --mime-type $f -b) in
-    inode/x-empty) $EDITOR $fx ;;
-    text/*) $EDITOR $fx;;
-    video/*) nohup vlc $fx > /dev/null & ;;
-    audio/midi) timidity $fx ;;
-    audio/*) nohup vlc $fx > /dev/null & ;;
-    application/epub+zip) nohup FBReader $f > /dev/null & ;;
-    application/pdf) nohup zathura $f > /dev/null & ;;
-    *) for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
-  esac
+	case $(file --dereference --mime-type $f -b) in
+		inode/x-empty) $EDITOR $fx ;;
+		text/*) $EDITOR $fx;;
+		video/*) nohup mpv $fx > /dev/null & ;;
+		audio/*) nohup mpv $fx > /dev/null & ;;
+		audio/midi) timidity $fx ;;
+		application/epub+zip) nohup FBReader $f > /dev/null & ;;
+		application/pdf) nohup zathura $f > /dev/null & ;;
+		*) for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
+	esac
+}}
+
+# delete current file or selected files (prompting)
+cmd delete ${{
+	set -f
+	printf "$fx\n"
+	printf "delete? [y/n]"
+	read ans
+	[ $ans = "y" ] && rm -rf $fx
+}}
+
+cmd paste &{{
+	load=$(lf -remote 'load')
+	mode=$(echo "$load" | sed -n '1p')
+	list=$(echo "$load" | sed '1d')
+	if [ $mode = 'copy' ]; then
+		rsync -avh --ignore-existing --progress $list . \
+			| stdbuf -i0 -o0 -e0 tr '\r' '\n' \
+			| while read line; do
+				echo "$line"
+				lf -remote "send $id echo $line"
+			done
+	elif [ $mode = 'move' ]; then
+		mv -n $list .
+	fi
+	lf -remote 'send load'
+	lf -remote 'send clear'
 }}
 
 # dynamically set info displayed based on the number of columns
 cmd recol !{{
-  w=$(stty size | awk '{print $2}')
-  if [ $w -lt 60 ]; then
-    [ $w -lt 40 ] && lf -remote "send $id set nopreview"
-    lf -remote "send $id set ratios 1"
-  elif [ $w -lt 80 ]; then
-    lf -remote "send $id set ratios 1:2"
-  elif [ $w -le 160 ]; then
-    lf -remote "send $id set ratios 1:2:3"
-  else
-    lf -remote "send $id set ratios 1:2:3:5"
-  fi
+	w=$(stty size | awk '{print $2}')
+	if [ $w -lt 60 ]; then
+		[ $w -lt 40 ] && lf -remote "send $id set nopreview"
+		lf -remote "send $id set ratios 1"
+	elif [ $w -lt 80 ]; then
+		lf -remote "send $id set ratios 1:2"
+	elif [ $w -le 160 ]; then
+		lf -remote "send $id set ratios 1:2:3"
+	else
+		lf -remote "send $id set ratios 1:2:3:5"
+	fi
 }}
-
-
-# # rename current file without overwrite
-# cmd rename ${{
-#     if [ -e "$1" ]; then
-#         lf -remote "send $id echo file exists"
-#     else
-#         mv "$f" "$1"
-#         lf -remote "send renew"
-#     fi
-# }}
-# 
-# cmd put &{{
-#   load=$(lf -remote 'load')
-#   mode=$(echo "$load" | sed -n '1p')
-#   list=$(echo "$load" | sed '1d')
-#   if [ $mode = 'copy' ]; then
-#     rsync -av --ignore-existing --progress "$list" . \
-#     | stdbuf -i0 -o0 -e0 tr '\r' '\n' \
-#     | while read line; do
-#       lf -remote "send $id echo $line"
-#     done
-#   elif [ $mode = 'move' ]; then
-#     mv -n "$list" .
-#   fi
-#   lf -remote "send $id reload"
-#   lf -remote "$(printf 'save\nmove\n\n')"
-#   lf -remote "send sync"
-# }}
