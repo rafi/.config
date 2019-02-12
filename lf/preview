@@ -49,12 +49,12 @@ case "$(file -b --mime-type "${FILE}")" in
 		exit 0
 		;;
 
-	# opendocument with odt2txt
+	# opendocument with pandoc/odt2txt
 	application/vnd.oasis.opendocument*)
 		pandoc "${FILE}" --to=markdown || odt2txt "${FILE}"
 		exit 0;;
 
-	# pdf first sheet screenshot with pdftoppm and chafa
+	# pdf first sheet screenshot with pdftoppm and chafa or pdftotext
 	application/pdf)
 		if hash pdftoppm 2>/dev/null && hash chafa 2>/dev/null; then
 			chafa --fill=space -c 256 -s 80x"${HEIGHT}" <(pdftoppm -f 1 -l 1 \
@@ -68,17 +68,12 @@ case "$(file -b --mime-type "${FILE}")" in
 		fi
 		exit 0;;
 
-	# all other types use bat/highlight/cat
+	# all other types use bat/pygmentize/highlight/cat
 	*)
-		bat \
-				--style=numbers,changes \
-				--decorations=always \
-				--color=always \
-				--paging=never \
-				--wrap=never \
-				--tabs=2 \
-				"${FILE}" || \
-			highlight -O ansi --force "${FILE}" || \
+		# bat "${FILE}" --tabs=2 --style=numbers,changes --decorations=always \
+		# 		--color=always --paging=never --wrap=never || \
+			pygmentize -P tabsize=2 -O style=monokai -f console256 -g "${FILE}" || \
+			highlight -t 2 -s rdark -O xterm256 --force "${FILE}" || \
 			cat "${FILE}"
 		exit 0
 		;;
