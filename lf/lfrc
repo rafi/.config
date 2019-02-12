@@ -10,7 +10,7 @@ set scrolloff 10
 set tabstop 2
 set smartcase
 set dircounts
-set ratios '1:3:2'
+set ratios '1:2:3'
 set info size
 set previewer ~/.config/lf/preview
 
@@ -32,6 +32,7 @@ map f $lf -remote "send $id select $(fzf)"
 map i $LESS='-iWQMXR~' bat --paging=always --theme=TwoDark "$f"
 map I !gstat $f || stat $f; echo ; du -sh $f ; echo ; file -I -b -p $f
 map <esc> unselect; clear
+map zz push :z<space>
 
 # beyond compare
 map = &bcomp $fx
@@ -41,7 +42,6 @@ map ? $lf -doc | less
 
 map p paste
 map D trash
-map <delete> trash
 
 # execute current file (must be executable)
 map x $$f
@@ -114,6 +114,17 @@ cmd paste &{{
 	fi
 	lf -remote 'send load'
 	lf -remote 'send clear'
+}}
+
+# quickly cd into frecent directories using github.com/rupa/z
+cmd z ${{
+	set +u
+	source /usr/local/etc/profile.d/z.sh
+	if [ "$?" = "0" ]; then
+		dir="$(_z "$1" && pwd)"
+		lf -remote "send $id cd $dir"
+		lf -remote "send $id echo $dir"
+	fi
 }}
 
 # dynamically set info displayed based on the number of columns
