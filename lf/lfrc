@@ -6,51 +6,59 @@ set shellopts '-eu'
 set ifs "\n"
 
 set hidden on
-set scrolloff 10
+set scrolloff 4
 set tabstop 2
 set smartcase
 set dircounts
-set ratios '1:2:3'
 set info size
+set sortby natural
+set ratios '1:2:3'
+set timefmt '2006-01-02 15:04:05.000000000 -0700'
 set previewer ~/.config/lf/preview
 
 # keyboard mappings
 # ---
 
+# open machanisms
 map <enter> open
 map E &$OPENER $f
-
 map o $mimeopen --ask $f
 map O $mimeopen --ask-default $f
 
-# create directory/file
-map ad push $mkdir<space>
-map af push $touch<space>
-
+# general utilities
 map u !du -hsx * | sort -rh | less
 map f $lf -remote "send $id select $(fzf)"
 map i $LESS='-iWQMXR~' bat --paging=always --theme=TwoDark "$f"
 map I !gstat $f || stat $f; echo ; du -sh $f ; echo ; file -I -b -p $f
 map <esc> unselect; clear
+map sn :{{ set sortby natural; set info size; }}
 map zz push :z<space>
-
-# beyond compare
-map = &bcomp $fx
+map gn &tmux split-window -v lf
+# TODO
+# map gt &tmux
+# map gT &tmux
 
 # show documentation (overrides 'search-back' command)
 map ? $lf -doc | less
 
+# file trash, paste and rename
 map p paste
 map D trash
+map r $lf -remote "send $id push :rename<space>'$(basename $f | sed 's/ /<space>/g')'<left>"
+map R push :rename<space>
+
+# create directory/file
+map ad push $mkdir<space>
+map af push $touch<space>
+
+# beyond compare selected files/directories
+map = &bcompare $fx
 
 # execute current file (must be executable)
 map x $$f
 map X !$f
 
-# rename file
-map r $lf -remote "send $id push :rename<space>'$(basename $f | sed 's/ /<space>/g')'<left>"
-map R push :rename<space>
-
+# movements
 cmap <up> cmd-history-prev
 cmap <down> cmd-history-next
 cmap <c-b> cmd-word-back
@@ -58,15 +66,18 @@ cmap <c-b> cmd-word-back
 # cmap <c-right> cmd-word
 # cmap <c-left> cmd-word-back
 
-# tmux tabs
-map gn &tmux split-window -v lf
-
 # directory aliases
 map gv cd ~/.config/nvim
 map gc cd ~/.config
 map gp cd ~/code
 map gd cd ~/dl
 map gD cd ~/docs
+map ge cd /etc
+map gm cd /mnt
+map go cd /opt
+map g/ cd /
+map g~ cd ~
+map ~ cd ~
 
 # commands
 # ---
@@ -75,7 +86,9 @@ cmd rename %[ -e $1 ] && printf "file exists" || mv "$f" "$1"
 cmd mkdir %[ -n "${1}" ] && mkdir ${1} || echo "Argument needed"
 cmd mkfile %[ -n "${1}" ] && touch ${1} || echo "Argument needed"
 cmd trash %set -f; mv -f $fx ~/.trash
+${{ mkdir -p ~/.trash }}
 
+# replace open command with robust selection of openers
 cmd open ${{
 	case $(file --dereference --mime-type $f -b) in
 		inode/x-empty) $EDITOR $fx ;;
@@ -93,11 +106,12 @@ cmd open ${{
 cmd delete ${{
 	set -f
 	printf "$fx\n"
-	printf "delete? [y/n]"
+	printf "Delete items? [y/n]"
 	read ans
 	[ $ans = "y" ] && rm -rf $fx
 }}
 
+# replace paste command with rsync and progress display
 cmd paste &{{
 	load=$(lf -remote 'load')
 	mode=$(echo "$load" | sed -n '1p')
@@ -128,16 +142,17 @@ cmd z ${{
 }}
 
 # dynamically set info displayed based on the number of columns
-cmd recol !{{
-	w=$(stty size | awk '{print $2}')
-	if [ $w -lt 60 ]; then
-		[ $w -lt 40 ] && lf -remote "send $id set nopreview"
+cmd recol %{{
+	w=$(tput cols)
+	if [ $w -le 60 ]; then
 		lf -remote "send $id set ratios 1"
-	elif [ $w -lt 80 ]; then
+		lf -remote "send $id set nopreview"
+	elif [ $w -le 80 ]; then
 		lf -remote "send $id set ratios 1:2"
 	elif [ $w -le 160 ]; then
 		lf -remote "send $id set ratios 1:2:3"
 	else
 		lf -remote "send $id set ratios 1:2:3:5"
 	fi
+	lf -remote "send $id echo 'ui adjusted for width of $w'"
 }}
