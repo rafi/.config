@@ -5,6 +5,7 @@
 
 # Carry over aliases to the root account when using sudo
 alias sudo='sudo '
+alias ranger=lf
 
 # Use GNU tools on OSX instead of BSD
 hash gls 2>/dev/null && LS="gls" || LS="ls"
@@ -22,6 +23,8 @@ alias l='ls -CFa'
 alias ll='ls -alF'
 alias lsd='ls -Gal | grep ^d'
 unset LS
+
+alias tree='tree -F --dirsfirst -a -I ".git|.hg|.svn|__pycache__|.mypy_cache|.pytest_cache|*.egg-info|.sass-cache|.DS_Store" --ignore-case'
 
 alias grep="grep $GREP_OPTIONS"
 unset GREP_OPTIONS
@@ -135,7 +138,7 @@ fi
 alias v='vim $(fzf)'
 alias vi=vim
 alias vimdiff='vim -d'
-alias testvim="VIMINIT='let \$MYVIMRC=\"\$HOME/nvim/init.vim\" | source \$MYVIMRC' nvim"
+alias testvim="VIMINIT='let \$MYVIMRC=\"\$HOME/box/testvim/init.vim\" | source \$MYVIMRC' nvim"
 
 # A quick way to get out of current directory
 alias ..='cd ..'

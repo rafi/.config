@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 # github.com/rafi/.config
 
 # Archlinux loads bash completions from /etc
@@ -5,7 +6,8 @@
 
 # OSX and Ubuntu/Debian bash completions aren't loaded automatically.
 if [[ "$OSTYPE" == "darwin"* ]]; then
-	if [ -f "$PREFIX/etc/profile.d/bash_completion.sh" ]; then
+	export BASH_COMPLETION_COMPAT_DIR="$PREFIX/etc/bash_completion.d"
+	if [[ -r "$PREFIX/etc/profile.d/bash_completion.sh" ]]; then
 		. "$PREFIX/etc/profile.d/bash_completion.sh"
 	fi
 elif [ -f /etc/lsb-release ]; then

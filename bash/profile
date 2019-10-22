@@ -1,16 +1,13 @@
 #!/usr/bin/env bash
-#      .-.     .-.     .-.     .-.     .-.     .-.
-# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `
-#
-# github.com/rafi/.config bash/profile
+# github.com/rafi/.config
 
 source "$HOME/.config/bash/exports"
 
 if [[ "$OSTYPE" != "darwin"* ]] && \
 	[ -f "$XDG_CONFIG_HOME/systemd/user/console.target" ]; then
-	systemctl --user set-environment XDG_VTNR=1
+# 	systemctl --user set-environment XDG_VTNR=1
 	# Import environment on local login
-	systemctl --user import-environment
+	# systemctl --user import-environment
 	# Bring up systemd --user to the specified target
 	systemctl --user start console.target
 fi

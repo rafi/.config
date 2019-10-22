@@ -164,6 +164,7 @@ fi
 # Always install ruby gems local to the user
 if hash gem 2>/dev/null
 then
+	[ -d "/usr/local/opt/ruby/bin" ] && export PATH="/usr/local/opt/ruby/bin:$PATH"
 	export GEMRC="$XDG_CONFIG_HOME/gemrc/config"
 	export GEM_HOME="$HOME/.local/lib/ruby/gems/$(ruby -e 'puts RbConfig::CONFIG["ruby_version"]')"
 	export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem/specs"

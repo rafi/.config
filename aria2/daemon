@@ -2,11 +2,11 @@
 daemon=true
 continue=true
 check-integrity=true
-dir=/mnt/media/tmp/dl
+dir=/home/rafi/media/dl
 input-file=/home/rafi/.cache/aria2/session.dat
 save-session=/home/rafi/.cache/aria2/session.dat
 
-log=/home/rafi/.cache/aria2/aria2.log
+log=-
 log-level=warn
 enable-rpc=true
 file-allocation=falloc

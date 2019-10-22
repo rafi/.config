@@ -1,7 +1,5 @@
-#      .-.     .-.     .-.     .-.     .-.     .-.
-# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `
-#
-# github.com/rafi ~/.bashrc config
+#!/usr/bin/env bash
+# github.com/rafi/.config
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -24,7 +22,7 @@ shopt -s histverify     # Edit a recalled history line before executing
 export HISTSIZE=3000
 export HISTFILESIZE=1500000
 export HISTTIMEFORMAT='[%F %T] '
-export HISTIGNORE='pwd:jobs:ll:ls:l:fg:history:clear:exit'
+export HISTIGNORE='pwd:jobs:ll:ls:l:fg:history:c:clear:exit'
 export HISTCONTROL=ignoreboth
 export HISTFILE="$XDG_CACHE_HOME/bash_history"
 export VISUAL=nvim
