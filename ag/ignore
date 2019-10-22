@@ -21,6 +21,9 @@ macports-ports/
 *.cache
 *.swp
 *.py[co]
+__pycache__
+*.egg-info
+.pytest_cache
 *.s?o
 /Applications/
 /Library/
@@ -30,3 +33,4 @@ node_modules/
 gems/
 dist/
 tmp/
+/vendor
