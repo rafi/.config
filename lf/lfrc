@@ -5,6 +5,8 @@ set shell bash
 set shellopts '-eu'
 set ifs "\n"
 
+set color256 on
+set icons on
 set hidden on
 set scrolloff 4
 set tabstop 2
