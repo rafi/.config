@@ -13,9 +13,6 @@
 set $alt Mod1
 set $mod Mod4
 
-# i3 behavior
-workspace_auto_back_and_forth yes
-
 # Disable mouse features
 focus_follows_mouse no
 mouse_warping none
@@ -57,14 +54,14 @@ set $w8 8 ©
 
 # Change focus, special wrapper for seamless movement between:
 # i3 windows, tmux panes, and VIM windows.
-bindsym $alt+h exec --no-startup-id i3-focus left
-bindsym $alt+j exec --no-startup-id i3-focus down
-bindsym $alt+k exec --no-startup-id i3-focus up
-bindsym $alt+l exec --no-startup-id i3-focus right
-#bindsym $alt+h focus left
-#bindsym $alt+j focus down
-#bindsym $alt+k focus up
-#bindsym $alt+l focus right
+# bindsym $alt+h exec --no-startup-id i3-focus left
+# bindsym $alt+j exec --no-startup-id i3-focus down
+# bindsym $alt+k exec --no-startup-id i3-focus up
+# bindsym $alt+l exec --no-startup-id i3-focus right
+bindsym $alt+h focus left
+bindsym $alt+j focus down
+bindsym $alt+k focus up
+bindsym $alt+l focus right
 
 # Alternatively, you can use the Super+Arrows:
 bindsym $mod+Left  focus left
@@ -72,17 +69,17 @@ bindsym $mod+Down  focus down
 bindsym $mod+Up    focus up
 bindsym $mod+Right focus right
 
-# Move focused window
+# Move focused window:
+#   alt+ctrl+h/j/k/l
+#   mod+ctrl+left/down/up/right
 bindsym $alt+Ctrl+h move left
 bindsym $alt+Ctrl+j move down
 bindsym $alt+Ctrl+k move up
 bindsym $alt+Ctrl+l move right
-
-# Alternatively, you can use the Super+Shift+Arrows:
-bindsym $mod+Shift+Left  move left
-bindsym $mod+Shift+Down  move down
-bindsym $mod+Shift+Up    move up
-bindsym $mod+Shift+Right move right
+bindsym $mod+Ctrl+Left  move left
+bindsym $mod+Ctrl+Down  move down
+bindsym $mod+Ctrl+Up    move up
+bindsym $mod+Ctrl+Right move right
 
 # Vert/horiz orientation and fullscreen
 bindsym $alt+f      fullscreen
@@ -116,37 +113,37 @@ bindsym $alt+Ctrl+r restart
 bindsym $alt+Ctrl+Delete exec "i3-nagbar -t warning -m 'exit i3? This will end your X session.' -b 'Yes' 'i3-msg exit'"
 
 # Change container layout (stacked, tabbed, toggle split)
-bindsym $mod+d layout stacking
-bindsym $mod+f layout tabbed
-bindsym $mod+g layout toggle split
+bindsym $alt+d layout stacking
+bindsym $alt+w layout tabbed
+bindsym $alt+g layout toggle split
 
-# Toggle between stacking/tabbed/split (Use Super+x!)
-bindsym $mod+x layout toggle
+# Toggle between stacking/tabbed/split
+bindsym $alt+x layout toggle
 
-# Toggle border modes (Use Super+b!)
-bindsym $mod+b border toggle
+# Toggle border modes
+bindsym $alt+b border toggle
 
 # Applications
 # ------------
 
-# Terminal - URxvt client, daemon starts in .xinitrc
-bindsym $mod+Return exec --no-startup-id urxvtc
+# Terminal
+bindsym $alt+Return exec --no-startup-id alacritty
 
 # The awesome rofi for apps, windows, and ssh sessions.
 # (Super+Delete is awesome on the TECK keyboard)
 bindsym $alt+Tab  exec --no-startup-id /usr/bin/rofi -show window
-bindsym $mod+r    exec --no-startup-id /usr/bin/rofi -show run
-bindsym $mod+s    exec --no-startup-id /usr/bin/rofi -show ssh
+bindsym $alt+r    exec --no-startup-id /usr/bin/rofi -show run
+bindsym $alt+s    exec --no-startup-id /usr/bin/rofi -show ssh
 
 # Screenshot and cast
 bindsym Print exec --no-startup-id /usr/bin/teiler
 
 # Clipboard manager
-bindsym --release $mod+v exec --no-startup-id ~/.local/bin/gpaste-rofi
+bindsym --release $alt+v exec --no-startup-id ~/.local/bin/gpaste-rofi
 
 # Multimedia keys
-bindsym $mod+F9 exec --no-startup-id mpc seek +4
-bindsym $mod+F7 exec --no-startup-id mpc seek -4
+bindsym $alt+F9 exec --no-startup-id mpc seek +4
+bindsym $alt+F7 exec --no-startup-id mpc seek -4
 
 # Who needs F-keys?!
 bindsym XF86Tools exec --no-startup-id /usr/bin/clerk
@@ -352,7 +349,7 @@ mode "resize" {
 	bindsym Return mode "default"
 	bindsym Escape mode "default"
 }
-bindsym $alt+r mode "resize"
+bindsym $alt+i mode "resize"
 
 # Logout confirm, uses bin/i3exit
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown

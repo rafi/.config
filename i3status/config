@@ -23,7 +23,7 @@ order += "cpu_temperature 2"
 order += "cpu_temperature 3"
 order += "disk /"
 order += "disk /mnt/media"
-order += "ethernet enp0s25"
+order += "ethernet enp5s0"
 order += "tztime local"
 #order += "ipv6"
 #order += "run_watch DHCP"
@@ -48,25 +48,25 @@ cpu_usage {
 
 cpu_temperature 0 {
 	format = " ± %degrees°"
-	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp2_input"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp2_input"
 	max_threshold = 95
 }
 
 cpu_temperature 1 {
 	format = "%degrees°"
-	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp3_input"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp3_input"
 	max_threshold = 95
 }
 
 cpu_temperature 2 {
 	format = "%degrees°"
-	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp4_input"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp4_input"
 	max_threshold = 95
 }
 
 cpu_temperature 3 {
 	format = "%degrees° "
-	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp5_input"
+	path = "/sys/devices/platform/coretemp.0/hwmon/hwmon3/temp5_input"
 	max_threshold = 95
 }
 
@@ -90,7 +90,7 @@ ethernet enp0s25 {
 }
 
 run_watch DHCP {
-	pidfile = "/var/run/dhclient*.pid"
+	pidfile = "/var/run/dhcpcd*.pid"
 }
 
 run_watch VPN {
