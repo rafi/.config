@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+ssh() {
+	if [ -n "$TMUX" ]; then
+		TERM=screen-256color command ssh "$@"
+	else
+		TERM=xterm command ssh "$@"
+	fi
+}
