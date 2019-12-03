@@ -9,6 +9,7 @@
 [core]
 	excludesfile = ~/.config/git/ignore
 	hooksPath = ~/.config/git/hooks
+	# pager = delta --dark
 	# Do NOT auto-convert CRLF line endings into LF
 	autocrlf = false
 	# Do NOT check if converting CRLF is reversible
@@ -18,12 +19,12 @@
 [credential]
 	helper = cache --timeout=3600
 # [init]
-# 	templatedir = ~/.config/git/template
+#	templatedir = ~/.config/git/template
 [pager]
 	show-branch = true
 	status = true
-	diff = diff-so-fancy | less --tabs=1,3
-	show = diff-so-fancy | less --tabs=1,3
+	diff = diff-so-fancy | less --tabs=2 -RFX #--pattern '^(Date|added|deleted|modified): '
+	show = diff-so-fancy | less --tabs=2 -RFX #--pattern '^(Date|added|deleted|modified): '
 [pretty]
 	log = %C(240)%h%C(reset) -%C(auto)%d%Creset %s %C(242)(%an %ar)
 	detailed = %C(cyan)%h %C(red)%ad %C(blue)[%an]%C(magenta)%d %C(white)%s
@@ -66,7 +67,7 @@
 [transfer]
 	# https://git-scm.com/docs/git-config#git-config-transferfsckObjects
 	# via https://groups.google.com/forum/#!topic/binary-transparency/f-BI4o8HZW0
-	fsckobjects = true
+	fsckobjects = false
 [color]
 	ui = true
 	pager = true
