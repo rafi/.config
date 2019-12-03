@@ -124,8 +124,8 @@ hash pyenv 2>/dev/null && export PYENV_ROOT="$XDG_DATA_HOME/python/versions"
 # Ops
 hash kubectl 2>/dev/null && export KUBECONFIG="$XDG_CONFIG_HOME/kube/config.yml"
 hash minikube 2>/dev/null && export MINIKUBE_HOME="$XDG_DATA_HOME/minikube"
-hash helm 2>/dev/null && export HELM_HOME="$XDG_CACHE_HOME/helm"
-hash terraform 2>/dev/null && export TF_DATA_DIR="$XDG_CACHE_HOME/terraform"
+export KREW_ROOT="$XDG_DATA_HOME/krew"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # Set luarocks user config
 hash luarocks 2>/dev/null && export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"

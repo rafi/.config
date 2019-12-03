@@ -1,8 +1,8 @@
 " cVim config
 " ---
 
-let configpath = '/Users/rafi/.config/cvim/init.vim'
-set localconfig
+"let configpath = '/Users/rafi/.config/cvim/init.vim'
+"set localconfig
 
 " General settings
 " ---
@@ -14,7 +14,6 @@ set sortlinkhints
 
 set linkanimations
 set cncpcompletion
-set showtabindices
 
 " Interface
 " ---
@@ -23,7 +22,7 @@ let typelinkhintsdelay = '0'
 let hintcharacters = 'fdsawerjkiop'
 let searchlimit = 30
 let scrollstep = 70
-let blacklists = ['http://play.golang.org/*', 'https://groups.google.com/*']
+let blacklists = ["http://play.golang.org/*","https://groups.google.com/*","http://jenkins/*"]
 
 " Open all of these in a tab with `gnb` or open one of these with <N>goa where <N>
 let qmark a = ['http://www.reddit.com/r/learnjavascript/new', 'http://www.reddit.com/r/learnprogramming/new']
@@ -61,6 +60,7 @@ map <C-p> previousTab
 " map ; openCommandBar
 map <leader>b :buffer<Space>
 map <leader>d :tabnew google define<Space>
+
 " map <leader>r :tabnew google reddit<Space>
 map <leader>h :history<Space>
 map <Leader>l reloadTabUncached

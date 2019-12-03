@@ -27,6 +27,8 @@ fi
 # Must be loaded _after_ setting PROMPT_COMMAND
 if [ -f "$PREFIX/etc/profile.d/z.sh" ]; then
 	. "$PREFIX/etc/profile.d/z.sh"
+elif [ -f "$PREFIX/share/z/z.sh" ]; then
+	. "$PREFIX/share/z/z.sh"
 fi
 
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :
