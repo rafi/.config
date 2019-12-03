@@ -29,6 +29,7 @@
 \timing
 \encoding unicode
 
+\setenv PAGER pspg
 \pset null '¤'
 \pset linestyle unicode
 \pset border 2

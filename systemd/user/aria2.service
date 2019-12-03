@@ -1,6 +1,8 @@
 [Unit]
 Description=aria2 daemon
-After=network.target
+Documentation=man:aria2(1)
+Wants=network-online.target
+After=network-online.target
 
 [Service]
 Type=forking

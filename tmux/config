@@ -7,22 +7,23 @@
 # Behavior
 #-------------------------------------------------
 
-set-option -g default-shell $SHELL
-set-option -g default-terminal "screen-256color"
-# set-option -g default-terminal "tmux18-256color"
+set -g default-shell $SHELL
+set -g default-terminal "alacritty"
+# set -g default-terminal "screen-256color"
+# set -g default-terminal "tmux18-256color"
 
 # Reattach each new window to the user bootstrap namespace
 if-shell \
   'test "$(uname -s)" = Darwin' \
-  'set-option -g default-command "exec reattach-to-user-namespace -l $SHELL"'
+  'set -g default-command "exec reattach-to-user-namespace -l $SHELL"'
 
-set-option -g set-titles on
-set-option -g set-titles-string '#T #S:#I.#P #W'
+set -g set-titles on
+set -g set-titles-string '#T #S:#I.#P #W'
 
-set-window-option -g automatic-rename on
-set-window-option -g xterm-keys on
+setw -g automatic-rename on
+setw -g xterm-keys on
 
-set-option -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q,*:Tc'
+set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q,*:Tc'
 
 # Enable true color & italics support
 # https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
@@ -33,47 +34,47 @@ set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
 set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
 
 # scrollback buffer size increase
-set-option -g history-limit 20000
+set -g history-limit 20000
 
 # Limit buffer stack
-set-option -g buffer-limit 20
+set -g buffer-limit 20
 
 # Address vim mode switching delay (http://superuser.com/a/252717/65504)
-set-option -s escape-time 0
+set -s escape-time 0
 
 # tmux messages are displayed for 2 seconds
-set-option -g display-time 2000
+set -g display-time 2000
 
 # Allow the arrow key to be used immediately after changing windows, default is 500
-set-option -g repeat-time 300
+set -g repeat-time 300
 
 # focus events enabled for terminals that support them
-set-option -g focus-events on
+set -g focus-events on
 
 # Rather than constraining window size to the maximum size of any client
 # connected to the *session*, constrain window size to the maximum size of any
 # client connected to *that window*. Much more reasonable.
-set-window-option -g aggressive-resize on
+setw -g aggressive-resize on
 
 # Start windows and panes from 1
-set-option -g base-index 1
-set-window-option -g pane-base-index 1
+set -g base-index 1
+setw -g pane-base-index 1
 
 # Visual notifications
-set-option -g visual-bell off
-set-option -g visual-activity off
-set-option -g visual-silence off
+set -g visual-bell off
+set -g visual-activity off
+set -g visual-silence off
 
 # Window Monitoring
-set-window-option -g monitor-activity on
-set-window-option -g monitor-silence 0
+setw -g monitor-activity on
+setw -g monitor-silence 0
 
 # Key bindings
 #-------------------------------------------------
 
 # Act like GNU screen, use C-a instead of C-b
 unbind-key C-b
-set-option -g prefix C-a
+set -g prefix C-a
 
 # In nested tmux clients, send prefix with C-a C-a, or C-a a
 bind-key C-a send-prefix
@@ -136,23 +137,29 @@ bind-key k select-pane -U
 bind-key l select-pane -R
 
 # Smart pane switching with awareness of vim splits.
+# See: https://github.com/christoomey/vim-tmux-navigator
 is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
     | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
 bind-key -n C-h if-shell "$is_vim" "send-keys C-h"  "select-pane -L"
 bind-key -n C-j if-shell "$is_vim" "send-keys C-j"  "select-pane -D"
 bind-key -n C-k if-shell "$is_vim" "send-keys C-k"  "select-pane -U"
 bind-key -n C-l if-shell "$is_vim" "send-keys C-l"  "select-pane -R"
-bind-key -n C-\ if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
+bind-key -n 'C-\' if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
+bind-key -T copy-mode-vi C-h select-pane -L
+bind-key -T copy-mode-vi C-j select-pane -D
+bind-key -T copy-mode-vi C-k select-pane -U
+bind-key -T copy-mode-vi C-l select-pane -R
+bind-key -T copy-mode-vi 'C-\' select-pane -l
 
 # Bring back clear screen under tmux prefix
 bind-key C-l send-keys 'C-l'
 
 # Toggle synchronized input to all panes in current window
-bind-key S set-window-option synchronize-panes
+bind-key S setw synchronize-panes
 
 # Quick layout shortcuts
-bind-key b set-window-option main-pane-width 90\; select-layout main-vertical
-bind-key B set-window-option main-pane-height 30\; select-layout main-horizontal
+bind-key b setw main-pane-width 90\; select-layout main-vertical
+bind-key B setw main-pane-height 30\; select-layout main-horizontal
 
 # Use a tick for renaming the window prompt
 bind-key r command-prompt -I '#W' -p '(rename window)' "rename-window '%%'"
@@ -193,25 +200,25 @@ unbind-key -n C-Up
 unbind-key -n C-Down
 
 # Disable arrows, use 'em for easy pane resizing
-bind-key -n M-n resize-pane -L 5
-bind-key -n M-. resize-pane -R 5
-bind-key -n M-m resize-pane -D 5
-bind-key -n M-, resize-pane -U 5
+# bind-key -n M-n resize-pane -L 5
+# bind-key -n M-. resize-pane -R 5
+# bind-key -n M-m resize-pane -D 5
+# bind-key -n M-, resize-pane -U 5
 
 # Control
 #-------------------------------------------------
 
 # bind vi key-mapping
-set-option -g status-keys vi
+set -g status-keys vi
 
 # vi-style controls for copy mode
-set-window-option -g mode-keys vi
+setw -g mode-keys vi
 
 # Allows scrolling and selecting in copy-mode
-set-option -g -q mouse on
+set -g -q mouse on
 
 # Trigger copy mode by Cmd-Up
-bind -n M-Up copy-mode
+# bind -n M-Up copy-mode
 
 # Copies selection to clipboard
 bind -Tcopy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel pbcopy
@@ -248,75 +255,49 @@ bind -T off F12 \
 # *-attr options accept: none, bright (or bold), dim, underscore, blink,
 #                        reverse, hidden, or italics.
 
-set-option -g message-fg colour11
-set-option -g message-bg colour236
-set-option -g message-attr none
-set-option -g message-command-fg colour253
-set-option -g message-command-bg colour236
-set-option -g message-command-attr none
+set -g mode-style fg=colour11,bg=colour236,none
+set -g message-style fg=colour11,bg=colour236,none
+set -g message-command-style fg=colour253,bg=colour236,none
+set -g pane-border-style fg=colour240,bg=default
+set -g pane-active-border-style fg=colour4,bg=colour235
 
-set-option -g pane-border-fg colour240
-set-option -g pane-border-bg default
-set-option -g pane-active-border-fg colour4
-set-option -g pane-active-border-bg colour235
-set-option -g display-panes-active-colour colour220
-set-option -g display-panes-colour colour74
+set -g display-panes-active-colour colour220
+set -g display-panes-colour colour74
 
-set-window-option -g mode-fg colour11
-set-window-option -g mode-bg colour236
-set-window-option -g mode-attr none
+setw -g clock-mode-colour colour64
+setw -g clock-mode-style 24
 
-set-window-option -g clock-mode-colour colour64
-set-window-option -g clock-mode-style 24
-
-# Status lines
+# Status line
 #-------------------------------------------------
 
-set-option -g status on
-set-option -g status-position top
+set -g status on
+set -g status-position top
+set -g status-interval 3
+
 set -g status-justify left
+set -g status-style fg=colour239,bg=colour236,default
 
-# Refresh 'status-left' and 'status-right' more often
-set-option -g status-interval 3
+set -g status-left-length 15
+set -g status-left-style fg=colour254,bg=colour241,none
+set -g status-left '#{?client_prefix,#[fg=colour236]#[bg=colour2],} #S #{?client_prefix,#[fg=colour2],#[fg=colour241]}#[bg=colour235]#[fg=colour234,bg=colour236]░'
 
-set-option -g status-fg colour239
-set-option -g status-bg colour236
-set-option -g status-attr default
+set -g status-right-length 90
+set -g status-right-style fg=colour240,bg=default,none
+set -g status-right "#[fg=colour239]#(kubectl config current-context 2>/dev/null) ⎈ #(tmux-mem-cpu-load -i 3 -g 5 -m 2 -a 2) #[fg=colour237]#[fg=colour241] #(battery) #[fg=colour237]#[fg=colour243] %H:%M #[fg=colour237]#[fg=colour246] #h "
 
-set-option -g status-left-length 15
-set-option -g status-left-fg colour254
-set-option -g status-left-bg colour241
-set-option -g status-left-attr none
-set-option -g status-left '#{?client_prefix,#[fg=colour236]#[bg=colour2],} #S #{?client_prefix,#[fg=colour2],#[fg=colour241]}#[bg=colour235]#[fg=colour234,bg=colour236]░'
-set-option -g status-right-fg colour240
-set-option -g status-right-bg default
-set-option -g status-right-attr none
-set-option -g status-right-length 90
-set-option -g status-right "#[fg=colour239]#(kubectl config current-context 2>/dev/null) ⎈ #(tmux-mem-cpu-load -i 3 -g 5 -m 2 -a 2) #[fg=colour237]#[fg=colour241] #(battery) #[fg=colour237]#[fg=colour243] %H:%M #[fg=colour237]#[fg=colour246] #h "
+setw -g window-style ''
+setw -g window-active-style ''
+setw -g pane-active-border-style ''
 
-set-window-option -g window-style ''
-set-window-option -g window-active-style ''
-set-window-option -g pane-active-border-style ''
+setw -g window-status-separator ""
+setw -g window-status-format " #[fg=colour243]#I#[fg=colour247]#F#[fg=default]#W #[fg=colour236,bg=colour235]#[fg=colour234,bg=default]░"
+setw -g window-status-style fg=colour247,bg=colour236,none
+setw -g window-status-current-style fg=colour251,bg=colour239,none
+setw -g window-status-current-format "#[fg=colour235]░#[fg=colour235]#I#[fg=colour235]#F#[fg=default]#W #[fg=colour238]#[fg=colour239,bg=colour235]#[fg=colour234,bg=colour236]░"
 
-set-window-option -g window-status-fg colour247
-set-window-option -g window-status-bg colour236
-set-window-option -g window-status-attr none
-set-window-option -g window-status-separator ""
-set-window-option -g window-status-format " #[fg=colour243]#I#[fg=colour247]#F#[default]#W #[fg=colour236,bg=colour235]#[fg=colour234,bg=default]░"
-set-window-option -g window-status-current-fg colour251
-set-window-option -g window-status-current-bg colour239
-set-window-option -g window-status-current-attr none
-set-window-option -g window-status-current-format "#[fg=colour235]░#[fg=colour235]#I#[fg=colour235]#F#[default]#W #[fg=colour238]#[fg=colour239,bg=colour235]#[fg=colour234,bg=colour236]░"
-
-set-window-option -g window-status-activity-fg colour254
-set-window-option -g window-status-activity-bg colour236
-set-window-option -g window-status-activity-attr none
-set-window-option -g window-status-bell-fg colour169
-set-window-option -g window-status-bell-bg colour236
-set-window-option -g window-status-bell-attr none
-set-window-option -g window-status-last-fg colour247
-set-window-option -g window-status-last-bg colour236
-set-window-option -g window-status-last-attr none
+setw -g window-status-activity-style fg=colour254,bg=colour236,none
+setw -g window-status-bell-style fg=colour169,bg=colour236,none
+setw -g window-status-last-style fg=colour247,bg=colour236,none
 
 # Plugins
 #-------------------------------------------------
