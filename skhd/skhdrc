@@ -1,0 +1,286 @@
+#  NOTE(koekeishiya): A list of all built-in modifier and literal keywords can
+#                     be found at https://github.com/koekeishiya/skhd/issues/1
+#
+#                     A hotkey is written according to the following rules:
+#
+#                       hotkey       = <mode> '<' <action> | <action>
+#
+#                       mode         = 'name of mode' | <mode> ',' <mode>
+#
+#                       action       = <keysym> '[' <proc_map_lst> ']' | <keysym> '->' '[' <proc_map_lst> ']'
+#                                      <keysym> ':' <command>          | <keysym> '->' ':' <command>
+#                                      <keysym> ';' <mode>             | <keysym> '->' ';' <mode>
+#
+#                       keysym       = <mod> '-' <key> | <key>
+#
+#                       mod          = 'modifier keyword' | <mod> '+' <mod>
+#
+#                       key          = <literal> | <keycode>
+#
+#                       literal      = 'single letter or built-in keyword'
+#
+#                       keycode      = 'apple keyboard kVK_<Key> values (0x3C)'
+#
+#                       proc_map_lst = * <proc_map>
+#
+#                       proc_map     = <string> ':' <command> | <string>     '~' |
+#                                      '*'      ':' <command> | '*'          '~'
+#
+#                       string       = '"' 'sequence of characters' '"'
+#
+#                       command      = command is executed through '$SHELL -c' and
+#                                      follows valid shell syntax. if the $SHELL environment
+#                                      variable is not set, it will default to '/bin/bash'.
+#                                      when bash is used, the ';' delimeter can be specified
+#                                      to chain commands.
+#
+#                                      to allow a command to extend into multiple lines,
+#                                      prepend '\' at the end of the previous line.
+#
+#                                      an EOL character signifies the end of the bind.
+#
+#                       ->           = keypress is not consumed by skhd
+#
+#                       *            = matches every application not specified in <proc_map_lst>
+#
+#                       ~            = application is unbound and keypress is forwarded per usual, when specified in a <proc_map>
+#
+#  NOTE(koekeishiya): A mode is declared according to the following rules:
+#
+#                       mode_decl = '::' <name> '@' ':' <command> | '::' <name> ':' <command> |
+#                                   '::' <name> '@'               | '::' <name>
+#
+#                       name      = desired name for this mode,
+#
+#                       @         = capture keypresses regardless of being bound to an action
+#
+#                       command   = command is executed through '$SHELL -c' and
+#                                   follows valid shell syntax. if the $SHELL environment
+#                                   variable is not set, it will default to '/bin/bash'.
+#                                   when bash is used, the ';' delimeter can be specified
+#                                   to chain commands.
+#
+#                                   to allow a command to extend into multiple lines,
+#                                   prepend '\' at the end of the previous line.
+#
+#                                   an EOL character signifies the end of the bind.
+
+# add an on_enter command to the default mode
+# :: default : chunkc border::color 0xff775759
+#
+# defines a new mode 'test' with an on_enter command, that captures keypresses
+# :: test @ : chunkc border::color 0xff24ccaa
+#
+# from 'default' mode, activate mode 'test'
+# cmd - x ; test
+#
+# from 'test' mode, activate mode 'default'
+# test < cmd - x ; default
+#
+# launch a new terminal instance when in either 'default' or 'test' mode
+# default, test < cmd - return : open -na /Applications/Terminal.app
+
+# application specific bindings
+#
+# cmd - n [
+#     "kitty"       : echo "hello kitty"
+#     *             : echo "hello everyone"
+#     "qutebrowser" : echo "hello qutebrowser"
+#     "terminal"    ~
+#     "finder"      : false
+# ]
+
+# specify a file that should be included as an additional config-file.
+# treated as an absolutepath if the filename begins with '/' otherwise
+# the file is relative to the path of the config-file it was loaded from.
+#
+# .load "/Users/Koe/.config/partial_skhdrc"
+# .load "partial_skhdrc"
+
+# prevent skhd from monitoring events for specific applications.
+#
+# .blacklist [
+#    "kitty"
+#    "terminal"
+#    "qutebrowser"
+# ]
+
+# open terminal, blazingly fast compared to iTerm/Hyper
+alt - return : /Applications/Alacritty.app/Contents/MacOS/alacritty
+cmd - return : /Applications/Alacritty.app/Contents/MacOS/alacritty
+
+# open qutebrowser
+# cmd + shift - return : ~/Scripts/qtb.sh
+
+# open mpv
+# cmd - m : open -na /Applications/mpv.app $(pbpaste)
+
+# focus window:  hjkl is tmux, aswd is yabai
+alt - h : yabai -m window --focus west
+alt - j : yabai -m window --focus south
+alt - k : yabai -m window --focus north
+alt - l : yabai -m window --focus east
+
+# swap window
+shift + alt - h : yabai -m window --swap west
+shift + alt - j : yabai -m window --swap south
+shift + alt - k : yabai -m window --swap north
+shift + alt - l : yabai -m window --swap east
+
+# move window
+shift + cmd - h : yabai -m window --warp west
+shift + cmd - j : yabai -m window --warp south
+shift + cmd - k : yabai -m window --warp north
+shift + cmd - l : yabai -m window --warp east
+
+# move window
+# shift + ctrl - h : yabai -m window --move rel:-20:0
+# shift + ctrl - j : yabai -m window --move rel:0:20
+# shift + ctrl - k : yabai -m window --move rel:0:-20
+# shift + ctrl - l : yabai -m window --move rel:20:0
+
+# change window size
+cmd + alt - left  : yabai -m window --resize right:-40:0
+cmd + alt - down  : yabai -m window --resize bottom:0:-20
+cmd + alt - up    : yabai -m window --resize bottom:0:20
+cmd + alt - right : yabai -m window --resize right:40:0
+
+# not needed
+# ctrl + cmd - left   : yabai -m window --resize left:-20:0
+# ctrl + cmd - down  : yabai -m window --resize bottom:0:20
+# ctrl + cmd - up    : yabai -m window --resize bottom:0:-20
+# ctrl + cmd - right  : yabai -m window --resize left:20:0
+
+# set insertion point in focused container
+# ctrl + alt - h : yabai -m window --insert west
+# ctrl + alt - j : yabai -m window --insert south
+# ctrl + alt - k : yabai -m window --insert north
+# ctrl + alt - l : yabai -m window --insert east
+
+# balance size of windows
+shift + alt - 0 : yabai -m space --balance
+
+# make floating window fill screen
+shift + alt - up     : yabai -m window --grid 1:1:0:0:1:1
+
+# make floating window fill left-half of screen
+shift + alt - left   : yabai -m window --grid 1:2:0:0:1:1
+
+# make floating window fill right-half of screen
+shift + alt - right  : yabai -m window --grid 1:2:1:0:1:1
+
+# create desktop, move window and follow focus (requires jq)
+cmd + alt - n : yabai -m space --create && \
+                index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')" && \
+                yabai -m window --space "${index}" && \
+                yabai -m space --focus "${index}"
+
+# create desktop and follow focus (requires jq)
+shift + cmd - n : yabai -m space --create && \
+                  index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')" && \
+                  yabai -m space --focus "${index}"
+
+# destroy desktop
+shift + cmd - w : yabai -m space --destroy
+
+# fast focus desktop
+cmd + alt - x : yabai -m space --focus recent
+cmd + alt - z : yabai -m space --focus prev
+cmd + alt - c : yabai -m space --focus next
+cmd - 1 : yabai -m space --focus 1
+cmd - 2 : yabai -m space --focus 2
+cmd - 3 : yabai -m space --focus 3
+cmd - 4 : yabai -m space --focus 4
+cmd - 5 : yabai -m space --focus 5
+cmd - 6 : yabai -m space --focus 6
+cmd - 7 : yabai -m space --focus 7
+cmd - 8 : yabai -m space --focus 8
+cmd - 9 : yabai -m space --focus 9
+alt - 1 : yabai -m space --focus 1
+alt - 2 : yabai -m space --focus 2
+alt - 3 : yabai -m space --focus 3
+alt - 4 : yabai -m space --focus 4
+alt - 5 : yabai -m space --focus 5
+alt - 6 : yabai -m space --focus 6
+alt - 7 : yabai -m space --focus 7
+alt - 8 : yabai -m space --focus 8
+alt - 9 : yabai -m space --focus 9
+
+# send window to desktop and follow focus
+shift + cmd - x : yabai -m window --space recent; yabai -m space --focus recent
+shift + cmd - z : yabai -m window --space prev; yabai -m space --focus prev
+shift + cmd - c : yabai -m window --space next; yabai -m space --focus next
+shift + cmd - 1 : yabai -m window --space  1; yabai -m space --focus 1
+shift + cmd - 2 : yabai -m window --space  2; yabai -m space --focus 2
+shift + cmd - 3 : yabai -m window --space  3; yabai -m space --focus 3
+shift + cmd - 4 : yabai -m window --space  4; yabai -m space --focus 4
+shift + cmd - 5 : yabai -m window --space  5; yabai -m space --focus 5
+shift + cmd - 6 : yabai -m window --space  6; yabai -m space --focus 6
+shift + cmd - 7 : yabai -m window --space  7; yabai -m space --focus 7
+shift + cmd - 8 : yabai -m window --space  8; yabai -m space --focus 8
+shift + cmd - 9 : yabai -m window --space  9; yabai -m space --focus 9
+
+# focus monitor
+ctrl + alt - x  : yabai -m display --focus recent
+ctrl + alt - z  : yabai -m display --focus prev
+ctrl + alt - c  : yabai -m display --focus next
+ctrl + alt - 1  : yabai -m display --focus 1
+ctrl + alt - 2  : yabai -m display --focus 2
+ctrl + alt - 3  : yabai -m display --focus 3
+
+# send window to monitor and follow focus
+ctrl + cmd - x  : yabai -m window --display recent; yabai -m display --focus recent
+ctrl + cmd - z  : yabai -m window --display prev; yabai -m display --focus prev
+ctrl + cmd - c  : yabai -m window --display next; yabai -m display --focus next
+ctrl + cmd - 1  : yabai -m window --display 1; yabai -m display --focus 1
+ctrl + cmd - 2  : yabai -m window --display 2; yabai -m display --focus 2
+ctrl + cmd - 3  : yabai -m window --display 3; yabai -m display --focus 3
+
+# rotate tree
+alt - r : yabai -m space --rotate 90
+
+# mirror tree y-axis
+alt - y : yabai -m space --mirror y-axis
+
+# mirror tree x-axis
+alt - x : yabai -m space --mirror x-axis
+
+# toggle desktop offset
+alt - b : yabai -m space --toggle padding; yabai -m space --toggle gap
+
+# toggle window parent zoom
+alt - z : yabai -m window --toggle zoom-parent
+
+# toggle window fullscreen zoom
+alt - f : yabai -m window --toggle zoom-fullscreen
+
+# toggle window native fullscreen
+shift + alt - f : yabai -m window --toggle native-fullscreen
+
+# toggle window border
+shift + alt - b : yabai -m window --toggle border
+
+# toggle window split type
+alt - e : yabai -m window --toggle split
+
+# float / unfloat window and center on screen
+alt - t : yabai -m window --toggle float;\
+          yabai -m window --resize 4:4:1:1:2:2
+
+# yabai -m window --move abs:90:90
+# yabai -m window --resize abs:1250:700
+
+# toggle sticky (show on all spaces)
+# alt - s : yabai -m window --toggle sticky
+
+# toggle topmost (keep above other windows)
+# alt - o : yabai -m window --toggle topmost
+
+# toggle sticky, topmost and resize to picture-in-picture size
+# alt - p : yabai -m window --toggle sticky;\
+#           yabai -m window --toggle topmost;\
+#           yabai -m window --grid 5:5:4:0:1:1
+
+# change layout of desktop
+# ctrl + alt - a : yabai -m space --layout bsp
+# ctrl + alt - d : yabai -m space --layout float
