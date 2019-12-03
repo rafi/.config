@@ -11,18 +11,19 @@ env:
 
 tabspaces: 4
 live_config_reload: false
-# draw_bold_text_with_bright_colors: true
-# alt_send_esc: true
+draw_bold_text_with_bright_colors: true
+alt_send_esc: true
 
 window:
-  dynamic_padding: true
-  decorations: buttonless  # none, full, transparent (macOS), buttonless (macOS)
-  startup_mode: Maximized  # Windowed, Maximized, Fullscreen, SimpleFullscreen (macOS)
+  dynamic_padding: false
+  padding: { x: 1, y: 1 }
+  decorations: none  # none, full, transparent (macOS), buttonless (macOS)
+  startup_mode: Windowed  # Windowed, Maximized, Fullscreen, SimpleFullscreen (macOS)
 
 font:
-  size: 16.0
+  size: 16.5
   # glyph_offset: { x: 0, y: -1 }
-  # use_thin_strokes: false
+  use_thin_strokes: true
   normal: { family: PragmataPro, style: Regular }
   bold:   { family: PragmataPro, style: Regular }
   italic: { family: PragmataPro, style: Regular }
@@ -111,21 +112,22 @@ key_bindings:
   - { key: Key0,     mods: Command, action: ResetFontSize }
   - { key: Equals,   mods: Command, action: IncreaseFontSize }
   - { key: Minus,    mods: Command, action: DecreaseFontSize }
-  - { key: Return,   mods: Shift,   chars: "\x1b[13;2u" }
-  - { key: Return,   mods: Control, chars: "\x1b[13;5u" }
-  - { key: Left,     mods: Command, chars: "\x1b[1;3D" }
-  - { key: Right,    mods: Command, chars: "\x1b[1;3C" }
-  # - { key: Space,    mods: Control, chars: "\x00" }
-  # - { key: I,        mods: Control, chars: "\x1b[105;5u" }
-  # - { key: Key6,     mods: Control, chars: "\x1b[94;5u" }
-  - { key: Key6,     mods: Control, chars: "\x1e" }
   - { key: V,        mods: Command, action: Paste }
   - { key: C,        mods: Command, action: Copy }
   - { key: Q,        mods: Command, action: Quit }
-  - { key: L,        mods: Control, chars: "\x0c" }
 
-  - { key: Tab,      mods: Control, chars: "\x1b[27;5;9~" }
-  - { key: Tab,      mods: Control|Shift, chars: "\x1b[27;6;9~" }
+  # - { key: Space,      mods: Control, chars: "\x00" }
+  # - { key: Key6,       mods: Control, chars: "\x1b[94;5u" }
+  - { key: Key6,       mods: Control, chars: "\x1e" }
+  - { key: L,          mods: Control, chars: "\x0c" }
+  - { key: Return,     mods: Shift,   chars: "\x1b[13;2u" }
+  - { key: Return,     mods: Control, chars: "\x1b[13;5u" }
+  - { key: Apostrophe, mods: Control, chars: "\x1b[27;5;39~" }
+  - { key: Slash,      mods: Control|Shift, chars: "\x1b[27;5;63~" }
+  - { key: Semicolon,  mods: Control, chars: "\x1b[59;5u" }
+  - { key: I,          mods: Control, chars: "\x1b[27;5;105~" }
+  - { key: Tab,        mods: Control, chars: "\x1b[27;5;9~" }
+  - { key: Tab,        mods: Control|Shift, chars: "\x1b[27;6;9~" }
 
   - { key: H,        mods: Command, chars: "\x1bh" }
   - { key: J,        mods: Command, chars: "\x1bj" }
@@ -135,6 +137,9 @@ key_bindings:
   - { key: D,        mods: Command, chars: "\x1bd" }
   - { key: N,        mods: Command, chars: "\x1bn" }
   - { key: M,        mods: Command, chars: "\x1bm" }
+
+  - { key: Left,     mods: Command, chars: "\x1b[1;3D" }
+  - { key: Right,    mods: Command, chars: "\x1b[1;3C" }
   - { key: Comma,    mods: Command, chars: "\x1b," }
   - { key: Period,   mods: Command, chars: "\x1b." }
   - { key: Comma,    mods: Command|Shift, chars: "\x1b<" }
@@ -143,4 +148,5 @@ key_bindings:
   - { key: RBracket, mods: Command, chars: "\x1b]" }
   - { key: LBracket, mods: Command|Shift, chars: "\x1b{" }
   - { key: RBracket, mods: Command|Shift, chars: "\x1b}" }
-  #- { key: X,        mods: Command, chars: "\x1bx" }
+
+#  vim: set ts=2 sw=2 tw=80 et :

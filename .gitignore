@@ -20,7 +20,7 @@
 /gimp-2.8
 /gnupg
 /google-chrome*
-/karabiner/*.bak
+/karabiner/automatic_backups/
 /gtk-2.0/gtkfilechooser.ini
 /ipython/profile_default/history.sqlite
 /ipython/profile_default/log

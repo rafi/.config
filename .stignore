@@ -1,5 +1,4 @@
 .git
-.gitmodules
 .DS_Store
 *.swp
 *.log
