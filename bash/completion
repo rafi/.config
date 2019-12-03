@@ -20,12 +20,18 @@ fi
 
 # Load Git bash completion
 # https://github.com/git/git/blob/master/contrib/completion
-if [ -f "$PREFIX/etc/bash_completion.d/git-completion.bash" ]; then
-	. "$PREFIX/etc/bash_completion.d/git-completion.bash"
-elif [ -f "$PREFIX/share/git/contrib/completion/git-completion.bash" ]; then
-	. "$PREFIX/share/git/contrib/completion/git-completion.bash"
-elif [ -f "$PREFIX/share/bash-completion/completions/git" ]; then
-	. "$PREFIX/share/bash-completion/completions/git"
+if [ -f "$PREFIX/etc/bash_completion.d/git-prompt.sh" ]; then
+	. "$PREFIX/etc/bash_completion.d/git-prompt.sh"
+elif [ -f "$PREFIX/share/git/contrib/completion/git-prompt.sh" ]; then
+	. "$PREFIX/share/git/contrib/completion/git-prompt.sh"
+elif [ -f "$PREFIX/share/git/completion/git-prompt.sh" ]; then
+	. "$PREFIX/share/git/completion/git-prompt.sh"
+elif [ -f "$PREFIX/share/git-core/contrib/completion/git-prompt.sh" ]; then
+	. "$PREFIX/share/git-core/contrib/completion/git-prompt.sh"
+fi
+
+if [ -f "$PREFIX/etc/bash_completion.d/kubectl" ]; then
+	. "$PREFIX/etc/bash_completion.d/kubectl"
 fi
 
 if [ -f "$PREFIX/share/bash-completion/completions/ssh" ]; then
