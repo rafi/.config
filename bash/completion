@@ -49,8 +49,8 @@ if [ -f "$HOME/.local/bin/workon-completion.bash" ]; then
 fi
 
 # Google Cloud SDK
-if [ -f "$XDG_DATA_HOME/gcloud/completion.bash.inc" ]; then
-	. "$XDG_DATA_HOME/gcloud/completion.bash.inc"
+if [ -f "$XDG_DATA_HOME/google-cloud-sdk/completion.bash.inc" ]; then
+	. "$XDG_DATA_HOME/google-cloud-sdk/completion.bash.inc"
 fi
 
 # Kubernetes

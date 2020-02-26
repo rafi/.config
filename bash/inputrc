@@ -66,6 +66,12 @@ $if mode=vi
 
 	"\C-p": history-search-backward
 	"\C-n": history-search-forward
+	"\C-a": beginning-of-line
+	"\C-e": end-of-line
+	"\C-b": backward-char
+	"\C-f": forward-char
+	"\C-d": delete-char
+	"\C-k": kill-line
 	"\C-l": clear-screen
 
 	# Shortcut for inserting a grep pipeline at eol
@@ -81,9 +87,15 @@ $if mode=vi
 	"\e[C": redraw-current-line
 	"\e[D": redraw-current-line
 
+	"\eg": insert-comment
+
 	# Command mode settings
 	set keymap vi-command
 
+	"\C-a": beginning-of-line
+	"\C-e": end-of-line
+	"\C-k": kill-line
+	"\C-w": backward-kill-word
 	"gg": beginning-of-history
 	"G": end-of-history
 

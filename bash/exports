@@ -66,7 +66,9 @@ if [ -d "$XDG_DATA_HOME/terminfo" ]; then
 	export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:$PREFIX/share/terminfo"
 fi
 
-export ZPLUG_HOME="$XDG_DATA_HOME/zplug"
+export ZPLUG_HOME="$PREFIX/opt/zplug"
+export ZPLUG_REPOS="$XDG_DATA_HOME/zplug/repos"
+export ZPLUG_CACHE_DIR="$XDG_CACHE_HOME/zplug"
 export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
 export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
 export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
@@ -77,13 +79,14 @@ export MPDCRON_DIR="$XDG_CONFIG_HOME/mpdcron"
 export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
 export MAD_CONFIG="$XDG_CONFIG_HOME/mad/config"
 export WEGORC="$XDG_CONFIG_HOME/wego/config"
-export _Z_DATA="$XDG_CACHE_HOME/z/data"
 export MEMO_HOME="$HOME/docs/books/"
 export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
 export LESSKEY="$XDG_CONFIG_HOME/lesskey/output"
 export WAKATIME_HOME="$XDG_DATA_HOME/wakatime"
 export BABEL_CACHE_PATH="$XDG_CACHE_HOME/babel.json"
+export _Z_DATA="$XDG_CACHE_HOME/z/data"
+export _ZL_DATA="$_Z_DATA"
 
 hash bspwm      2>/dev/null && export      BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
 hash http       2>/dev/null && export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
@@ -104,28 +107,40 @@ if [ -d "${HOME}/Library/Android/sdk" ]; then
 	export PATH="${PATH}:${ANDROID_HOME}/platform-tools"
 fi
 
-# Load only ranger's user config
-export RANGER_LOAD_DEFAULT_RC=FALSE
+# Google Cloud SDK
+if [ -d "${XDG_DATA_HOME}/google-cloud-sdk/bin" ]; then
+	export PATH="${PATH}:${XDG_DATA_HOME}/google-cloud-sdk/bin"
+fi
+
+# Python
+# Pyenv paths
+export PYENV_ROOT="${XDG_DATA_HOME}/python/pyenv"
+export PATH="${PYENV_ROOT}/bin:${PATH}"
+# Python utilities
+export PYLINTHOME="$XDG_CACHE_HOME/pylint"
+export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython
+#export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter
+# Virtualenv managers
+export WORKON_HOME="$XDG_DATA_HOME/python/envs"
+export POETRY_VIRTUALENVS_PATH="$WORKON_HOME"
+export PIPSI_HOME="$WORKON_HOME"
+export PIPX_HOME="$WORKON_HOME"
+
+# PostgreSQL CLI utilities
+export PSQLRC="$XDG_CONFIG_HOME/psql/config"
+#export PGCLIRC="$XDG_CONFIG_HOME/pgcli/config"
 
 # Editors
 export ATOM_HOME="$XDG_DATA_HOME"/atom
 export ANDROID_SDK_HOME="$XDG_DATA_HOME"/android
 
-# IPython profile directory
-export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython
-#export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter
-export PSQLRC="$XDG_CONFIG_HOME/psql/config"
-#export PGCLIRC="$XDG_CONFIG_HOME/pgcli/config"
-export WORKON_HOME="$XDG_DATA_HOME/python/envs"
-hash pipsi 2>/dev/null && export PIPSI_HOME="$XDG_DATA_HOME/python/envs"
-hash pipx 2>/dev/null && export PIPX_HOME="$XDG_DATA_HOME/python/envs"
-hash pyenv 2>/dev/null && export PYENV_ROOT="$XDG_DATA_HOME/python/versions"
-
 # Ops
-hash kubectl 2>/dev/null && export KUBECONFIG="$XDG_CONFIG_HOME/kube/config.yml"
 hash minikube 2>/dev/null && export MINIKUBE_HOME="$XDG_DATA_HOME/minikube"
-export KREW_ROOT="$XDG_DATA_HOME/krew"
-export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+if hash kubectl 2>/dev/null; then
+	export KUBECONFIG="$XDG_CONFIG_HOME/kube/config.yml"
+	export KREW_ROOT="$XDG_DATA_HOME/krew"
+	export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+fi
 
 # Set luarocks user config
 hash luarocks 2>/dev/null && export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
@@ -223,7 +238,7 @@ hash virtualenv 2>/dev/null && export VIRTUAL_ENV_DISABLE_PROMPT=1
 
 if hash fzf 2>/dev/null
 then
-	export FZF_DEFAULT_OPTS="--bind=ctrl-d:page-down,ctrl-u:page-up,ctrl-y:yank --inline-info --reverse --height 50%"
+	export FZF_DEFAULT_OPTS="--bind=ctrl-d:page-down,ctrl-u:page-up,ctrl-y:yank,tab:down,btab:up --inline-info --reverse --height 50%"
 	export FZF_DEFAULT_COMMAND='ag -U --hidden --follow --nogroup --nocolor -g ""'
 fi
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # github.com/rafi/.config
 
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+# Abort if not running interactively
+[[ $- == *i* ]] || return 0
 
 # Remove the ^S ^Q mappings. See all mappings: stty -a
 stty stop undef
@@ -46,15 +46,5 @@ source "$XDG_CONFIG_HOME/bash/themes/current"
 
 # Load directory and file colors for GNU ls
 eval "$(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")"
-
-# If SSH session and not running tmux, list tmux sessions on log-in.
-# TMUX auto-attach (or new session)
-if hash tmux 2>/dev/null && [ -z "$TMUX" ]; then
-	if [ -n "$SSH_TTY" ]; then
-		tmux list-sessions 2>/dev/null | sed 's/^/# tmux /'
-	else
-		tmux new-session -A -s main
-	fi
-fi
 
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :
