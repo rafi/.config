@@ -16,3 +16,6 @@
 [submodule "tmux/plugins/pass"]
 	path = tmux/plugins/pass
 	url = git://github.com/rafi/tmux-pass.git
+[submodule "tmux/plugins/thumbs"]
+	path = tmux/plugins/thumbs
+	url = git://github.com/fcsonline/tmux-thumbs.git
