@@ -9,6 +9,7 @@
 [core]
 	excludesfile = ~/.config/git/ignore
 	hooksPath = ~/.config/git/hooks
+	abbrev = 8
 	# pager = delta --dark
 	# Do NOT auto-convert CRLF line endings into LF
 	autocrlf = false
@@ -16,6 +17,7 @@
 	safecrlf = false
 	# Whitespace detection (only warnings)
 	whitespace = trailing-space,space-before-tab
+	pager = diff-so-fancy | less --tabs=2 -RFX
 [credential]
 	helper = cache --timeout=3600
 # [init]
@@ -23,13 +25,14 @@
 [pager]
 	show-branch = true
 	status = true
-	diff = diff-so-fancy | less --tabs=2 -RFX #--pattern '^(Date|added|deleted|modified): '
-	show = diff-so-fancy | less --tabs=2 -RFX #--pattern '^(Date|added|deleted|modified): '
+	# log = diff-so-fancy | less --tabs=2 -RFX
+	# diff = diff-so-fancy | less --tabs=2 -RFX
+	# show = diff-so-fancy | less --tabs=2 -RFX
 [pretty]
-	log = %C(240)%h%C(reset) -%C(auto)%d%Creset %s %C(242)(%an %ar)
-	detailed = %C(cyan)%h %C(red)%ad %C(blue)[%an]%C(magenta)%d %C(white)%s
-	shorter = %C(auto)%D %C(240)--%C(242)%gD%N %ad by %C(white)%cn%C(reset)
-	multiline = %C(blue)──────%Creset%n %C(auto)commit %h %C(auto) %D%Creset%n %C(cyan)%an%Creset | %Cgreen%cr%Creset%n%+B
+	cool = %C(240)%h%C(reset) -%C(auto)%d%Creset %s %C(242)(%an %ar)
+	nice = %C(cyan)%h %C(red)%ad %C(blue)[%an]%C(magenta)%d %C(white)%s
+	mini = %C(auto)%D %C(240)--%C(242)%gD%N %ad by %C(white)%cn%C(reset)
+	info = %C(blue)──────%Creset%n %C(auto)commit %h %C(auto) %D%Creset%n %C(cyan)%an%Creset | %Cgreen%cr%Creset%n%+B
 [status]
 	submodulesummary = true
 	showUntrackedFiles = all
@@ -38,9 +41,12 @@
 [push]
 	# Defines the action git push should take if no refspec is explicitly given:
 	# current = Push the current branch to update a branch with the same name on the receiving end
+	# See https://git-scm.com/docs/git-config#Documentation/git-config.txt-pushdefault
 	default = current
-	# https://git-scm.com/docs/git-config#git-config-pushfollowTags
 	followTags = true
+[log]
+	date = iso
+	abbrevCommit = true
 [submodule]
 	fetchJobs = 8
 [rerere]
@@ -103,8 +109,10 @@
 	untracked = blue
 	branch = green bold
 	nobranch = red
-[url "git@github.com:"]
-	insteadOf = gh:
+[url "git@github.com"]
+	insteadOf = bb
+[url "git@bitbucket.org"]
+	insteadOf = gh
 [alias]
 	s  = status -sb
 	f  = fetch --prune
@@ -119,7 +127,7 @@
 	ds = diff --staged
 	dw = diff --color-words
 	dh = diff --color-words HEAD
-	dp = !git log --pretty=oneline | fzf | cut -d ' ' -f1 | xargs -o git show
+	dp = !git log --pretty=mini | fzf | cut -d ' ' -f1 | xargs -o git show
 	patch = !git --no-pager diff --no-color
 	prune = fetch --prune
 	stash-all = stash save --include-untracked
@@ -132,10 +140,10 @@
 	lcp   = diff @{1}..
 	#===============================================
 	tree = log --graph --all --oneline --decorate
-	lb   = log --graph --simplify-by-decoration --pretty=shorter --all --notes --date-order --relative-date
-	log  = log --pretty=log
-	lg   = log --graph --pretty=log --all
-	lgd  = log --graph --pretty=log
+	lb   = log --graph --simplify-by-decoration --pretty=mini --all --notes --date-order --relative-date
+	log  = log --pretty=cool
+	lg   = log --graph --pretty=cool --all
+	lgd  = log --graph --pretty=cool
 	lgw  = !sh -c '"while true; do clear; git lg -15; sleep 5; done"'
 	#===============================================
 	bf = !git diff --name-only "$(git base-branch)..@"
