@@ -16,6 +16,7 @@ node_modules/**
 /gnupg
 !/gnupg/*conf
 /gtk-2.0/gtkfilechooser.ini
+/google-chrome/
 /ipython/profile_default/log
 /ipython/profile_default/pid
 /mps-youtube
