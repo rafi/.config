@@ -120,7 +120,7 @@ bind-key - split-window -v -c "#{pane_current_path}"
 bind-key n switch-client -n
 bind-key p switch-client -p
 
-# Window navigation
+# Window navigation with Meta+h/l/left/right
 bind-key -n M-h previous-window
 bind-key -n M-l next-window
 bind-key -n M-Left previous-window
@@ -140,15 +140,19 @@ bind-key l select-pane -R
 # See: https://github.com/christoomey/vim-tmux-navigator
 is_vim="ps -o state= -o comm= -t '#{pane_tty}' \
     | grep -iqE '^[^TXZ ]+ +(\\S+\\/)?g?(view|n?vim?x?)(diff)?$'"
-bind-key -n C-h if-shell "$is_vim" "send-keys C-h"  "select-pane -L"
-bind-key -n C-j if-shell "$is_vim" "send-keys C-j"  "select-pane -D"
-bind-key -n C-k if-shell "$is_vim" "send-keys C-k"  "select-pane -U"
-bind-key -n C-l if-shell "$is_vim" "send-keys C-l"  "select-pane -R"
-bind-key -n 'C-\' if-shell "$is_vim" "send-keys C-\\" "select-pane -l"
-bind-key -T copy-mode-vi C-h select-pane -L
-bind-key -T copy-mode-vi C-j select-pane -D
-bind-key -T copy-mode-vi C-k select-pane -U
-bind-key -T copy-mode-vi C-l select-pane -R
+bind-key -n 'C-h' if-shell "$is_vim" 'send-keys C-h'  'select-pane -L'
+bind-key -n 'C-j' if-shell "$is_vim" 'send-keys C-j'  'select-pane -D'
+bind-key -n 'C-k' if-shell "$is_vim" 'send-keys C-k'  'select-pane -U'
+bind-key -n 'C-l' if-shell "$is_vim" 'send-keys C-l'  'select-pane -R'
+tmux_version='$(tmux -V | sed -En "s/^tmux ([0-9]+(.[0-9]+)?).*/\1/p")'
+if-shell -b '[ "$(echo "$tmux_version < 3.0" | bc)" = 1 ]' \
+    "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\'  'select-pane -l'"
+if-shell -b '[ "$(echo "$tmux_version >= 3.0" | bc)" = 1 ]' \
+    "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\\\'  'select-pane -l'"
+bind-key -T copy-mode-vi 'C-h' select-pane -L
+bind-key -T copy-mode-vi 'C-j' select-pane -D
+bind-key -T copy-mode-vi 'C-k' select-pane -U
+bind-key -T copy-mode-vi 'C-l' select-pane -R
 bind-key -T copy-mode-vi 'C-\' select-pane -l
 
 # Bring back clear screen under tmux prefix
@@ -199,12 +203,6 @@ unbind-key -n C-Right
 unbind-key -n C-Up
 unbind-key -n C-Down
 
-# Disable arrows, use 'em for easy pane resizing
-# bind-key -n M-n resize-pane -L 5
-# bind-key -n M-. resize-pane -R 5
-# bind-key -n M-m resize-pane -D 5
-# bind-key -n M-, resize-pane -U 5
-
 # Control
 #-------------------------------------------------
 
@@ -249,58 +247,16 @@ bind -T off F12 \
   set -u window-status-current-style \;\
   refresh-client -S
 
-# Look n Feel
-#-------------------------------------------------
-#
-# *-attr options accept: none, bright (or bold), dim, underscore, blink,
-#                        reverse, hidden, or italics.
-
-set -g mode-style fg=colour11,bg=colour236,none
-set -g message-style fg=colour11,bg=colour236,none
-set -g message-command-style fg=colour253,bg=colour236,none
-set -g pane-border-style fg=colour240,bg=default
-set -g pane-active-border-style fg=colour4,bg=colour235
-
-set -g display-panes-active-colour colour220
-set -g display-panes-colour colour74
-
-setw -g clock-mode-colour colour64
-setw -g clock-mode-style 24
-
-# Status line
-#-------------------------------------------------
-
+# Look 'n Feel
+# ---
 set -g status on
 set -g status-position top
 set -g status-interval 3
 
-set -g status-justify left
-set -g status-style fg=colour239,bg=colour236,default
-
-set -g status-left-length 15
-set -g status-left-style fg=colour254,bg=colour241,none
-set -g status-left '#{?client_prefix,#[fg=colour236]#[bg=colour2],} #S #{?client_prefix,#[fg=colour2],#[fg=colour241]}#[bg=colour235]#[fg=colour234,bg=colour236]░'
-
-set -g status-right-length 90
-set -g status-right-style fg=colour240,bg=default,none
-set -g status-right "#[fg=colour239]#(kubectl config current-context 2>/dev/null) ⎈ #(tmux-mem-cpu-load -i 3 -g 5 -m 2 -a 2) #[fg=colour237]#[fg=colour241] #(battery) #[fg=colour237]#[fg=colour243] %H:%M #[fg=colour237]#[fg=colour246] #h "
-
-setw -g window-style ''
-setw -g window-active-style ''
-setw -g pane-active-border-style ''
-
-setw -g window-status-separator ""
-setw -g window-status-format " #[fg=colour243]#I#[fg=colour247]#F#[fg=default]#W #[fg=colour236,bg=colour235]#[fg=colour234,bg=default]░"
-setw -g window-status-style fg=colour247,bg=colour236,none
-setw -g window-status-current-style fg=colour251,bg=colour239,none
-setw -g window-status-current-format "#[fg=colour235]░#[fg=colour235]#I#[fg=colour235]#F#[fg=default]#W #[fg=colour238]#[fg=colour239,bg=colour235]#[fg=colour234,bg=colour236]░"
-
-setw -g window-status-activity-style fg=colour254,bg=colour236,none
-setw -g window-status-bell-style fg=colour169,bg=colour236,none
-setw -g window-status-last-style fg=colour247,bg=colour236,none
+source-file $XDG_CONFIG_HOME/tmux/styles/rafi.tmux
 
 # Plugins
-#-------------------------------------------------
+# ---
 set -g @extrakto_split_size '12'
 run-shell $XDG_CONFIG_HOME/tmux/plugins/extrakto/extrakto.tmux
 
@@ -313,7 +269,6 @@ run-shell $XDG_CONFIG_HOME/tmux/plugins/pass/plugin.tmux
 
 unbind-key f
 set -g @fingers-key f
-set -g @fingers-copy-command 'pbcopy'
 set -g @fingers-compact-hints 0
 run-shell $XDG_CONFIG_HOME/tmux/plugins/fingers/tmux-fingers.tmux
 
