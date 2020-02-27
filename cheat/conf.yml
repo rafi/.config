@@ -1,0 +1,24 @@
+---
+
+colorize: true
+
+# Colorschemes are listed here:
+#   https://github.com/alecthomas/chroma/tree/master/styles
+style: paraiso-dark
+
+# One of: "terminal", "terminal256", "terminal16m"
+formatter: terminal16m
+
+# Precedence: Later cheatsheets override former, use -t for global tags.
+cheatpaths:
+
+  # See: https://github.com/cheat/cheatsheets
+  - name: community
+    path: ~/docs/cheatsheets/community
+    tags: [ community ]
+    readonly: true
+
+  - name: personal
+    path: ~/docs/cheatsheets/personal
+    tags: [ personal ]
+    readonly: false
