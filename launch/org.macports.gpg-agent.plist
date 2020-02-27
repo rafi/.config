@@ -11,11 +11,13 @@
 	<false />
 	-->
 
+	<key>EnableGlobbing</key>
+	<true/>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/opt/local/bin/gpg-agent</string>
+		<string>/usr/local/bin/gpg-agent</string>
 		<string>--write-env-file</string>
-		<string>/Users/rafi/.config/gnupg/agent-info</string>
+		<string>~/.config/gnupg/agent-info</string>
 		<string>--no-use-standard-socket</string>
 		<string>--launchd</string>
 		<!--

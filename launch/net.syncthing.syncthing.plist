@@ -7,15 +7,15 @@
 
 		<key>ProgramArguments</key>
 		<array>
-			<string>/Users/rafi/.local/bin/syncthing</string>
+			<string>/Users/rafibodill/.local/bin/syncthing</string>
 			<string>-home</string>
-			<string>/Users/rafi/.config/syncthing</string>
+			<string>/Users/rafibodill/.config/syncthing</string>
 		</array>
 
 		<key>EnvironmentVariables</key>
 		<dict>
 			<key>HOME</key>
-			<string>/Users/rafi</string>
+			<string>/Users/rafibodill</string>
 			<key>STNORESTART</key>
 			<string>1</string>
 		</dict>
@@ -30,9 +30,9 @@
 		<string>Background</string>
 
 		<key>StandardOutPath</key>
-		<string>/Users/rafi/Library/Logs/Syncthing.log</string>
+		<string>/Users/rafibodill/Library/Logs/Syncthing.log</string>
 
 		<key>StandardErrorPath</key>
-		<string>/Users/rafi/Library/Logs/Syncthing-Errors.log</string>
+		<string>/Users/rafibodill/Library/Logs/Syncthing-Errors.log</string>
 	</dict>
 </plist>

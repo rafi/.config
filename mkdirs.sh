@@ -8,5 +8,5 @@ mkdir -p ~/.cache/node/{npm,gyp}
 
 # Prepare user local shared directories
 mkdir -p ~/.local/bin
-mkdir -p ~/.local/share/{cargo,composer,fonts,vagrant,mutt,newsbeuter,virtualbox}
+mkdir -p ~/.local/share/{cargo,composer,fonts,vagrant,tig,mutt,newsbeuter,virtualbox}
 mkdir -p ~/.local/share/python/envs

@@ -19,13 +19,13 @@ XDG_RUNTIME_DIR = xdg_get('XDG_RUNTIME_DIR')
 
 #c.InteractiveShellApp.exec_PYTHONSTARTUP = True
 
-c.InteractiveShellApp.exec_lines = [
-    'import sys, logging, json, time',
-    'from datetime import datetime, timedelta',
-    'from decimal import Decimal',
-    'from pprint import pprint as pp',
-    'logging.basicConfig(level=logging.DEBUG)',
-]
+# c.InteractiveShellApp.exec_lines = [
+#     'import sys, logging, json, time',
+#     'from datetime import datetime, timedelta',
+#     'from decimal import Decimal',
+#     'from pprint import pprint as pp',
+#     'logging.basicConfig(level=logging.DEBUG)',
+# ]
 
 ## A list of dotted module names of IPython extensions to load.
 #c.InteractiveShellApp.extensions = []
