@@ -18,18 +18,22 @@ window:
   dynamic_padding: false
   padding: { x: 1, y: 1 }
   decorations: none  # none, full, transparent (macOS), buttonless (macOS)
-  startup_mode: Windowed  # Windowed, Maximized, Fullscreen, SimpleFullscreen (macOS)
+  # Start-up modes: Windowed, Maximized, Fullscreen, SimpleFullscreen (macOS)
+  startup_mode: Windowed
 
 font:
-  size: 16.5
+  size: 19
   # glyph_offset: { x: 0, y: -1 }
   use_thin_strokes: true
-  normal: { family: PragmataPro, style: Regular }
-  bold:   { family: PragmataPro, style: Regular }
-  italic: { family: PragmataPro, style: Regular }
-  #normal: { family: Iosevka Nerd Font, style: Regular }
-  #bold:   { family: Iosevka Nerd Font, style: Regular }
-  #italic: { family: Iosevka Nerd Font, style: Regular }
+  normal: { family: PragmataPro Liga, style: Regular }
+  bold:   { family: PragmataPro Liga, style: Regular }
+  italic: { family: PragmataPro Liga, style: Regular }
+  # normal: { family: JetBrains Mono, style: Regular }
+  # bold:   { family: JetBrains Mono, style: Bold }
+  # italic: { family: JetBrains Mono, style: Italic }
+  # normal: { family: Iosevka Nerd Font, style: Regular }
+  # bold:   { family: Iosevka Nerd Font, style: Regular }
+  # italic: { family: Iosevka Nerd Font, style: Regular }
 
 selection:
   save_to_clipboard: true
@@ -133,10 +137,6 @@ key_bindings:
   - { key: J,        mods: Command, chars: "\x1bj" }
   - { key: K,        mods: Command, chars: "\x1bk" }
   - { key: L,        mods: Command, chars: "\x1bl" }
-  - { key: W,        mods: Command, chars: "\x1bw" }
-  - { key: D,        mods: Command, chars: "\x1bd" }
-  - { key: N,        mods: Command, chars: "\x1bn" }
-  - { key: M,        mods: Command, chars: "\x1bm" }
 
   - { key: Left,     mods: Command, chars: "\x1b[1;3D" }
   - { key: Right,    mods: Command, chars: "\x1b[1;3C" }

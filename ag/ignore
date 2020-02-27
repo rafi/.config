@@ -24,6 +24,7 @@ macports-ports/
 __pycache__
 *.egg-info
 .pytest_cache
+.mypy_cache
 *.s?o
 /Applications/
 /Library/
