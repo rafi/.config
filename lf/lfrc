@@ -8,6 +8,7 @@ set ifs "\n"
 set color256 on
 set icons on
 set hidden on
+set incsearch
 set scrolloff 4
 set tabstop 2
 set smartcase
@@ -28,66 +29,69 @@ map o $mimeopen --ask $f
 map O $mimeopen --ask-default $f
 
 # general utilities
-map u !du -hsx * | sort -rh | less
+# ---
+
+# Quickly locate a file with fzf and select it in lf
 map f $lf -remote "send $id select $(fzf)"
+map F find
 map i $LESS='-iWQMXR~' bat --paging=always --theme=TwoDark "$f"
-map I !gstat $f || stat $f; echo ; du -sh $f ; echo ; file -I -b -p $f
-map <esc> unselect; clear
-map sn :{{ set sortby natural; set info size; }}
-map zz push :z<space>
-map gn &tmux split-window -v lf
-# TODO
-# map gt &tmux
-# map gT &tmux
-
-# show documentation (overrides 'search-back' command)
-map ? $lf -doc | less
-
-# file trash, paste and rename
-map p paste
+map I push A<c-a>
+map A rename
 map D trash
-map r $lf -remote "send $id push :rename<space>'$(basename $f | sed 's/ /<space>/g')'<left>"
-map R push :rename<space>
+map H cd ..
+map . set hidden!
 
 # create directory/file
 map ad push $mkdir<space>
 map af push $touch<space>
+map au !du -hsx * | sort -rh | less
+map ai !gstat $f || stat $f; echo ; du -sh $f ; echo ; file -I -b -p $f
+
+map <esc> unselect; clear
+map zz push :z<space>
+
+map sn :{{ set sortby natural; set info size; set preview; }}
+map sa :{{ set sortby natural; set info size; set nopreview; set ratios 3:5; }}
+map ss :{{ set sortby size; set info size; set preview; }}
+map st :{{ set sortby time; set info time; set preview; }}
+
+# Tmux
+map sg &tmux split-window -h lf
+map sv &tmux split-window -v lf
+
+# show documentation
+map g? $lf -doc | less
 
 # beyond compare selected files/directories
 map = &bcompare $fx
 
 # execute current file (must be executable)
-map x $$f
-map X !$f
-
-# movements
-cmap <up> cmd-history-prev
-cmap <down> cmd-history-next
-cmap <c-b> cmd-word-back
-# waiting for https://github.com/gokcehan/lf/issues/111
-# cmap <c-right> cmd-word
-# cmap <c-left> cmd-word-back
+# map x $$f
+# map X !$f
 
 # directory aliases
 map gv cd ~/.config/nvim
 map gc cd ~/.config
 map gp cd ~/code
-map gd cd ~/dl
-map gD cd ~/docs
+map gdl cd ~/dl
+map gdo cd ~/docs
 map ge cd /etc
 map gm cd /mnt
 map go cd /opt
 map g/ cd /
 map g~ cd ~
-map ~ cd ~
+
+# waiting for https://github.com/gokcehan/lf/issues/111
+# cmap <c-right> cmd-word
+# cmap <c-left> cmd-word-back
 
 # commands
 # ---
 
-cmd rename %[ -e $1 ] && printf "file exists" || mv "$f" "$1"
-cmd mkdir %[ -n "${1}" ] && mkdir ${1} || echo "Argument needed"
-cmd mkfile %[ -n "${1}" ] && touch ${1} || echo "Argument needed"
-cmd trash %set -f; mv -f $fx ~/.trash
+cmd mkdir %[ -n "${1}" ] && mkdir -p ${@} || echo "Argument needed"
+cmd mkfile %[ -n "${1}" ] && touch ${@} || echo "Argument needed"
+
+cmd trash %set -f; mv $fx ~/.trash
 ${{ mkdir -p ~/.trash }}
 
 # replace open command with robust selection of openers
@@ -102,15 +106,6 @@ cmd open ${{
 		application/pdf) nohup zathura $f > /dev/null & ;;
 		*) for f in $fx; do $OPENER $f > /dev/null 2> /dev/null & done;;
 	esac
-}}
-
-# delete current file or selected files (prompting)
-cmd delete ${{
-	set -f
-	printf "$fx\n"
-	printf "Delete items? [y/n]"
-	read ans
-	[ $ans = "y" ] && rm -rf $fx
 }}
 
 # replace paste command with rsync and progress display
@@ -135,26 +130,37 @@ cmd paste &{{
 # quickly cd into frecent directories using github.com/rupa/z
 cmd z ${{
 	set +u
-	source /usr/local/etc/profile.d/z.sh
-	if [ "$?" = "0" ]; then
-		dir="$(_z "$1" && pwd)"
-		lf -remote "send $id cd $dir"
-		lf -remote "send $id echo $dir"
+	dest=''
+	# See: https://github.com/skywind3000/z.lua or https://github.com/rupa/z
+	if [ -f "$PREFIX/etc/profile.d/z.lua" ]; then
+		export _ZL_NO_PROMPT_COMMAND=1
+		dest="$(lua "$PREFIX/etc/profile.d/z.lua" -e "$1")"
+	elif [ -f "$PREFIX/etc/profile.d/z.sh" ] || [ -f "$PREFIX/share/z/z.sh"]; then
+		export _Z_NO_PROMPT_COMMAND=1
+		source "$PREFIX/etc/profile.d/z.sh" || source "$PREFIX/share/z/z.sh"
+		dest="$(_z "$1" && pwd)"
+	fi
+
+	if test -n "${dest}"; then
+		lf -remote "send $id cd '${dest}'"
 	fi
 }}
 
 # dynamically set info displayed based on the number of columns
-cmd recol %{{
+cmd resize %{{
+	# w=$(tmux display-message -p '#{width}' || tput cols)
 	w=$(tput cols)
 	if [ $w -le 60 ]; then
 		lf -remote "send $id set ratios 1"
 		lf -remote "send $id set nopreview"
 	elif [ $w -le 80 ]; then
-		lf -remote "send $id set ratios 1:2"
-	elif [ $w -le 160 ]; then
+		lf -remote "send $id set ratios 2:2"
+	elif [ $w -le 100 ]; then
 		lf -remote "send $id set ratios 1:2:3"
 	else
-		lf -remote "send $id set ratios 1:2:3:5"
+		lf -remote "send $id set ratios 1:2:5"
 	fi
 	lf -remote "send $id echo 'ui adjusted for width of $w'"
 }}
+
+#  vim: set ts=2 sw=2 tw=80 noet :

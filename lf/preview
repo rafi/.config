@@ -9,7 +9,7 @@ HEIGHT="${2}"
 [ -L "${FILE}" ] && FILE="$(readlink "${FILE}")"
 
 # show file title
-echo -e "\e[33m# \e[34m$(basename "${FILE}")\e[0m"
+# echo -e "\e[33m# \e[34m$(basename "${FILE}")\e[0m"
 
 # preview for archives and json/xml
 case "${FILE}" in
@@ -19,6 +19,7 @@ case "${FILE}" in
 	*.7z) 7z l "${FILE}"; exit 0;;
 	*.gz|*.bzip|*.bzip2|*.bp|*.bz2) als "${FILE}"; exit 0;;
 	*.json) jq -C . "${FILE}" && exit 0;;
+	*.md) glow -s dark "${FILE}" && exit 0;;
 	*.xml) xmlstarlet fo "${FILE}" && exit 0;;
 	*.plist) plutil -p "${FILE}"; exit 0;;
 esac
@@ -41,13 +42,15 @@ case "$(file -b --mime-type "${FILE}")" in
 
 	# image terminal view with chafa/timg/catimg/cam/imgcat
 	image/*)
-		chafa --fill=block --symbols=block+border-solid -c 256 -s 80x"${HEIGHT}" "${FILE}" || \
+		chafa -c 256 -s 80x"${HEIGHT}" --fill=block \
+				--symbols=block+border+braille+ascii+space-extra-inverted \
+				"${FILE}" || \
 			timg "${FILE}" || \
 			catimg -r 2 -w 110 -t "${FILE}" || \
 			cam -H "$(echo "$HEIGHT*0.6/1" | bc)" "${FILE}" || \
 			imgcat --depth=256 --height "$(echo "$HEIGHT*0.9/1" | bc)" "${FILE}"
 		echo
-		exif "${FILE}"
+		exiv2 "${FILE}"
 		exit 0
 		;;
 
@@ -72,11 +75,13 @@ case "$(file -b --mime-type "${FILE}")" in
 
 	# all other types use bat/pygmentize/highlight/cat
 	*)
-		# bat "${FILE}" --tabs=2 --style=numbers,changes --decorations=always \
-		# 		--color=always --paging=never --wrap=never || \
+		bat "${FILE}" --tabs=2 --style=numbers,changes --decorations=always \
+				--color=always --paging=never --wrap=never --theme=base16 || \
 			pygmentize -P tabsize=2 -O style=monokai -f console256 -g "${FILE}" || \
 			highlight -t 2 -s rdark -O xterm256 --force "${FILE}" || \
 			cat "${FILE}"
 		exit 0
 		;;
 esac
+
+# vim: set ts=2 sw=2 tw=80 noet :
