@@ -1,5 +1,8 @@
 ---
 
+# supported options are "docker" and "podman"
+container-engine: docker
+
 log:
   enabled: true
   path: ~/.cache/dive.log
@@ -9,13 +12,13 @@ log:
 # Note: UI hinting is derived from the first binding
 keybinding:
   # Global bindings
-  quit: ctrl+c
-  toggle-view: tab, ctrl+space
+  quit: ctrl+c, ctrl+q
+  toggle-view: ctrl+h, ctrl+l, tab
   filter-files: ctrl+f, ctrl+slash
 
   # Layer view specific bindings
-  compare-all: ctrl+b
-  compare-layer: ctrl+l
+  compare-all: ctrl+p
+  compare-layer: ctrl+y
 
   # File view specific bindings
   toggle-collapse-dir: space
@@ -23,17 +26,18 @@ keybinding:
   toggle-removed-files: ctrl+r
   toggle-modified-files: ctrl+m
   toggle-unmodified-files: ctrl+u
+  toggle-filetree-attributes: ctrl+s
   page-up: ctrl+u, pgup
   page-down: ctrl+d, pgdn
 
 diff:
   hide:
-    - unchanged
+    - unmodified
 
 filetree:
-  collapse-dir: false
-
+  collapse-dir: true
   pane-width: 0.5
+  show-attributes: true
 
 layer:
-  show-aggregated-changes: false
+  show-aggregated-changes: true
