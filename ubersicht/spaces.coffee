@@ -32,7 +32,7 @@ render: (output) ->
 style: """
   position: relative
   margin-top: 7px
-  font: 14px "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif
+  font: 12px "Hasklug Nerd Font", Helvetica, Arial, "Lucida Grande", sans-serif;
   color: #aaa
   font-weight: 700
 
@@ -44,7 +44,6 @@ style: """
   li
     display: inline-block
     text-align: center
-    width: 1em
     margin: 0 0.5em
 
   li.visible
