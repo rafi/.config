@@ -110,9 +110,9 @@
 	branch = green bold
 	nobranch = red
 [url "git@github.com"]
-	insteadOf = bb
-[url "git@bitbucket.org"]
 	insteadOf = gh
+[url "git@bitbucket.org"]
+	insteadOf = bb
 [alias]
 	s  = status -sb
 	f  = fetch --prune

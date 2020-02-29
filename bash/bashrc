@@ -9,34 +9,44 @@ stty stop undef
 stty start undef
 
 # Bash settings
-shopt -s cdspell        # Autocorrects cd misspellings
-[[ $DISPLAY ]] && shopt -s checkwinsize   # Update the value of LINES and COLUMNS after each command if altered
-shopt -s cmdhist        # Save multi-line commands in history as single line
-shopt -s dotglob        # Include dotfiles in pathname expansion
-shopt -s expand_aliases # Expand aliases
-shopt -s extglob        # Enable extended pattern-matching features
-shopt -s histreedit     # Add failed commands to the bash history
-shopt -s histappend     # Append each session's history to $HISTFILE
-shopt -s histverify     # Edit a recalled history line before executing
+shopt -s cdspell         # Auto-corrects cd misspellings
+shopt -s cmdhist         # Save multi-line commands in history as single line
+shopt -s dotglob         # Include dotfiles in pathname expansion
+shopt -s expand_aliases  # Expand aliases
+shopt -s extglob         # Enable extended pattern-matching features
+shopt -s histreedit      # Add failed commands to the bash history
+shopt -s histappend      # Append each session's history to $HISTFILE
+shopt -s histverify      # Edit a recalled history line before executing
 
-export HISTSIZE=3000
+if [[ $DISPLAY ]]; then
+	shopt -s checkwinsize # Update LINES and COLUMNS after each command
+fi
+
+export HISTFILE="$XDG_CACHE_HOME/bash_history"
+export HISTSIZE=10000
 export HISTFILESIZE=1500000
 export HISTTIMEFORMAT='[%F %T] '
-export HISTIGNORE='pwd:jobs:ll:ls:l:fg:history:c:clear:exit'
+export HISTIGNORE='pwd:jobs:ll:ls:l:history:c:clear'
 export HISTCONTROL=ignoreboth
-export HISTFILE="$XDG_CACHE_HOME/bash_history"
+export PAGER=less
 export VISUAL=nvim
 export EDITOR="$VISUAL"
-export PAGER=less
 
-# Source bash completions
+# Load bash completions
 source "$XDG_CONFIG_HOME/bash/completion"
 
-# Source aliases
+# Load bash aliases
 source "$XDG_CONFIG_HOME/bash/aliases"
 
+# Clean-up Apple's useless garbage
+[ -f .DS_Store ] && rm -f .DS_Store
+
+__save_history() {
+	fc -ln "$1" "$1" | sed '1s/^[[:space:]]*//' >> "$HOME/.cache/history.log"
+}
+
 # Append to history and set the window title to user@host:dir
-PROMPT_COMMAND='history -a; echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
+PROMPT_COMMAND='__save_history; history -a; echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
 
 # Load CLI utilities
 source "$XDG_CONFIG_HOME/bash/utils"

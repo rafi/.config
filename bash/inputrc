@@ -1,9 +1,6 @@
-#      .-.     .-.     .-.     .-.     .-.     .-.
-# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `
-#
-# github.com/rafi/.config bash/inputrc
-#
-# Reference: https://github.com/tejr/dotfiles
+# inputrc config
+# ---
+# github.com/rafi/.config
 
 $include /etc/inputrc
 

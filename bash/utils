@@ -1,4 +1,6 @@
-# github.com/rafi/.config bash/utils
+# bash/utils
+# ---
+# github.com/rafi/.config
 
 # Source all extra functions
 for func in "$XDG_CONFIG_HOME/bash/functions.d/"*; do
@@ -47,15 +49,10 @@ if [ -f "$PREFIX/opt/fzf/shell/key-bindings.bash" ]; then
 	. "$PREFIX/opt/fzf/shell/key-bindings.bash"
 fi
 
-# See: https://github.com/Canop/broot
-# if [ -f "$XDG_DATA_HOME/broot/launcher.sh" ]; then
-# 	. "$XDG_DATA_HOME/broot/launcher.sh"
-# fi
-
 # See: https://github.com/direnv/direnv
-# if command -v direnv 1>/dev/null 2>&1; then
-# 	eval "$(direnv hook bash)"
-# fi
+if command -v direnv 1>/dev/null 2>&1; then
+	eval "$(direnv hook bash)"
+fi
 
 # Work with multiple versions of Python
 # https://github.com/pyenv/pyenv
@@ -69,9 +66,9 @@ if [ -z "$VIRTUAL_ENV" ] && command -v pyenv 1>/dev/null 2>&1; then
 	# fi
 fi
 
-# if hash hstr 2>/dev/null; then
-# 	export HSTR_CONFIG=hicolor
-# 	bind '"\C-r": "hstr -- \C-j"'
+# See: https://github.com/Canop/broot
+# if [ -f "$XDG_DATA_HOME/broot/launcher.sh" ]; then
+# 	. "$XDG_DATA_HOME/broot/launcher.sh"
 # fi
 
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :

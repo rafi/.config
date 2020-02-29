@@ -1,13 +1,11 @@
-#!/usr/bin/env bash
-#      .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.     .-.
-# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `._.'
-#
-# github.com/rafi/.config bash/exports
-# references:
+# bash/exports
+# ---
+# github.com/rafi/.config
+# References:
 # - https://github.com/milomouse/dotfiles
 # - https://github.com/EvanPurkhiser/dots-personal
-# - https://wiki.archlinux.org/index.php/XDG_Base_Directory_support
 # - https://github.com/davidosomething/dotfiles
+# - https://wiki.archlinux.org/index.php/XDG_Base_Directory_support
 
 # XDG directories
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -21,6 +19,10 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	export XDG_RUNTIME_DIR="/tmp/run"
 	[ -d "$XDG_RUNTIME_DIR" ] || mkdir -m 0700 -p "$XDG_RUNTIME_DIR"
 
+	# export LC_CTYPE="en_US.UTF-8"
+	export LC_ALL="en_US.UTF-8"
+	export LANG="en_US.UTF-8"
+
 	PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
 
 	# MacPorts
@@ -28,8 +30,8 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	# export MANPATH=/opt/local/share/man:$MANPATH
 
 	# Python per user site-packages directory
-	export PATH="$PATH:$HOME/Library/Python/3.7/bin"
-	export PATH="$PATH:$HOME/Library/Python/2.7/bin"
+	PATH="$PATH:$HOME/Library/Python/3.7/bin"
+	PATH="$PATH:$HOME/Library/Python/2.7/bin"
 
 # Linux
 else
@@ -38,15 +40,18 @@ else
 	export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc
 
 	# Python per user site-packages directory
-	export PATH="$PATH:$HOME/.local/lib/python3.7/bin"
-	export PATH="$PATH:$HOME/.local/lib/python2.7/bin"
+	PATH="$PATH:$HOME/.local/lib/python3.7/bin"
+	PATH="$PATH:$HOME/.local/lib/python2.7/bin"
 
 	# Set the systemd-style DBUS address
 	export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
 fi
 
 # Local bin
-export PATH="$HOME/.local/bin:$PATH:bin"
+PATH="$HOME/.local/bin:$PATH:bin"
+
+export LESS="-FiQMXR"
+export LESSCHARSET="UTF-8"
 
 # https://github.com/zealdocs/zeal/issues/172
 export QT_QPA_PLATFORMTHEME=gnome
@@ -98,24 +103,33 @@ hash mpv        2>/dev/null && export          MPV_HOME="$XDG_CONFIG_HOME/mpv"
 hash vagrant    2>/dev/null && export      VAGRANT_HOME="$XDG_DATA_HOME/vagrant"
 hash sshrc      2>/dev/null && export           SSHHOME="$XDG_CONFIG_HOME/sshrc"
 
+if hash fzf 2>/dev/null
+then
+	export FZF_DEFAULT_OPTS="--bind=ctrl-d:page-down,ctrl-u:page-up,ctrl-y:yank,tab:down,btab:up --inline-info --reverse --height 50%"
+	export FZF_DEFAULT_COMMAND='ag -U --hidden --follow --nogroup --nocolor -g ""'
+fi
+
+# See: https://github.com/tmux-python/tmuxp
 export TMUXP_CONFIGDIR="$XDG_CONFIG_HOME/tmuxp"
 
 # Android SDK and tools
 if [ -d "${HOME}/Library/Android/sdk" ]; then
 	export ANDROID_HOME="${HOME}/Library/Android/sdk"
-	export PATH="${PATH}:${ANDROID_HOME}/tools"
-	export PATH="${PATH}:${ANDROID_HOME}/platform-tools"
+	PATH="${PATH}:${ANDROID_HOME}/tools"
+	PATH="${PATH}:${ANDROID_HOME}/platform-tools"
 fi
 
 # Google Cloud SDK
 if [ -d "${XDG_DATA_HOME}/google-cloud-sdk/bin" ]; then
-	export PATH="${PATH}:${XDG_DATA_HOME}/google-cloud-sdk/bin"
+	PATH="${PATH}:${XDG_DATA_HOME}/google-cloud-sdk/bin"
 fi
 
 # Python
 # Pyenv paths
 export PYENV_ROOT="${XDG_DATA_HOME}/python/pyenv"
-export PATH="${PYENV_ROOT}/bin:${PATH}"
+PATH="${PYENV_ROOT}/bin:${PATH}"
+# Disable virtualenv's prompt display
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 # Python utilities
 export PYLINTHOME="$XDG_CACHE_HOME/pylint"
 export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython
@@ -139,36 +153,33 @@ hash minikube 2>/dev/null && export MINIKUBE_HOME="$XDG_DATA_HOME/minikube"
 if hash kubectl 2>/dev/null; then
 	export KUBECONFIG="$XDG_CONFIG_HOME/kube/config.yml"
 	export KREW_ROOT="$XDG_DATA_HOME/krew"
-	export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+	PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
 
-# Set luarocks user config
-hash luarocks 2>/dev/null && export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
+# DISABLED Set luarocks user config
+# hash luarocks 2>/dev/null && export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
 
 # GO configuration
-if hash go 2>/dev/null
-then
+if hash go 2>/dev/null; then
 	export GOPATH="$HOME/code/go"
-	export PATH="$PATH:$GOPATH/bin"
+	PATH="$PATH:$GOPATH/bin"
 fi
 
 # Node NPM tool configuration
-if hash npm 2>/dev/null
-then
+if hash npm 2>/dev/null; then
 	export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
-	export PATH="$PATH:$HOME/.local/lib/node/bin"
+	PATH="$PATH:$HOME/.local/lib/node/bin"
 fi
 
 # Rust Cargo configuration
 if [ -d "$XDG_DATA_HOME"/cargo ]; then
 	export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 	export CARGO_HOME="$XDG_DATA_HOME"/cargo
-	export PATH="$XDG_DATA_HOME/cargo/bin:$PATH"
+	PATH="$XDG_DATA_HOME/cargo/bin:$PATH"
 fi
 
 # CPAN configuration
-if hash cpan 2>/dev/null
-then
+if hash cpan 2>/dev/null; then
 	export PERL5LIB="$HOME/.local/lib/perl5${PERL5LIB+:}${PERL5LIB}"
 	export PERL_LOCAL_LIB_ROOT="$HOME/.local${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"
 	export PERL_MB_OPT="--install_base \"$HOME/.local\""
@@ -177,18 +188,18 @@ then
 fi
 
 # Always install ruby gems local to the user
-if hash gem 2>/dev/null
-then
-	[ -d "/usr/local/opt/ruby/bin" ] && export PATH="/usr/local/opt/ruby/bin:$PATH"
+if hash gem 2>/dev/null; then
+	if [ -d "$PREFIX/opt/ruby/bin" ]; then
+		PATH="$PREFIX/opt/ruby/bin:$PATH"
+	fi
 	export GEMRC="$XDG_CONFIG_HOME/gemrc/config"
-	export GEM_HOME="$HOME/.local/lib/ruby/gems/$(ruby -e 'puts RbConfig::CONFIG["ruby_version"]')"
 	export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem/specs"
-	export PATH="$PATH:$GEM_HOME/bin"
+	export GEM_HOME="$HOME/.local/lib/ruby/gems/$(ruby -e 'puts RbConfig::CONFIG["ruby_version"]')"
+	PATH="$PATH:$GEM_HOME/bin"
 fi
 
 # Ack configuration
-if hash ack 2> /dev/null
-then
+if hash ack 2> /dev/null; then
 	export ACKRC="$XDG_CONFIG_HOME/ack/ackrc"
 	export ACK_PAGER_COLOR="less -x4SRFX"
 fi
@@ -199,16 +210,9 @@ if [ -d "$HOME/docs/netrc" ]; then
 fi
 
 # Haskell cabal configuration
-if hash cabal 2>/dev/null
-then
-	export PATH="$PATH:$HOME/.cabal/bin"
+if hash cabal 2>/dev/null; then
+	PATH="$PATH:$HOME/.cabal/bin"
 fi
-
-# Homebrew token
-export HOMEBREW_GITHUB_API_TOKEN="{{ HOMEBREW_GITHUB_API_TOKEN }}"
-
-# Spotify
-export TMUX_SPOTIFY_API_KEY="{{ TMUX_SPOTIFY_API_KEY }}"
 
 # Task warrior configuration
 if hash task 2>/dev/null
@@ -229,17 +233,14 @@ fi
 # Remote/local MPD host
 export MPD_HOST="music.host"
 
-export LESS="-FiQMXR"
-export LESSCHARSET="UTF-8"
-export GREP_OPTIONS="--color=auto --exclude-dir=.git"
+# Homebrew token
+export GITHUB_TOKEN="{{ GITHUB_TOKEN }}"
+export HOMEBREW_GITHUB_API_TOKEN="{{ HOMEBREW_GITHUB_API_TOKEN }}"
 
-# Disable virtualenv's prompt display
-hash virtualenv 2>/dev/null && export VIRTUAL_ENV_DISABLE_PROMPT=1
+# Spotify
+export TMUX_SPOTIFY_API_KEY="{{ TMUX_SPOTIFY_API_KEY }}"
 
-if hash fzf 2>/dev/null
-then
-	export FZF_DEFAULT_OPTS="--bind=ctrl-d:page-down,ctrl-u:page-up,ctrl-y:yank,tab:down,btab:up --inline-info --reverse --height 50%"
-	export FZF_DEFAULT_COMMAND='ag -U --hidden --follow --nogroup --nocolor -g ""'
-fi
+# Export the final PATH
+export PATH
 
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :

@@ -1,46 +1,61 @@
-#      .-.     .-.     .-.     .-.     .-.     .-.
-# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `
-#
-# github.com/rafi bash aliases
+# bash/aliases
+# ---
+# github.com/rafi/.config
 
 # Carry over aliases to the root account when using sudo
 alias sudo='sudo '
-alias ranger=lf
 
-# Use GNU tools on OSX instead of BSD
-hash gls 2>/dev/null && LS="gls" || LS="ls"
+# Use GNU tools on OSX instead of BSD -------------------------- l for list --
+LSCMD='ls'
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	hash gdircolors 2>/dev/null && alias dircolors='gdircolors'
 	hash gfind 2>/dev/null && alias find='gfind'
 	hash gsort 2>/dev/null && alias sort='gsort'
 	hash gstat 2>/dev/null && alias stat='gstat'
-	LS='gls'
+	hash gls 2>/dev/null && LSCMD='gls'
 fi
 
 # Listing directory contents
-alias ls='LC_COLLATE=C '$LS' --color=auto --group-directories-first'
+alias ls='LC_COLLATE=C '${LSCMD}' --color=auto --group-directories-first'
+unset LSCMD
 alias l='ls -CFa'
 alias ll='ls -alF'
 alias lsd='ls -Gal | grep ^d'
-unset LS
 
+# =======================================----------------------- a for grep --
+if hash rg 2>/dev/null; then
+	alias a=rg
+elif hash ag 2>/dev/null; then
+	alias a=ag
+else
+	alias a=grep
+fi
+
+alias grep='grep --color=auto --exclude-dir=.git'
 alias tree='tree -F --dirsfirst -a -I ".git|.hg|.svn|__pycache__|.mypy_cache|.pytest_cache|*.egg-info|.sass-cache|.DS_Store" --ignore-case'
 
-alias grep="grep $GREP_OPTIONS"
-unset GREP_OPTIONS
+# ---------------------------------------------------------- r for explorer --
+if hash lf 2>/dev/null; then
+	alias r=lf
+elif hash ranger 2>/dev/null; then
+	alias r=ranger
+fi
 
-# File find, if fd is not installed
+# File find, if fd is not installed ---------------------------- f for find --
 if ! hash fd 2>/dev/null; then
 	alias f='find . -iname '
 	alias ff='find . -type f -iname '
 	alias fd='find . -type d -iname '
+else
+	alias f=fd
 fi
 
 # Head and tail will show as much possible without scrolling
-hash ghead 2>/dev/null && alias h='ghead -n $((${LINES:-12}-4))'
-hash gtail 2>/dev/null && alias t='gtail -n $((${LINES:-12}-4)) -s.1'
+hash ghead 2>/dev/null && alias cath='ghead -n $((${LINES:-12}-4))'
+hash gtail 2>/dev/null && alias catt='gtail -n $((${LINES:-12}-4)) -s.1'
 
-# Git
+# Git ----------------------------------------------------------- g for git --
+alias g=git
 alias gb='git branch'
 alias gc='git checkout'
 alias gcb='git checkout -b'
@@ -56,8 +71,9 @@ alias gll='git lg'
 alias gld='git lgd -15'
 alias glf='git-foresta --all --style=10 | less -RS'
 
-# Docker
-alias dk='docker-compose'
+# Docker ----------------------------------------------------- d for docker --
+alias d=docker
+alias dk=docker-compose
 alias dps='docker ps --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{ .Ports }}\\t{{.RunningFor}}\\t{{.Command}}\\t{{ .ID }}" | cut -c-$(tput cols)'
 alias dls='docker ps -a --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{ .Ports }}\\t{{.RunningFor}}\\t{{.Command}}\\t{{ .ID }}" | cut -c-$(tput cols)'
 alias dim='docker images --format "table {{.Repository}}\\t{{.Tag}}\\t{{.ID}}\\t{{.Size}}\\t{{.CreatedSince}}"'
@@ -71,65 +87,26 @@ alias dtag='docker inspect --format "{{.Name}}
 {{range \$index, \$label := .Config.Labels}}  - {{\$index}}={{\$label}}
 {{end}}" $(docker ps -q)'
 
-# Kubernetes
+# Kubernetes --------------------------------------------- k for kubernetes --
 alias k=kubectl
-alias kctx=kubectx
+alias kx=kubectx
 
 # Shortcuts
-alias c='clear'
-alias diff='colordiff'
+alias c=clear
+alias diff=colordiff
 
 # Storage
-alias dut="du -hsx * | sort -rh | head -10"
-alias dfu="df -hT -x devtmpfs -x tmpfs"
+alias dut='du -hsx * | sort -rh | head -10'
+alias duz='du -hsx * | sort -rh | fzf'
+alias dum='df -hT -x devtmpfs -x tmpfs'
 
-# z.lua
+# z.lua ----------------------------------------------------- z for jumping --
 alias zz='z -c'      # restrict matches to subdirs of $PWD
 alias zi='z -I'      # use fzf to select in multiple matches
 alias zb='z -b'      # quickly cd to the parent directory
 alias zh='z -I -t .' # interactive mru with fzf
 
-# Media
-alias volup="amixer set Master playback 3dB+"
-alias voldown="amixer set Master playback 3dB-"
-
-# Processes
-alias process='ps -ax'
-alias psk='ps -ax | fzf | cut -d " " -f1 | xargs -o kill'
-alias pst='pstree -g 3 -ws'
-
-# XDG conformity
-alias tmux='tmux -f "$XDG_CONFIG_HOME/tmux/config"'
-alias mysql='mysql --defaults-extra-file="$XDG_CONFIG_HOME/mysql/config"'
-alias mutt='mutt -F "$XDG_CONFIG_HOME"/mutt/config'
-alias weechat='weechat --dir "$XDG_CONFIG_HOME/weechat/"'
-alias gdrive='gdrive -c "$XDG_CONFIG_HOME/gdrive"'
-alias cpan='cpan -j "$XDG_CONFIG_HOME/cpan/config.pm"'
-alias gcal='gcalcli --configFolder "$XDG_CONFIG_HOME/gcalcli"'
-alias redshift='redshift -c "$XDG_CONFIG_HOME/redshift/config"'
-
-# Misc
-alias aspell="aspell -c -l en_US"
-alias ttycast="ttyd -p 8888 bash -c 'tmux new-session -d -s cast \; split-window -d \; attach -t cast'"
-alias ttycast-this="tmux split-window \'ttyd -p 8888 bash -c \'tmux a\'\'"
-alias mux="tmuxp load -y ."
-alias cal='cal | grep -C6 "$(date +%e)"'
-alias ccat='pygmentize -P tabsize=2 -O style=monokai -f console256 -g'
-alias yank='xsel -ib --logfile "$XDG_CACHE_HOME/xsel.log"'
-alias put='xsel -ob --logfile "$XDG_CACHE_HOME/xsel.log"'
-alias fontcache='fc-cache -f -v'
-alias freq='cut -f1 -d" " "$HISTFILE" | sort | uniq -c | sort -nr | head -n 30'
-alias subdl='subliminal download -l en -d "$XDG_CACHE_HOME/subtitles"'
-alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
-alias m='memo'
-alias multiopen='while read i; do open "$i"; done <<<'
-alias ungzip='gzip -d'
-alias untar='tar xvf'
-
-alias ipinfo="curl -s ipinfo.io"
-alias weather="curl -s wttr.in/Tel-Aviv"
-
-# Neovim shortcuts
+# Neo/vim shortcuts --------------------------------------------- v for vim --
 if hash nvim 2>/dev/null; then
 	alias vim=nvim
 	alias vless="nvim -u $PREFIX/share/nvim/runtime/macros/less.vim"
@@ -149,5 +126,44 @@ alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 alias .....='cd ../../../../'
+
+# Processes ----------------------------------------------- p for processes --
+alias process='ps -ax'
+alias psk='ps -ax | fzf | cut -d " " -f1 | xargs -o kill'
+alias pst='pstree -g 3 -ws'
+
+# Writing and documenting ------------------------------------- m for memos --
+alias m=memo
+
+# XDG conformity -------------------------------------------------------------
+alias tmux='tmux -f "$XDG_CONFIG_HOME/tmux/config"'
+alias mysql='mysql --defaults-extra-file="$XDG_CONFIG_HOME/mysql/config"'
+alias mutt='mutt -F "$XDG_CONFIG_HOME"/mutt/config'
+alias weechat='weechat --dir "$XDG_CONFIG_HOME/weechat/"'
+alias gdrive='gdrive -c "$XDG_CONFIG_HOME/gdrive"'
+alias cpan='cpan -j "$XDG_CONFIG_HOME/cpan/config.pm"'
+alias gcal='gcalcli --configFolder "$XDG_CONFIG_HOME/gcalcli"'
+alias redshift='redshift -c "$XDG_CONFIG_HOME/redshift/config"'
+
+# Misc
+alias aspell="aspell -c -l en_US"
+alias ttycast="ttyd -p 8888 bash -c 'tmux new-session -d -s cast \; split-window -d \; attach -t cast'"
+alias ttycast-this="tmux split-window \'ttyd -p 8888 bash -c \'tmux a\'\'"
+alias mux="tmuxp load -y ."
+alias cal='cal | grep -C6 "$(date +%e)"'
+alias yank='xsel -ib --logfile "$XDG_CACHE_HOME/xsel.log"'
+alias put='xsel -ob --logfile "$XDG_CACHE_HOME/xsel.log"'
+alias fontcache='fc-cache -f -v'
+alias freq='cut -f1 -d" " "$HISTFILE" | sort | uniq -c | sort -nr | head -n 30'
+alias subdl='subliminal download -l en -d "$XDG_CACHE_HOME/subtitles"'
+alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
+alias multiopen='while read i; do open "$i"; done <<<'
+alias ungzip='gzip -d'
+alias untar='tar xvf'
+alias volup="amixer set Master playback 3dB+"
+alias voldown="amixer set Master playback 3dB-"
+
+alias ipinfo='curl -s ipinfo.io | jq .'
+alias weather='curl -s v2.wttr.in/Tel_Aviv'
 
 #  vim: set ft=sh ts=2 sw=2 tw=80 noet :

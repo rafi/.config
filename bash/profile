@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 # github.com/rafi/.config
 
+# Profile START
+# PS4='+ $(gdate "+%s.%N")\011 '
+# exec 3>&2 2>/tmp/bashstart.$$.log
+# set -x
+
+# Load all environment exports
 source "$HOME/.config/bash/exports"
 
 if [[ "$OSTYPE" != "darwin"* ]] && \
@@ -12,26 +18,28 @@ if [[ "$OSTYPE" != "darwin"* ]] && \
 	systemctl --user start console.target
 fi
 
+# Load interactive bash shell settings and utilities
 if [ "$BASH" ]; then
 	source "$XDG_CONFIG_HOME/bash/bashrc"
 fi
 
-# Use keychain to load keys
+# Use keychain to persist keys
 # https://github.com/funtoo/keychain
 if hash keychain 2>/dev/null; then
-	eval `keychain --dir "$XDG_CACHE_HOME/keychain" --eval --agents ssh -Q --quiet current`
+	eval "$(keychain --dir "$XDG_CACHE_HOME/keychain" --eval --agents ssh -Q --quiet current)"
 fi
 
-# If SSH session and not running tmux, list tmux sessions on log-in.
-# TMUX auto-attach (or new session)
 if [[ $- == *i* ]] && hash tmux 2>/dev/null && [ -z "$TMUX" ]; then
+	# If SSH session and not running tmux, list tmux sessions on log-in.
 	if [ -n "$SSH_TTY" ]; then
 		tmux list-sessions 2>/dev/null | sed 's/^/# tmux /'
 	else
+		# auto-attach (or new session)
 		tmux new-session -A -s main
 	fi
 fi
 
+# Profile END
 # set +x
 # exec 2>&3 3>&-
 

@@ -1,15 +1,19 @@
-#!/usr/bin/env bash
+# bash/completion
+# ---
 # github.com/rafi/.config
 
 # Archlinux loads bash completions from /etc
 # https://wiki.archlinux.org/index.php/Bash#Configuration_files
 
-# OSX and Ubuntu/Debian bash completions aren't loaded automatically.
+# OSX manual bash completions loading
 if [[ "$OSTYPE" == "darwin"* ]]; then
-	export BASH_COMPLETION_COMPAT_DIR="$PREFIX/etc/bash_completion.d"
+	# Load Homebrew's bash completions
 	if [[ -r "$PREFIX/etc/profile.d/bash_completion.sh" ]]; then
+		export BASH_COMPLETION_COMPAT_DIR="$PREFIX/etc/bash_completion.d"
 		. "$PREFIX/etc/profile.d/bash_completion.sh"
 	fi
+
+# Ubuntu/Debian manual bash completions loading
 elif [ -f /etc/lsb-release ]; then
 	if [ -f /usr/share/bash-completion/bash_completion ]; then
 		. /usr/share/bash-completion/bash_completion
@@ -18,32 +22,33 @@ elif [ -f /etc/lsb-release ]; then
 	fi
 fi
 
-# Load Git bash completion
+# Load Git bash prompt helper
 # https://github.com/git/git/blob/master/contrib/completion
-if [ -f "$PREFIX/etc/bash_completion.d/git-prompt.sh" ]; then
-	. "$PREFIX/etc/bash_completion.d/git-prompt.sh"
-elif [ -f "$PREFIX/share/git/contrib/completion/git-prompt.sh" ]; then
-	. "$PREFIX/share/git/contrib/completion/git-prompt.sh"
-elif [ -f "$PREFIX/share/git/completion/git-prompt.sh" ]; then
-	. "$PREFIX/share/git/completion/git-prompt.sh"
-elif [ -f "$PREFIX/share/git-core/contrib/completion/git-prompt.sh" ]; then
-	. "$PREFIX/share/git-core/contrib/completion/git-prompt.sh"
+if [ -z "$(LC_ALL=C type -t __git_ps1)" ]; then
+	for f in etc/bash_completion.d/git-prompt.sh \
+			share/git/contrib/completion/git-prompt.sh \
+			share/git/completion/git-prompt.sh \
+			share/git-core/contrib/completion/git-prompt.sh
+		do
+			[ -f "$PREFIX/$f" ] && source "$PREFIX/$f" && break
+		done
+	unset f
 fi
 
-if [ -f "$PREFIX/etc/bash_completion.d/kubectl" ]; then
-	. "$PREFIX/etc/bash_completion.d/kubectl"
-fi
+# Kubernetes use k as kubectl
+complete -o default -F __start_kubectl k
 
+# SSH
 if [ -f "$PREFIX/share/bash-completion/completions/ssh" ]; then
 	. "$PREFIX/share/bash-completion/completions/ssh"
 fi
 
-# Load mpc bash completion
+# MPC
 if [ -f "$PREFIX/share/doc/mpc/mpc-completion.bash" ]; then
 	. "$PREFIX/share/doc/mpc/mpc-completion.bash"
 fi
 
-# Load github.com/rafi/workon-py completion
+# See: https://github.com/rafi/workon-py
 if [ -f "$HOME/.local/bin/workon-completion.bash" ]; then
 	. "$HOME/.local/bin/workon-completion.bash"
 fi
@@ -53,10 +58,7 @@ if [ -f "$XDG_DATA_HOME/google-cloud-sdk/completion.bash.inc" ]; then
 	. "$XDG_DATA_HOME/google-cloud-sdk/completion.bash.inc"
 fi
 
-# Kubernetes
-complete -o default -F __start_kubectl k
-
-# Extra OSX stuff
+# macOS defaults and killall completion
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	# Add tab completion for `defaults read|write NSGlobalDomain`
 	# You could just use `-g` instead, but I like being explicit
