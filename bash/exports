@@ -19,10 +19,6 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	export XDG_RUNTIME_DIR="/tmp/run"
 	[ -d "$XDG_RUNTIME_DIR" ] || mkdir -m 0700 -p "$XDG_RUNTIME_DIR"
 
-	# export LC_CTYPE="en_US.UTF-8"
-	export LC_ALL="en_US.UTF-8"
-	export LANG="en_US.UTF-8"
-
 	PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
 
 	# MacPorts
@@ -148,6 +144,9 @@ export PSQLRC="$XDG_CONFIG_HOME/psql/config"
 export ATOM_HOME="$XDG_DATA_HOME"/atom
 export ANDROID_SDK_HOME="$XDG_DATA_HOME"/android
 
+# Databases
+export SQLITE_HISTORY="$XDG_CACHE_HOME/sqlite_history"
+
 # Ops
 hash minikube 2>/dev/null && export MINIKUBE_HOME="$XDG_DATA_HOME/minikube"
 if hash kubectl 2>/dev/null; then
@@ -229,6 +228,9 @@ if hash diana 2>/dev/null; then
 	export DIANA_SECRET_TOKEN={{ DIANA_TOKEN }}
 	export DIANA_HOST=file.host
 fi
+
+# nextword https://github.com/high-moctane/nextword
+export NEXTWORD_DATA_PATH="$XDG_DATA_HOME/nextword"
 
 # Remote/local MPD host
 export MPD_HOST="music.host"

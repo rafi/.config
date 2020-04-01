@@ -9,6 +9,8 @@ alias kpi='kubectl get pods -o custom-columns=NAME:.metadata.name,CONTAINERS:.sp
 # Display in-depth ingress objects
 alias kingress='kubectl get ingress -o custom-columns="NAMESPACE:.metadata.namespace,NAME:.metadata.name,CLASS:.metadata.annotations.kubernetes\.io/ingress\.class,HOSTS:.spec.rules[*].host,PATHS:.spec.rules[*].http.paths[*].path"'
 
+alias kingress-wide='kubectl get ingress -o custom-columns="NAMESPACE:.metadata.namespace,NAME:.metadata.name,CLASS:.metadata.annotations.kubernetes\.io/ingress\.class,HOSTS:.spec.rules[*].host,PATHS:.spec.rules[*].http.paths[*].path,SERVICES:.spec.rules[*].http.paths[*].backend.serviceName,PORTS:.spec.rules[*].http.paths[*].backend.servicePort"'
+
 # Show recent pod termination states
 # alias krestarts='kubectl get pod -o=custom-columns=NAME:.metadata.labels.app,RESTARTS:.status.containerStatuses[*].restartCount,REASON:.status.containerStatuses[*].lastState.terminated.reason,EXIT_CODE:status.containerStatuses[*].lastState.terminated.exitCode --sort-by="{.status.containerStatuses[:1].restartCount}"'
 alias krestarts='kubectl get pod -o=custom-columns=NAME:.metadata.name,RESTARTS:.status.containerStatuses[*].restartCount,REASON:.status.containerStatuses[*].lastState.terminated.reason,EXIT_CODE:status.containerStatuses[*].lastState.terminated.exitCode,LAST_RESTART_TIME:.status.containerStatuses[*].lastState.terminated.finishedAt,MEMORY_LIMIT:.spec.containers[*].resources.limits.memory --sort-by="{.status.containerStatuses[:1].restartCount}"'

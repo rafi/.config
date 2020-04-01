@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# github.com/rafi/.config
+# https://github.com/rafi/.config
 
 # Abort if not running interactively
 [[ $- == *i* ]] || return 0
@@ -19,7 +19,7 @@ shopt -s histappend      # Append each session's history to $HISTFILE
 shopt -s histverify      # Edit a recalled history line before executing
 
 if [[ $DISPLAY ]]; then
-	shopt -s checkwinsize # Update LINES and COLUMNS after each command
+	shopt -s checkwinsize  # Update LINES and COLUMNS after each command
 fi
 
 export HISTFILE="$XDG_CACHE_HOME/bash_history"
@@ -41,6 +41,7 @@ source "$XDG_CONFIG_HOME/bash/aliases"
 # Clean-up Apple's useless garbage
 [ -f .DS_Store ] && rm -f .DS_Store
 
+# Save everything, except commands that start with a space.
 __save_history() {
 	fc -ln "$1" "$1" | sed '1s/^[[:space:]]*//' >> "$HOME/.cache/history.log"
 }
