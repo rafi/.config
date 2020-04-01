@@ -25,7 +25,8 @@
 # Other things
 .bundle
 .vagrant
-.idea
+.idea/
+.vscode/
 tmp/
 node_modules/
 bower_components/

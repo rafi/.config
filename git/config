@@ -1,23 +1,25 @@
-#      .-.     .-.     .-.     .-.     .-.     .-.
-# `._.'   `._.'   `._.'   `._.'   `._.'   `._.'   `
+# git/config
+# ---
+# github.com/rafi/.config
 #
-# Git config
-# https://github.com/rafi/.config
-#
+# See: man git-config
+
 [include]
 	path = users/current
 [core]
 	excludesfile = ~/.config/git/ignore
 	hooksPath = ~/.config/git/hooks
 	abbrev = 8
-	# pager = delta --dark
+	# diff-so-fancy
+	pager = diff-so-fancy | less --tabs=2 -RFX
 	# Do NOT auto-convert CRLF line endings into LF
 	autocrlf = false
 	# Do NOT check if converting CRLF is reversible
 	safecrlf = false
 	# Whitespace detection (only warnings)
 	whitespace = trailing-space,space-before-tab
-	pager = diff-so-fancy | less --tabs=2 -RFX
+[http]
+	version = HTTP/1.1
 [credential]
 	helper = cache --timeout=3600
 # [init]
@@ -25,9 +27,6 @@
 [pager]
 	show-branch = true
 	status = true
-	# log = diff-so-fancy | less --tabs=2 -RFX
-	# diff = diff-so-fancy | less --tabs=2 -RFX
-	# show = diff-so-fancy | less --tabs=2 -RFX
 [pretty]
 	cool = %C(240)%h%C(reset) -%C(auto)%d%Creset %s %C(242)(%an %ar)
 	nice = %C(cyan)%h %C(red)%ad %C(blue)[%an]%C(magenta)%d %C(white)%s
@@ -37,6 +36,7 @@
 	submodulesummary = true
 	showUntrackedFiles = all
 [fetch]
+	# prune = true
 	recurseSubmodules = true
 [push]
 	# Defines the action git push should take if no refspec is explicitly given:
@@ -44,6 +44,8 @@
 	# See https://git-scm.com/docs/git-config#Documentation/git-config.txt-pushdefault
 	default = current
 	followTags = true
+[commit]
+	verbose = true
 [log]
 	date = iso
 	abbrevCommit = true
@@ -130,6 +132,8 @@
 	dp = !git log --pretty=mini | fzf | cut -d ' ' -f1 | xargs -o git show
 	patch = !git --no-pager diff --no-color
 	prune = fetch --prune
+	reword = commit --amend
+	topic = !git checkout "$(git current-remote)/master" -b
 	stash-all = stash save --include-untracked
 	w  = whatchanged --decorate
 	wp = whatchanged --decorate -p
@@ -152,6 +156,11 @@
 	recent-branches = !git for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)'
 	ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
 	theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+	remote-fork = "!f() { \
+		git remote add rafi \"$(git config remote.origin.url \
+			| gsed 's;\\(github.com[/:]\\)[^/]\\+;\\1rafi;')\" && \
+		git fetch rafi; \
+	}; f"
 	#===============================================
 	# Take a snapshot of your current working tree without removing the changes from your tree.
 	# via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/

@@ -13,7 +13,7 @@ HEIGHT="${2}"
 
 # preview for archives and json/xml
 case "${FILE}" in
-	*.tar*) tar tf "${FILE}"; exit 0;;
+	*.tar*|*.tgz) tar tf "${FILE}"; exit 0;;
 	*.zip) unzip -l "${FILE}"; exit 0;;
 	*.rar) unrar l "${FILE}"; exit 0;;
 	*.7z) 7z l "${FILE}"; exit 0;;
