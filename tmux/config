@@ -11,6 +11,7 @@ set -g default-shell $SHELL
 set -g default-terminal "alacritty"
 # set -g default-terminal "screen-256color"
 # set -g default-terminal "tmux18-256color"
+# set -g default-terminal "xterm-256color"
 
 # Reattach each new window to the user bootstrap namespace
 if-shell \
@@ -23,15 +24,24 @@ set -g set-titles-string '#T #S:#I.#P #W'
 setw -g automatic-rename on
 setw -g xterm-keys on
 
-set -ga terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q,*:Tc'
+# Enable cursor shape modification in vim
+# See https://github.com/neovim/neovim/wiki/FAQ
+# set-option -s -a terminal-overrides '*:Ss=\E[%p1%d q:Se=\E[ q'
+# set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
+# set -ga terminal-overrides '*:Ss=\E[%p1%d q:Se=\E[2 q,*:Tc'
+
+# Enable 24-bit color support (check if this works via `tmux info | grep Tc`)
+set-option -s -a terminal-overrides ",*:Tc"
+
+# Add Undercurl (test it with `printf '\e[4:3mUndercurl\n\e[0m'`)
+set-option -s -a terminal-overrides ',*:Smulx=\E[4::%p1%dm'
+
+# Add colored undercurl (test it with `printf '\e[4:3;58:2:255:100:0mUndercurl\n\e[0m'`)
+set-option -s -a terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
 
 # Enable true color & italics support
 # https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
-set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
-
-# Enable cursor shape modification in vim
-# (https://github.com/neovim/neovim/wiki/FAQ)
-set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
+# set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
 
 # scrollback buffer size increase
 set -g history-limit 20000
@@ -127,8 +137,8 @@ bind-key -n M-Left previous-window
 bind-key -n M-Right next-window
 
 # Window Re-order
-bind-key -n M-< swap-window -t -1
-bind-key -n M-> swap-window -t +1
+bind-key -n M-< swap-window -d -t -1
+bind-key -n M-> swap-window -d -t +1
 
 # Pane navigation
 bind-key h select-pane -L
@@ -257,6 +267,7 @@ source-file $XDG_CONFIG_HOME/tmux/styles/rafi.tmux
 
 # Plugins
 # ---
+set -g @extrakto_key 'tab'
 set -g @extrakto_split_size '12'
 run-shell $XDG_CONFIG_HOME/tmux/plugins/extrakto/extrakto.tmux
 
@@ -264,12 +275,18 @@ set -g @scroll-without-changing-pane 'on'
 set -g @scroll-speed-num-lines-per-scroll '1'
 run-shell $XDG_CONFIG_HOME/tmux/plugins/better-mouse/scroll_copy_mode.tmux
 
-set -g @pass-key b
-run-shell $XDG_CONFIG_HOME/tmux/plugins/pass/plugin.tmux
-
 unbind-key f
 set -g @fingers-key f
-set -g @fingers-compact-hints 0
+set -g @fingers-ctrl-action ':open:'
+set -g @fingers-shift-action ':paste:'
+set -g @fingers-hint-position 'right'
+set -g @fingers-hint-format '#[fg=yellow,bold]%s'
+set -g @fingers-highlight-format '#[fg=blue,bold,dim]%s'
+set -g @fingers-selected-hint-format '#[fg=green,bold]%s'
+set -g @fingers-selected-highlight-format '#[fg=red,bold]%s'
 run-shell $XDG_CONFIG_HOME/tmux/plugins/fingers/tmux-fingers.tmux
+
+set -g @pass-key b
+run-shell $XDG_CONFIG_HOME/tmux/plugins/pass/plugin.tmux
 
 #  vim: set ft=tmux ts=2 sw=2 tw=80 noet :
