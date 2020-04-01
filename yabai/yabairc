@@ -57,34 +57,41 @@ yabai -m config window_gap                      5
 yabai -m space 1 --label 'Primary'
 yabai -m space 2 --label 'Browser'
 yabai -m space 3 --label 'Comms'
-yabai -m space 4 --label 'Tools'
-yabai -m space 5 --label 'Media'
+yabai -m space 4 --label 'Media'
+yabai -m space 5 --label 'Tools'
 yabai -m space 6 --label 'Float'
 
 # Space config
 yabai -m config --space 6 layout float
 
-# Unmanaged
-yabai -m rule --add app='^System Preferences$'  manage=off border=off
-yabai -m rule --add app='^App Store$'           manage=off border=off
-yabai -m rule --add app='^Dictionary$'          manage=off border=off
-yabai -m rule --add app='Preview'               manage=off border=off
+# Unmanaged dialogs
+yabai -m rule --add app='^System Preferences$' manage=off border=off layer=above
+yabai -m rule --add app='^Dictionary$'         manage=off border=off layer=above
+yabai -m rule --add app='Preview'              manage=off border=off layer=above
+yabai -m rule --add app='^Marked 2$'           manage=off border=off layer=above
+yabai -m rule --add app='^Dash$'               manage=off border=off layer=above
+yabai -m rule --add app='^Docker Desktop$'     manage=off border=off layer=above
+yabai -m rule --add app='^ColorSlurp$'         manage=off border=off layer=above
+yabai -m rule --add title='^Software Update$'  manage=off border=off layer=above
 
-yabai -m rule --add app='Harvest'           manage=off border=off
-yabai -m rule --add app='ScreenFlow 9'      manage=off border=off
-yabai -m rule --add app='^Marked 2$'        manage=off border=off
-yabai -m rule --add app='^Dash$'            manage=off border=off
-yabai -m rule --add app='^Docker Desktop$'  manage=off border=off
-yabai -m rule --add app='^ColorSlurp$'      manage=off border=off topmost=off
-yabai -m rule --add app='^Beyond Compare$'  manage=off border=off
-
+# Unmanaged floats
+yabai -m rule --add app='^App Store$'                  manage=off border=off
+yabai -m rule --add app='^Beyond Compare$'             manage=off border=off
+yabai -m rule --add app='^Transmission$'               manage=off border=off
+yabai -m rule --add app='^Keychain Access$'            manage=off border=off
+yabai -m rule --add app='^Code$'                       manage=off border=off
+yabai -m rule --add app='^Mast$'                       manage=off border=off
+yabai -m rule --add app='^Cisco Webex Meetings$'       manage=off border=off
+yabai -m rule --add app='^VMware '                     manage=off border=off
+yabai -m rule --add app='^Harvest$'                    manage=off border=off
+yabai -m rule --add app='^ScreenFlow 9$'               manage=off border=off
 yabai -m rule --add app='^iTerm2$' title='Preferences' manage=off border=off
 
 # Primary
 yabai -m rule --add app='^Alacritty$' space=1
 
-# Browser
-yabai -m rule --add app='^Google Chrome$' space=2 border=off
+# Internet Browser
+yabai -m rule --add title='Google Chrome$'  space=2 border=off
 
 # Communication
 yabai -m rule --add app='Slack'             space=^3
@@ -93,7 +100,7 @@ yabai -m rule --add app='Microsoft Outlook' space=^3
 yabai -m rule --add app='Messages'          space=^3
 yabai -m rule --add app='Telegram'          space=^3
 
-# Media
+# Media (borderless)
 yabai -m rule --add app='^Spotify$'         space=^4 border=off
 yabai -m rule --add app='Music'             space=^4 border=off
 yabai -m rule --add app='QuickTime Player'  space=^4 border=off
@@ -102,9 +109,8 @@ yabai -m rule --add app='VLC'               space=^4 border=off
 # Tools
 yabai -m rule --add app='Finder'            space=^5
 yabai -m rule --add app='Microsoft Word'    space=^5
-yabai -m rule --add app="Sequel Pro"        space=^5
+yabai -m rule --add app='Sequel Pro'        space=^5
 yabai -m rule --add app='Postman'           space=^5
-yabai -m rule --add app='Sourcetree'        space=^5
 yabai -m rule --add app='Activity Monitor'  space=^5
 
 # Floating
