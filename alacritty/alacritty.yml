@@ -25,18 +25,18 @@ window:
 font:
   # glyph_offset: { x: 0, y: -1 }
   use_thin_strokes: true
-  # size: 19
-  # normal: { family: PragmataPro Liga, style: Regular }
-  # bold:   { family: PragmataPro Liga, style: Regular }
-  # italic: { family: PragmataPro Liga, style: Regular }
+  size: 19
+  normal: { family: PragmataPro Liga, style: Regular }
+  bold:   { family: PragmataPro Liga, style: Regular }
+  italic: { family: PragmataPro Liga, style: Regular }
   # size: 15
   # normal: { family: JetBrains Mono, style: Regular }
   # bold:   { family: JetBrains Mono, style: Bold }
   # italic: { family: JetBrains Mono, style: Italic }
-  size: 18
-  normal: { family: Iosevka Nerd Font, style: Light }
-  bold:   { family: Iosevka Nerd Font, style: Regular }
-  italic: { family: Iosevka Nerd Font, style: Italic }
+  # size: 18
+  # normal: { family: Iosevka Nerd Font, style: Light }
+  # bold:   { family: Iosevka Nerd Font, style: Regular }
+  # italic: { family: Iosevka Nerd Font, style: Italic }
 
 cursor:
   style: Block  # Block, Underline, Beam

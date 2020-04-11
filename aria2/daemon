@@ -1,4 +1,9 @@
-# Basic
+# Aria2 daemon configuration
+# ---
+# github.com/rafi/.config
+#
+# See: man aria2c
+
 daemon=true
 continue=true
 check-integrity=true

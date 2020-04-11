@@ -147,6 +147,7 @@ alias gdrive='gdrive -c "$XDG_CONFIG_HOME/gdrive"'
 alias cpan='cpan -j "$XDG_CONFIG_HOME/cpan/config.pm"'
 alias gcal='gcalcli --configFolder "$XDG_CONFIG_HOME/gcalcli"'
 alias redshift='redshift -c "$XDG_CONFIG_HOME/redshift/config"'
+alias rtorrent='rtorrent -n -o import="$XDG_CONFIG_HOME/rtorrent/config.rc"'
 
 # Storage --------------------------------------------------------------------
 alias dut='du -hsx * | sort -rh | head -10'
