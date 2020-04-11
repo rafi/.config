@@ -2,36 +2,35 @@
 # Reload: launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
 
 # bar settings
-yabai -m config status_bar                      off
-# yabai -m config status_bar_text_font         "Helvetica Neue:Bold:12.0"
-# yabai -m config status_bar_icon_font         "FontAwesome:Regular:12.0"
-# yabai -m config status_bar_background_color  0xff202020
-# yabai -m config status_bar_foreground_color  0xffa8a8a8
+yabai -m config status_bar                   on
+yabai -m config status_bar_text_font         "Iosevka Nerd Font:Light:14.0"
+yabai -m config status_bar_icon_font         "Iosevka Nerd Font:Light:14.0"
+yabai -m config status_bar_background_color  0xff202020
+yabai -m config status_bar_foreground_color  0xff787878
 # yabai -m config status_bar_space_icon_strip  1 2 3 4 5 6 7 8 9 0
-# yabai -m config status_bar_power_icon_strip   
-# yabai -m config status_bar_space_icon        
-# yabai -m config status_bar_clock_icon        
+yabai -m config status_bar_space_icon_strip  I II III IV V VI VII VIII IX X
+yabai -m config status_bar_power_icon_strip   
+yabai -m config status_bar_space_icon        
+yabai -m config status_bar_clock_icon        
 
 # global settings
-yabai -m config mouse_follows_focus             off
+yabai -m config mouse_follows_focus             on
 yabai -m config focus_follows_mouse             off
+# yabai -m config focus_follows_mouse             autoraise
 yabai -m config window_placement                second_child
-yabai -m config window_topmost                  off
+yabai -m config window_topmost                  on
 yabai -m config window_opacity                  off
 yabai -m config window_opacity_duration         0.0
 yabai -m config window_shadow                   off
+# yabai -m config window_shadow                   float
 yabai -m config window_border                   on
-yabai -m config window_border_placement         outset
-# yabai -m config window_border_placement         exterior
-yabai -m config window_border_width             3
-yabai -m config window_border_radius            3
+yabai -m config window_border_placement         exterior
+yabai -m config window_border_width             4
+yabai -m config window_border_radius            -1.0
 yabai -m config active_window_border_topmost    on
-yabai -m config active_window_border_color      0xff3f495a
-yabai -m config normal_window_border_color      0xff2e3440
-yabai -m config insert_window_border_color      0xffeceff4
-# yabai -m config active_window_border_color      0xff747474
-# yabai -m config normal_window_border_color      0xff434530
-# yabai -m config insert_window_border_color      0xffd75f5f
+yabai -m config active_window_border_color      0xff444444
+yabai -m config normal_window_border_color      0xff171717
+yabai -m config insert_window_border_color      0xffd75f5f
 yabai -m config active_window_opacity           1.0
 yabai -m config normal_window_opacity           0.80
 yabai -m config split_ratio                     0.50
@@ -42,16 +41,11 @@ yabai -m config mouse_action2                   resize
 
 # general space settings
 yabai -m config layout                          bsp
-# yabai -m config top_padding                     32
-yabai -m config top_padding                     4
-yabai -m config bottom_padding                  4
-yabai -m config left_padding                    4
-yabai -m config right_padding                   4
-yabai -m config window_gap                      5
-
-# yabai -m config focus_follows_mouse             autoraise
-# yabai -m config window_topmost                  on
-# yabai -m config window_shadow                   float
+yabai -m config top_padding                     10  # 4
+yabai -m config bottom_padding                  10  # 4
+yabai -m config left_padding                    10  # 4
+yabai -m config right_padding                   10  # 4
+yabai -m config window_gap                      10  # 5
 
 # Space labels
 yabai -m space 1 --label 'Primary'
@@ -64,57 +58,46 @@ yabai -m space 6 --label 'Float'
 # Space config
 yabai -m config --space 6 layout float
 
-# Unmanaged dialogs
-yabai -m rule --add app='^System Preferences$' manage=off border=off layer=above
-yabai -m rule --add app='^Dictionary$'         manage=off border=off layer=above
-yabai -m rule --add app='Preview'              manage=off border=off layer=above
-yabai -m rule --add app='^Marked 2$'           manage=off border=off layer=above
-yabai -m rule --add app='^Dash$'               manage=off border=off layer=above
-yabai -m rule --add app='^Docker Desktop$'     manage=off border=off layer=above
-yabai -m rule --add app='^ColorSlurp$'         manage=off border=off layer=above
-yabai -m rule --add title='^Software Update$'  manage=off border=off layer=above
-
-# Unmanaged floats
-yabai -m rule --add app='^App Store$'                  manage=off border=off
-yabai -m rule --add app='^Beyond Compare$'             manage=off border=off
-yabai -m rule --add app='^Transmission$'               manage=off border=off
-yabai -m rule --add app='^Keychain Access$'            manage=off border=off
-yabai -m rule --add app='^Code$'                       manage=off border=off
-yabai -m rule --add app='^Mast$'                       manage=off border=off
-yabai -m rule --add app='^Cisco Webex Meetings$'       manage=off border=off
-yabai -m rule --add app='^VMware '                     manage=off border=off
-yabai -m rule --add app='^Harvest$'                    manage=off border=off
-yabai -m rule --add app='^ScreenFlow 9$'               manage=off border=off
-yabai -m rule --add app='^iTerm2$' title='Preferences' manage=off border=off
-
-# Primary
-yabai -m rule --add app='^Alacritty$' space=1
-
-# Internet Browser
-yabai -m rule --add title='Google Chrome$'  space=2 border=off
-
-# Communication
+# Space assignments
+yabai -m rule --add app='^Alacritty$'       space=1
+yabai -m rule --add title='Google Chrome$'  space=2
 yabai -m rule --add app='Slack'             space=^3
 yabai -m rule --add app='Notability'        space=^3
 yabai -m rule --add app='Microsoft Outlook' space=^3
 yabai -m rule --add app='Messages'          space=^3
 yabai -m rule --add app='Telegram'          space=^3
-
-# Media (borderless)
-yabai -m rule --add app='^Spotify$'         space=^4 border=off
-yabai -m rule --add app='Music'             space=^4 border=off
-yabai -m rule --add app='QuickTime Player'  space=^4 border=off
-yabai -m rule --add app='VLC'               space=^4 border=off
-
-# Tools
+yabai -m rule --add app='^Spotify$'         space=^4
+yabai -m rule --add app='Music'             space=^4
+yabai -m rule --add app='QuickTime Player'  space=^4
+yabai -m rule --add app='VLC'               space=^4
 yabai -m rule --add app='Finder'            space=^5
 yabai -m rule --add app='Microsoft Word'    space=^5
 yabai -m rule --add app='Sequel Pro'        space=^5
 yabai -m rule --add app='Postman'           space=^5
 yabai -m rule --add app='Activity Monitor'  space=^5
 
-# Floating
-yabai -m rule --add app='^System Preferences$' space=^6
-yabai -m rule --add app='ScreenFlow 9'         space=^6
+# Unmanaged floats
+yabai -m rule --add app='^Installer$'          manage=off layer=above
+yabai -m rule --add app='^System Preferences$' manage=off layer=above
+yabai -m rule --add title='^Preferences$'      manage=off layer=above
+yabai -m rule --add title='^Software Update$'  manage=off layer=above
+yabai -m rule --add app='^ColorSlurp$'         manage=off layer=above
+yabai -m rule --add app='^Dictionary$'         manage=off layer=above grid=24:24:15:1:8:14
+yabai -m rule --add app='^Preview$'            manage=off layer=above grid=1:2:1:0:1:1
+yabai -m rule --add app='^Marked 2$'           manage=off layer=above grid=1:2:1:0:1:1
+yabai -m rule --add app='^Dash$'               manage=off layer=above grid=1:2:1:0:1:1
+yabai -m rule --add app='^Docker Desktop$'     manage=off layer=above grid=4:4:1:1:2:2
+yabai -m rule --add app='^App Store$'          manage=off grid=24:24:1:1:22:22
+yabai -m rule --add app='^Beyond Compare$'     manage=off grid=24:24:1:1:22:22
+yabai -m rule --add app='^Transmission$'       manage=off grid=4:4:1:1:2:2
+yabai -m rule --add app='^Keychain Access$'    manage=off grid=4:4:1:1:2:2
+yabai -m rule --add app='^Code$'               manage=off grid=24:24:1:1:22:22
+yabai -m rule --add app='^Mast$'               manage=off grid=24:24:1:1:22:22
+yabai -m rule --add app='^VMware '             manage=off grid=4:4:1:1:2:2
+yabai -m rule --add app='^Harvest$'            manage=off grid=24:24:1:1:22:22
+yabai -m rule --add app='^ScreenFlow 9$'       manage=off grid=24:24:1:1:22:22
+yabai -m rule --add app='Snap Camera'          manage=off grid=4:4:1:1:2:2
+yabai -m rule --add app='^Cisco Webex'         manage=off grid=4:4:1:1:2:2
+yabai -m rule --add app='^zoom.us$'            manage=off grid=4:4:1:1:2:2
 
 # vim: set ts=2 sw=2 tw=80 noet :

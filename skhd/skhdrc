@@ -284,3 +284,12 @@ alt - t : yabai -m window --toggle float;\
 # change layout of desktop
 # ctrl + alt - a : yabai -m space --layout bsp
 # ctrl + alt - d : yabai -m space --layout float
+
+# Reload yabai
+ctrl + alt + cmd - z : launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
+
+# Wiggle window
+ctrl + alt + cmd - x : yabai -m window --toggle border && \
+                       yabai -m window --toggle border && \
+                       yabai -m window --toggle border && \
+                       yabai -m window --toggle border
