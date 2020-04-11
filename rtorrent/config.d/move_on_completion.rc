@@ -1,0 +1,43 @@
+# Move downloaded files on completion
+
+method.insert = completion_path, simple|private, "execute.capture = \
+    ~/.config/rtorrent/bin/completion-path.sh, \
+    (directory.default), (session.path), \
+    (d.hash), (d.name), (d.directory), (d.base_path), (d.tied_to_file), \
+    (d.is_multi_file), (d.custom1), (d.custom, displayname)"
+
+method.insert = completion_dirname, simple|private, \
+    "execute.capture = bash, -c, \"dirname \\\"$1\\\" | tr -d $'\\\\n'\", \
+                             completion_dirname, (argument.0)"
+
+method.insert = completion_move_print, simple|private, \
+    "print = \"MOVED »\", (argument.0), \"« to »\", (argument.1), «"
+
+method.insert = completion_move_single, simple|private, \
+    "d.directory.set = (argument.1); \
+     execute.throw = mkdir, -p, (argument.1); \
+     execute.throw = mv, -u, (argument.0), (argument.1)"
+
+method.insert = completion_move_multi, simple|private, \
+    "d.directory_base.set = (argument.1); \
+     execute.throw = mkdir, -p, (completion_dirname, (argument.1)); \
+     execute.throw = mv, -uT, (argument.0), (argument.1)"
+
+method.insert = completion_move, simple|private, \
+    "branch=d.is_multi_file=, \
+        \"completion_move_multi = (argument.0), (argument.1)\", \
+        \"completion_move_single = (argument.0), (argument.1)\" ; \
+     d.save_full_session="
+
+method.insert = completion_move_verbose, simple|private, \
+    "completion_move = (argument.0), (argument.1); \
+     completion_move_print = (argument.0), (argument.1)"
+
+method.insert = completion_move_handler, simple|private, \
+    "branch=\"not=(equal, argument.0=, cat=)\", \
+        \"completion_move_verbose = (d.base_path), (argument.0)\""
+
+method.set_key = event.download.finished, move_on_completion, \
+    "completion_move_handler = (completion_path)"
+
+# vim: set ft=dosini fdm=marker ts=2 sw=2 tw=80 noet :
