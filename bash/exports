@@ -12,48 +12,55 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export  XDG_CACHE_HOME="$HOME/.cache"
 export   XDG_DATA_HOME="$HOME/.local/share"
 
-# OSX
+# macOS
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	export PREFIX=/usr/local
+	export BROWSER=open
 	export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc_osx
 	export XDG_RUNTIME_DIR="/tmp/run"
 	[ -d "$XDG_RUNTIME_DIR" ] || mkdir -m 0700 -p "$XDG_RUNTIME_DIR"
 
 	PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
 
-	# MacPorts
-	# export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-	# export MANPATH=/opt/local/share/man:$MANPATH
-
 	# Python per user site-packages directory
-	PATH="$PATH:$HOME/Library/Python/3.7/bin"
-	PATH="$PATH:$HOME/Library/Python/2.7/bin"
+	# PATH="$PATH:$HOME/Library/Python/3.7/bin"
+	# PATH="$PATH:$HOME/Library/Python/2.7/bin"
 
 # Linux
 else
 	export PREFIX=/usr
+	export BROWSER=/usr/bin/google-chrome-stable
 	export XAUTHORITY="$XDG_CACHE_HOME/Xauthority"
 	export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc
 
 	# Python per user site-packages directory
-	PATH="$PATH:$HOME/.local/lib/python3.7/bin"
-	PATH="$PATH:$HOME/.local/lib/python2.7/bin"
+	# PATH="$PATH:$HOME/.local/lib/python3.7/bin"
+	# PATH="$PATH:$HOME/.local/lib/python2.7/bin"
 
 	# Set the systemd-style DBUS address
-	export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
+	# export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
 fi
 
 # Local bin
 PATH="$HOME/.local/bin:$PATH:bin"
 
+# Editor and pager
+EDITOR=vim
+if hash nvim 2>/dev/null; then
+	export MANPAGER='nvim +Man!'
+	EDITOR=nvim
+fi
+export EDITOR
+export VISUAL="$EDITOR"
+
+export PAGER=less
 export LESS="-FiQMXR"
 export LESSCHARSET="UTF-8"
 
-# https://github.com/zealdocs/zeal/issues/172
-export QT_QPA_PLATFORMTHEME=gnome
-
 # Forces QT to use GTK icons
 export DESKTOP_SESSION=gnome
+# https://github.com/zealdocs/zeal/issues/172
+export QT_QPA_PLATFORMTHEME=gnome
 
 # Pull GTK2 RC files from the standard config location, similar to gtk-3.0
 [ -e /etc/gtk-2.0 ] && export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
@@ -88,6 +95,7 @@ export WAKATIME_HOME="$XDG_DATA_HOME/wakatime"
 export BABEL_CACHE_PATH="$XDG_CACHE_HOME/babel.json"
 export _Z_DATA="$XDG_CACHE_HOME/z/data"
 export _ZL_DATA="$_Z_DATA"
+export _ZO_DATA_DIR="$XDG_CACHE_HOME/zoxide"
 
 hash bspwm      2>/dev/null && export      BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
 hash http       2>/dev/null && export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
@@ -116,11 +124,16 @@ if [ -d "${HOME}/Library/Android/sdk" ]; then
 fi
 
 # Google Cloud SDK
-if [ -d "${XDG_DATA_HOME}/google-cloud-sdk/bin" ]; then
+if [ -d "/usr/local/Caskroom/google-cloud-sdk" ]; then
+	source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
+	source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
+elif [ -d "${XDG_DATA_HOME}/google-cloud-sdk/bin" ]; then
 	PATH="${PATH}:${XDG_DATA_HOME}/google-cloud-sdk/bin"
 fi
 
 # Python
+# Pending: https://github.com/python/cpython/pull/13208
+export PYTHONHISTORY="$XDG_CACHE_HOME/python_history"
 # Pyenv paths
 export PYENV_ROOT="${XDG_DATA_HOME}/python/pyenv"
 PATH="${PYENV_ROOT}/bin:${PATH}"
@@ -167,7 +180,7 @@ fi
 # Node NPM tool configuration
 if hash npm 2>/dev/null; then
 	export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
-	PATH="$PATH:$HOME/.local/lib/node/bin"
+	PATH="$PATH:${XDG_DATA_HOME}/npm/bin"
 fi
 
 # Rust Cargo configuration
@@ -193,8 +206,8 @@ if hash gem 2>/dev/null; then
 	fi
 	export GEMRC="$XDG_CONFIG_HOME/gemrc/config"
 	export GEM_SPEC_CACHE="$XDG_CACHE_HOME/gem/specs"
-	export GEM_HOME="$HOME/.local/lib/ruby/gems/$(ruby -e 'puts RbConfig::CONFIG["ruby_version"]')"
-	PATH="$PATH:$GEM_HOME/bin"
+	# export GEM_HOME="$HOME/.local/lib/ruby/gems/$(ruby -e 'puts RbConfig::CONFIG["ruby_version"]')"
+	# PATH="$PATH:$GEM_HOME/bin"
 fi
 
 # Ack configuration
@@ -219,9 +232,6 @@ then
 	export TASKRC="$XDG_CONFIG_HOME/task/config"
 	export TASKDATA="$XDG_DATA_HOME/task"
 fi
-
-# Settings
-hash nvim 2>/dev/null && export MANPAGER="nvim -c 'set ft=man' -"
 
 # aria2c cli helper
 if hash diana 2>/dev/null; then

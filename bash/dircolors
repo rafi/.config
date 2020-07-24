@@ -337,6 +337,7 @@ EXEC           01;36
 *viminfo       00;37
 .xml           01;35
 .yml           01;35
+.yaml          01;35
 .zcompdump     00;35
 .zlogin        00;35
 .zwc           01;35

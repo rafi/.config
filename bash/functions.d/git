@@ -13,7 +13,7 @@ gbs() {
 fbr() {
   local tags branches target
   tags=$(git tag | awk '{print "\x1b[31;1mtag\x1b[m\t " $1}') || return
-  branches=$(git branch --all -vv --color=always |
+  branches=$(git branch --all -vv --color=always --sort=-committerdate |
     grep -v HEAD | sed "s/^[ *]*//" |
     awk '{print "\x1b[34;1mbranch\x1b[m\t " $0}') || return
   target=$( ([ -n "$tags" ] && echo "$tags"; echo "$branches") |

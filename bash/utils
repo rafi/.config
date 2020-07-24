@@ -8,26 +8,19 @@ for func in "$XDG_CONFIG_HOME/bash/functions.d/"*; do
 done
 unset func
 
-# Set default browser
-if [[ "$OSTYPE" == "darwin"* ]]; then
-	export BROWSER="open"
-else
-	export BROWSER="/usr/bin/google-chrome-stable"
-fi
-
 # Git prompt helpers
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWCOLORHINTS=0
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWUPSTREAM="auto"
-if [ -f "$PREFIX/share/git/git-prompt.sh" ]; then
-	. "$PREFIX/share/git/git-prompt.sh"
-fi
 
 # See: https://github.com/skywind3000/z.lua or https://github.com/rupa/z
 # Must be loaded _after_ setting PROMPT_COMMAND
-if [ -f "$PREFIX/etc/profile.d/z.lua" ]; then
+if command -v zoxide 1>/dev/null 2>&1; then
+	export _ZO_ECHO=1
+	eval "$(zoxide init bash)"
+elif [ -f "$PREFIX/etc/profile.d/z.lua" ]; then
 	export FZ_HISTORY_CD_CMD="_zlua"
 	export _ZL_ECHO=1
 	export _ZL_HYPHEN=1
@@ -40,18 +33,13 @@ fi
 
 # See: https://github.com/changyuheng/fz
 # Must be loaded _after_ sourcing z or z.lua
-if [ -f "$PREFIX/etc/profile.d/fz.sh" ]; then
-	. "$PREFIX/etc/profile.d/fz.sh"
-fi
+# if [ -f "$PREFIX/etc/profile.d/fz.sh" ]; then
+# 	. "$PREFIX/etc/profile.d/fz.sh"
+# fi
 
 # See https://github.com/junegunn/fzf
 if [ -f "$PREFIX/opt/fzf/shell/key-bindings.bash" ]; then
 	. "$PREFIX/opt/fzf/shell/key-bindings.bash"
-fi
-
-# See: https://github.com/direnv/direnv
-if command -v direnv 1>/dev/null 2>&1; then
-	eval "$(direnv hook bash)"
 fi
 
 # Work with multiple versions of Python
@@ -60,10 +48,6 @@ fi
 if [ -z "$VIRTUAL_ENV" ] && command -v pyenv 1>/dev/null 2>&1; then
 	export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 	eval "$(pyenv init -)"
-	# Disabled
-	# if command -v pyenv-virtualenv-init 1>/dev/null 2>&1; then
-	# 	eval "$(pyenv virtualenv-init -)"
-	# fi
 fi
 
 # See: https://github.com/Canop/broot

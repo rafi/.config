@@ -2,10 +2,10 @@
 # ---
 # github.com/rafi/.config
 
-# Archlinux loads bash completions from /etc
+# Archlinux loads bash completions from /etc automatically
 # https://wiki.archlinux.org/index.php/Bash#Configuration_files
 
-# OSX manual bash completions loading
+# Deal with other operating-systems
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	# Load Homebrew's bash completions
 	if [[ -r "$PREFIX/etc/profile.d/bash_completion.sh" ]]; then
@@ -13,8 +13,15 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 		. "$PREFIX/etc/profile.d/bash_completion.sh"
 	fi
 
-# Ubuntu/Debian manual bash completions loading
+	# Add tab completion for `defaults read|write NSGlobalDomain`
+	# You could just use `-g` instead, but I like being explicit
+	complete -W "NSGlobalDomain" defaults
+
+	# Add `killall` tab completion for common apps
+	complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall
+
 elif [ -f /etc/lsb-release ]; then
+	# Ubuntu/Debian manual bash completions loading
 	if [ -f /usr/share/bash-completion/bash_completion ]; then
 		. /usr/share/bash-completion/bash_completion
 	elif [ -f /etc/bash_completion ]; then
@@ -22,50 +29,30 @@ elif [ -f /etc/lsb-release ]; then
 	fi
 fi
 
-# Load Git bash prompt helper
+# Load git bash prompt helper, if not loaded already
 # https://github.com/git/git/blob/master/contrib/completion
 if [ -z "$(LC_ALL=C type -t __git_ps1)" ]; then
-	for f in etc/bash_completion.d/git-prompt.sh \
-			share/git/contrib/completion/git-prompt.sh \
-			share/git/completion/git-prompt.sh \
-			share/git-core/contrib/completion/git-prompt.sh
-		do
-			[ -f "$PREFIX/$f" ] && source "$PREFIX/$f" && break
-		done
-	unset f
+	for dir in \
+			etc/bash_completion.d \
+			share/git/contrib/completion \
+			share/git/completion \
+			share/git-core/contrib/completion
+	do
+		if [ -f "$PREFIX/$dir/git-prompt.sh" ]; then
+			. "$PREFIX/$dir/git-prompt.sh" && break
+		fi
+	done
+	unset dir
 fi
 
-# Kubernetes use k as kubectl
-complete -o default -F __start_kubectl k
-
-# SSH
-if [ -f "$PREFIX/share/bash-completion/completions/ssh" ]; then
-	. "$PREFIX/share/bash-completion/completions/ssh"
-fi
-
-# MPC
-if [ -f "$PREFIX/share/doc/mpc/mpc-completion.bash" ]; then
-	. "$PREFIX/share/doc/mpc/mpc-completion.bash"
-fi
-
-# See: https://github.com/rafi/workon-py
-if [ -f "$HOME/.local/bin/workon-completion.bash" ]; then
-	. "$HOME/.local/bin/workon-completion.bash"
+# https://github.com/cykerway/complete-alias
+if [ -f "$PREFIX/etc/profile.d/complete_alias" ]; then
+	source "$PREFIX/etc/profile.d/complete_alias"
 fi
 
 # Google Cloud SDK
 if [ -f "$XDG_DATA_HOME/google-cloud-sdk/completion.bash.inc" ]; then
 	. "$XDG_DATA_HOME/google-cloud-sdk/completion.bash.inc"
-fi
-
-# macOS defaults and killall completion
-if [[ "$OSTYPE" == "darwin"* ]]; then
-	# Add tab completion for `defaults read|write NSGlobalDomain`
-	# You could just use `-g` instead, but I like being explicit
-	complete -W "NSGlobalDomain" defaults
-
-	# Add `killall` tab completion for common apps
-	complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall
 fi
 
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :

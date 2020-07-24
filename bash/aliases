@@ -27,6 +27,9 @@ alias ll='ls -alF'
 alias llh='ls -alFh'
 alias lld='ls -Gal --color=always | grep ^d --colour=never'
 
+# Editor ------------------------------------------------------- e for edit --
+alias e='tmux split-window -h "$EDITOR"'
+
 # -------------------------------------------------------------- a for grep --
 if hash rg 2>/dev/null; then
 	alias a=rg
@@ -34,6 +37,9 @@ elif hash ag 2>/dev/null; then
 	alias a=ag
 else
 	alias a=grep
+fi
+if [ "$(type -t _complete_alias)" = function ]; then
+	complete -F _complete_alias a
 fi
 
 # Productive defaults for grep and tree
@@ -51,13 +57,14 @@ elif hash ranger 2>/dev/null; then
 	alias r=ranger
 fi
 
-# File find, if fd is not installed ---------------------------- f for find --
+# File find ---------------------------------------------------- f for find --
 if ! hash fd 2>/dev/null; then
 	alias f='find . -iname '
-	alias ff='find . -type f -iname '
-	alias fd='find . -type d -iname '
 else
 	alias f=fd
+fi
+if [ "$(type -t _complete_alias)" = function ]; then
+	complete -F _complete_alias f
 fi
 
 # Git ----------------------------------------------------------- g for git --
@@ -65,6 +72,7 @@ alias g=git
 alias gb='git branch'
 alias gc='git checkout'
 alias gcb='git checkout -b'
+alias gcd='cd "$(git rev-parse --show-toplevel)"'
 alias gd='git diff'
 alias gds='git diff --cached'
 alias gfl='git fetch --prune && git lg -15'
@@ -77,7 +85,24 @@ alias gll='git lg'
 alias gld='git lgd -15'
 alias glf='git-foresta --all --style=10 | less -RS'
 
-alias cdr='cd "$(git rev-parse --show-toplevel)"'
+# Git: Attach tab-completion to git aliases
+if type _git &> /dev/null; then
+	complete -o default -o nospace -F _git g
+	if [ "$(type -t __git_complete)" = function ]; then
+		__git_complete gb _git_branch gb
+		__git_complete gc _git_checkout gc
+		__git_complete gc _git_checkout gcb
+		__git_complete gd _git_diff gd
+		__git_complete gd _git_diff gds
+		__git_complete gf _git_fetch gf
+		__git_complete gf _git_fetch gfa
+		__git_complete gap _git_add gap
+		__git_complete gs _git_status gs
+		__git_complete gl _git_log gl
+		__git_complete gl _git_log gll
+		__git_complete gl _git_log gld
+	fi
+fi
 
 # Docker ----------------------------------------------------- d for docker --
 alias d=docker
@@ -95,19 +120,36 @@ alias dtag='docker inspect --format "{{.Name}}
 {{range \$index, \$label := .Config.Labels}}  - {{\$index}}={{\$label}}
 {{end}}" $(docker ps -q)'
 
+if [ "$(type -t _complete_alias)" = function ]; then
+	complete -F _complete_alias d
+fi
+
 # Kubernetes --------------------------------------------- k for kubernetes --
 alias k=kubectl
-alias kx=kubectx
+alias kc=kubectx
+alias kg='kubectl get'
+alias ke='kubectl edit'
+alias kr='kubectl run'
+
+# Kubernetes: use k as kubectl with tab completion
+complete -o default -F __start_kubectl k
+if [ "$(type -t _complete_alias)" = function ]; then
+	complete -F _complete_alias kg
+	complete -F _complete_alias ke
+	complete -F _complete_alias kr
+fi
 
 # Shortcuts
 alias c=clear
-alias diff=colordiff
+type colordiff &>/dev/null && alias diff=colordiff
 
 # z.lua ----------------------------------------------------- z for jumping --
-alias zz='z -c'      # restrict matches to subdirs of $PWD
-alias zi='z -I'      # use fzf to select in multiple matches
-alias zb='z -b'      # quickly cd to the parent directory
-alias zh='z -I -t .' # interactive mru with fzf
+if [ "$(type -t _zlua)" = function ]; then
+	alias zz='z -c'      # restrict matches to subdirs of $PWD
+	alias zi='z -I'      # use fzf to select in multiple matches
+	alias zb='z -b'      # quickly cd to the parent directory
+	alias zh='z -I -t .' # interactive mru with fzf
+fi
 
 # Neo/vim shortcuts --------------------------------------------- v for vim --
 if hash nvim 2>/dev/null; then
@@ -124,11 +166,12 @@ alias vi=vim
 alias vimdiff='vim -d'
 alias testvim="VIMINIT='let \$MYVIMRC=\"\$HOME/box/testvim/init.vim\" | source \$MYVIMRC' nvim"
 
-# A quick way to get out of current directory
+# Easier directory navigation
 alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 alias .....='cd ../../../../'
+alias -- -="cd -"
 
 # Processes ----------------------------------------------- p for processes --
 alias process='ps -ax'
@@ -151,7 +194,7 @@ alias rtorrent='rtorrent -n -o import="$XDG_CONFIG_HOME/rtorrent/config.rc"'
 
 # Storage --------------------------------------------------------------------
 alias dut='du -hsx * | sort -rh | head -10'
-alias duz='du -hsx * | sort -rh | fzf'
+alias duz='du -hsx * | sort -rh | fzf | awk "{print \$2}"'
 alias dum='df -hT -x devtmpfs -x tmpfs'
 
 # Misc -----------------------------------------------------------------------

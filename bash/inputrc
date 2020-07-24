@@ -4,8 +4,6 @@
 
 $include /etc/inputrc
 
-set editing-mode vi
-
 # Ring the bell, let other programs handle it (urxvt, tmux, etc.)
 set bell-style audible
 
@@ -49,13 +47,24 @@ set skip-completed-text On
 # Show extra file information when completing, like `ls -F` does
 set visible-stats on
 
+# Color files by types
+# Note that this may cause completion text blink in some terminals (e.g. xterm).
+set colored-stats On
+# Color the common prefix
+set colored-completion-prefix On
+
 # vi mode
 # toggle cursor on different modes
 set editing-mode vi
 set show-mode-in-prompt on
-set vi-cmd-mode-string "\1\e[2 q\2"
-set vi-ins-mode-string "\1\e[6 q\2"
 set keyseq-timeout 100
+$if term=linux
+	set vi-ins-mode-string "\1\e[?0c\2"
+	set vi-cmd-mode-string "\1\e[?8c\2"
+$else
+	set vi-ins-mode-string "\1\e[6 q\2"
+	set vi-cmd-mode-string "\1\e[2 q\2"
+$endif
 
 $if mode=vi
 	# Insert mode settings
@@ -67,9 +76,12 @@ $if mode=vi
 	"\C-e": end-of-line
 	"\C-b": backward-char
 	"\C-f": forward-char
-	"\C-d": delete-char
+	"\C-w": unix-word-rubout
+	# "\C-;": insert-comment
 	"\C-k": kill-line
 	"\C-l": clear-screen
+
+	# "\C-x": "\C-z\ec\C-z"
 
 	# Shortcut for inserting a grep pipeline at eol
 	"\C-g": "\e$a | grep "
@@ -84,17 +96,20 @@ $if mode=vi
 	"\e[C": redraw-current-line
 	"\e[D": redraw-current-line
 
-	"\eg": insert-comment
-
 	# Command mode settings
 	set keymap vi-command
 
 	"\C-a": beginning-of-line
 	"\C-e": end-of-line
+	"\C-b": backward-char
+	"\C-f": forward-char
+	"\C-w": unix-word-rubout
+	# "\C-;": insert-comment
 	"\C-k": kill-line
-	"\C-w": backward-kill-word
 	"gg": beginning-of-history
 	"G": end-of-history
+
+	# "\C-x": "\C-z\ec\C-z"
 
 	# Shortcut for inserting a grep pipeline at eol
 	"\C-g": "$a | grep "

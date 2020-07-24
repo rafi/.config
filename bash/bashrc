@@ -23,31 +23,20 @@ if [[ $DISPLAY ]]; then
 fi
 
 export HISTFILE="$XDG_CACHE_HOME/bash_history"
-export HISTSIZE=10000
-export HISTFILESIZE=1500000
+export HISTSIZE=20000
+export HISTFILESIZE=15000000
 export HISTTIMEFORMAT='[%F %T] '
 export HISTIGNORE='pwd:jobs:ll:ls:l:history:c:clear'
 export HISTCONTROL=ignoreboth
-export PAGER=less
-export VISUAL=nvim
-export EDITOR="$VISUAL"
+
+# Append to history and set the window title to user@host:dir
+export PROMPT_COMMAND='history -a; echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
 
 # Load bash completions
 source "$XDG_CONFIG_HOME/bash/completion"
 
 # Load bash aliases
 source "$XDG_CONFIG_HOME/bash/aliases"
-
-# Clean-up Apple's useless garbage
-[ -f .DS_Store ] && rm -f .DS_Store
-
-# Save everything, except commands that start with a space.
-__save_history() {
-	fc -ln "$1" "$1" | sed '1s/^[[:space:]]*//' >> "$HOME/.cache/history.log"
-}
-
-# Append to history and set the window title to user@host:dir
-PROMPT_COMMAND='__save_history; history -a; echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
 
 # Load CLI utilities
 source "$XDG_CONFIG_HOME/bash/utils"
@@ -57,5 +46,8 @@ source "$XDG_CONFIG_HOME/bash/themes/current"
 
 # Load directory and file colors for GNU ls
 eval "$(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")"
+
+# Clean-up Apple's useless garbage
+[ -f .DS_Store ] && rm -f .DS_Store
 
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :
