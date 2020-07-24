@@ -133,6 +133,7 @@
 	patch = !git --no-pager diff --no-color
 	prune = fetch --prune
 	reword = commit --amend
+	track = checkout --track
 	topic = !git checkout "$(git current-remote)/master" -b
 	stash-all = stash save --include-untracked
 	w  = whatchanged --decorate
@@ -144,16 +145,22 @@
 	lcp   = diff @{1}..
 	#===============================================
 	tree = log --graph --all --oneline --decorate
-	lb   = log --graph --simplify-by-decoration --pretty=mini --all --notes --date-order --relative-date
-	log  = log --pretty=cool
+	lb   = log --graph --simplify-by-decoration --pretty=mini --notes --date-order --relative-date
+	# log  = log --pretty=cool
 	lg   = log --graph --pretty=cool --all
 	lgd  = log --graph --pretty=cool
 	lgw  = !sh -c '"while true; do clear; git lg -15; sleep 5; done"'
 	#===============================================
-	bf = !git diff --name-only "$(git base-branch)..@"
+	bf = !git diff "$(git oldest-ancestor)..@"
 	post  = !sh -c 'git format-patch --stdout $1 | ix' -
 	sync-tags = fetch --prune origin '+refs/tags/*:refs/tags/*'
 	recent-branches = !git for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)'
+	oldest-ancestor = "!bash -c 'f() { \
+		/usr/bin/diff --old-line-format='' --new-line-format='' \
+			<(git rev-list --first-parent ${1:-master}) \
+			<(git rev-list --first-parent ${2:-HEAD}) \
+		| head -1; \
+		}; f'"
 	ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
 	theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
 	remote-fork = "!f() { \
