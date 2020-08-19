@@ -5,9 +5,9 @@ set shell bash
 set shellopts '-eu'
 set ifs "\n"
 
-set color256 on
-set icons on
-set hidden on
+set color256
+set icons
+set hidden
 set incsearch
 set scrolloff 4
 set tabstop 2
@@ -16,8 +16,15 @@ set dircounts
 set info size
 set sortby natural
 set ratios '1:2:3'
-set timefmt '2006-01-02 15:04:05.000000000 -0700'
+set timefmt '2006-01-02 15:04:05 -0700'
 set previewer ~/.config/lf/preview
+
+# Secure logs and socket
+${{
+	if [ -S "${TMPDIR:-/tmp/}lf.${USER}.sock" ]; then
+		chmod o-rwx "${TMPDIR:-/tmp/}lf.${USER}."*
+	fi
+}}
 
 # keyboard mappings
 # ---
@@ -30,15 +37,10 @@ map O $mimeopen --ask-default $f
 
 # general utilities
 # ---
-
-# Quickly locate a file with fzf and select it in lf
-map f $lf -remote "send $id select $(fzf)"
-map F find
 map i $LESS='-iWQMXR~' bat --paging=always --theme=TwoDark "$f"
 map I push A<c-a>
 map A rename
 map D trash
-map H cd ..
 map . set hidden!
 
 # create directory/file
@@ -47,7 +49,10 @@ map af push $touch<space>
 map au !du -hsx * | sort -rh | less
 map ai !gstat $f || stat $f; echo ; du -sh $f ; echo ; file -I -b -p $f
 
-map <esc> unselect; clear
+# Quickly locate a file with fzf and select it in lf
+map gf $lf -remote "send $id select $(fzf)"
+
+# map <esc> unselect; clear
 map zz push :z<space>
 
 map sn :{{ set sortby natural; set info size; set preview; }}
@@ -91,10 +96,18 @@ map g~ cd ~
 cmd mkdir %[ -n "${1}" ] && mkdir -p ${@} || echo "Argument needed"
 cmd mkfile %[ -n "${1}" ] && touch ${@} || echo "Argument needed"
 
-cmd trash %set -f; mv $fx ~/.trash
-${{ mkdir -p ~/.trash }}
+# Implement trash command
+cmd trash ${{
+	set -f
+	if hash trash-put 2>/dev/null; then
+		trash-put -v -- $fx
+	else
+		mkdir -p "$HOME"/.trash
+		mv -vi $fx "$HOME"/.trash
+	fi
+}}
 
-# replace open command with robust selection of openers
+# Replace open command with robust selection of openers
 cmd open ${{
 	case $(file --dereference --mime-type $f -b) in
 		inode/x-empty) $EDITOR $fx ;;
@@ -109,40 +122,47 @@ cmd open ${{
 }}
 
 # replace paste command with rsync and progress display
-cmd paste &{{
-	load=$(lf -remote 'load')
-	mode=$(echo "$load" | sed -n '1p')
-	list=$(echo "$load" | sed '1d')
-	if [ $mode = 'copy' ]; then
-		rsync -avh --ignore-existing --progress $list . \
-			| stdbuf -i0 -o0 -e0 tr '\r' '\n' \
-			| while read line; do
-				echo "$line"
-				lf -remote "send $id echo $line"
-			done
-	elif [ $mode = 'move' ]; then
-		mv -n $list .
-	fi
-	lf -remote 'send load'
-	lf -remote 'send clear'
-}}
+# cmd paste &{{
+# 	load=$(lf -remote 'load')
+# 	mode=$(echo "$load" | sed -n '1p')
+# 	list=$(echo "$load" | sed '1d')
+# 	if [ $mode = 'copy' ]; then
+# 		rsync -avh --ignore-existing --progress $list . \
+# 			| stdbuf -i0 -o0 -e0 tr '\r' '\n' \
+# 			| while read line; do
+# 				echo "$line"
+# 				lf -remote "send $id echo $line"
+# 			done
+# 	elif [ $mode = 'move' ]; then
+# 		mv -i $list .
+# 	fi
+# 	lf -remote 'send load'
+# 	lf -remote 'send clear'
+# }}
 
-# quickly cd into frecent directories using github.com/rupa/z
+# quickly cd into frecent directories using zoxide, zlua or rupa/z
 cmd z ${{
 	set +u
 	dest=''
-	# See: https://github.com/skywind3000/z.lua or https://github.com/rupa/z
-	if [ -f "$PREFIX/etc/profile.d/z.lua" ]; then
+	prefix=''
+	[[ "$OSTYPE" == "darwin"* ]] && prefix='/usr/local'
+	if hash zoxide 2>/dev/null; then
+		dest="$(zoxide query "$@")"
+	# See: https://github.com/skywind3000/z.lua
+	elif [ -f "$prefix/etc/profile.d/z.lua" ]; then
 		export _ZL_NO_PROMPT_COMMAND=1
-		dest="$(lua "$PREFIX/etc/profile.d/z.lua" -e "$1")"
-	elif [ -f "$PREFIX/etc/profile.d/z.sh" ] || [ -f "$PREFIX/share/z/z.sh"]; then
+		dest="$(lua "$prefix/etc/profile.d/z.lua" -e "$@")"
+	# See https://github.com/rupa/z
+	elif [ -f "$prefix/etc/profile.d/z.sh" ] || [ -f "$prefix/share/z/z.sh"]; then
 		export _Z_NO_PROMPT_COMMAND=1
-		source "$PREFIX/etc/profile.d/z.sh" || source "$PREFIX/share/z/z.sh"
-		dest="$(_z "$1" && pwd)"
+		source "$prefix/etc/profile.d/z.sh" || source "$prefix/share/z/z.sh"
+		dest="$(_z "$@" && pwd)"
 	fi
 
 	if test -n "${dest}"; then
 		lf -remote "send $id cd '${dest}'"
+	else
+		lf -remote "send $id echo 'Invalid directory ${dest}'"
 	fi
 }}
 
@@ -161,6 +181,36 @@ cmd resize %{{
 		lf -remote "send $id set ratios 1:2:5"
 	fi
 	lf -remote "send $id echo 'ui adjusted for width of $w'"
+}}
+
+# Preserve navigation stack history for each client
+map H go-back
+
+&{{
+	[ -d "$XDG_DATA_HOME/lf" ] || mkdir -p "$XDG_DATA_HOME/lf"
+	pwd > "$XDG_DATA_HOME/lf/dir-stack.$id"
+}}
+
+cmd on-cd &{{
+	SKIP="`cat $XDG_DATA_HOME/lf/dir-skip.$id || echo 0`"
+	if [ "$SKIP" = "1" ]; then
+		if [[ "$OSTYPE" == "darwin"* ]]; then
+			# macOS BSD sed
+			sed -i '' -e '$ d' "$XDG_DATA_HOME/lf/dir-stack.$id"
+		else
+			# Linux sed
+			sed -i '$ d' "$XDG_DATA_HOME/lf/dir-stack.$id"
+		fi
+	else
+		pwd >> "$XDG_DATA_HOME/lf/dir-stack.$id"
+	fi
+	echo 0 > "$XDG_DATA_HOME/lf/dir-skip.$id"
+}}
+
+cmd go-back ${{
+	echo 1 > "$XDG_DATA_HOME/lf/dir-skip.$id"
+	last_dir="$(tail -1 $XDG_DATA_HOME/lf/dir-stack.$id)"
+	lf -remote "send $id cd \"$last_dir\""
 }}
 
 #  vim: set ts=2 sw=2 tw=80 noet :

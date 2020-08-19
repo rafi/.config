@@ -8,20 +8,23 @@ HEIGHT="${2}"
 
 [ -L "${FILE}" ] && FILE="$(readlink "${FILE}")"
 
-# show file title
-# echo -e "\e[33m# \e[34m$(basename "${FILE}")\e[0m"
+if [ -S "${FILE}" ]; then
+	echo -e "\e[35m# Socket: \e[34m$(basename "${FILE}")\e[0m"
+	exit 0;
+fi
 
-# preview for archives and json/xml
+# preview for archives and well-known plain-text formats
 case "${FILE}" in
-	*.tar*|*.tgz) tar tf "${FILE}"; exit 0;;
+	*.tar|*.tgz) tar tf "${FILE}"; exit 0;;
 	*.zip) unzip -l "${FILE}"; exit 0;;
 	*.rar) unrar l "${FILE}"; exit 0;;
 	*.7z) 7z l "${FILE}"; exit 0;;
 	*.gz|*.bzip|*.bzip2|*.bp|*.bz2) als "${FILE}"; exit 0;;
 	*.json) jq -C . "${FILE}" && exit 0;;
 	*.md) glow -s dark "${FILE}" && exit 0;;
-	*.xml) xmlstarlet fo "${FILE}" && exit 0;;
-	*.plist) plutil -p "${FILE}"; exit 0;;
+	*.plist) plutil -p "${FILE}" && exit 0;;
+	*.xml) xmlstarlet fo --indent-spaces 2 "${FILE}" \
+		| bat -l xml --color=always --paging=never --theme=base16 --style=numbers,changes,grid && exit 0;;
 esac
 
 # use the right tool for the mimetype label
@@ -29,7 +32,13 @@ case "$(file -b --mime-type "${FILE}")" in
 
 	# html view with w3m/lynx
 	text/html)
-		w3m -dump "${FILE}" || lynx -dump -- "${FILE}"
+		w3m -dump "${FILE}" || \
+			lynx -dump -- "${FILE}"
+		exit 0;;
+
+	application/octet-stream|application/x-mach-binary|application/x-*executable)
+		hexyl -n 1024 "${FILE}" || \
+			heksa -l 1024 "${FILE}"
 		exit 0;;
 
 	# multimedia metadata information with mediainfo/id3ted/exiftool/id3info
@@ -42,7 +51,7 @@ case "$(file -b --mime-type "${FILE}")" in
 
 	# image terminal view with chafa/timg/catimg/cam/imgcat
 	image/*)
-		chafa -c 256 -s 80x"${HEIGHT}" --fill=block \
+		chafa -c 256 -s 80x --fill=block \
 				--symbols=block+border+braille+ascii+space-extra-inverted \
 				"${FILE}" || \
 			timg "${FILE}" || \
@@ -51,18 +60,17 @@ case "$(file -b --mime-type "${FILE}")" in
 			imgcat --depth=256 --height "$(echo "$HEIGHT*0.9/1" | bc)" "${FILE}"
 		echo
 		exiv2 "${FILE}"
-		exit 0
-		;;
+		exit 0;;
 
 	# opendocument with pandoc/odt2txt
-	application/vnd.oasis.opendocument*)
-		pandoc "${FILE}" --to=markdown || odt2txt "${FILE}"
+	application/vnd.openxmlformats-officedocument*|application/vnd.oasis.opendocument*)
+		glow -s dark <(pandoc "${FILE}" --to=markdown || odt2txt "${FILE}")
 		exit 0;;
 
 	# pdf first sheet screenshot with pdftoppm and chafa or pdftotext
 	application/pdf)
 		if hash pdftoppm 2>/dev/null && hash chafa 2>/dev/null; then
-			chafa --fill=space -c 256 -s 80x"${HEIGHT}" <(pdftoppm -f 1 -l 1 \
+			chafa --fill=space -c 256 -s 80x <(pdftoppm -f 1 -l 1 \
 				-scale-to-x 1920 \
 				-scale-to-y -1 \
 				-singlefile \
@@ -73,15 +81,20 @@ case "$(file -b --mime-type "${FILE}")" in
 		fi
 		exit 0;;
 
+	application/x-sqlite*)
+		echo -e "\e[33m# \e[34m$(basename "${FILE}")\e[0m"
+		echo -e "\n\e[35m## \e[34mTABLES\e[0m\n"
+		sqlite3 "${FILE}" ".tables"
+		exit 0;;
+
 	# all other types use bat/pygmentize/highlight/cat
 	*)
-		bat "${FILE}" --tabs=2 --style=numbers,changes --decorations=always \
+		bat "${FILE}" --tabs=2 --style=full --decorations=always \
 				--color=always --paging=never --wrap=never --theme=base16 || \
 			pygmentize -P tabsize=2 -O style=monokai -f console256 -g "${FILE}" || \
 			highlight -t 2 -s rdark -O xterm256 --force "${FILE}" || \
 			cat "${FILE}"
-		exit 0
-		;;
+		exit 0;;
 esac
 
 # vim: set ts=2 sw=2 tw=80 noet :
