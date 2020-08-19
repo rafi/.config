@@ -240,7 +240,8 @@ bind-key -Tcopy-mode-vi v send -X begin-selection
 bind-key -Tcopy-mode-vi V send -X select-line
 bind-key -Tcopy-mode-vi C-v send -X rectangle-toggle
 bind-key -Tcopy-mode-vi Escape send -X clear-selection
-bind-key -Tcopy-mode-vi Y copy-mode \; send -X begin-selection \; send -X end-of-line \; send -X copy-pipe-and-cancel pbcopy
+bind-key -Tcopy-mode-vi Y send -X begin-selection \; send -X end-of-line \; send -X cursor-left \; send -X copy-pipe-and-cancel pbcopy
+# bind-key -Tcopy-mode-vi Y copy-mode \; send -X begin-selection \; send -X end-of-line \; send -X copy-pipe-and-cancel pbcopy
 
 # Toggle key-bindings to inner/remote session
 # See https://github.com/tmux/tmux/issues/237

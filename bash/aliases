@@ -110,6 +110,7 @@ alias dk=docker-compose
 alias dps='docker ps --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{ .Ports }}\\t{{.RunningFor}}\\t{{.Command}}\\t{{ .ID }}" | cut -c-$(tput cols)'
 alias dls='docker ps -a --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{ .Ports }}\\t{{.RunningFor}}\\t{{.Command}}\\t{{ .ID }}" | cut -c-$(tput cols)'
 alias dim='docker images --format "table {{.Repository}}\\t{{.Tag}}\\t{{.ID}}\\t{{.Size}}\\t{{.CreatedSince}}"'
+alias dip='docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}"'
 alias dgc='docker rmi $(docker images -qf "dangling=true")'
 alias dvc='docker volume ls -qf dangling=true | xargs docker volume rm'
 alias dtop='docker stats $(docker ps --format="{{.Names}}")'
@@ -144,6 +145,8 @@ alias c=clear
 type colordiff &>/dev/null && alias diff=colordiff
 
 # z.lua ----------------------------------------------------- z for jumping --
+alias cdf='cd "$(dirname "$(fzf)")"'
+
 if [ "$(type -t _zlua)" = function ]; then
 	alias zz='z -c'      # restrict matches to subdirs of $PWD
 	alias zi='z -I'      # use fzf to select in multiple matches
@@ -216,10 +219,36 @@ alias volup='amixer set Master playback 3dB+'
 alias voldown='amixer set Master playback 3dB-'
 alias ipinfo='curl -s ipinfo.io | jq .'
 alias weather='curl -s v2.wttr.in/Tel_Aviv'
-alias panic="curl -s https://corona-stats.online?format=json | jq '.data[] | select(.country==\"Israel\")'"
+alias panic="curl -s https://corona-stats.online?format=json | jq '.data[] | select(.countryCode==\"IL\")'"
+alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 
-# open, pbcopy and pbpaste on linux
-if [ "$(uname -s)" != "Darwin" ]; then
+if [ "$(uname -s)" = "Darwin" ]; then
+	# IP addresses
+	alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
+	alias iplocal="ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'"
+
+	# Show active network interfaces
+	alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
+
+	# Flush Directory Service cache
+	alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
+
+	# Lock the screen (when going Away From Keyboard)
+	alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+
+	# Recursively delete `.DS_Store` files
+	alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+
+	# Empty the Trash on all mounted volumes and the main HDD.
+	# Also, clear Apple’s System Logs to improve shell startup speed.
+	# Finally, clear download history from quarantine. https://mths.be/bum
+	alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl; sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
+
+else
+	# IP addresses
+	alias ipremote="ip route get 1 | awk '{print \$NF;exit}'"
+
+	# open, pbcopy and pbpaste on linux
 	if [ -z "$(command -v pbcopy)" ]; then
 		if [ -n "$(command -v xclip)" ]; then
 			alias pbcopy="xclip -selection clipboard"

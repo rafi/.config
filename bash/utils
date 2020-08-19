@@ -15,16 +15,18 @@ export GIT_PS1_SHOWCOLORHINTS=0
 export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWUPSTREAM="auto"
 
-# See: https://github.com/skywind3000/z.lua or https://github.com/rupa/z
 # Must be loaded _after_ setting PROMPT_COMMAND
+# See: https://github.com/ajeetdsouza/zoxide
 if command -v zoxide 1>/dev/null 2>&1; then
 	export _ZO_ECHO=1
 	eval "$(zoxide init bash)"
+# See: https://github.com/skywind3000/z.lua
 elif [ -f "$PREFIX/etc/profile.d/z.lua" ]; then
 	export FZ_HISTORY_CD_CMD="_zlua"
 	export _ZL_ECHO=1
 	export _ZL_HYPHEN=1
 	eval "$(lua "$PREFIX/etc/profile.d/z.lua" --init bash enhanced once)"
+# See: https://github.com/rupa/z
 elif [ -f "$PREFIX/etc/profile.d/z.sh" ]; then
 	. "$PREFIX/etc/profile.d/z.sh"
 elif [ -f "$PREFIX/share/z/z.sh" ]; then
@@ -49,10 +51,5 @@ if [ -z "$VIRTUAL_ENV" ] && command -v pyenv 1>/dev/null 2>&1; then
 	export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 	eval "$(pyenv init -)"
 fi
-
-# See: https://github.com/Canop/broot
-# if [ -f "$XDG_DATA_HOME/broot/launcher.sh" ]; then
-# 	. "$XDG_DATA_HOME/broot/launcher.sh"
-# fi
 
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :

@@ -121,8 +121,8 @@ URxvt*perl-ext-common: default,clipboard,selection-to-clipboard
 !------------------------------------------------------------------------------
 
 #ifndef OSX
-	URxvt.clipboard.copycmd:  xsel -ib --logfile "$XDG_CACHE_HOME/xsel.log"
-	URxvt.clipboard.pastecmd: xsel -ob --logfile "$XDG_CACHE_HOME/xsel.log"
+	URxvt.clipboard.copycmd:  xsel -ib
+	URxvt.clipboard.pastecmd: xsel -ob
 	URxvt.matcher.launcher.0: /usr/bin/google-chrome-stable
 #else
 	URxvt.clipboard.copycmd: pbcopy

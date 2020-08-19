@@ -173,7 +173,7 @@ fi
 
 # GO configuration
 if hash go 2>/dev/null; then
-	export GOPATH="$HOME/code/go"
+	export GOPATH="$XDG_DATA_HOME"/go
 	PATH="$PATH:$GOPATH/bin"
 fi
 

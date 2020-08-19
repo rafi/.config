@@ -14,3 +14,6 @@ up() {
 	done
 	cd "$path"
 }
+
+# diff-so-fancy with regular files
+function dsf() { diff -u "$1" "$2" | diff-so-fancy | less; }

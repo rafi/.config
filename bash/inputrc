@@ -50,12 +50,13 @@ set visible-stats on
 # Color files by types
 # Note that this may cause completion text blink in some terminals (e.g. xterm).
 set colored-stats On
+
 # Color the common prefix
 set colored-completion-prefix On
 
 # vi mode
+# set editing-mode vi
 # toggle cursor on different modes
-set editing-mode vi
 set show-mode-in-prompt on
 set keyseq-timeout 100
 $if term=linux
@@ -66,63 +67,70 @@ $else
 	set vi-cmd-mode-string "\1\e[2 q\2"
 $endif
 
-$if mode=vi
-	# Insert mode settings
-	set keymap vi-insert
+# Emacs key-mappings
+# ---
+set keymap emacs
 
-	"\C-p": history-search-backward
-	"\C-n": history-search-forward
-	"\C-a": beginning-of-line
-	"\C-e": end-of-line
-	"\C-b": backward-char
-	"\C-f": forward-char
-	"\C-w": unix-word-rubout
-	# "\C-;": insert-comment
-	"\C-k": kill-line
-	"\C-l": clear-screen
+"\C-x": vi-editing-mode
+"\C-p": history-search-backward
+"\C-n": history-search-forward
 
-	# "\C-x": "\C-z\ec\C-z"
+# Shortcut for inserting a grep pipeline at eol
+"\C-g": "\e$a | grep "
 
-	# Shortcut for inserting a grep pipeline at eol
-	"\C-g": "\e$a | grep "
+# Vi-insert mode settings
+# ---
+set keymap vi-insert
 
-	# Ctrl+left/right for word movement
-	"\e\e[C": forward-word
-	"\e\e[D": backward-word
-	"\e[1;5C": forward-word
-	"\e[1;5D": backward-word
+"\C-x": emacs-editing-mode
+"\C-p": history-search-backward
+"\C-n": history-search-forward
+"\C-a": beginning-of-line
+"\C-e": end-of-line
+"\C-b": backward-char
+"\C-f": forward-char
+"\C-w": unix-word-rubout
+"\C-k": kill-line
+"\C-l": clear-screen
 
-	# Disable left and right cursor movement
-	"\e[C": redraw-current-line
-	"\e[D": redraw-current-line
+# Shortcut for inserting a grep pipeline at eol
+"\C-g": "\e$a | grep "
 
-	# Command mode settings
-	set keymap vi-command
+# Ctrl+left/right for word movement
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
 
-	"\C-a": beginning-of-line
-	"\C-e": end-of-line
-	"\C-b": backward-char
-	"\C-f": forward-char
-	"\C-w": unix-word-rubout
-	# "\C-;": insert-comment
-	"\C-k": kill-line
-	"gg": beginning-of-history
-	"G": end-of-history
+# Disable left and right cursor movement
+"\e[C": redraw-current-line
+"\e[D": redraw-current-line
 
-	# "\C-x": "\C-z\ec\C-z"
+# Vi-command mode settings
+# ---
+set keymap vi-command
 
-	# Shortcut for inserting a grep pipeline at eol
-	"\C-g": "$a | grep "
+"\C-x": emacs-editing-mode
+"\C-a": beginning-of-line
+"\C-e": end-of-line
+"\C-b": backward-char
+"\C-f": forward-char
+"\C-w": unix-word-rubout
+"\C-k": kill-line
+"gg": beginning-of-history
+"G": end-of-history
 
-	# Ctrl+left/right for word movement
-	"\e\e[C": forward-word
-	"\e\e[D": backward-word
-	"\e[1;5C": forward-word
-	"\e[1;5D": backward-word
+# Shortcut for inserting a grep pipeline at eol
+"\C-g": "$a | grep "
 
-	# Disable left and right cursor movement
-	"\e[C": redraw-current-line
-	"\e[D": redraw-current-line
-$endif
+# Ctrl+left/right for word movement
+"\e\e[C": forward-word
+"\e\e[D": backward-word
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+
+# Disable left and right cursor movement
+"\e[C": redraw-current-line
+"\e[D": redraw-current-line
 
 #  vim: set ft=readline ts=2 sw=2 tw=80 noet :

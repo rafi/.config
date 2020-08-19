@@ -7,9 +7,10 @@
 
 # Deal with other operating-systems
 if [[ "$OSTYPE" == "darwin"* ]]; then
-	# Load Homebrew's bash completions
-	if [[ -r "$PREFIX/etc/profile.d/bash_completion.sh" ]]; then
-		export BASH_COMPLETION_COMPAT_DIR="$PREFIX/etc/bash_completion.d"
+	# macOS Homebrew bash completions
+	if [[ -f "$PREFIX/etc/profile.d/bash_completion.sh" ]]; then
+		# Load entire Homebrew installed software's bash completion
+		# BASH_COMPLETION_DEBUG=1
 		. "$PREFIX/etc/profile.d/bash_completion.sh"
 	fi
 

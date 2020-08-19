@@ -50,4 +50,10 @@ eval "$(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")"
 # Clean-up Apple's useless garbage
 [ -f .DS_Store ] && rm -f .DS_Store
 
+# Enable readline vi-mode for myself only
+if [ "${LC_SSH_USER:-$USER}" = rafi ] || [[ "$LC_SSH_USER" == rafael* ]]
+then
+	set -o vi
+fi
+
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :

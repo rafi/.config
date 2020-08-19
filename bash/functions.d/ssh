@@ -2,8 +2,9 @@
 
 ssh() {
 	if [ -n "$TMUX" ]; then
-		TERM=screen-256color command ssh "$@"
+		TERM=screen-256color
 	else
-		TERM=xterm command ssh "$@"
+		TERM=xterm
 	fi
+	LC_SSH_USER=$USER command ssh -o SendEnv=LC_SSH_USER "$@"
 }
