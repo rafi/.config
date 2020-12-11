@@ -24,7 +24,7 @@ window:
 
 font:
   # glyph_offset: { x: 0, y: -1 }
-  use_thin_strokes: true
+  use_thin_strokes: false
   size: 19
   normal: { family: PragmataPro Liga, style: Regular }
   bold:   { family: PragmataPro Liga, style: Regular }
@@ -39,8 +39,11 @@ font:
   # italic: { family: Iosevka Nerd Font, style: Italic }
 
 cursor:
-  style: Block  # Block, Underline, Beam
+  style:
+    shape: Block  # Block, Underline, Beam
+    blinking: Off
   vi_mode_style: Beam
+  thickness: 0.25
 
 # ======================================================
 # KEYBOARD & MOUSE
@@ -50,23 +53,28 @@ selection:
   save_to_clipboard: true
 
 mouse:
-  hide_when_typing: true
+  hide_when_typing: false
 
-alt_send_esc: true
+alt_send_esc: false
 
 key_bindings:
   # - { key: Space,      mods: Control, chars: "\x00" }
-  - { key: L,          mods: Control, chars: "\x0c" }
+  # - { key: L,          mods: Control, chars: "\x0c" }
   - { key: Return,     mods: Shift,   chars: "\x1b[13;2u" }
   - { key: Return,     mods: Control, chars: "\x1b[13;5u" }
   - { key: Apostrophe, mods: Control, chars: "\x1b[27;5;39~" }
   - { key: Slash,      mods: Control|Shift, chars: "\x1b[27;5;63~" }
-  - { key: Semicolon,  mods: Control, chars: "\x1b[59;5u" }
+  - { key: Slash,      mods: Control, chars: "\x1b[27;5;63~" }
+  # - { key: Semicolon,  mods: Control, chars: "\x1b[59;5u" }
   - { key: I,          mods: Control, chars: "\x1b[27;5;105~" }
   - { key: Tab,        mods: Control, chars: "\x1b[27;5;9~" }
   - { key: Tab,        mods: Control|Shift, chars: "\x1b[27;6;9~" }
-  - { key: Key6,       mods: Control, chars: "\x1b[94;5u" }
-  # - { key: Key6,       mods: Control, chars: "\x1e" }
+  - { key: Key6,       mods: Control, chars: "\x1e" }
+    # - { key: Key6,       mods: Control, chars: "\x1b[94;5u" }
+
+  # - { key: Key0,     mods: Command, action: ResetFontSize    }
+  # - { key: Equals,   mods: Command, action: IncreaseFontSize }
+  # - { key: Minus,    mods: Command, action: DecreaseFontSize }
 
   - { key: H,        mods: Command, chars: "\x1bh" }
   - { key: J,        mods: Command, chars: "\x1bj" }
@@ -83,12 +91,54 @@ key_bindings:
   - { key: RBracket, mods: Command, chars: "\x1b]" }
   - { key: LBracket, mods: Command|Shift, chars: "\x1b{" }
   - { key: RBracket, mods: Command|Shift, chars: "\x1b}" }
-  - { key: LBracket, mods: Shift|Option, chars: "\x7b" }
-  - { key: RBracket, mods: Shift|Option, chars: "\x7d" }
+  # - { key: LBracket, mods: Shift|Option, chars: "\x7b" }
+  # - { key: RBracket, mods: Shift|Option, chars: "\x7d" }
+
+  - { key: Back,        mods: Alt,             chars: "\x1b\x7f" }
+
+  - { key: C,           mods: Alt,             chars: "\x1Bc" }
+  - { key: C,           mods: Alt|Shift,       chars: "\x1BC" }
+
+  # - { key: End,                     chars: "\x1b[F",   mode: ~AppCursor  }
+  # - { key: PageUp,   mods: Shift,   chars: "\x1b[5;2~"                   }
+  # - { key: PageUp,   mods: Control, chars: "\x1b[5;5~"                   }
+  # - { key: PageUp,                  chars: "\x1b[5~"                     }
+  # - { key: PageDown, mods: Shift,   chars: "\x1b[6;2~"                   }
+  # - { key: PageDown, mods: Control, chars: "\x1b[6;5~"                   }
+  # - { key: PageDown,                chars: "\x1b[6~"                     }
+  # - { key: Tab,      mods: Shift,   chars: "\x1b[Z"                      }
+  # - { key: Back,                    chars: "\x7f"                        }
+  # - { key: Back,     mods: Alt,     chars: "\x1b\x7f"                    }
+  # - { key: Insert,                  chars: "\x1b[2~"                     }
+  # - { key: Delete,                  chars: "\x1b[3~"                     }
+  # - { key: Left,     mods: Shift,   chars: "\x1b[1;2D"                   }
+  # - { key: Left,     mods: Control, chars: "\x1b[1;5D"                   }
+  # - { key: Left,     mods: Alt,     chars: "\x1b[1;3D"                   }
+  # - { key: Left,                    chars: "\x1b[D",   mode: ~AppCursor  }
+  # - { key: Left,                    chars: "\x1bOD",   mode: AppCursor   }
+  # - { key: Right,    mods: Shift,   chars: "\x1b[1;2C"                   }
+  # - { key: Right,    mods: Control, chars: "\x1b[1;5C"                   }
+  # - { key: Right,    mods: Alt,     chars: "\x1b[1;3C"                   }
+  # - { key: Right,                   chars: "\x1b[C",   mode: ~AppCursor  }
+  # - { key: Right,                   chars: "\x1bOC",   mode: AppCursor   }
+  # - { key: Up,       mods: Shift,   chars: "\x1b[1;2A"                   }
+  # - { key: Up,       mods: Control, chars: "\x1b[1;5A"                   }
+  # - { key: Up,       mods: Alt,     chars: "\x1b[1;3A"                   }
+  # - { key: Up,                      chars: "\x1b[A",   mode: ~AppCursor  }
+  # - { key: Up,                      chars: "\x1bOA",   mode: AppCursor   }
+  # - { key: Down,     mods: Shift,   chars: "\x1b[1;2B"                   }
+  # - { key: Down,     mods: Control, chars: "\x1b[1;5B"                   }
+  # - { key: Down,     mods: Alt,     chars: "\x1b[1;3B"                   }
+  # - { key: Down,                    chars: "\x1b[B",   mode: ~AppCursor  }
+  # - { key: Down,                    chars: "\x1bOB",   mode: AppCursor   }
+  # - { key: F1,                      chars: "\x1bOP"                      }
+  # - { key: F2,                      chars: "\x1bOQ"                      }
 
 # ======================================================
 # COLORSCHEMES
 # ------------------------------------------------------
+
+draw_bold_text_with_bright_colors: true
 
 schemes:
 
@@ -161,7 +211,5 @@ schemes:
       white:   '0xfcf7e2'
 
 colors: *rafi
-
-draw_bold_text_with_bright_colors: true
 
 #  vim: set ts=2 sw=2 tw=80 et :
