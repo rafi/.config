@@ -1,10 +1,27 @@
 #!/usr/bin/env bash
 
 ssh() {
+	# Use safest terminfo on remote server
 	if [ -n "$TMUX" ]; then
 		TERM=screen-256color
 	else
 		TERM=xterm
 	fi
-	LC_SSH_USER=$USER command ssh -o SendEnv=LC_SSH_USER "$@"
+	# Don't overwrite environment variable if it's not empty
+	export LC_IDENTIFICATION="${LC_IDENTIFICATION:-$USER}"
+	command ssh -o SendEnv=LC_IDENTIFICATION "$@"
 }
+
+#ssht() {
+#	ssh $* -t 'tmux -S /tmp/tmux-shared attach || bin/mux || /bin/bash'
+#}
+
+#ssh() {
+#	if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then
+#		tmux rename-window "$*"
+#		command ssh "$@"
+#		tmux set-window-option automatic-rename "on" 1>/dev/null
+#	else
+#		command ssh "$@"
+#	fi
+#}

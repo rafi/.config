@@ -5,7 +5,8 @@
 # Archlinux loads bash completions from /etc automatically
 # https://wiki.archlinux.org/index.php/Bash#Configuration_files
 
-# Deal with other operating-systems
+# Deal with other operating-systems...
+# macOS / Darwin
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	# macOS Homebrew bash completions
 	if [[ -f "$PREFIX/etc/profile.d/bash_completion.sh" ]]; then
@@ -53,7 +54,7 @@ fi
 
 # Google Cloud SDK
 if [ -f "$XDG_DATA_HOME/google-cloud-sdk/completion.bash.inc" ]; then
-	. "$XDG_DATA_HOME/google-cloud-sdk/completion.bash.inc"
+	source "$XDG_DATA_HOME/google-cloud-sdk/completion.bash.inc"
 fi
 
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :

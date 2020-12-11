@@ -48,7 +48,7 @@ set skip-completed-text On
 set visible-stats on
 
 # Color files by types
-# Note that this may cause completion text blink in some terminals (e.g. xterm).
+# Note that this may cause completion text blink in some terminals, e.g. xterm
 set colored-stats On
 
 # Color the common prefix
@@ -56,7 +56,7 @@ set colored-completion-prefix On
 
 # vi mode
 # set editing-mode vi
-# toggle cursor on different modes
+# toggle cursor on different vi modes
 set show-mode-in-prompt on
 set keyseq-timeout 100
 $if term=linux

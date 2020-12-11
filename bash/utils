@@ -8,7 +8,8 @@ for func in "$XDG_CONFIG_HOME/bash/functions.d/"*; do
 done
 unset func
 
-# Git prompt helpers
+# Git prompt settings
+# See: https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWCOLORHINTS=0
@@ -16,17 +17,17 @@ export GIT_PS1_SHOWUNTRACKEDFILES=1
 export GIT_PS1_SHOWUPSTREAM="auto"
 
 # Must be loaded _after_ setting PROMPT_COMMAND
-# See: https://github.com/ajeetdsouza/zoxide
+# Use https://github.com/ajeetdsouza/zoxide by default
 if command -v zoxide 1>/dev/null 2>&1; then
 	export _ZO_ECHO=1
 	eval "$(zoxide init bash)"
-# See: https://github.com/skywind3000/z.lua
+# Fallback to https://github.com/skywind3000/z.lua
 elif [ -f "$PREFIX/etc/profile.d/z.lua" ]; then
 	export FZ_HISTORY_CD_CMD="_zlua"
 	export _ZL_ECHO=1
 	export _ZL_HYPHEN=1
 	eval "$(lua "$PREFIX/etc/profile.d/z.lua" --init bash enhanced once)"
-# See: https://github.com/rupa/z
+# Fallback to https://github.com/rupa/z
 elif [ -f "$PREFIX/etc/profile.d/z.sh" ]; then
 	. "$PREFIX/etc/profile.d/z.sh"
 elif [ -f "$PREFIX/share/z/z.sh" ]; then

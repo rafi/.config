@@ -23,6 +23,10 @@ if [ "$BASH" ]; then
 	source "$XDG_CONFIG_HOME/bash/bashrc"
 fi
 
+# Profile END
+# set +x
+# exec 2>&3 3>&-
+
 # Use keychain to persist keys
 # https://github.com/funtoo/keychain
 if hash keychain 2>/dev/null; then
@@ -38,9 +42,5 @@ if [[ $- == *i* ]] && hash tmux 2>/dev/null && [ -z "$TMUX" ]; then
 		tmux new-session -A -s main
 	fi
 fi
-
-# Profile END
-# set +x
-# exec 2>&3 3>&-
 
 # vim: set ft=sh ts=2 sw=0 tw=80 noet :

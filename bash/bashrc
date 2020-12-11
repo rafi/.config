@@ -29,7 +29,7 @@ export HISTTIMEFORMAT='[%F %T] '
 export HISTIGNORE='pwd:jobs:ll:ls:l:history:c:clear'
 export HISTCONTROL=ignoreboth
 
-# Append to history and set the window title to user@host:dir
+# Append to history and set the window title as 'user@host:dir'
 export PROMPT_COMMAND='history -a; echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
 
 # Load bash completions
@@ -41,17 +41,21 @@ source "$XDG_CONFIG_HOME/bash/aliases"
 # Load CLI utilities
 source "$XDG_CONFIG_HOME/bash/utils"
 
-# Load symlinked prompt theme
+# Load symlink'ed prompt theme
 source "$XDG_CONFIG_HOME/bash/themes/current"
 
 # Load directory and file colors for GNU ls
-eval "$(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")"
+# eval "$(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")"
+
+export LS_COLORS="$(vivid generate snazzy)"
 
 # Clean-up Apple's useless garbage
 [ -f .DS_Store ] && rm -f .DS_Store
 
 # Enable readline vi-mode for myself only
-if [ "${LC_SSH_USER:-$USER}" = rafi ] || [[ "$LC_SSH_USER" == rafael* ]]
+# See ./functions.d/ssh for implementation
+if [ "${LC_IDENTIFICATION:-$USER}" = rafi ] \
+	|| [[ "${LC_IDENTIFICATION:-$USER}" == rafael* ]]
 then
 	set -o vi
 fi

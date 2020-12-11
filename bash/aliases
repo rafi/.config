@@ -8,7 +8,9 @@ alias sudo='sudo '
 # Make watch work with aliases
 alias watch='watch '
 
-# -------------------------------------------------------------- l for list --
+alias c=clear
+
+# Lists -------------------------------------------------------- l for list --
 LSCMD='ls'
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	# Use GNU tools on OSX instead of BSD
@@ -30,14 +32,33 @@ alias lld='ls -Gal --color=always | grep ^d --colour=never'
 # Editor ------------------------------------------------------- e for edit --
 alias e='tmux split-window -h "$EDITOR"'
 
-# -------------------------------------------------------------- a for grep --
+# Neo/vim shortcuts, use Neovim by default
+if hash nvim 2>/dev/null; then
+	alias vim=nvim
+	alias vless="nvim -u $PREFIX/share/nvim/runtime/macros/less.vim"
+	alias suvim='sudo -E nvim'
+	alias oldvim="VIMINIT='let \$MYVIMRC=\"\$XDG_CONFIG_HOME/nvim/vimrc\" | source \$MYVIMRC' $PREFIX/bin/vim"
+else
+	alias vless="vim -u $PREFIX/share/vim/vim74/macros/less.vim"
+	alias suvim='sudo -E vim'
+fi
+alias v='vim $(fzf)'
+alias vi=vim
+alias vimdiff='vim -d'
+alias testvim="VIMINIT='let \$MYVIMRC=\"\$HOME/box/testvim/init.vim\" | source \$MYVIMRC' nvim"
+
+# Grepping ----------------------------------------------------- a for grep --
 if hash rg 2>/dev/null; then
+	# Use https://github.com/BurntSushi/ripgrep by default
 	alias a=rg
 elif hash ag 2>/dev/null; then
+	# Fallback to https://github.com/ggreer/the_silver_searcher
 	alias a=ag
 else
+	# Fallback to slow grep
 	alias a=grep
 fi
+# Use https://github.com/cykerway/complete-alias for bash alias completion
 if [ "$(type -t _complete_alias)" = function ]; then
 	complete -F _complete_alias a
 fi
@@ -50,19 +71,47 @@ alias tree='tree -F --dirsfirst -a -I ".git|.hg|.svn|__pycache__|.mypy_cache|.py
 hash ghead 2>/dev/null && alias cath='ghead -n $((${LINES:-12}-4))'
 hash gtail 2>/dev/null && alias catt='gtail -n $((${LINES:-12}-4)) -s.1'
 
-# ---------------------------------------------------------- r for explorer --
+# Use colordiff by default
+hash colordiff 2>/dev/null && alias diff=colordiff
+
+# Explorer ------------------------------------------------- = for explorer --
+
+# Enable true-color for lf r17+
+alias lf='TCELL_TRUECOLOR=on lf'
 if hash lf 2>/dev/null; then
-	alias r=lf
+	# Use https://github.com/gokcehan/lf by default
+	=() { lf; }
 elif hash ranger 2>/dev/null; then
-	alias r=ranger
+	# Fallback to https://github.com/ranger/ranger
+	=() { ranger; }
+fi
+
+# Easier directory navigation
+alias ..='cd ..'
+alias ...='cd ../../'
+alias ....='cd ../../../'
+alias .....='cd ../../../../'
+alias -- -="cd -"
+
+# Jump around ----------------------------------------------- z for jumping --
+alias cdf='cd "$(dirname "$(fzf)")"'
+
+if [ "$(type -t _zlua)" = function ]; then
+	alias zz='z -c'      # restrict matches to subdirs of $PWD
+	alias zi='z -I'      # use fzf to select in multiple matches
+	alias zb='z -b'      # quickly cd to the parent directory
+	alias zh='z -I -t .' # interactive mru with fzf
 fi
 
 # File find ---------------------------------------------------- f for find --
 if ! hash fd 2>/dev/null; then
+	# Slow
 	alias f='find . -iname '
 else
+	# Use https://github.com/sharkdp/fd
 	alias f=fd
 fi
+# Use https://github.com/cykerway/complete-alias for bash alias completion
 if [ "$(type -t _complete_alias)" = function ]; then
 	complete -F _complete_alias f
 fi
@@ -85,7 +134,7 @@ alias gll='git lg'
 alias gld='git lgd -15'
 alias glf='git-foresta --all --style=10 | less -RS'
 
-# Git: Attach tab-completion to git aliases
+# Attach alias tab-completion to git completion functions
 if type _git &> /dev/null; then
 	complete -o default -o nospace -F _git g
 	if [ "$(type -t __git_complete)" = function ]; then
@@ -121,6 +170,7 @@ alias dtag='docker inspect --format "{{.Name}}
 {{range \$index, \$label := .Config.Labels}}  - {{\$index}}={{\$label}}
 {{end}}" $(docker ps -q)'
 
+# Use https://github.com/cykerway/complete-alias for bash alias completion
 if [ "$(type -t _complete_alias)" = function ]; then
 	complete -F _complete_alias d
 fi
@@ -131,60 +181,31 @@ alias kc=kubectx
 alias kg='kubectl get'
 alias ke='kubectl edit'
 alias kr='kubectl run'
+alias kexec='kubectl fuzzy exec -APit --'
+alias kdescribe='kubectl fuzzy describe -AP'
+alias klog='kubectl fuzzy logs -AP'
 
-# Kubernetes: use k as kubectl with tab completion
+# Kubernetes: attach k alias to kubectl completion function
 complete -o default -F __start_kubectl k
+# Use https://github.com/cykerway/complete-alias for bash alias completion
 if [ "$(type -t _complete_alias)" = function ]; then
+	complete -F _complete_alias kc
 	complete -F _complete_alias kg
 	complete -F _complete_alias ke
 	complete -F _complete_alias kr
 fi
 
-# Shortcuts
-alias c=clear
-type colordiff &>/dev/null && alias diff=colordiff
-
-# z.lua ----------------------------------------------------- z for jumping --
-alias cdf='cd "$(dirname "$(fzf)")"'
-
-if [ "$(type -t _zlua)" = function ]; then
-	alias zz='z -c'      # restrict matches to subdirs of $PWD
-	alias zi='z -I'      # use fzf to select in multiple matches
-	alias zb='z -b'      # quickly cd to the parent directory
-	alias zh='z -I -t .' # interactive mru with fzf
-fi
-
-# Neo/vim shortcuts --------------------------------------------- v for vim --
-if hash nvim 2>/dev/null; then
-	alias vim=nvim
-	alias vless="nvim -u $PREFIX/share/nvim/runtime/macros/less.vim"
-	alias suvim='sudo -E nvim'
-	alias oldvim="VIMINIT='let \$MYVIMRC=\"\$XDG_CONFIG_HOME/nvim/vimrc\" | source \$MYVIMRC' $PREFIX/bin/vim"
-else
-	alias vless="vim -u $PREFIX/share/vim/vim74/macros/less.vim"
-	alias suvim='sudo -E vim'
-fi
-alias v='vim $(fzf)'
-alias vi=vim
-alias vimdiff='vim -d'
-alias testvim="VIMINIT='let \$MYVIMRC=\"\$HOME/box/testvim/init.vim\" | source \$MYVIMRC' nvim"
-
-# Easier directory navigation
-alias ..='cd ..'
-alias ...='cd ../../'
-alias ....='cd ../../../'
-alias .....='cd ../../../../'
-alias -- -="cd -"
-
 # Processes ----------------------------------------------- p for processes --
 alias process='ps -ax'
-alias psk='ps -ax | fzf | cut -d " " -f1 | xargs -o kill'
+alias psk='ps -xam -o "pid,user,%cpu,%mem,command" | fzf | cut -d " " -f1 | xargs -o kill'
 alias pst='pstree -g 3 -ws'
 
-# Writing and documenting ------------------------------------- m for memos --
+# Writing ----------------------------------------------------- m for memos --
+# See: https://github.com/rafi/memo-sh
 alias m=memo
 
 # XDG conformity -------------------------------------------------------------
+# See: https://wiki.archlinux.org/index.php/XDG_Base_Directory
 alias tmux='tmux -f "$XDG_CONFIG_HOME/tmux/config"'
 alias mysql='mysql --defaults-extra-file="$XDG_CONFIG_HOME/mysql/config"'
 alias mutt='mutt -F "$XDG_CONFIG_HOME"/mutt/config'
@@ -204,7 +225,7 @@ alias dum='df -hT -x devtmpfs -x tmpfs'
 alias aspell='aspell -c -l en_US'
 alias ttycast="ttyd -p 8888 bash -c 'tmux new-session -d -s cast \; split-window -d \; attach -t cast'"
 alias ttycast-this="tmux split-window \'ttyd -p 8888 bash -c \'tmux a\'\'"
-alias mux='tmuxp load -y .'
+alias project='tmuxp load -y .'
 alias cal='task cal'
 alias fontcache='fc-cache -f -v'
 alias fontfind='fc-list : family style'
@@ -212,6 +233,7 @@ alias freq='cut -f1 -d" " "$HISTFILE" | sort | uniq -c | sort -nr | head -n 30'
 alias subdl='subliminal download -l en -d "$XDG_CACHE_HOME/subtitles"'
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias multiopen='while read i; do open "$i"; done <<<'
+alias ngrok='ngrok --authtoken="$(pass tokens/ngrok)"'
 alias pubkey="pbcopy < ~/.ssh/id_rsa.pub && echo '=> Public key yanked.'"
 alias ungzip='gzip -d'
 alias untar='tar xvf'
@@ -222,10 +244,12 @@ alias weather='curl -s v2.wttr.in/Tel_Aviv'
 alias panic="curl -s https://corona-stats.online?format=json | jq '.data[] | select(.countryCode==\"IL\")'"
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 
+# OS Specific Network and Filesystem -----------------------------------------
 if [ "$(uname -s)" = "Darwin" ]; then
 	# IP addresses
 	alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 	alias iplocal="ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'"
+	# alias ipremote=""  # TODO
 
 	# Show active network interfaces
 	alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
@@ -246,9 +270,20 @@ if [ "$(uname -s)" = "Darwin" ]; then
 
 else
 	# IP addresses
+	# alias ips=""  # TODO
+	# alias iplocal=""  # TODO
 	alias ipremote="ip route get 1 | awk '{print \$NF;exit}'"
 
-	# open, pbcopy and pbpaste on linux
+	# Show active network interfaces
+	# alias ifactive=""  # TODO
+
+	# Flush Directory Service cache
+	# alias flush=""  # TODO
+
+	# Lock the screen (when going Away From Keyboard)
+	# alias afk=""  # TODO
+
+	# open, pbcopy and pbpaste on Linux
 	if [ -z "$(command -v pbcopy)" ]; then
 		if [ -n "$(command -v xclip)" ]; then
 			alias pbcopy="xclip -selection clipboard"
