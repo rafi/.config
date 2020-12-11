@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>Label</key>
-	<string>com.rafi.login</string>
+	<string>io.rafi.environment</string>
 	<key>ProgramArguments</key>
 	<array>
 		<string>sh</string>
@@ -15,16 +15,11 @@
 			launchctl setenv XDG_CACHE_HOME $HOME/.cache
 			launchctl setenv XDG_DATA_HOME $HOME/.local/share
 			launchctl setenv XDG_RUNTIME_DIR /tmp/run
-			launchctl setenv XAUTHORITY $HOME/.cache/Xauthority
-			launchctl setenv XINITRC $XDG_CONFIG_HOME/xorg/xinitrc_osx
 			launchctl setenv GNUPGHOME $HOME/.config/gnupg
 			launchctl setenv VBOX_USER_HOME $HOME/.config/virtualbox
-			launchctl setenv BSPWM_SOCKET $HOME/.cache/bswpm-socket
 			launchctl setenv PASSWORD_STORE_DIR $HOME/docs/pass/
-			launchctl setenv RXVT_SOCKET $HOME/.cache/urxvtd
-			launchctl setenv URXVT_PERL_LIB $HOME/.config/urxvt/ext
 			launchctl setenv NPM_CONFIG_USERCONFIG $XDG_CONFIG_HOME/npm/npmrc
-			launchctl setenv FONTCONFIG_PATH /opt/local/etc/fonts
+			launchctl setenv FONTCONFIG_PATH /usr/local/etc/fonts
 			launchctl setenv RANDFILE $HOME/.cache/randfile
 			launchctl setenv MPD_HOST music.host
 		</string>

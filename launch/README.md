@@ -1,31 +1,29 @@
-OSX User Services
-===
+# OSX User Services
 
-Install Service
----
+## Install Service
+
 Setup via symlinks, and load with `launchctl`:
+
 ```sh
 cd ~/Library/LaunchAgents
-ln -sfv ~/.config/launch/org.musicpd.mpd.plist
-launchctl load -w org.musicpd.mpd.plist
+ln -sfv ~/.config/launch/io.rafi.environment.plist
+launchctl load -w io.rafi.environment.plist
 ```
 
-Uninstall Service
----
+## Uninstall Service
+
 ```sh
-launchctl unload -w ~/Library/LaunchAgents/org.musicpd.mpd.plist
+launchctl unload -w ~/Library/LaunchAgents/io.rafi.environment.plist
 ```
 
-Available Services
----
-- `environment.plist` - XDG system-wide environment variables
-- `net.syncthing.syncthing.plist` - [Syncthing]
-- `org.macports.gpg-agent.plist` - GPG agent (Installed via Macports)
-- `org.musicpd.mpd.plist` - [MPD] (Music Player Daemon)
-- `org.notandy.ympd.plist` - [ympd]
-- `org.musicpd.mpdscribble.plist` - [mpdscribble]
+## Available Services
 
-[Syncthing]: https://syncthing.net/
-[MPD]: http://www.musicpd.org/
-[mpdscribble]: http://mpd.wikia.com/wiki/Client:Mpdscribble
-[ympd]: https://github.com/notandy/ympd
+- `io.rafi.environment.plist` - My XDG system-wide environment variables
+
+## macOS Service Directories
+
+- `~/Library/LaunchAgents` - Per-user agents provided by the user.
+- `/Library/LaunchAgents` - Per-user agents provided by the administrator.
+- `/Library/LaunchDaemons` - System wide daemons provided by the administrator.
+- `/System/Library/LaunchAgents` - OS X Per-user agents.
+- `/System/Library/LaunchDaemons` - OS X System wide daemons.
