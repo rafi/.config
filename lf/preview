@@ -5,26 +5,24 @@
 
 FILE="${1}"
 HEIGHT="${2}"
+# WIDTH=80
+# WIDTH="$(( $(tput cols) / 2 + 4))"
+WIDTH="$(tput cols)"
 
 [ -L "${FILE}" ] && FILE="$(readlink "${FILE}")"
-
-if [ -S "${FILE}" ]; then
-	echo -e "\e[35m# Socket: \e[34m$(basename "${FILE}")\e[0m"
-	exit 0;
-fi
 
 # preview for archives and well-known plain-text formats
 case "${FILE}" in
 	*.tar|*.tgz) tar tf "${FILE}"; exit 0;;
 	*.zip) unzip -l "${FILE}"; exit 0;;
 	*.rar) unrar l "${FILE}"; exit 0;;
-	*.7z) 7z l "${FILE}"; exit 0;;
-	*.gz|*.bzip|*.bzip2|*.bp|*.bz2) als "${FILE}"; exit 0;;
+	*.7z|*.dmg) 7z l "${FILE}" && exit 0;;
+	*.gz|*.bzip|*.bzip2|*.bp|*.bz2) als "${FILE}" && exit 0;;
 	*.json) jq -C . "${FILE}" && exit 0;;
 	*.md) glow -s dark "${FILE}" && exit 0;;
 	*.plist) plutil -p "${FILE}" && exit 0;;
 	*.xml) xmlstarlet fo --indent-spaces 2 "${FILE}" \
-		| bat -l xml --color=always --paging=never --theme=base16 --style=numbers,changes,grid && exit 0;;
+		| bat -l xml --theme=TwoDark --color=always --paging=never --style=numbers,changes,grid && exit 0;;
 esac
 
 # use the right tool for the mimetype label
@@ -41,6 +39,8 @@ case "$(file -b --mime-type "${FILE}")" in
 			heksa -l 1024 "${FILE}"
 		exit 0;;
 
+	application/zip) als "${FILE}"; exit 0;;
+
 	# multimedia metadata information with mediainfo/id3ted/exiftool/id3info
 	video/*|audio/*)
 		mediainfo "${FILE}" | sed 's/ *:/:/g' || \
@@ -51,9 +51,7 @@ case "$(file -b --mime-type "${FILE}")" in
 
 	# image terminal view with chafa/timg/catimg/cam/imgcat
 	image/*)
-		chafa -c 256 -s 80x --fill=block \
-				--symbols=block+border+braille+ascii+space-extra-inverted \
-				"${FILE}" || \
+		chafa -s "${WIDTH}x" "${FILE}" || \
 			timg "${FILE}" || \
 			catimg -r 2 -w 110 -t "${FILE}" || \
 			cam -H "$(echo "$HEIGHT*0.6/1" | bc)" "${FILE}" || \
@@ -70,7 +68,7 @@ case "$(file -b --mime-type "${FILE}")" in
 	# pdf first sheet screenshot with pdftoppm and chafa or pdftotext
 	application/pdf)
 		if hash pdftoppm 2>/dev/null && hash chafa 2>/dev/null; then
-			chafa --fill=space -c 256 -s 80x <(pdftoppm -f 1 -l 1 \
+			chafa -s "${WIDTH}x" <(pdftoppm -f 1 -l 1 \
 				-scale-to-x 1920 \
 				-scale-to-y -1 \
 				-singlefile \
@@ -89,8 +87,8 @@ case "$(file -b --mime-type "${FILE}")" in
 
 	# all other types use bat/pygmentize/highlight/cat
 	*)
-		bat "${FILE}" --tabs=2 --style=full --decorations=always \
-				--color=always --paging=never --wrap=never --theme=base16 || \
+		bat "${FILE}" --theme=TwoDark --tabs=2 --style=full --decorations=always \
+				--color=always --paging=never --wrap=never || \
 			pygmentize -P tabsize=2 -O style=monokai -f console256 -g "${FILE}" || \
 			highlight -t 2 -s rdark -O xterm256 --force "${FILE}" || \
 			cat "${FILE}"

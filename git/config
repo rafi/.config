@@ -59,6 +59,8 @@
 	mnemonicprefix = true
 	compactionHeuristic = true
 	tool = bc3
+[difftool "nvimdiff"]
+  cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 [merge]
 	tool = bc3
 	summary = true
@@ -132,6 +134,7 @@
 	dp = !git log --pretty=mini | fzf | cut -d ' ' -f1 | xargs -o git show
 	patch = !git --no-pager diff --no-color
 	prune = fetch --prune
+	mend = commit --amend --no-edit
 	reword = commit --amend
 	track = checkout --track
 	topic = !git checkout "$(git current-remote)/master" -b

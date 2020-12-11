@@ -5,7 +5,7 @@ set shell bash
 set shellopts '-eu'
 set ifs "\n"
 
-set color256
+# set color256
 set icons
 set hidden
 set incsearch
@@ -20,11 +20,11 @@ set timefmt '2006-01-02 15:04:05 -0700'
 set previewer ~/.config/lf/preview
 
 # Secure logs and socket
-${{
-	if [ -S "${TMPDIR:-/tmp/}lf.${USER}.sock" ]; then
-		chmod o-rwx "${TMPDIR:-/tmp/}lf.${USER}."*
-	fi
-}}
+# ${{
+# 	if [ -S "${TMPDIR:-/tmp/}lf.${USER}.sock" ]; then
+# 		chmod o-rwx "${TMPDIR:-/tmp/}lf.${USER}."*
+# 	fi
+# }}
 
 # keyboard mappings
 # ---
@@ -41,6 +41,7 @@ map i $LESS='-iWQMXR~' bat --paging=always --theme=TwoDark "$f"
 map I push A<c-a>
 map A rename
 map D trash
+map H cd ..
 map . set hidden!
 
 # create directory/file
@@ -166,6 +167,16 @@ cmd z ${{
 	fi
 }}
 
+cmd fzf_z ${{
+	sel="$(zoxide query -l | fzf +s)"
+	[ -d "$sel" ] && lf -remote "send $id cd \"$sel\""
+}}
+
+# cmd on-cd &{{
+# 	zoxide add "$PWD"
+# }}
+# on-cd
+
 # dynamically set info displayed based on the number of columns
 cmd resize %{{
 	# w=$(tmux display-message -p '#{width}' || tput cols)
@@ -183,34 +194,40 @@ cmd resize %{{
 	lf -remote "send $id echo 'ui adjusted for width of $w'"
 }}
 
+# cmd on-cd &{{
+# 	fmt=$(starship prompt)
+# 	lf -remote "send $id set promptfmt \"$fmt\""
+# }}
+# on-cd
+
 # Preserve navigation stack history for each client
-map H go-back
-
-&{{
-	[ -d "$XDG_DATA_HOME/lf" ] || mkdir -p "$XDG_DATA_HOME/lf"
-	pwd > "$XDG_DATA_HOME/lf/dir-stack.$id"
-}}
-
-cmd on-cd &{{
-	SKIP="`cat $XDG_DATA_HOME/lf/dir-skip.$id || echo 0`"
-	if [ "$SKIP" = "1" ]; then
-		if [[ "$OSTYPE" == "darwin"* ]]; then
-			# macOS BSD sed
-			sed -i '' -e '$ d' "$XDG_DATA_HOME/lf/dir-stack.$id"
-		else
-			# Linux sed
-			sed -i '$ d' "$XDG_DATA_HOME/lf/dir-stack.$id"
-		fi
-	else
-		pwd >> "$XDG_DATA_HOME/lf/dir-stack.$id"
-	fi
-	echo 0 > "$XDG_DATA_HOME/lf/dir-skip.$id"
-}}
-
-cmd go-back ${{
-	echo 1 > "$XDG_DATA_HOME/lf/dir-skip.$id"
-	last_dir="$(tail -1 $XDG_DATA_HOME/lf/dir-stack.$id)"
-	lf -remote "send $id cd \"$last_dir\""
-}}
+# map H go-back
+# 
+# &{{
+# 	[ -d "$XDG_DATA_HOME/lf" ] || mkdir -p "$XDG_DATA_HOME/lf"
+# 	pwd > "$XDG_DATA_HOME/lf/dir-stack.$id"
+# }}
+# 
+# cmd on-cd &{{
+# 	SKIP="`cat $XDG_DATA_HOME/lf/dir-skip.$id || echo 0`"
+# 	if [ "$SKIP" = "1" ]; then
+# 		if [[ "$OSTYPE" == "darwin"* ]]; then
+# 			# macOS BSD sed
+# 			sed -i '' -e '$ d' "$XDG_DATA_HOME/lf/dir-stack.$id"
+# 		else
+# 			# Linux sed
+# 			sed -i '$ d' "$XDG_DATA_HOME/lf/dir-stack.$id"
+# 		fi
+# 	else
+# 		pwd >> "$XDG_DATA_HOME/lf/dir-stack.$id"
+# 	fi
+# 	echo 0 > "$XDG_DATA_HOME/lf/dir-skip.$id"
+# }}
+# 
+# cmd go-back ${{
+# 	echo 1 > "$XDG_DATA_HOME/lf/dir-skip.$id"
+# 	last_dir="$(tail -1 $XDG_DATA_HOME/lf/dir-stack.$id)"
+# 	lf -remote "send $id cd \"$last_dir\""
+# }}
 
 #  vim: set ts=2 sw=2 tw=80 noet :
