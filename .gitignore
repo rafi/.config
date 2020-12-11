@@ -4,6 +4,9 @@
 *.py[co]
 
 /beets/state.pickle
+/bitlbee/purple/icons/
+/bitlbee/purple/rafi/accounts.xml
+/bitlbee/purple/rafi/certificates/
 /chromium*
 /configstore
 /clerk/ratings*
@@ -20,19 +23,22 @@
 /gh/config.yml
 /gimp/2.8/
 /gnupg
-/google-chrome*
+/google-chrome/
 /karabiner/automatic_backups/
 /gtk-2.0/gtkfilechooser.ini
 /ipython/profile_default/history.sqlite
 /ipython/profile_default/log
 /ipython/profile_default/pid
+/joplin-desktop/
 /klavaro
 /menus
 /mps-youtube
 /mpv/watch_later
 /mutt/config
+/noti
 /nvim
 /openvpn
+/oni2/extensions/
 /pavucontrol.ini
 /pulse/*
 !/pulse/*conf

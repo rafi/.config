@@ -1,8 +1,10 @@
 .git
-.DS_Store
-*.swp
-*.log
-*.cache
+.gitmodules
+(?d).DS_Store
+(?d)*.swp
+(?d)*.log
+(?d)*.cache
+(?d)/google-chrome/**
 node_modules/**
 /bash/themes/current
 /beets/state.pickle
@@ -16,7 +18,6 @@ node_modules/**
 /gnupg
 !/gnupg/*conf
 /gtk-2.0/gtkfilechooser.ini
-/google-chrome/
 /ipython/profile_default/log
 /ipython/profile_default/pid
 /mps-youtube

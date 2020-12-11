@@ -17,5 +17,6 @@ s/^\(	email = \).*\# \(.*\)$/\1{{ GIT_\2_EMAIL }}/
 s/^\(	name = \).*\# \(.*\)$/\1{{ GIT_\2_NAME }}/
 s/^\(	user = \).*\# \(.*\)$/\1{{ GIT_\2_USER }}/
 s/^\(wwo-api-key=\).*$/\1{{ WEATHER_TOKEN }}/
+s/\(GITHUB_TOKEN="\).*\("\)$/\1{{ GITHUB_TOKEN }}\2/
 s/\(HOMEBREW_GITHUB_API_TOKEN="\).*\("\)$/\1{{ HOMEBREW_GITHUB_API_TOKEN }}\2/
 s/\(TMUX_SPOTIFY_API_KEY="\).*\("\)$/\1{{ TMUX_SPOTIFY_API_KEY }}\2/
