@@ -87,7 +87,7 @@ map ci :call getIP<CR>
 
 " Script hints
 echo(link) -> {{
-  alert(link.href);
+	alert(link.href);
 }}
 map <C-f> createScriptHint(echo)
 

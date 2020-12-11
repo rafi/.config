@@ -47,20 +47,20 @@ alias vi=vim
 alias vimdiff='vim -d'
 alias testvim="VIMINIT='let \$MYVIMRC=\"\$HOME/box/testvim/init.vim\" | source \$MYVIMRC' nvim"
 
-# Grepping ----------------------------------------------------- a for grep --
+# Grepping ----------------------------------------------------- p for grep --
 if hash rg 2>/dev/null; then
 	# Use https://github.com/BurntSushi/ripgrep by default
-	alias a=rg
+	alias p=rg
 elif hash ag 2>/dev/null; then
 	# Fallback to https://github.com/ggreer/the_silver_searcher
-	alias a=ag
+	alias p=ag
 else
 	# Fallback to slow grep
-	alias a=grep
+	alias p=grep
 fi
 # Use https://github.com/cykerway/complete-alias for bash alias completion
 if [ "$(type -t _complete_alias)" = function ]; then
-	complete -F _complete_alias a
+	complete -F _complete_alias p
 fi
 
 # Productive defaults for grep and tree
