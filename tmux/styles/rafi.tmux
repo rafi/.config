@@ -29,7 +29,7 @@ set -g status-left '#{?client_prefix,#[fg=colour236]#[bg=colour2],} #S #{?client
 
 set -g status-right-length 90
 set -g status-right-style fg=colour240,bg=default,none
-set -g status-right "#[fg=colour239]#(kubectl config current-context 2>/dev/null) ⎈ #(tmux-mem-cpu-load -i 3 -g 5 -m 2 -a 2) #[fg=colour237]#[fg=colour241] #(battery) #[fg=colour237]#[fg=colour243] %H:%M #[fg=colour237]#[fg=colour246] #h "
+set -g status-right "#[fg=colour239]#(kubectl config current-context 2>/dev/null) ⎈ #(tmux-mem-cpu-load -i 3 -g 5 -m 2 -a 2) #[fg=colour237]#[fg=colour241] #(battery) #[fg=colour237]#[fg=colour243]   %H:%M #[fg=colour237]#[fg=colour246] #h "
 
 setw -g window-style ''
 setw -g window-active-style ''

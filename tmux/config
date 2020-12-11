@@ -8,8 +8,9 @@
 #-------------------------------------------------
 
 set -g default-shell $SHELL
-set -g default-terminal "alacritty"
-# set -g default-terminal "screen-256color"
+# set -g default-terminal "xterm-kitty"
+# set -g default-terminal "alacritty"
+set -g default-terminal "screen-256color"
 # set -g default-terminal "tmux18-256color"
 # set -g default-terminal "xterm-256color"
 
@@ -41,7 +42,7 @@ set-option -s -a terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{2
 
 # Enable true color & italics support
 # https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
-# set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
+set -as terminal-overrides ',screen*:Tc:sitm=\E[3m'
 
 # scrollback buffer size increase
 set -g history-limit 20000
@@ -159,6 +160,7 @@ if-shell -b '[ "$(echo "$tmux_version < 3.0" | bc)" = 1 ]' \
     "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\'  'select-pane -l'"
 if-shell -b '[ "$(echo "$tmux_version >= 3.0" | bc)" = 1 ]' \
     "bind-key -n 'C-\\' if-shell \"$is_vim\" 'send-keys C-\\\\'  'select-pane -l'"
+
 bind-key -T copy-mode-vi 'C-h' select-pane -L
 bind-key -T copy-mode-vi 'C-j' select-pane -D
 bind-key -T copy-mode-vi 'C-k' select-pane -U
@@ -166,6 +168,9 @@ bind-key -T copy-mode-vi 'C-l' select-pane -R
 bind-key -T copy-mode-vi 'C-\' select-pane -l
 
 # Bring back clear screen under tmux prefix
+bind-key C-h send-keys 'C-h'
+bind-key C-j send-keys 'C-j'
+bind-key C-k send-keys 'C-k'
 bind-key C-l send-keys 'C-l'
 
 # Toggle synchronized input to all panes in current window
@@ -241,22 +246,24 @@ bind-key -Tcopy-mode-vi V send -X select-line
 bind-key -Tcopy-mode-vi C-v send -X rectangle-toggle
 bind-key -Tcopy-mode-vi Escape send -X clear-selection
 bind-key -Tcopy-mode-vi Y send -X begin-selection \; send -X end-of-line \; send -X cursor-left \; send -X copy-pipe-and-cancel pbcopy
-# bind-key -Tcopy-mode-vi Y copy-mode \; send -X begin-selection \; send -X end-of-line \; send -X copy-pipe-and-cancel pbcopy
 
-# Toggle key-bindings to inner/remote session
+# Rotate key-bindings to inner/remote tmux session
 # See https://github.com/tmux/tmux/issues/237
-bind -T root F12  \
+unbind-key C-o # rotate-window
+bind-key C-o  \
   set prefix None \;\
   set key-table off \;\
   set window-status-current-style "bg=colour254" \;\
   if -F '#{pane_in_mode}' 'send-keys -X cancel' \;\
   refresh-client -S \;\
 
-bind -T off F12 \
+bind-key -T off C-o \
   set -u prefix \;\
   set -u key-table \;\
   set -u window-status-current-style \;\
   refresh-client -S
+
+# bind-key a set-window-option synchronize-panes\; display-message "synchronize-panes is now #{?pane_synchronized,on,off}"
 
 # Look 'n Feel
 # ---
@@ -277,15 +284,19 @@ set -g @scroll-speed-num-lines-per-scroll '1'
 run-shell $XDG_CONFIG_HOME/tmux/plugins/better-mouse/scroll_copy_mode.tmux
 
 unbind-key f
-set -g @fingers-key f
-set -g @fingers-ctrl-action ':open:'
-set -g @fingers-shift-action ':paste:'
-set -g @fingers-hint-position 'right'
-set -g @fingers-hint-format '#[fg=yellow,bold]%s'
-set -g @fingers-highlight-format '#[fg=blue,bold,dim]%s'
-set -g @fingers-selected-hint-format '#[fg=green,bold]%s'
-set -g @fingers-selected-highlight-format '#[fg=red,bold]%s'
-run-shell $XDG_CONFIG_HOME/tmux/plugins/fingers/tmux-fingers.tmux
+set -g @thumbs-key f
+set -g @thumbs-command 'echo -n {} | pbcopy'
+run-shell $XDG_CONFIG_HOME/tmux/plugins/thumbs/tmux-thumbs.tmux
+
+# set -g @fingers-key f
+# set -g @fingers-ctrl-action ':open:'
+# set -g @fingers-shift-action ':paste:'
+# set -g @fingers-hint-position 'right'
+# set -g @fingers-hint-format '#[fg=yellow,bold]%s'
+# set -g @fingers-highlight-format '#[fg=blue,bold,dim]%s'
+# set -g @fingers-selected-hint-format '#[fg=green,bold]%s'
+# set -g @fingers-selected-highlight-format '#[fg=red,bold]%s'
+# run-shell $XDG_CONFIG_HOME/tmux/plugins/fingers/tmux-fingers.tmux
 
 set -g @pass-key b
 run-shell $XDG_CONFIG_HOME/tmux/plugins/pass/plugin.tmux
