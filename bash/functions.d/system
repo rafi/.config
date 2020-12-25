@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
+# Quickly grep a process
 function psg() {
-	ps auxww | grep -i --color=always "$@" | grep -v grep
+	ps auxww | grep -i --color=always "$@" | grep -v "grep.*$@"
 }
 
+# Select command name with fzf and show memory usage
 function psmem() {
-	ps -o rss= -p $(pidof "$@") | awk '{print $1*4, "KiB"}'
+	ps -o rss= -p $(pidof "$(ps -ec | fzf | awk '{print $4}')") \
+		| awk '{print $1*4, "KiB"}'
 }
 
 function mtop() {

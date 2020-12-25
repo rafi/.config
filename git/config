@@ -58,17 +58,17 @@
 	renames = copies
 	mnemonicprefix = true
 	compactionHeuristic = true
-	tool = bc3
+	tool = nvimdiff
 [difftool "nvimdiff"]
   cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 [merge]
 	tool = bc3
-	summary = true
 	verbosity = 1
+	summary = true
 	stat = true
 	# Standard diff is two sets of final changes.
 	# This introduces the original text before each side's changes.
-	# https://git-scm.com/docs/git-config#git-config-mergeconflictStyle
+	# https://git-scm.com/docs/git-config#Documentation/git-config.txt-mergeconflictStyle
 	conflictstyle = diff3
 [mergetool]
 	prompt = false
@@ -157,7 +157,7 @@
 	bf = !git diff "$(git oldest-ancestor)..@"
 	post  = !sh -c 'git format-patch --stdout $1 | ix' -
 	sync-tags = fetch --prune origin '+refs/tags/*:refs/tags/*'
-	recent-branches = !git for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(refname:short)'
+	recent-branches = !git for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(authordate:relative) %(refname:short)'
 	oldest-ancestor = "!bash -c 'f() { \
 		/usr/bin/diff --old-line-format='' --new-line-format='' \
 			<(git rev-list --first-parent ${0:-master}) \

@@ -8,9 +8,12 @@ alias sudo='sudo '
 # Make watch work with aliases
 alias watch='watch '
 
+# Useful shortcuts
 alias c=clear
+alias cal='task cal'
+alias start='tmuxp load -y .'
 
-# Lists -------------------------------------------------------- l for list --
+# Lists ---------------------------------------------------- l for list -- {{{
 LSCMD='ls'
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	# Use GNU tools on OSX instead of BSD
@@ -29,7 +32,8 @@ alias ll='ls -alF'
 alias llh='ls -alFh'
 alias lld='ls -Gal --color=always | grep ^d --colour=never'
 
-# Editor ------------------------------------------------------- e for edit --
+# }}}
+# Editor --------------------------------------------------- e for edit -- {{{
 alias e='tmux split-window -h "$EDITOR"'
 
 # Neo/vim shortcuts, use Neovim by default
@@ -47,7 +51,8 @@ alias vi=vim
 alias vimdiff='vim -d'
 alias testvim="VIMINIT='let \$MYVIMRC=\"\$HOME/box/testvim/init.vim\" | source \$MYVIMRC' nvim"
 
-# Grepping ----------------------------------------------------- p for grep --
+# }}}
+# Grepping ------------------------------------------------- p for grep -- {{{
 if hash rg 2>/dev/null; then
 	# Use https://github.com/BurntSushi/ripgrep by default
 	alias p=rg
@@ -74,10 +79,9 @@ hash gtail 2>/dev/null && alias catt='gtail -n $((${LINES:-12}-4)) -s.1'
 # Use colordiff by default
 hash colordiff 2>/dev/null && alias diff=colordiff
 
-# Explorer ------------------------------------------------- = for explorer --
+# }}}
+# Explorer --------------------------------------------- = for explorer -- {{{
 
-# Enable true-color for lf r17+
-alias lf='TCELL_TRUECOLOR=on lf'
 if hash lf 2>/dev/null; then
 	# Use https://github.com/gokcehan/lf by default
 	=() { lf; }
@@ -93,7 +97,8 @@ alias ....='cd ../../../'
 alias .....='cd ../../../../'
 alias -- -="cd -"
 
-# Jump around ----------------------------------------------- z for jumping --
+# }}}
+# Jump around ------------------------------------------- z for jumping -- {{{
 alias cdf='cd "$(dirname "$(fzf)")"'
 
 if [ "$(type -t _zlua)" = function ]; then
@@ -103,7 +108,8 @@ if [ "$(type -t _zlua)" = function ]; then
 	alias zh='z -I -t .' # interactive mru with fzf
 fi
 
-# File find ---------------------------------------------------- f for find --
+# }}}
+# File find ------------------------------------------------ f for find -- {{{
 if ! hash fd 2>/dev/null; then
 	# Slow
 	alias f='find . -iname '
@@ -116,7 +122,8 @@ if [ "$(type -t _complete_alias)" = function ]; then
 	complete -F _complete_alias f
 fi
 
-# Git ----------------------------------------------------------- g for git --
+# }}}
+# Git ------------------------------------------------------ g for git --- {{{
 alias g=git
 alias gb='git branch'
 alias gc='git checkout'
@@ -128,6 +135,7 @@ alias gfl='git fetch --prune && git lg -15'
 alias gf='git fetch --prune'
 alias gfa='git fetch --all --tags --prune'
 alias gap='git add -p'
+alias gai='git add -i'
 alias gs='git status -sb'
 alias gl='git lg -15'
 alias gll='git lg'
@@ -153,7 +161,8 @@ if type _git &> /dev/null; then
 	fi
 fi
 
-# Docker ----------------------------------------------------- d for docker --
+# }}}
+# Docker ------------------------------------------------- d for docker -- {{{
 alias d=docker
 alias dk=docker-compose
 alias dps='docker ps --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{ .Ports }}\\t{{.RunningFor}}\\t{{.Command}}\\t{{ .ID }}" | cut -c-$(tput cols)'
@@ -175,7 +184,8 @@ if [ "$(type -t _complete_alias)" = function ]; then
 	complete -F _complete_alias d
 fi
 
-# Kubernetes --------------------------------------------- k for kubernetes --
+# }}}
+# Kubernetes ----------------------------------------- k for kubernetes -- {{{
 alias k=kubectl
 alias kc=kubectx
 alias kg='kubectl get'
@@ -195,16 +205,19 @@ if [ "$(type -t _complete_alias)" = function ]; then
 	complete -F _complete_alias kr
 fi
 
-# Processes ----------------------------------------------- p for processes --
+# }}}
+# Processes ------------------------------------------- p for processes -- {{{
 alias process='ps -ax'
 alias psk='ps -xam -o "pid,user,%cpu,%mem,command" | fzf | cut -d " " -f1 | xargs -o kill'
 alias pst='pstree -g 3 -ws'
 
-# Writing ----------------------------------------------------- m for memos --
+# }}}
+# Writing ------------------------------------------------- m for memos -- {{{
 # See: https://github.com/rafi/memo-sh
 alias m=memo
 
-# XDG conformity -------------------------------------------------------------
+# }}}
+# XDG conformity --------------------------------------------------------- {{{
 # See: https://wiki.archlinux.org/index.php/XDG_Base_Directory
 alias tmux='tmux -f "$XDG_CONFIG_HOME/tmux/config"'
 alias mysql='mysql --defaults-extra-file="$XDG_CONFIG_HOME/mysql/config"'
@@ -216,35 +229,35 @@ alias gcal='gcalcli --configFolder "$XDG_CONFIG_HOME/gcalcli"'
 alias redshift='redshift -c "$XDG_CONFIG_HOME/redshift/config"'
 alias rtorrent='rtorrent -n -o import="$XDG_CONFIG_HOME/rtorrent/config.rc"'
 
-# Storage --------------------------------------------------------------------
+# }}}
+# Storage ---------------------------------------------------------------- {{{
 alias dut='du -hsx * | sort -rh | head -10'
 alias duz='du -hsx * | sort -rh | fzf | awk "{print \$2}"'
 alias dum='df -hT -x devtmpfs -x tmpfs'
 
-# Misc -----------------------------------------------------------------------
-alias aspell='aspell -c -l en_US'
-alias ttycast="ttyd -p 8888 bash -c 'tmux new-session -d -s cast \; split-window -d \; attach -t cast'"
-alias ttycast-this="tmux split-window \'ttyd -p 8888 bash -c \'tmux a\'\'"
-alias project='tmuxp load -y .'
-alias cal='task cal'
+# }}}
+# Misc ------------------------------------------------------------------- {{{
 alias fontcache='fc-cache -f -v'
 alias fontfind='fc-list : family style'
 alias freq='cut -f1 -d" " "$HISTFILE" | sort | uniq -c | sort -nr | head -n 30'
-alias subdl='subliminal download -l en -d "$XDG_CACHE_HOME/subtitles"'
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
 alias multiopen='while read i; do open "$i"; done <<<'
-alias ngrok='ngrok --authtoken="$(pass tokens/ngrok)"'
-alias pubkey="pbcopy < ~/.ssh/id_rsa.pub && echo '=> Public key yanked.'"
-alias ungzip='gzip -d'
-alias untar='tar xvf'
 alias volup='amixer set Master playback 3dB+'
 alias voldown='amixer set Master playback 3dB-'
+alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 alias ipinfo='curl -s ipinfo.io | jq .'
 alias weather='curl -s v2.wttr.in/Tel_Aviv'
 alias panic="curl -s https://corona-stats.online?format=json | jq '.data[] | select(.countryCode==\"IL\")'"
-alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
+alias ungzip='gzip -d'
+alias untar='tar xvf'
+alias ngrok='ngrok --authtoken="$(pass tokens/ngrok)"'
+alias aspell='aspell -c -l en_US'
+alias ttycast="ttyd -p 8888 bash -c 'tmux new-session -d -s cast \; split-window -d \; attach -t cast'"
+alias ttycast-this="tmux split-window \'ttyd -p 8888 bash -c \'tmux a\'\'"
+alias subdl='subliminal download -l en -d "$XDG_CACHE_HOME/subtitles"'
 
-# OS Specific Network and Filesystem -----------------------------------------
+# }}}
+# OS Specific Network and Filesystem ------------------------------------- {{{
 if [ "$(uname -s)" = "Darwin" ]; then
 	# IP addresses
 	alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
@@ -280,7 +293,7 @@ else
 	# Flush Directory Service cache
 	# alias flush=""  # TODO
 
-	# Lock the screen (when going Away From Keyboard)
+	# Lock the screen (Away From Keyboard)
 	# alias afk=""  # TODO
 
 	# open, pbcopy and pbpaste on Linux
@@ -297,5 +310,5 @@ else
 		alias open="xdg-open"
 	fi
 fi
-
-#  vim: set ft=sh ts=2 sw=2 tw=80 noet :
+# }}}
+#  vim: set ft=sh fdm=marker ts=2 sw=2 tw=80 noet :

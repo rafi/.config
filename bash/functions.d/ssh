@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+# Yank selected public key with fzf and pbcopy
+pubkey() {
+	local key="$(find ~/.ssh -type f -name "*.pub" -printf "%P\n" | fzf)"
+	if [ -n "$key" ]; then
+		pbcopy < "$HOME/.ssh/$key"
+		echo "=> Public key yanked."
+	fi
+}
+
+# Super SSH: safe terminfo, persist user name, tmux window name
 ssh() {
 	# Use safest terminfo on remote server
 	if [ -n "$TMUX" ]; then
@@ -9,19 +19,21 @@ ssh() {
 	fi
 	# Don't overwrite environment variable if it's not empty
 	export LC_IDENTIFICATION="${LC_IDENTIFICATION:-$USER}"
+	# Rename tmux window
+	[ -n "$TMUX" ] && tmux rename-window "ssh: $1" 1>/dev/null
+	# Execute ssh with identification
 	command ssh -o SendEnv=LC_IDENTIFICATION "$@"
+	# Reset tmux window name
+	[ -n "$TMUX" ] && tmux set-window-option automatic-rename "on" 1>/dev/null
 }
 
-#ssht() {
-#	ssh $* -t 'tmux -S /tmp/tmux-shared attach || bin/mux || /bin/bash'
-#}
-
-#ssh() {
-#	if [ "$(ps -p $(ps -p $$ -o ppid=) -o comm=)" = "tmux" ]; then
-#		tmux rename-window "$*"
-#		command ssh "$@"
-#		tmux set-window-option automatic-rename "on" 1>/dev/null
-#	else
-#		command ssh "$@"
-#	fi
-#}
+# Immediately attach/start a tmux session on remote server
+ssht() {
+	ssh "$*" -t '
+		PATH="$HOME/.local/bin:$HOME/bin:$PATH";
+		tmux attach 2>/dev/null || \
+			tmux -S $HOME/tmux attach || \
+			tmux || \
+			/bin/bash
+	'
+}
