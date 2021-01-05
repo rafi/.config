@@ -4,95 +4,128 @@
 # github.com/rafi/.config
 
 FILE="${1}"
-HEIGHT="${2}"
-# WIDTH=80
-# WIDTH="$(( $(tput cols) / 2 + 4))"
-WIDTH="$(tput cols)"
+WIDTH="${2}"
+HEIGHT="${3}"
+
+WIDTH="$(( $WIDTH - 3))"
 
 [ -L "${FILE}" ] && FILE="$(readlink "${FILE}")"
 
-# preview for archives and well-known plain-text formats
-case "${FILE}" in
-	*.tar|*.tgz) tar tf "${FILE}"; exit 0;;
-	*.zip) unzip -l "${FILE}"; exit 0;;
-	*.rar) unrar l "${FILE}"; exit 0;;
-	*.7z|*.dmg) 7z l "${FILE}" && exit 0;;
-	*.gz|*.bzip|*.bzip2|*.bp|*.bz2) als "${FILE}" && exit 0;;
-	*.json) jq -C . "${FILE}" && exit 0;;
-	*.md) glow -s dark "${FILE}" && exit 0;;
-	*.plist) plutil -p "${FILE}" && exit 0;;
-	*.xml) xmlstarlet fo --indent-spaces 2 "${FILE}" \
-		| bat -l xml --theme=TwoDark --color=always --paging=never --style=numbers,changes,grid && exit 0;;
-esac
+function main() {
+	# Use the right tool for the extension
+	case "${FILE}" in
+		*.tar|*.tgz|*.xz) tar tfv "${FILE}"; exit 0;;
+		*.deb) ar -tv "${FILE}"; exit 0;;
+		*.zip) als "${FILE}" || unzip -l "${FILE}"; exit 0;;
+		*.rar) unrar l "${FILE}"; exit 0;;
+		*.7z|*.dmg) 7z l "${FILE}" && exit 0;;
+		*.gz|*.bzip|*.bzip2|*.bp|*.bz2) als "${FILE}" && exit 0;;
 
-# use the right tool for the mimetype label
-case "$(file -b --mime-type "${FILE}")" in
+		*.json) jq -C . "${FILE}" && exit 0;;
+		*.md) glow -s dark "${FILE}" && exit 0;;
+		*.plist) plutil -p "${FILE}" && exit 0;;
+		*.xml) xmlstarlet fo --indent-spaces 2 "${FILE}" | view_sourcecode && exit 0;;
+	esac
 
-	# html view with w3m/lynx
-	text/html)
-		w3m -dump "${FILE}" || \
-			lynx -dump -- "${FILE}"
-		exit 0;;
+	# Use the right tool for the mimetype label
+	case "$(file -b --mime-type "${FILE}")" in
+		video/*|audio/*) view_audio || view_binary;;
+		image/*) view_image || view_binary;;
+		application/pdf) view_pdf || view_binary;;
+		application/x-sqlite*) view_sqlite || view_binary;;
+		text/plain|text/x-shellscript|text/x-java|text/html) view_sourcecode;;
+		application/octet-stream|application/x-mach-binary|application/x-*executable)
+			view_binary;;
+		application/vnd.*-officedocument*|application/vnd.*.opendocument*)
+			view_opendocument || view_binary;;
 
-	application/octet-stream|application/x-mach-binary|application/x-*executable)
-		hexyl -n 1024 "${FILE}" || \
-			heksa -l 1024 "${FILE}"
-		exit 0;;
+		*) view_sourcecode;;
+	esac
+}
 
-	application/zip) als "${FILE}"; exit 0;;
+# view binary hexdump
+function view_binary() {
+	hexyl -n 1024 "${FILE}" || heksa -l 1024 "${FILE}"
+	return $?
+}
 
-	# multimedia metadata information with mediainfo/id3ted/exiftool/id3info
-	video/*|audio/*)
-		mediainfo "${FILE}" | sed 's/ *:/:/g' || \
-			id3ted -L "${FILE}" || \
-			exiftool "${FILE}" || \
-			id3info "${FILE}"
-		exit 0;;
+# bat/pygmentize/highlight/cat
+function view_sourcecode() {
+	local input="$(if read -t 0; then echo ${FILE}; else echo '-'; fi)"
+	echo $input
 
-	# image terminal view with chafa/timg/catimg/cam/imgcat
-	image/*)
-		chafa -s "${WIDTH}x" "${FILE}" || \
-			timg "${FILE}" || \
-			catimg -r 2 -w 110 -t "${FILE}" || \
-			cam -H "$(echo "$HEIGHT*0.6/1" | bc)" "${FILE}" || \
-			imgcat --depth=256 --height "$(echo "$HEIGHT*0.9/1" | bc)" "${FILE}"
+	bat "${input}" --theme=TwoDark --color=always \
+			--paging=never --tabs=2 --wrap=auto \
+			--style=full --decorations=always \
+			--terminal-width "${WIDTH}" --line-range :"${HEIGHT}" || \
+		pygmentize -P tabsize=2 -O style=monokai -f console256 -g "${input}" || \
+		highlight -t 2 -s rdark -O xterm256 --force "${input}" || \
+		cat "${input}"
+
+	return $?
+}
+
+# image terminal view with chafa/timg/catimg/cam/imgcat
+function view_image() {
+	chafa -s "${WIDTH}x" "${FILE}" || \
+		timg "${FILE}" || \
+		catimg -r 2 -w 110 -t "${FILE}" || \
+		cam -H "$(echo "$HEIGHT*0.6/1" | bc)" "${FILE}" || \
+		imgcat --depth=256 --height "$(echo "$HEIGHT*0.9/1" | bc)" "${FILE}"
+
+	if [ $? = 0 ]; then
 		echo
-		exiv2 "${FILE}"
-		exit 0;;
+		exiv2 "${FILE}" 2>/dev/null || true
+	else
+		return $code
+	fi
+}
 
-	# opendocument with pandoc/odt2txt
-	application/vnd.openxmlformats-officedocument*|application/vnd.oasis.opendocument*)
+# multimedia metadata information with mediainfo/id3ted/exiftool/id3info
+function view_audio() {
+	mediainfo "${FILE}" | sed 's/ *:/:/g' || \
+		id3ted -L "${FILE}" || \
+		exiftool "${FILE}" || \
+		id3info "${FILE}"
+	return $?
+}
+
+# opendocument with pandoc/odt2txt
+function view_opendocument() {
+	if ! hash odt2txt 2>/dev/null; then
+		return 1
+	elif ! hash pandoc 2>/dev/null; then
+		odt2txt "${FILE}"
+	elif ! hash glow 2>/dev/null; then
+		pandoc "${FILE}" --to=markdown || odt2txt "${FILE}"
+	elif hash glow 2>/dev/null; then
 		glow -s dark <(pandoc "${FILE}" --to=markdown || odt2txt "${FILE}")
-		exit 0;;
+	fi
+	return $?
+}
 
-	# pdf first sheet screenshot with pdftoppm and chafa or pdftotext
-	application/pdf)
-		if hash pdftoppm 2>/dev/null && hash chafa 2>/dev/null; then
-			chafa -s "${WIDTH}x" <(pdftoppm -f 1 -l 1 \
-				-scale-to-x 1920 \
-				-scale-to-y -1 \
-				-singlefile \
-				-jpeg -tiffcompression jpeg \
-				-- "${FILE}")
-		else
-			pdftotext -l 10 -nopgbrk -q -- "${FILE}" -
-		fi
-		exit 0;;
+# pdf with pdftoppm and chafa or pdftotext
+function view_pdf() {
+	if hash pdftoppm 2>/dev/null && hash chafa 2>/dev/null; then
+		chafa -s "${WIDTH}x" <(pdftoppm -f 1 -l 1 \
+			-scale-to-x 1920 \
+			-scale-to-y -1 \
+			-singlefile \
+			-jpeg -tiffcompression jpeg \
+			-- "${FILE}")
+	else
+		pdftotext -l 10 -nopgbrk -q -- "${FILE}" -
+	fi
+	return $?
+}
 
-	application/x-sqlite*)
-		echo -e "\e[33m# \e[34m$(basename "${FILE}")\e[0m"
-		echo -e "\n\e[35m## \e[34mTABLES\e[0m\n"
-		sqlite3 "${FILE}" ".tables"
-		exit 0;;
+function view_sqlite() {
+	echo -e "\e[33m# \e[34m$(basename "${FILE}")\e[0m"
+	echo -e "\n\e[35m## \e[34mTABLES\e[0m\n"
+	sqlite3 "${FILE}" ".tables"
+	return $?
+}
 
-	# all other types use bat/pygmentize/highlight/cat
-	*)
-		bat "${FILE}" --theme=TwoDark --tabs=2 --style=full --decorations=always \
-				--color=always --paging=never --wrap=never || \
-			pygmentize -P tabsize=2 -O style=monokai -f console256 -g "${FILE}" || \
-			highlight -t 2 -s rdark -O xterm256 --force "${FILE}" || \
-			cat "${FILE}"
-		exit 0;;
-esac
+main
 
 # vim: set ts=2 sw=2 tw=80 noet :
