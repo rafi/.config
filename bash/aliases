@@ -71,6 +71,8 @@ fi
 # Productive defaults for grep and tree
 alias grep='grep --color=auto --exclude-dir=.git'
 alias tree='tree -F --dirsfirst -a -I ".git|.hg|.svn|__pycache__|.mypy_cache|.pytest_cache|*.egg-info|.sass-cache|.DS_Store" --ignore-case'
+alias tree2='tree -L 2'
+alias tree3='tree -L 3'
 
 # Head and tail will show as much possible without scrolling
 hash ghead 2>/dev/null && alias cath='ghead -n $((${LINES:-12}-4))'
@@ -258,10 +260,13 @@ alias subdl='subliminal download -l en -d "$XDG_CACHE_HOME/subtitles"'
 
 # }}}
 # OS Specific Network and Filesystem ------------------------------------- {{{
+
+# IP addresses
+alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
+alias iplocal="ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'"
+
 if [ "$(uname -s)" = "Darwin" ]; then
-	# IP addresses
-	alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
-	alias iplocal="ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'"
+	alias netinfo="networksetup -listallnetworkservices | sed '1d' | fzf | xargs networksetup -getinfo"
 	# alias ipremote=""  # TODO
 
 	# Show active network interfaces
@@ -279,12 +284,13 @@ if [ "$(uname -s)" = "Darwin" ]; then
 	# Empty the Trash on all mounted volumes and the main HDD.
 	# Also, clear Apple’s System Logs to improve shell startup speed.
 	# Finally, clear download history from quarantine. https://mths.be/bum
-	alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl; sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
+	alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; \
+		sudo rm -rfv ~/.Trash; \
+		sudo rm -rfv /private/var/log/asl/*.asl; \
+		sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
 
 else
 	# IP addresses
-	# alias ips=""  # TODO
-	# alias iplocal=""  # TODO
 	alias ipremote="ip route get 1 | awk '{print \$NF;exit}'"
 
 	# Show active network interfaces
@@ -295,6 +301,7 @@ else
 
 	# Lock the screen (Away From Keyboard)
 	# alias afk=""  # TODO
+	# alias afk='gnome-screensaver-command --lock'
 
 	# open, pbcopy and pbpaste on Linux
 	if [ -z "$(command -v pbcopy)" ]; then

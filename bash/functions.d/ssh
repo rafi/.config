@@ -20,7 +20,7 @@ ssh() {
 	# Don't overwrite environment variable if it's not empty
 	export LC_IDENTIFICATION="${LC_IDENTIFICATION:-$USER}"
 	# Rename tmux window
-	[ -n "$TMUX" ] && tmux rename-window "ssh: $1" 1>/dev/null
+	[ -n "$TMUX" ] && tmux rename-window "$1" 1>/dev/null
 	# Execute ssh with identification
 	command ssh -o SendEnv=LC_IDENTIFICATION "$@"
 	# Reset tmux window name
