@@ -11,7 +11,8 @@ alias watch='watch '
 # Useful shortcuts
 alias c=clear
 alias cal='task cal'
-alias start='tmuxp load -y .'
+alias start='{ test -f .tmuxp.* && tmuxp load -y .; } || \
+	{ tmuxp ls | fzf | xargs tmuxp load -y; }'
 
 # Lists ---------------------------------------------------- l for list -- {{{
 LSCMD='ls'

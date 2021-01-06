@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-
 # preview script
 # github.com/rafi/.config
+# ---
+# exit with non-zero code to disable lf caching
 
 FILE="${1}"
 WIDTH="${2}"
@@ -14,17 +15,18 @@ WIDTH="$(( $WIDTH - 3))"
 function main() {
 	# Use the right tool for the extension
 	case "${FILE}" in
-		*.tar|*.tgz|*.xz) tar tfv "${FILE}"; exit 0;;
-		*.deb) ar -tv "${FILE}"; exit 0;;
-		*.zip) als "${FILE}" || unzip -l "${FILE}"; exit 0;;
-		*.rar) unrar l "${FILE}"; exit 0;;
-		*.7z|*.dmg) 7z l "${FILE}" && exit 0;;
-		*.gz|*.bzip|*.bzip2|*.bp|*.bz2) als "${FILE}" && exit 0;;
+		*.tar|*.tgz|*.xz) tar tfv "${FILE}"; return $?;;
+		*.deb) ar -tv "${FILE}"; return $?;;
+		*.zip) als "${FILE}" || unzip -l "${FILE}"; return $?;;
+		*.rar) unrar l "${FILE}"; return $?;;
+		*.7z|*.dmg) 7z l "${FILE}" && return $?;;
+		*.gz|*.bzip|*.bzip2|*.bp|*.bz2) als "${FILE}" && return $?;;
 
-		*.json) jq -C . "${FILE}" && exit 0;;
-		*.md) glow -s dark "${FILE}" && exit 0;;
-		*.plist) plutil -p "${FILE}" && exit 0;;
-		*.xml) xmlstarlet fo --indent-spaces 2 "${FILE}" | view_sourcecode && exit 0;;
+		*.json) jq -C . "${FILE}" && return $?;;
+		*.md) glow -s dark -w "${WIDTH}" "${FILE}" && return $?;;
+		*.plist) plutil -p "${FILE}" && return $?;;
+		*.xml) xmlstarlet fo --indent-spaces 2 "${FILE}" \
+			| view_sourcecode && return $?;;
 	esac
 
 	# Use the right tool for the mimetype label
@@ -41,6 +43,7 @@ function main() {
 
 		*) view_sourcecode;;
 	esac
+	return $?
 }
 
 # view binary hexdump
@@ -99,7 +102,8 @@ function view_opendocument() {
 	elif ! hash glow 2>/dev/null; then
 		pandoc "${FILE}" --to=markdown || odt2txt "${FILE}"
 	elif hash glow 2>/dev/null; then
-		glow -s dark <(pandoc "${FILE}" --to=markdown || odt2txt "${FILE}")
+		glow -s dark -w "${WIDTH}" \
+			<(pandoc "${FILE}" --to=markdown || odt2txt "${FILE}")
 	fi
 	return $?
 }
@@ -127,5 +131,8 @@ function view_sqlite() {
 }
 
 main
+
+# always disable lf caching
+exit 1
 
 # vim: set ts=2 sw=2 tw=80 noet :
