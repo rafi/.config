@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
+# bash/profile
+# ---
 # github.com/rafi/.config
+
+# shellcheck disable=1091
 
 # Profile START
 # PS4='+ $(gdate "+%s.%N")\011 '

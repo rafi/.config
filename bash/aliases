@@ -1,5 +1,6 @@
+#!/usr/bin/env bash
+
 # bash/aliases
-# ---
 # https://github.com/rafi/.config
 
 # Carry over aliases to the root account when using sudo
@@ -11,7 +12,7 @@ alias watch='watch '
 # Useful shortcuts
 alias c=clear
 alias cal='task cal'
-alias start='{ test -f .tmuxp.* && tmuxp load -y .; } || \
+alias start='{ test -f .tmuxp.* && tmuxp load -y .; } ||
 	{ tmuxp ls | fzf | xargs tmuxp load -y; }'
 
 # Lists ---------------------------------------------------- l for list -- {{{
@@ -26,6 +27,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 # Listing directory contents
+# shellcheck disable=2139
 alias ls="LC_COLLATE=C ${LSCMD} --color=auto --group-directories-first"
 unset LSCMD
 alias l='ls -CFa'
@@ -33,27 +35,32 @@ alias ll='ls -alF'
 alias llh='ls -alFh'
 alias lld='ls -Gal --color=always | grep ^d --colour=never'
 
+# See https://github.com/dundee/gdu
+# shellcheck disable=2139
+test -f "$PREFIX/opt/gdu/bin/gdu" && alias gdu="$PREFIX/opt/gdu/bin/gdu"
+
 # }}}
-# Editor --------------------------------------------------- e for edit -- {{{
-alias e='tmux split-window -h "$EDITOR"'
+# Editor ---------------------------------------------------- v for vim -- {{{
 
 # Neo/vim shortcuts, use Neovim by default
+# shellcheck disable=2139
 if hash nvim 2>/dev/null; then
 	alias vim=nvim
 	alias vless="nvim -u $PREFIX/share/nvim/runtime/macros/less.vim"
 	alias suvim='sudo -E nvim'
-	alias oldvim="VIMINIT='let \$MYVIMRC=\"\$XDG_CONFIG_HOME/nvim/vimrc\" | source \$MYVIMRC' $PREFIX/bin/vim"
+	alias oldvim="VIMINIT='let \$MYVIMRC=\"\$XDG_CONFIG_HOME/nvim/init.vim\" | source \$MYVIMRC' $PREFIX/bin/vim"
 else
 	alias vless="vim -u $PREFIX/share/vim/vim74/macros/less.vim"
 	alias suvim='sudo -E vim'
 fi
 alias v='vim $(fzf)'
 alias vi=vim
+alias ve='tmux split-window -h "$EDITOR"'
 alias vimdiff='vim -d'
 alias testvim="VIMINIT='let \$MYVIMRC=\"\$HOME/box/testvim/init.vim\" | source \$MYVIMRC' nvim"
 
 # }}}
-# Grepping ------------------------------------------------- p for grep -- {{{
+# Grepping / Parsing --------------------------------------- p for grep -- {{{
 if hash rg 2>/dev/null; then
 	# Use https://github.com/BurntSushi/ripgrep by default
 	alias p=rg
@@ -65,13 +72,13 @@ else
 	alias p=grep
 fi
 # Use https://github.com/cykerway/complete-alias for bash alias completion
-if [ "$(type -t _complete_alias)" = function ]; then
+if type _complete_alias &>/dev/null; then
 	complete -F _complete_alias p
 fi
 
 # Productive defaults for grep and tree
 alias grep='grep --color=auto --exclude-dir=.git'
-alias tree='tree -F --dirsfirst -a -I ".git|.hg|.svn|__pycache__|.mypy_cache|.pytest_cache|*.egg-info|.sass-cache|.DS_Store" --ignore-case'
+alias tree='tree -F --dirsfirst -a -I ".git|.hg|.svn|__pycache__|.mypy_cache|.pytest_cache|*.egg-info|.sass-cache|.DS_Store"'
 alias tree2='tree -L 2'
 alias tree3='tree -L 3'
 
@@ -83,33 +90,29 @@ hash gtail 2>/dev/null && alias catt='gtail -n $((${LINES:-12}-4)) -s.1'
 hash colordiff 2>/dev/null && alias diff=colordiff
 
 # }}}
-# Explorer --------------------------------------------- = for explorer -- {{{
+# Explorer --------------------------------------------- e for explorer -- {{{
 
 if hash lf 2>/dev/null; then
 	# Use https://github.com/gokcehan/lf by default
-	=() { lf; }
+	alias e=lf
 elif hash ranger 2>/dev/null; then
 	# Fallback to https://github.com/ranger/ranger
-	=() { ranger; }
+	alias e=ranger
 fi
+
+# }}}
+# Jump around ------------------------------------------- z for jumping -- {{{
+alias cdf='cd "$(dirname "$(fzf)")"'
+alias cdd='cd "$(fd --type d | fzf)"'
+
+# Jump to previous directory with --
+alias -- -="cd -"
 
 # Easier directory navigation
 alias ..='cd ..'
 alias ...='cd ../../'
 alias ....='cd ../../../'
 alias .....='cd ../../../../'
-alias -- -="cd -"
-
-# }}}
-# Jump around ------------------------------------------- z for jumping -- {{{
-alias cdf='cd "$(dirname "$(fzf)")"'
-
-if [ "$(type -t _zlua)" = function ]; then
-	alias zz='z -c'      # restrict matches to subdirs of $PWD
-	alias zi='z -I'      # use fzf to select in multiple matches
-	alias zb='z -b'      # quickly cd to the parent directory
-	alias zh='z -I -t .' # interactive mru with fzf
-fi
 
 # }}}
 # File find ------------------------------------------------ f for find -- {{{
@@ -121,12 +124,13 @@ else
 	alias f=fd
 fi
 # Use https://github.com/cykerway/complete-alias for bash alias completion
-if [ "$(type -t _complete_alias)" = function ]; then
+if type _complete_alias &>/dev/null; then
 	complete -F _complete_alias f
 fi
 
 # }}}
 # Git ------------------------------------------------------ g for git --- {{{
+# See more in ./functions.d/git.bash
 alias g=git
 alias gb='git branch'
 alias gc='git checkout'
@@ -145,29 +149,27 @@ alias gll='git lg'
 alias gld='git lgd -15'
 alias glf='git-foresta --all --style=10 | less -RS'
 
-# Attach alias tab-completion to git completion functions
-if type _git &> /dev/null; then
-	complete -o default -o nospace -F _git g
-	if [ "$(type -t __git_complete)" = function ]; then
-		__git_complete gb _git_branch gb
-		__git_complete gc _git_checkout gc
-		__git_complete gc _git_checkout gcb
-		__git_complete gd _git_diff gd
-		__git_complete gd _git_diff gds
-		__git_complete gf _git_fetch gf
-		__git_complete gf _git_fetch gfa
-		__git_complete gap _git_add gap
-		__git_complete gs _git_status gs
-		__git_complete gl _git_log gl
-		__git_complete gl _git_log gll
-		__git_complete gl _git_log gld
-	fi
+# Attach git aliases auto-completion
+if type __git_main &>/dev/null && type __git_complete &>/dev/null; then
+	__git_complete g __git_main
+	__git_complete gb _git_branch
+	__git_complete gc _git_checkout
+	__git_complete gc _git_checkout
+	__git_complete gd _git_diff
+	__git_complete gds _git_diff
+	__git_complete gf _git_fetch
+	__git_complete gfa _git_fetch
+	__git_complete gap _git_add
+	__git_complete gs _git_status
+	__git_complete gl _git_log
+	__git_complete gll _git_log
+	__git_complete gld _git_log
 fi
 
 # }}}
 # Docker ------------------------------------------------- d for docker -- {{{
 alias d=docker
-alias dk=docker-compose
+alias dk='docker compose'
 alias dps='docker ps --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{ .Ports }}\\t{{.RunningFor}}\\t{{.Command}}\\t{{ .ID }}" | cut -c-$(tput cols)'
 alias dls='docker ps -a --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{ .Ports }}\\t{{.RunningFor}}\\t{{.Command}}\\t{{ .ID }}" | cut -c-$(tput cols)'
 alias dim='docker images --format "table {{.Repository}}\\t{{.Tag}}\\t{{.ID}}\\t{{.Size}}\\t{{.CreatedSince}}"'
@@ -175,16 +177,23 @@ alias dip='docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{
 alias dgc='docker rmi $(docker images -qf "dangling=true")'
 alias dvc='docker volume ls -qf dangling=true | xargs docker volume rm'
 alias dtop='docker stats $(docker ps --format="{{.Names}}")'
+# shellcheck disable=2154
 alias dnet='docker network ls && echo && docker inspect --format "{{\$e := . }}{{with .NetworkSettings}} {{\$e.Name}}
 {{range \$index, \$net := .Networks}}  - {{\$index}}	{{.IPAddress}}
 {{end}}{{end}}" $(docker ps -q)'
+# shellcheck disable=2154
 alias dtag='docker inspect --format "{{.Name}}
 {{range \$index, \$label := .Config.Labels}}  - {{\$index}}={{\$label}}
 {{end}}" $(docker ps -q)'
 
 # Use https://github.com/cykerway/complete-alias for bash alias completion
-if [ "$(type -t _complete_alias)" = function ]; then
+if type _complete_alias &>/dev/null; then
 	complete -F _complete_alias d
+	complete -F _complete_alias dk
+	complete -F _complete_alias dim
+	complete -F _complete_alias dip
+	complete -F _complete_alias dgc
+	complete -F _complete_alias dtop
 fi
 
 # }}}
@@ -198,10 +207,13 @@ alias kexec='kubectl fuzzy exec -APit --'
 alias kdescribe='kubectl fuzzy describe -AP'
 alias klog='kubectl fuzzy logs -AP'
 
-# Kubernetes: attach k alias to kubectl completion function
-complete -o default -F __start_kubectl k
+# Attach k alias to kubectl completion function
+if type __start_kubectl &>/dev/null; then
+	complete -o default -F __start_kubectl k
+fi
+
 # Use https://github.com/cykerway/complete-alias for bash alias completion
-if [ "$(type -t _complete_alias)" = function ]; then
+if type _complete_alias &>/dev/null; then
 	complete -F _complete_alias kc
 	complete -F _complete_alias kg
 	complete -F _complete_alias ke
@@ -209,9 +221,8 @@ if [ "$(type -t _complete_alias)" = function ]; then
 fi
 
 # }}}
-# Processes ------------------------------------------- p for processes -- {{{
+# Processes -------------------------------------------------------------- {{{
 alias process='ps -ax'
-alias psk='ps -xam -o "pid,user,%cpu,%mem,command" | fzf | cut -d " " -f1 | xargs -o kill'
 alias pst='pstree -g 3 -ws'
 
 # }}}
@@ -224,27 +235,29 @@ alias m=memo
 # See: https://wiki.archlinux.org/index.php/XDG_Base_Directory
 alias tmux='tmux -f "$XDG_CONFIG_HOME/tmux/config"'
 alias mysql='mysql --defaults-extra-file="$XDG_CONFIG_HOME/mysql/config"'
-alias mutt='mutt -F "$XDG_CONFIG_HOME"/mutt/config'
+alias mutt='ESCDELAY=0 neomutt || mutt -F "$XDG_CONFIG_HOME"/mutt/config'
 alias weechat='weechat --dir "$XDG_CONFIG_HOME/weechat/"'
 alias gdrive='gdrive -c "$XDG_CONFIG_HOME/gdrive"'
 alias cpan='cpan -j "$XDG_CONFIG_HOME/cpan/config.pm"'
 alias gcal='gcalcli --configFolder "$XDG_CONFIG_HOME/gcalcli"'
 alias redshift='redshift -c "$XDG_CONFIG_HOME/redshift/config"'
 alias rtorrent='rtorrent -n -o import="$XDG_CONFIG_HOME/rtorrent/config.rc"'
+alias vercel='vercel --global-config="$XDG_CONFIG_HOME/vercel"'
+alias mbsync='mbsync -c "$XDG_CONFIG_HOME/isync/mbsyncrc"'
 
 # }}}
 # Storage ---------------------------------------------------------------- {{{
 alias dut='du -hsx * | sort -rh | head -10'
-alias duz='du -hsx * | sort -rh | fzf | awk "{print \$2}"'
+alias duz="du -hsx * | sort -rh | fzf"
 alias dum='df -hT -x devtmpfs -x tmpfs'
 
 # }}}
 # Misc ------------------------------------------------------------------- {{{
+
 alias fontcache='fc-cache -f -v'
 alias fontfind='fc-list : family style'
 alias freq='cut -f1 -d" " "$HISTFILE" | sort | uniq -c | sort -nr | head -n 30'
 alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
-alias multiopen='while read i; do open "$i"; done <<<'
 alias volup='amixer set Master playback 3dB+'
 alias voldown='amixer set Master playback 3dB-'
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
@@ -253,11 +266,13 @@ alias weather='curl -s v2.wttr.in/Tel_Aviv'
 alias panic="curl -s https://corona-stats.online?format=json | jq '.data[] | select(.countryCode==\"IL\")'"
 alias ungzip='gzip -d'
 alias untar='tar xvf'
-alias ngrok='ngrok --authtoken="$(pass tokens/ngrok)"'
+alias ngrok-http='ngrok http --authtoken="$(pass tokens/ngrok)"'
 alias aspell='aspell -c -l en_US'
 alias ttycast="ttyd -p 8888 bash -c 'tmux new-session -d -s cast \; split-window -d \; attach -t cast'"
 alias ttycast-this="tmux split-window \'ttyd -p 8888 bash -c \'tmux a\'\'"
 alias subdl='subliminal download -l en -d "$XDG_CACHE_HOME/subtitles"'
+# shellcheck disable=2154
+alias multiopen='while read arg; do open "$arg"; done <<<'
 
 # }}}
 # OS Specific Network and Filesystem ------------------------------------- {{{
@@ -267,7 +282,7 @@ alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[
 alias iplocal="ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'"
 
 if [ "$(uname -s)" = "Darwin" ]; then
-	alias netinfo="networksetup -listallnetworkservices | sed '1d' | fzf | xargs networksetup -getinfo"
+	alias netinfo='networksetup -getinfo "$(networksetup -listallnetworkservices | sed 1d | fzf)"'
 	# alias ipremote=""  # TODO
 
 	# Show active network interfaces
@@ -276,7 +291,7 @@ if [ "$(uname -s)" = "Darwin" ]; then
 	# Flush Directory Service cache
 	alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
 
-	# Lock the screen (when going Away From Keyboard)
+	# Lock the screen (Away From Keyboard)
 	alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 
 	# Recursively delete `.DS_Store` files
@@ -291,7 +306,6 @@ if [ "$(uname -s)" = "Darwin" ]; then
 		sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
 
 else
-	# IP addresses
 	alias ipremote="ip route get 1 | awk '{print \$NF;exit}'"
 
 	# Show active network interfaces

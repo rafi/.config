@@ -1,9 +1,12 @@
+#!/usr/bin/env bash
 # bash/utils
 # ---
 # github.com/rafi/.config
 
+# shellcheck disable=1091,1090
+
 # Source all extra functions
-for func in "$XDG_CONFIG_HOME/bash/functions.d/"*; do
+for func in "$XDG_CONFIG_HOME/bash/functions.d/"*.bash; do
 	. "$func"
 done
 unset func
@@ -27,6 +30,7 @@ elif [ -f "$PREFIX/etc/profile.d/z.lua" ]; then
 	export _ZL_ECHO=1
 	export _ZL_HYPHEN=1
 	eval "$(lua "$PREFIX/etc/profile.d/z.lua" --init bash enhanced once)"
+
 # Fallback to https://github.com/rupa/z
 elif [ -f "$PREFIX/etc/profile.d/z.sh" ]; then
 	. "$PREFIX/etc/profile.d/z.sh"
