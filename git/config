@@ -6,61 +6,107 @@
 
 [include]
 	path = users/current
+[init]
+	defaultBranch = master
+	# templatedir = ~/.config/git/template
 [core]
 	excludesfile = ~/.config/git/ignore
 	hooksPath = ~/.config/git/hooks
+	# The length object names are abbreviated to
 	abbrev = 8
-	# diff-so-fancy
-	pager = diff-so-fancy | less --tabs=2 -RFX
 	# Do NOT auto-convert CRLF line endings into LF
 	autocrlf = false
 	# Do NOT check if converting CRLF is reversible
 	safecrlf = false
 	# Whitespace detection (only warnings)
+	# https://git-scm.com/docs/git-config#Documentation/git-config.txt-corewhitespace
 	whitespace = trailing-space,space-before-tab
-[http]
-	version = HTTP/1.1
+	# diff-so-fancy
+	pager = diff-so-fancy | LESS= less --tabs=2 -RFXiQM
 [credential]
+	# https://git-scm.com/docs/gitcredentials
 	helper = cache --timeout=3600
-# [init]
-#	templatedir = ~/.config/git/template
-[pager]
-	show-branch = true
-	status = true
+[http]
+	# https://git-scm.com/docs/git-config#Documentation/git-config.txt-httpversion
+	# version = HTTP/1.1
+[push]
+	# https://git-scm.com/docs/git-config#Documentation/git-config.txt-pushdefault
+	default = current
+	followTags = true
+[commit]
+	# https://git-scm.com/docs/git-commit#Documentation/git-commit.txt--v
+	verbose = true
+[rerere]
+	# https://git-scm.com/docs/git-rerere
+	enabled = true
+[status]
+	# https://git-scm.com/docs/git-config#Documentation/git-config.txt-statussubmoduleSummary
+	submodulesummary = true
+	# Show untracked all files and directories.
+	showUntrackedFiles = all
+[fetch]
+	prune = false
+	recurseSubmodules = true
+[log]
+	# https://git-scm.com/docs/git-log#Documentation/git-log.txt---dateltformatgt
+	date = iso
+	# Assume --abbrev-commit with show, log and whatchanged
+	abbrevCommit = true
 [pretty]
 	cool = %C(240)%h%C(reset) -%C(auto)%d%Creset %s %C(242)(%an %ar)
 	nice = %C(cyan)%h %C(red)%ad %C(blue)[%an]%C(magenta)%d %C(white)%s
 	mini = %C(auto)%D %C(240)--%C(242)%gD%N %ad by %C(white)%cn%C(reset)
 	info = %C(blue)──────%Creset%n %C(auto)commit %h %C(auto) %D%Creset%n %C(cyan)%an%Creset | %Cgreen%cr%Creset%n%+B
-[status]
-	submodulesummary = true
-	showUntrackedFiles = all
-[fetch]
-	# prune = true
-	recurseSubmodules = true
-[push]
-	# Defines the action git push should take if no refspec is explicitly given:
-	# current = Push the current branch to update a branch with the same name on the receiving end
-	# See https://git-scm.com/docs/git-config#Documentation/git-config.txt-pushdefault
-	default = current
-	followTags = true
-[commit]
-	verbose = true
-[log]
-	date = iso
-	abbrevCommit = true
 [submodule]
+	# Number of submodules fetched in parallel
 	fetchJobs = 8
-[rerere]
-	enabled = true
+[transfer]
+	# https://git-scm.com/docs/git-config#git-config-transferfsckObjects
+	# via https://groups.google.com/forum/#!topic/binary-transparency/f-BI4o8HZW0
+	fsckobjects = false
+[pager]
+	show-branch = true
+	status = true
+# 	diff = delta
+# 	log = delta
+# 	reflog = delta
+# 	show = delta
+# [interactive]
+# 	diffFilter = delta --color-only
+
+[delta]
+	features = theme
+	navigate = true
+	side-by-side = true
+[delta "theme"]
+	dark = true
+	syntax-theme = Nord
+
+	commit-decoration-style = "#de004e" ol
+	file-decoration-style = none
+	file-style = omit
+	whitespace-error-style = 22 reverse
+	zero-style = syntax
+
+	hunk-header-style = file line-number syntax
+	hunk-header-decoration-style = "#00b494" box
+	hunk-header-file-style = "#999999"
+	hunk-header-line-number-style = "#03a4ff"
+
+	minus-emph-style = normal "#80002a"
+	minus-style = normal "#330011"
+	plus-emph-style = syntax "#003300"
+	plus-style = syntax "#001a00"
+
 [diff]
+	tool = nvimdiff
 	algorithm = patience
 	renames = copies
 	mnemonicprefix = true
 	compactionHeuristic = true
-	tool = nvimdiff
 [difftool "nvimdiff"]
-  cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+	cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+
 [merge]
 	tool = bc3
 	verbosity = 1
@@ -74,10 +120,7 @@
 	prompt = false
 	keepBackup = true
 	writeToTemp = true
-[transfer]
-	# https://git-scm.com/docs/git-config#git-config-transferfsckObjects
-	# via https://groups.google.com/forum/#!topic/binary-transparency/f-BI4o8HZW0
-	fsckobjects = false
+
 [color]
 	ui = true
 	pager = true
@@ -113,10 +156,12 @@
 	untracked = blue
 	branch = green bold
 	nobranch = red
+
 [url "git@github.com"]
 	insteadOf = gh
 [url "git@bitbucket.org"]
 	insteadOf = bb
+
 [alias]
 	s  = status -sb
 	f  = fetch --prune
@@ -139,6 +184,7 @@
 	track = checkout --track
 	topic = !git checkout "$(git current-remote)/master" -b
 	stash-all = stash save --include-untracked
+	sync-tags = fetch --prune origin '+refs/tags/*:refs/tags/*'
 	w  = whatchanged --decorate
 	wp = whatchanged --decorate -p
 	#===============================================
@@ -154,25 +200,44 @@
 	lgd  = log --graph --pretty=cool
 	lgw  = !sh -c '"while true; do clear; git lg -15; sleep 5; done"'
 	#===============================================
-	bf = !git diff "$(git oldest-ancestor)..@"
-	post  = !sh -c 'git format-patch --stdout $1 | ix' -
-	sync-tags = fetch --prune origin '+refs/tags/*:refs/tags/*'
-	recent-branches = !git for-each-ref --count=15 --sort=-committerdate refs/heads/ --format='%(authordate:relative) %(refname:short)'
+	current-branch = branch --show-current
+	current-remote = !git branch-remote "$(git current-branch)"
+	unmerged = !git branch --no-merged | awk '{print $1}' | xargs -L1 git --no-pager log --pretty=cool -1
+	merged = !git branch --merged | awk '{print $1}' | xargs -L1 git --no-pager log --pretty=cool -1
+	unmerged-remote = !git branch -r --no-merged | grep -v HEAD | xargs -L1 git --no-pager log --pretty=cool -1
+	merged-remote = !git branch -r --merged | grep -v HEAD | xargs -L1 git --no-pager log --pretty=cool -1
+	recent-branches = branch --sort=-committerdate --sort=committername --format '%(align:22)%(committerdate:relative)%(end) %(align:20)%(committername)%(end) %(refname:lstrip=-1) %(upstream:track)'
+	all-branches = branch -a --sort=-committerdate --format '%(align:28)%(committerdate:iso8601)%(end) %(align:20)%(committername)%(end) %(refname:short) %(upstream:track)'
+	branch-remote = "!f() { \
+		local b=\"${1:?Branch name required.}\"; \
+		local r=\"$(git config \"branch.${b}.remote\")\"; \
+		echo \"${r:-$(git remote)}\"; \
+	}; f"
 	oldest-ancestor = "!bash -c 'f() { \
 		/usr/bin/diff --old-line-format='' --new-line-format='' \
 			<(git rev-list --first-parent ${0:-master}) \
 			<(git rev-list --first-parent ${1:-HEAD}) \
 		| head -1; \
 		}; f $@'"
+	bf     = !git diff "$(git oldest-ancestor)..@"
 	ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
 	theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
 	remote-fork = "!f() { \
-		git remote add rafi \"$(git config remote.origin.url \
-			| gsed 's;\\(github.com[/:]\\)[^/]\\+;\\1rafi;')\" && \
-		git fetch rafi; \
+		local me=\"$(git config --get github.user)\"; \
+		local r=\"$(git config remote.origin.url)\"; \
+		local rn=''; \
+		if [[ \"$OSTYPE\" == \"darwin\"* ]]; then \
+			rn=\"$(echo $r | sed -E \"s;(github.com[/:])[^/]+;\\1${me};\")\"; \
+		else \
+			rn=\"$(echo $r | sed \"s;\\(github.com[/:]\\)[^/]\\+;\\1${me};\")\"; \
+		fi; \
+		[ \"$r\" -ne \"$rn\" ] && [ -n \"$rn\" ] && \
+		git remote add \"$me\" \"$rn\" && \
+		git fetch \"$me\"; \
 	}; f"
 	#===============================================
 	# Take a snapshot of your current working tree without removing the changes from your tree.
 	# via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
 	snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
 	snapshots = !git stash list --grep snapshot
+	change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f"
