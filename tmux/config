@@ -7,10 +7,11 @@
 # Behavior
 #-------------------------------------------------
 
-set -g default-shell $SHELL
+set -g default-shell "${SHELL}"
+set -g default-terminal "${TERM}"
 # set -g default-terminal "xterm-kitty"
 # set -g default-terminal "alacritty"
-set -g default-terminal "screen-256color"
+# set -g default-terminal "screen-256color"
 # set -g default-terminal "tmux18-256color"
 # set -g default-terminal "xterm-256color"
 
@@ -25,11 +26,12 @@ set -g set-titles-string '#T #S:#I.#P #W'
 setw -g automatic-rename on
 setw -g xterm-keys on
 
-# Enable cursor shape modification in vim
+# Always honor extended keys, fixes Alacritty mods.
+set-option -s -a extended-keys always
+
+# Enable cursor shape modification in vim without Ptmux wrap
 # See https://github.com/neovim/neovim/wiki/FAQ
-# set-option -s -a terminal-overrides '*:Ss=\E[%p1%d q:Se=\E[ q'
-# set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
-# set -ga terminal-overrides '*:Ss=\E[%p1%d q:Se=\E[2 q,*:Tc'
+set-option -s -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q'
 
 # Enable 24-bit color support (check if this works via `tmux info | grep Tc`)
 set-option -s -a terminal-overrides ",*:Tc"
@@ -39,10 +41,6 @@ set-option -s -a terminal-overrides ',*:Smulx=\E[4::%p1%dm'
 
 # Add colored undercurl (test it with `printf '\e[4:3;58:2:255:100:0mUndercurl\n\e[0m'`)
 set-option -s -a terminal-overrides ',*:Setulc=\E[58::2::%p1%{65536}%/%d::%p1%{256}%/%{255}%&%d::%p1%{255}%&%d%;m'
-
-# Enable true color & italics support
-# https://medium.com/@dubistkomisch/how-to-actually-get-italics-and-true-colour-to-work-in-iterm-tmux-vim-9ebe55ebc2be
-set -as terminal-overrides ',screen*:Tc:sitm=\E[3m'
 
 # scrollback buffer size increase
 set -g history-limit 20000
@@ -188,7 +186,7 @@ bind-key R command-prompt -I '#S' -p '(rename session)' "rename-session '%%'"
 bind-key / command-prompt -p 'Man>' "split-window -d -v 'exec man %%'"
 
 # Open ncmpcpp in new pane
-bind-key C-m split-window -v "exec ~/.local/bin/ncmpcpp"
+# bind-key C-m split-window -v "exec ~/.local/bin/ncmpcpp"
 
 # Use Facebook PathPicker to select paths from buffer interactively
 # bind-key f capture-pane \; \
@@ -230,22 +228,52 @@ setw -g mode-keys vi
 # Allows scrolling and selecting in copy-mode
 set -g -q mouse on
 
+# enable OSC 52 clipboard
+# https://medium.freecodecamp.org/tmux-in-practice-integration-with-system-clipboard-bcd72c62ff7b
+set -g set-clipboard on
+
+# use bracketed paste, if the running application (vim/emacs/weechat) has
+# sent the terminal code to enable it.
+bind-key ] paste-buffer -p
+
 # Trigger copy mode by Cmd-Up
 # bind -n M-Up copy-mode
 
-# Copies selection to clipboard
-bind -Tcopy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel pbcopy
-
 # Setup copy-mode vi bindings
+# $ tmux -f /dev/null list-keys -T copy-mode-vi
 unbind -Tcopy-mode-vi Enter
 bind-key Escape copy-mode
-if "which pbcopy" "bind -Tcopy-mode-vi y send -X copy-pipe-and-cancel pbcopy"
-if "which xclip" "bind -Tcopy-mode-vi y send -X copy-pipe-and-cancel 'xclip -i -selection clipboard'"
 bind-key -Tcopy-mode-vi v send -X begin-selection
 bind-key -Tcopy-mode-vi V send -X select-line
 bind-key -Tcopy-mode-vi C-v send -X rectangle-toggle
 bind-key -Tcopy-mode-vi Escape send -X clear-selection
-bind-key -Tcopy-mode-vi Y send -X begin-selection \; send -X end-of-line \; send -X cursor-left \; send -X copy-pipe-and-cancel pbcopy
+
+# Yank
+# bind -T copy-mode-vi D send-keys -X copy-end-of-line
+if-shell 'test "$(uname -s)" = Darwin' {
+  %hidden yank="pbcopy"
+  bind -Tcopy-mode-vi y send -X copy-pipe-and-cancel "$yank"
+  bind -Tcopy-mode-vi Y send -X begin-selection \; send -X end-of-line \; send -X cursor-left \; send -X copy-pipe-and-cancel "$yank"
+  bind -Tcopy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel "$yank"
+  bind -Tcopy-mode-vi DoubleClick1Pane select-pane \; send-keys -X select-word \; run-shell -d 0.3 \; send-keys -X copy-pipe-and-cancel "$yank"
+  bind -Tcopy-mode-vi TripleClick1Pane select-pane \; send-keys -X select-line \; run-shell -d 0.3 \; send-keys -X copy-pipe-and-cancel "$yank"
+}
+if-shell 'which xclip' {
+  %hidden yank="xclip -i -selection clipboard"
+  bind -Tcopy-mode-vi y send -X copy-pipe-and-cancel "$yank"
+  bind -Tcopy-mode-vi Y send -X begin-selection \; send -X end-of-line \; send -X cursor-left \; send -X copy-pipe-and-cancel "$yank"
+  bind -Tcopy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel "$yank"
+  bind -Tcopy-mode-vi DoubleClick1Pane select-pane \; send-keys -X select-word \; run-shell -d 0.3 \; send-keys -X copy-pipe-and-cancel "$yank"
+  bind -Tcopy-mode-vi TripleClick1Pane select-pane \; send-keys -X select-line \; run-shell -d 0.3 \; send-keys -X copy-pipe-and-cancel "$yank"
+}
+if-shell '[ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]' {
+  %hidden yank="~/.config/tmux/plugins/yank.sh"
+  bind -Tcopy-mode-vi y send -X copy-pipe-and-cancel "$yank"
+  bind -Tcopy-mode-vi Y send -X begin-selection \; send -X end-of-line \; send -X cursor-left \; send -X copy-pipe-and-cancel "$yank"
+  bind -Tcopy-mode-vi MouseDragEnd1Pane send -X copy-pipe-and-cancel "$yank"
+  bind -Tcopy-mode-vi DoubleClick1Pane select-pane \; send-keys -X select-word \; run-shell -d 0.3 \; send-keys -X copy-pipe-and-cancel "$yank"
+  bind -Tcopy-mode-vi TripleClick1Pane select-pane \; send-keys -X select-line \; run-shell -d 0.3 \; send-keys -X copy-pipe-and-cancel "$yank"
+}
 
 # Rotate key-bindings to inner/remote tmux session
 # See https://github.com/tmux/tmux/issues/237
