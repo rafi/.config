@@ -9,14 +9,32 @@ I try to conform to the [XDG standard]. There is one important caveat in doing
 so: Secrets can be accidentally committed. I [solve](#protecting-secrets) this
 with the clean and smudge filter features of Git attributes.
 
+## Features
+
+The most interesting configs:
+
+- [alacritty](./alacritty/)
+- [bash](./bash/)
+- [git](./git/)
+- [i3](./i3/config)
+- [karabiner](./karabiner/)
+- [launch](./launch/)
+- [lf](./lf/)
+- [tmux](./tmux/)
+- [xorg](./xorg/)
+- [skhd](./skhd/skhdrc)
+- [yabai](./yabai/yabairc)
+
+... and make sure to check-out [github.com/rafi/vim-config]!
+
 ## Install
 
-There is **no** installation script, but you should create several symlinks:
+There is **no** installation script, only three symlinks:
 
 ```sh
 # Clone the .config repo
 cd ~
-git clone --recursive git://github.com/rafi/.config.git
+git clone --recursive git@github.com:rafi/.config.git
 
 # Symlink few files manually:
 cd ~
@@ -39,8 +57,10 @@ mkdir -p ~/.local/share/python/{envs,pyenv}
 
 ## macOS-specific Software
 
-* [launchctl](./launch/)
-* [Karabiner](./karabiner/)
+on macOS, make sure you check these out:
+
+- [launchctl](./launch/)
+- [Karabiner](./karabiner/)
 
 ## XDG Conformity
 
@@ -105,4 +125,4 @@ their proper placeholders. _Note_ that `smudge.sed` is ignored from being
 committed mistakenly.
 
 [XDG standard]: https://wiki.archlinux.org/index.php/XDG_Base_Directory
-[github.com/rafi/.local]: https://github.com/rafi/.local/tree/master/bin
+[github.com/rafi/vim-config]: https://github.com/rafi/vim-config
