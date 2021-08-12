@@ -1,14 +1,24 @@
-# aat frontend: use imperial units for output
-aat-imperial=false
-# BACKEND to be used
-backend=worldweatheronline.com
-# LOCATION to be queried
+# wego configuration
+
+# Show geo coordinates (default false)
+aat-coords=false
+
+# BACKEND to be used (default worldweatheronline.com)
+backend=forecast.io
+forecast-api-key={{ FORECASTIO_TOKEN }}
+
+# LOCATION to be queried (default New York)
 city=Tel Aviv
-# NUMBER of days of weather forecast to be displayed
+
+# NUMBER of days of weather forecast to be displayed (default 3)
 days=3
-# FRONTEND to be used
+
+# FRONTEND to be used (default ascii-art-table)
 frontend=ascii-art-table
-# wwo backend: the api KEY to use
-wwo-api-key={{ WEATHER_TOKEN }}
-# wwo backend: the LANGUAGE to request from wwo
-wwo-lang=en
+
+# json frontend: do not indent the output (default false)
+jsn-no-indent=false
+
+# UNITSYSTEM to use for output.
+# Choices are: metric, imperial, si (default metric)
+units=metric

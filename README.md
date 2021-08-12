@@ -20,25 +20,24 @@ git clone --recursive git://github.com/rafi/.config.git
 
 # Symlink few files manually:
 cd ~
-ln -s .config/ag/ignore .agignore
 ln -s .config/bash/bashrc .bashrc
 ln -s .config/bash/profile .profile
-ln -s .config/ctags/config .ctags
 ln -s .config/tmux/config .tmux.conf
 
 # Create cache directories
-mkdir -p ~/.cache/vim/{backup,complete,session,swap,tags,undo}
-mkdir -p ~/.cache/{aria2,beets,mpd,mpdscribble,mutt,pacaur,rtorrent,subtitles,z}
+mkdir -p ~/.cache/{nvim,pacaur,proselint,xpanes,zoxide}
+mkdir -p ~/.cache/{aria2,beets,mpd,mpdscribble,mutt,neomutt,rtorrent,subtitles}
 mkdir -p ~/.cache/ncmpcpp/lyrics
 mkdir -p ~/.cache/node/{npm,gyp}
 
 # Create user local shared directories
 mkdir -p ~/.local/bin
-mkdir -p ~/.local/share/{cargo,composer,fonts,vagrant,tig,mutt,newsbeuter,virtualbox}
-mkdir -p ~/.local/share/python/envs
+mkdir -p ~/.local/share/{cargo,composer,fonts,go,krew,lf,mailbox,mutt,neomutt}
+mkdir -p ~/.local/share/{newsbeuter,newsboat,nextword,tig,vagrant,virtualbox}
+mkdir -p ~/.local/share/python/{envs,pyenv}
 ```
 
-## OSX-specific Software
+## macOS-specific Software
 
 * [launchctl](./launch/)
 * [Karabiner](./karabiner/)
@@ -49,9 +48,21 @@ Configuration directories are organized neatly by defining
 specific environment variables in [bash/exports](./bash/exports) and
 aliases in [bash/aliases](./bash/aliases).
 
-There are some programs you'll need to create custom scripts to load the
-proper config files: bug-warrior, mpdscribble, mutt, mysql, ncmpc,
-ncmpcpp, rtorrent. See examples at [github.com/rafi/.local].
+Some programs require special help to feed the proper config:
+
+```sh
+alias cpan='cpan -j "$XDG_CONFIG_HOME"/cpan/config.pm'
+alias gcal='gcalcli --configFolder "$XDG_CONFIG_HOME"/gcalcli'
+alias mbsync='mbsync -c "$XDG_CONFIG_HOME"/isync/mbsyncrc'
+alias mysql='mysql --defaults-extra-file="$XDG_CONFIG_HOME"/mysql/config'
+alias mutt='ESCDELAY=0 neomutt || mutt -F "$XDG_CONFIG_HOME"/mutt/config'
+alias ncmpc='ncmpc -f "$XDG_CONFIG_HOME"/ncmpc/config -k "$XDG_CONFIG_HOME"/ncmpc/keys'
+alias ncmpcpp='ncmpcpp -c "$XDG_CONFIG_HOME"/ncmpcpp/config'
+alias redshift='redshift -c "$XDG_CONFIG_HOME"/redshift/config'
+alias rtorrent='rtorrent -n -o import="$XDG_CONFIG_HOME"/rtorrent/config.rc'
+alias vercel='vercel --global-config="$XDG_CONFIG_HOME"/vercel'
+alias weechat='weechat --dir "$XDG_CONFIG_HOME"/weechat/'
+```
 
 ## Protecting Secrets
 
@@ -59,8 +70,8 @@ Using `.gitattributes` filters clean and smudge. Setup custom filters:
 
 ```sh
 cd ~/.config
-git config --local filter.vault.clean "sed -f ~/.config/clean.sed"
-git config --local filter.vault.smudge "sed -f ~/.config/smudge.sed"
+git config --local filter.vault.clean 'sed -f ~/.config/clean.sed'
+git config --local filter.vault.smudge 'sed -f ~/.config/smudge.sed'
 ```
 
 The sed script `clean.sed` is [included](./clean.sed).
@@ -83,6 +94,7 @@ s/{{ GIT_PERSONAL_EMAIL }}/name@gmail.com/
 s/{{ GIT_WORK_EMAIL }}/name@work.com/
 s/{{ GIT_\(PERSONAL\|WORK\)_USER }}/joe/
 s/{{ WEATHER_TOKEN }}/token/
+s/{{ FORECASTIO_TOKEN }}/token/
 s/{{ GITHUB_TOKEN }}/token/
 s/{{ HOMEBREW_GITHUB_API_TOKEN }}/token/
 s/{{ TMUX_SPOTIFY_API_KEY }}/token/
