@@ -28,7 +28,7 @@ fi
 
 # Listing directory contents
 # shellcheck disable=2139
-alias ls="LC_COLLATE=C ${LSCMD} --color=auto --group-directories-first"
+alias ls='LC_COLLATE=C \'${LSCMD}' --color=auto --group-directories-first'
 unset LSCMD
 alias l='ls -CFa'
 alias ll='ls -alF'
@@ -147,7 +147,6 @@ alias gs='git status -sb'
 alias gl='git lg -15'
 alias gll='git lg'
 alias gld='git lgd -15'
-alias glf='git-foresta --all --style=10 | less -RS'
 
 # Attach git aliases auto-completion
 if type __git_main &>/dev/null && type __git_complete &>/dev/null; then

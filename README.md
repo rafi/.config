@@ -89,10 +89,9 @@ s/{{ ECHONEST_TOKEN }}/token/
 s/{{ JIRA_URL }}/url/
 s/{{ JIRA_USER }}/username/
 s/{{ JIRA_PASS }}/password/
-s/{{ GIT_\(PERSONAL\|WORK\)_NAME }}/Joe Shmoe/
-s/{{ GIT_PERSONAL_EMAIL }}/name@gmail.com/
-s/{{ GIT_WORK_EMAIL }}/name@work.com/
-s/{{ GIT_\(PERSONAL\|WORK\)_USER }}/joe/
+s/{{ GIT_EMAIL }}/name@gmail.com/
+s/{{ GIT_NAME }}/Joe Shmoe/
+s/{{ GIT_USER }}/joe/
 s/{{ WEATHER_TOKEN }}/token/
 s/{{ FORECASTIO_TOKEN }}/token/
 s/{{ GITHUB_TOKEN }}/token/

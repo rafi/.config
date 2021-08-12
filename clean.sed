@@ -9,13 +9,13 @@ s/\(api_key: \).*/\1{{ LASTFM_TOKEN }}/
 s/\(	user "\).*\("\)/\1{{ SPOTIFY_USER }}\2/
 s/\(	password "\).*\("\)/\1{{ SPOTIFY_PASS }}\2/
 s/\(apikey: \).*/\1{{ ECHONEST_TOKEN }}/
-s/^\(jira\.base_uri = \).*/\1{{ JIRA_URL }}/
-s/^\(jira\.username = \).*/\1{{ JIRA_USER }}/
-s/^\(jira\.password = \).*/\1{{ JIRA_PASS }}/
-s/^\(jira\.password = \).*/\1{{ JIRA_PASS }}/
-s/^\(	email = \).*\# \(.*\)$/\1{{ GIT_\2_EMAIL }}/
-s/^\(	name = \).*\# \(.*\)$/\1{{ GIT_\2_NAME }}/
-s/^\(	user = \).*\# \(.*\)$/\1{{ GIT_\2_USER }}/
+s/^\(jira\.base_uri =\).*/\1 {{ JIRA_URL }}/
+s/^\(jira\.username =\).*/\1 {{ JIRA_USER }}/
+s/^\(jira\.password =\).*/\1 {{ JIRA_PASS }}/
+s/^\(jira\.password =\).*/\1 {{ JIRA_PASS }}/
+s/^\(	email = \).*$/\1{{ GIT_EMAIL }}/
+s/^\(	name = \).*$/\1{{ GIT_NAME }}/
+s/^\(	user = \).*$/\1{{ GIT_USER }}/
 s/^\(wwo-api-key=\).*$/\1{{ WEATHER_TOKEN }}/
 s/^\(forecast-api-key=\).*$/\1{{ FORECASTIO_TOKEN }}/
 s/\(GITHUB_TOKEN="\).*\("\)$/\1{{ GITHUB_TOKEN }}\2/
