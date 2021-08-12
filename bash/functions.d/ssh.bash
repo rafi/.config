@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
+# SSH functions
+# https://github.com/rafi/.config
+
 # Yank selected public key with fzf and pbcopy
 pubkey() {
-	local key="$(find ~/.ssh -type f -name "*.pub" -printf "%P\n" | fzf)"
-	if [ -n "$key" ]; then
-		pbcopy < "$HOME/.ssh/$key"
+	cert="$(find ~/.ssh -type f -name "*.pub" -printf "%P\n" | fzf)"
+	if [ -n "$cert" ]; then
+		pbcopy < "$HOME/.ssh/$cert"
 		echo "=> Public key yanked."
 	fi
 }
@@ -20,7 +23,7 @@ ssh() {
 	# Don't overwrite environment variable if it's not empty
 	export LC_IDENTIFICATION="${LC_IDENTIFICATION:-$USER}"
 	# Rename tmux window
-	[ -n "$TMUX" ] && tmux rename-window "$1" 1>/dev/null
+	[ -n "$TMUX" ] && tmux rename-window "${@: -1}" 1>/dev/null
 	# Execute ssh with identification
 	command ssh -o SendEnv=LC_IDENTIFICATION "$@"
 	# Reset tmux window name
@@ -31,9 +34,7 @@ ssh() {
 ssht() {
 	ssh "$*" -t '
 		PATH="$HOME/.local/bin:$HOME/bin:$PATH";
-		tmux attach 2>/dev/null || \
-			tmux -S $HOME/tmux attach || \
-			tmux || \
-			/bin/bash
-	'
+		tmux attach 2>/dev/null || tmux -S $HOME/tmux attach || tmux || /bin/bash'
 }
+
+# vim: set ts=2 sw=2 tw=80 noet :

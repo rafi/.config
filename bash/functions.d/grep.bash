@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Grepping and Parsing
+# https://github.com/rafi/.config
+
 # rga (ripgrep-all) + fzf-tmux
 # find-in-file - usage: fif <searchTerm> or fif "string with spaces" or fif "regex"
 # fif() {
@@ -9,15 +12,17 @@
 # }
 
 fif() {
-	INITIAL_QUERY="$@"
+	INITIAL_QUERY="$*"
 	RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
-	FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY'"
+	export FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY'"
+
 	FZF="fzf"
 	HEIGHT="50%"
 	if [ -n "$TMUX" ]; then
 		FZF="fzf-tmux"
 		HEIGHT="100%"
 	fi
+
 	"$FZF" --bind \
 		"ctrl-d:page-down,ctrl-u:page-up,ctrl-y:yank,tab:down,btab:up,change:reload:$RG_PREFIX {q} || true" \
 		--ansi --phony --query "$INITIAL_QUERY" \

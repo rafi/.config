@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Media functions
+# https://github.com/rafi/.config
+
 # https://gist.github.com/SlexAxton/4989674
 gifify() {
 	if [[ -n "$1" ]]; then
@@ -14,3 +17,5 @@ gifify() {
 		echo "proper usage: gifify <input_movie.mov>. You DO need to include extension."
 	fi
 }
+
+# vim: set ts=2 sw=2 tw=80 noet :

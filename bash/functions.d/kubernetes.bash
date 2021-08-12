@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # Kubernetes helpers
+# https://github.com/rafi/.config
 # ---
 # Formatting output: https://kubernetes.io/docs/reference/kubectl/overview/#formatting-output
 # JSONPath support: https://kubernetes.io/docs/reference/kubectl/jsonpath/
@@ -39,9 +40,12 @@ kobjevents() {
 	kubectl get event \
 		--field-selector "involvedObject.name=${obj}" \
 		--sort-by=.metadata.creationTimestamp "$@"
+# involvedObject.kind=Pod,
+#  --sort-by='.lastTimestamp'
 }
 
 # Show human-readble init/containers status for specific Pod
+# shellcheck disable=2154
 alias kcontainerstatus='kubectl get pod -o go-template --template='"'"'Pod: {{.metadata.name}}{{"\n"}}---{{"\n"}}Containers:{{"\n"}}{{range .status.containerStatuses}}  {{.name}} {{range $key, $state := .state}}  {{$key}}{{if $state.reason}}/{{$state.reason}}{{end}}{{if $state.exitCode}}/{{$state.exitCode}}{{end}}{{end}}{{if lt 0 .restartCount}}  ({{.restartCount}} restarts){{end}}{{"\n"}}{{end}}{{if .status.initContainerStatuses }}Init containers:{{"\n"}}{{range .status.initContainerStatuses}}  {{.name}} {{range $key, $state := .state}}  {{$key}}{{if $state.reason}}/{{$state.reason}}{{end}}{{if $state.exitCode}}/{{$state.exitCode}}{{end}}{{end}}{{if lt 0 .restartCount}}  ({{.restartCount}} restarts){{end}}{{"\n"}}{{end}}{{end}}'"'"
 
 # Use https://github.com/cykerway/complete-alias for bash alias completion
@@ -62,6 +66,23 @@ kstats() {
 
 	join -a1 -a2 -o 0,1.2,1.3,2.2,2.3,2.4,2.5, -e '<none>' \
 		<(echo "$top") <(echo "$pods") | column -t -s' '
+}
+
+# Live tail with fzf and exec into selected
+# shellcheck disable=2016
+ktail() {
+	read -ra tokens < <(
+		kubectl get pods --all-namespaces |
+			fzf --info=inline --layout=reverse --header-lines=1 --border \
+					--prompt "$(kubectl config current-context | sed 's/-context$//')> " \
+					--header $'Press CTRL-O to open log in editor\n\n' \
+					--bind ctrl-/:toggle-preview \
+					--bind 'ctrl-o:execute:${EDITOR:-vim} <(kubectl logs --namespace {1} {2}) > /dev/tty' \
+					--preview-window down,follow \
+					--preview 'kubectl logs -f --tail=100 --namespace {1} {2}' "$@"
+	)
+	[ ${#tokens} -gt 1 ] &&
+		kubectl exec -it --namespace "${tokens[0]}" "${tokens[1]}" -- bash
 }
 
 #  vim: set ft=sh ts=2 sw=2 tw=80 noet :

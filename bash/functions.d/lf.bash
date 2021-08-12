@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
-#
+
+# lf symbols
+# https://github.com/rafi/.config
+# ---
 # See https://github.com/gokcehan/lf
 
-if hash lf 2>/dev/null
-then
-	# lf symbols
+if hash lf 2>/dev/null; then
 	export LF_ICONS="\
 di=:\
 fi=:\

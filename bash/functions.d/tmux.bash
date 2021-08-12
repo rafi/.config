@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-# See also ./ssh for tmux+ssh functions
+# tmux functions
+# https://github.com/rafi/.config
 
 # tm - Create and attach new tmux session, or switch to existing one.
 # `tm` will allow you to select your tmux session via fzf.
 # `tm irc` will attach to the edit session if it exists, or create it
-
 tm() {
 	[[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
 	if [ -n "$1" ]; then
@@ -25,3 +25,5 @@ _tm() {
 }
 
 complete -o filenames -o nospace -F _tm tm
+
+# vim: set ts=2 sw=2 tw=80 noet :
