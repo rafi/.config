@@ -90,6 +90,7 @@ yabai -m rule --add app='^Messages$'        space=3
 yabai -m rule --add app='^Telegram$'        space=3
 yabai -m rule --add app='^Spotify$'         space=4
 yabai -m rule --add app='^Music$'           space=4
+yabai -m rule --add app='^zoom.us$'         space=5
 
 yabai -m signal --add event=application_launched app='^Alacritty$' \
 	action="yabai -m space --focus 1"
@@ -99,26 +100,31 @@ yabai -m signal --add event=application_launched app='^(Slack|Messages|Telegram)
 	action="yabai -m space --focus 3"
 yabai -m signal --add event=application_launched app='^(Spotify|Music)$' \
 	action="yabai -m space --focus 4"
+yabai -m signal --add event=application_launched app='^zoom.us$' \
+	action="yabai -m space --focus 5"
 
 # Unmanaged floats
-yabai -m rule --add title='^Preferences$'         manage=off layer=above border=off
+yabai -m rule --add title='Preferences$'          manage=off layer=above border=off
 yabai -m rule --add title='^Software Update$'     manage=off layer=above border=off
 yabai -m rule --add title='Updating '             manage=off layer=above border=off
-yabai -m rule --add app='Finder$'                 manage=off layer=above border=off
-yabai -m rule --add app='Activity Monitor$'       manage=off layer=above border=off
-yabai -m rule --add app='^Installer$'             manage=off layer=above border=off
+yabai -m rule --add title='^Slack \| mini panel$' manage=off layer=above border=off
 yabai -m rule --add app='^System Preferences$'    manage=off layer=above border=off
+yabai -m rule --add app='Finder$'                 manage=off layer=above border=off
+yabai -m rule --add app='^Installer$'             manage=off layer=above border=off
 yabai -m rule --add app='^EndpointConnect$'       manage=off layer=above border=off
-yabai -m rule --add app='^Contexts$'              manage=off layer=above border=off
 yabai -m rule --add app='^Activity Monitor$'      manage=off layer=above border=off
-yabai -m rule --add app='^Pixelmator$'            manage=off layer=above border=off
+yabai -m rule --add app='^Around$'                manage=off layer=above border=off
+yabai -m rule --add app='^Pixelmator'             manage=off border=off
+yabai -m rule --add app='^Contexts$'              manage=off border=off
 yabai -m rule --add app='^Beyond Compare$'        manage=off border=off
 yabai -m rule --add app='^Photo Mechanic Plus$'   manage=off border=off
 yabai -m rule --add app='^ColorSlurp$'            manage=off border=off
+yabai -m rule --add app='^Karabiner-Elements$'    manage=off border=off
+yabai -m rule --add app='^Telegram$' title='^$'   manage=off layer=above border=off
 yabai -m rule --add app='^zoom.us$'               border=off
-yabai -m rule --add title='^Slack \| mini panel$' manage=off layer=above border=off
 
 yabai -m rule --add app='^iTerm2$' title='^Preferences$' manage=off layer=above border=off
+yabai -m rule --add app='^Microsoft AutoUpdate$' manage=off layer=above border=off
 yabai -m rule --add app='^Microsoft Outlook' title=' Reminder$' manage=off layer=above border=off
 yabai -m rule --add app='^Microsoft Outlook' border=off
 
@@ -130,6 +136,7 @@ yabai -m rule --add app='^Preview$'          manage=off layer=above grid=1:2:1:0
 yabai -m rule --add app='^Dash$'             manage=off layer=above grid=1:2:1:0:1:1
 yabai -m rule --add app='^Docker$'           manage=off layer=above border=off
 yabai -m rule --add app='^Docker Desktop$'   manage=off layer=above border=off grid=4:4:1:1:2:2
+yabai -m rule --add app='^Dozer$'            manage=off layer=above border=off
 yabai -m rule --add app='^TablePlus$'        manage=off layer=above
 yabai -m rule --add app='^App Store$'        manage=off grid=24:24:1:1:22:22
 yabai -m rule --add app='^Transmission$'     manage=off grid=4:4:1:1:2:2
