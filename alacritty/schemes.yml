@@ -1,0 +1,106 @@
+---
+
+schemes:
+
+  # ------------------------------
+  rafi: &rafi
+    cursor:
+      text: '0x000000'
+      cursor: '0xEF4CDB'
+      # cursor: '0xCA24AC'
+      # cursor: '0x4cef51'
+
+    vi_mode_cursor:
+      text: '#000000'
+      cursor: '#4cef51'
+
+    primary:
+      background: '0x232323'
+      foreground: '0xA0A0A0'
+
+    selection:
+      text: '0xeaeaea'
+      background: '0x404040'
+
+    normal:
+      black:   '0x2A2A2A'
+      red:     '0xD370A3'
+      green:   '0x6D9E3F'
+      yellow:  '0xB58858'
+      blue:    '0x6095C5'
+      magenta: '0xAC7BDE'
+      cyan:    '0x3BA275'
+      white:   '0xFFFFFF'
+
+    bright:
+      black:   '0x686868'
+      red:     '0xFFA7DA'
+      green:   '0xA3D572'
+      yellow:  '0xEFBD8B'
+      blue:    '0x98CBFE'
+      magenta: '0xE5B0FF'
+      cyan:    '0x75DAA9'
+      white:   '0xCFCFCF'
+
+  # ------------------------------
+  hybrid: &hybrid
+    cursor:
+      text: '0x000000'
+      cursor: '0x4cef51'
+
+    primary:
+      background: '0x27292c'
+      foreground: '0xd0d2d1'
+
+    normal:
+      black:   '0x35383b'
+      red:     '0xb05655'
+      green:   '0x769972'
+      yellow:  '0xe1a574'
+      blue:    '0x7693ac'
+      magenta: '0x977ba0'
+      cyan:    '0x749e99'
+      white:   '0x848b92'
+
+    bright:
+      black:   '0x484c52'
+      red:     '0xd27c7b'
+      green:   '0xdffebe'
+      yellow:  '0xf0d189'
+      blue:    '0x96b1c9'
+      magenta: '0xbfa5c7'
+      cyan:    '0x9fc9c3'
+      white:   '0xfcf7e2'
+
+  # Colors (Gruvbox light)
+  gruvbox_light: &gruvbox_light
+    # Default colors
+    primary:
+      # hard contrast: background = '#f9f5d7'
+      background: '#fbf1c7'
+      # soft contrast: background = '#f2e5bc'
+      foreground: '#3c3836'
+
+    # Normal colors
+    normal:
+      black:   '#fbf1c7'
+      red:     '#cc241d'
+      green:   '#98971a'
+      yellow:  '#d79921'
+      blue:    '#458588'
+      magenta: '#b16286'
+      cyan:    '#689d6a'
+      white:   '#7c6f64'
+
+    # Bright colors
+    bright:
+      black:   '#928374'
+      red:     '#9d0006'
+      green:   '#79740e'
+      yellow:  '#b57614'
+      blue:    '#076678'
+      magenta: '#8f3f71'
+      cyan:    '#427b58'
+      white:   '#3c3836'
+
+colors: *rafi

@@ -1,0 +1,94 @@
+---
+
+# See https://github.com/emacs-mirror/emacs/blob/master/lisp/term/xterm.el
+#                                           Example:  u  = unicode
+#                                                     74 = decimal shift+a
+#                                                     5  = ctrl mod bit
+key_bindings:
+  - { key: Return,     mods: Shift,         chars: "\x1b[13;2u" }
+  - { key: Return,     mods: Control,       chars: "\x1b[13;5u" }
+  - { key: Return,     mods: Control|Shift, chars: "\x1b[13;6u" }
+  # - { key: Return,     mods: Control|Shift, chars: "\x1b[27;6;13~" }
+  - { key: Apostrophe, mods: Control,       chars: "\x1b[39;5u" }
+  - { key: Slash,      mods: Control,       chars: "\x1b[47;5u" }
+  - { key: Slash,      mods: Control|Shift, chars: "\x1b[57;5;63~" }
+  - { key: Semicolon,  mods: Control,       chars: "\x1b[58;6u" }
+
+  - { key: I,          mods: Control,       chars: "\x1b[27;5;105~" }
+  - { key: Tab,        mods: Control,       chars: "\x1b[27;5;9~" }
+  - { key: Tab,        mods: Control|Shift, chars: "\x1b[27;6;9~" }
+
+  - { key: Key6,       mods: Control,       chars: "\x1e" }
+  # - { key: Key6,       mods: Control, chars: "\x1b[94;5u" }
+
+  # - { key: Key0,     mods: Command, action: ResetFontSize    }
+  # - { key: Equals,   mods: Command, action: IncreaseFontSize }
+  # - { key: Minus,    mods: Command, action: DecreaseFontSize }
+
+  - { key: J,        mods: Control|Shift, chars: "\x1b[74;5u" }
+  - { key: K,        mods: Control|Shift, chars: "\x1b[75;5u" }
+  # - { key: W,        mods: Control|Shift, chars:  "\x1b[27;6;87~" }
+  # - { key: S,        mods: Control|Shift, chars:  "\x1b[27;6;83~" }
+  # - { key: V,        mods: Control|Shift, chars:  "\x1b[27;6;86~" }
+  # - { key: J,        mods: Control|Shift, chars:  "\x1b[27;6;74~" }
+  # - { key: K,        mods: Control|Shift, chars:  "\x1b[27;6;75~" }
+  # - { key: H,        mods: Control|Shift, chars:  "\x1b[27;6;72~" }
+  # - { key: L,        mods: Control|Shift, chars:  "\x1b[27;6;76~" }
+
+  - { key: H,        mods: Command, chars: "\x1bh" }
+  - { key: J,        mods: Command, chars: "\x1bj" }
+  - { key: K,        mods: Command, chars: "\x1bk" }
+  - { key: L,        mods: Command, chars: "\x1bl" }
+
+  # - { key: Left,     mods: Command, chars: "\x1b[1;3D" }
+  # - { key: Right,    mods: Command, chars: "\x1b[1;3C" }
+  - { key: Comma,    mods: Command, chars: "\x1b," }
+  - { key: Period,   mods: Command, chars: "\x1b." }
+  - { key: Comma,    mods: Command|Shift, chars: "\x1b<" }
+  - { key: Period,   mods: Command|Shift, chars: "\x1b>" }
+  - { key: LBracket, mods: Command, chars: "\x1b[" }
+  - { key: RBracket, mods: Command, chars: "\x1b]" }
+  - { key: LBracket, mods: Command|Shift, chars: "\x1b{" }
+  - { key: RBracket, mods: Command|Shift, chars: "\x1b}" }
+  # - { key: LBracket, mods: Shift|Option, chars: "\x7b" }
+  # - { key: RBracket, mods: Shift|Option, chars: "\x7d" }
+
+  # - { key: Back,        mods: Alt,             chars: "\x1b\x7f" }
+
+  # - { key: C,           mods: Alt,             chars: "\x1Bc" }
+  # - { key: C,           mods: Alt|Shift,       chars: "\x1BC" }
+
+  # - { key: End,                     chars: "\x1b[F",   mode: ~AppCursor  }
+  # - { key: PageUp,   mods: Shift,   chars: "\x1b[5;2~"                   }
+  # - { key: PageUp,   mods: Control, chars: "\x1b[5;5~"                   }
+  # - { key: PageUp,                  chars: "\x1b[5~"                     }
+  # - { key: PageDown, mods: Shift,   chars: "\x1b[6;2~"                   }
+  # - { key: PageDown, mods: Control, chars: "\x1b[6;5~"                   }
+  # - { key: PageDown,                chars: "\x1b[6~"                     }
+  # - { key: Tab,      mods: Shift,   chars: "\x1b[Z"                      }
+  # - { key: Back,                    chars: "\x7f"                        }
+  # - { key: Back,     mods: Alt,     chars: "\x1b\x7f"                    }
+  # - { key: Insert,                  chars: "\x1b[2~"                     }
+  # - { key: Delete,                  chars: "\x1b[3~"                     }
+  # - { key: Left,     mods: Shift,   chars: "\x1b[1;2D"                   }
+  # - { key: Left,     mods: Control, chars: "\x1b[1;5D"                   }
+  # - { key: Left,     mods: Alt,     chars: "\x1b[1;3D"                   }
+  # - { key: Left,                    chars: "\x1b[D",   mode: ~AppCursor  }
+  # - { key: Left,                    chars: "\x1bOD",   mode: AppCursor   }
+  # - { key: Right,    mods: Shift,   chars: "\x1b[1;2C"                   }
+  # - { key: Right,    mods: Control, chars: "\x1b[1;5C"                   }
+  # - { key: Right,    mods: Alt,     chars: "\x1b[1;3C"                   }
+  # - { key: Right,                   chars: "\x1b[C",   mode: ~AppCursor  }
+  # - { key: Right,                   chars: "\x1bOC",   mode: AppCursor   }
+  # - { key: Up,       mods: Shift,   chars: "\x1b[1;2A"                   }
+  # - { key: Up,       mods: Control, chars: "\x1b[1;5A"                   }
+  # - { key: Up,       mods: Alt,     chars: "\x1b[1;3A"                   }
+  # - { key: Up,                      chars: "\x1b[A",   mode: ~AppCursor  }
+  # - { key: Up,                      chars: "\x1bOA",   mode: AppCursor   }
+  # - { key: Down,     mods: Shift,   chars: "\x1b[1;2B"                   }
+  # - { key: Down,     mods: Control, chars: "\x1b[1;5B"                   }
+  # - { key: Down,     mods: Alt,     chars: "\x1b[1;3B"                   }
+  # - { key: Down,                    chars: "\x1b[B",   mode: ~AppCursor  }
+  # - { key: Down,                    chars: "\x1bOB",   mode: AppCursor   }
+  # - { key: F1,                      chars: "\x1bOP"                      }
+  # - { key: F2,                      chars: "\x1bOQ"                      }

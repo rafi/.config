@@ -3,6 +3,10 @@
 # ---
 # See: https://github.com/alacritty/alacritty/blob/master/alacritty.yml
 
+import:
+  - ~/.config/alacritty/schemes.yml
+  - ~/.config/alacritty/bindings.yml
+
 shell:
   program: /usr/local/bin/bash
   args:
@@ -11,12 +15,8 @@ shell:
 env:
   LC_ALL: en_US.UTF-8
   LANG: en_US.UTF-8
-
-# ======================================================
-# LOOK 'N FEEL
-# ------------------------------------------------------
-#
-live_config_reload: false
+  # Set to 'alacritty' automatically if terminfo exists
+  # TERM: alacritty
 
 window:
   decorations: none
@@ -24,16 +24,14 @@ window:
 
 font:
   # glyph_offset: { x: 0, y: -1 }
-  use_thin_strokes: false
-  size: 19
+  use_thin_strokes: true
+  size: 21
   normal: { family: PragmataPro Liga, style: Regular }
   bold:   { family: PragmataPro Liga, style: Regular }
   italic: { family: PragmataPro Liga, style: Regular }
-  # size: 15
-  # normal: { family: JetBrains Mono, style: Regular }
-  # bold:   { family: JetBrains Mono, style: Bold }
-  # italic: { family: JetBrains Mono, style: Italic }
-  # size: 18
+  # normal: { family: PragmataPro Mono, style: Regular }
+  # bold:   { family: PragmataPro Mono, style: Regular }
+  # italic: { family: PragmataPro Mono, style: Regular }
   # normal: { family: Iosevka Nerd Font, style: Light }
   # bold:   { family: Iosevka Nerd Font, style: Regular }
   # italic: { family: Iosevka Nerd Font, style: Italic }
@@ -45,171 +43,31 @@ cursor:
   vi_mode_style: Beam
   thickness: 0.25
 
-# ======================================================
-# KEYBOARD & MOUSE
-# ------------------------------------------------------
-
 selection:
   save_to_clipboard: true
 
 mouse:
-  hide_when_typing: false
+  hide_when_typing: true
 
-alt_send_esc: false
-
-key_bindings:
-  # - { key: Space,      mods: Control, chars: "\x00" }
-  # - { key: L,          mods: Control, chars: "\x0c" }
-  - { key: Return,     mods: Shift,   chars: "\x1b[13;2u" }
-  - { key: Return,     mods: Control, chars: "\x1b[13;5u" }
-  - { key: Apostrophe, mods: Control, chars: "\x1b[27;5;39~" }
-  - { key: Slash,      mods: Control|Shift, chars: "\x1b[27;5;63~" }
-  - { key: Slash,      mods: Control, chars: "\x1b[27;5;63~" }
-  # - { key: Semicolon,  mods: Control, chars: "\x1b[59;5u" }
-  - { key: I,          mods: Control, chars: "\x1b[27;5;105~" }
-  - { key: Tab,        mods: Control, chars: "\x1b[27;5;9~" }
-  - { key: Tab,        mods: Control|Shift, chars: "\x1b[27;6;9~" }
-  - { key: Key6,       mods: Control, chars: "\x1e" }
-    # - { key: Key6,       mods: Control, chars: "\x1b[94;5u" }
-
-  # - { key: Key0,     mods: Command, action: ResetFontSize    }
-  # - { key: Equals,   mods: Command, action: IncreaseFontSize }
-  # - { key: Minus,    mods: Command, action: DecreaseFontSize }
-
-  - { key: H,        mods: Command, chars: "\x1bh" }
-  - { key: J,        mods: Command, chars: "\x1bj" }
-  - { key: K,        mods: Command, chars: "\x1bk" }
-  - { key: L,        mods: Command, chars: "\x1bl" }
-
-  # - { key: Left,     mods: Command, chars: "\x1b[1;3D" }
-  # - { key: Right,    mods: Command, chars: "\x1b[1;3C" }
-  - { key: Comma,    mods: Command, chars: "\x1b," }
-  - { key: Period,   mods: Command, chars: "\x1b." }
-  - { key: Comma,    mods: Command|Shift, chars: "\x1b<" }
-  - { key: Period,   mods: Command|Shift, chars: "\x1b>" }
-  - { key: LBracket, mods: Command, chars: "\x1b[" }
-  - { key: RBracket, mods: Command, chars: "\x1b]" }
-  - { key: LBracket, mods: Command|Shift, chars: "\x1b{" }
-  - { key: RBracket, mods: Command|Shift, chars: "\x1b}" }
-  # - { key: LBracket, mods: Shift|Option, chars: "\x7b" }
-  # - { key: RBracket, mods: Shift|Option, chars: "\x7d" }
-
-  - { key: Back,        mods: Alt,             chars: "\x1b\x7f" }
-
-  - { key: C,           mods: Alt,             chars: "\x1Bc" }
-  - { key: C,           mods: Alt|Shift,       chars: "\x1BC" }
-
-  # - { key: End,                     chars: "\x1b[F",   mode: ~AppCursor  }
-  # - { key: PageUp,   mods: Shift,   chars: "\x1b[5;2~"                   }
-  # - { key: PageUp,   mods: Control, chars: "\x1b[5;5~"                   }
-  # - { key: PageUp,                  chars: "\x1b[5~"                     }
-  # - { key: PageDown, mods: Shift,   chars: "\x1b[6;2~"                   }
-  # - { key: PageDown, mods: Control, chars: "\x1b[6;5~"                   }
-  # - { key: PageDown,                chars: "\x1b[6~"                     }
-  # - { key: Tab,      mods: Shift,   chars: "\x1b[Z"                      }
-  # - { key: Back,                    chars: "\x7f"                        }
-  # - { key: Back,     mods: Alt,     chars: "\x1b\x7f"                    }
-  # - { key: Insert,                  chars: "\x1b[2~"                     }
-  # - { key: Delete,                  chars: "\x1b[3~"                     }
-  # - { key: Left,     mods: Shift,   chars: "\x1b[1;2D"                   }
-  # - { key: Left,     mods: Control, chars: "\x1b[1;5D"                   }
-  # - { key: Left,     mods: Alt,     chars: "\x1b[1;3D"                   }
-  # - { key: Left,                    chars: "\x1b[D",   mode: ~AppCursor  }
-  # - { key: Left,                    chars: "\x1bOD",   mode: AppCursor   }
-  # - { key: Right,    mods: Shift,   chars: "\x1b[1;2C"                   }
-  # - { key: Right,    mods: Control, chars: "\x1b[1;5C"                   }
-  # - { key: Right,    mods: Alt,     chars: "\x1b[1;3C"                   }
-  # - { key: Right,                   chars: "\x1b[C",   mode: ~AppCursor  }
-  # - { key: Right,                   chars: "\x1bOC",   mode: AppCursor   }
-  # - { key: Up,       mods: Shift,   chars: "\x1b[1;2A"                   }
-  # - { key: Up,       mods: Control, chars: "\x1b[1;5A"                   }
-  # - { key: Up,       mods: Alt,     chars: "\x1b[1;3A"                   }
-  # - { key: Up,                      chars: "\x1b[A",   mode: ~AppCursor  }
-  # - { key: Up,                      chars: "\x1bOA",   mode: AppCursor   }
-  # - { key: Down,     mods: Shift,   chars: "\x1b[1;2B"                   }
-  # - { key: Down,     mods: Control, chars: "\x1b[1;5B"                   }
-  # - { key: Down,     mods: Alt,     chars: "\x1b[1;3B"                   }
-  # - { key: Down,                    chars: "\x1b[B",   mode: ~AppCursor  }
-  # - { key: Down,                    chars: "\x1bOB",   mode: AppCursor   }
-  # - { key: F1,                      chars: "\x1bOP"                      }
-  # - { key: F2,                      chars: "\x1bOQ"                      }
-
-# ======================================================
-# COLORSCHEMES
-# ------------------------------------------------------
-
+live_config_reload: false
 draw_bold_text_with_bright_colors: true
+alt_send_esc: true
 
-schemes:
+# Regex hints
+hints:
+  # Keys used for the hint labels.
+  alphabet: "jfkdls;ahgurieowpq"
 
-  # ------------------------------
-  rafi: &rafi
-    cursor:
-      text: '0x000000'
-      cursor: '0x4cef51'
-
-    vi_mode_cursor:
-      text: '#000000'
-      cursor: '#4cef51'
-
-    primary:
-      background: '0x232323'
-      foreground: '0xA0A0A0'
-
-    selection:
-      text: '0xeaeaea'
-      background: '0x404040'
-
-    normal:
-      black:   '0x2A2A2A'
-      red:     '0xD370A3'
-      green:   '0x6D9E3F'
-      yellow:  '0xB58858'
-      blue:    '0x6095C5'
-      magenta: '0xAC7BDE'
-      cyan:    '0x3BA275'
-      white:   '0xFFFFFF'
-
-    bright:
-      black:   '0x686868'
-      red:     '0xFFA7DA'
-      green:   '0xA3D572'
-      yellow:  '0xEFBD8B'
-      blue:    '0x98CBFE'
-      magenta: '0xE5B0FF'
-      cyan:    '0x75DAA9'
-      white:   '0xCFCFCF'
-
-  # ------------------------------
-  hybrid: &hybrid
-    cursor:
-      text: '0x000000'
-      cursor: '0x4cef51'
-
-    primary:
-      background: '0x27292c'
-      foreground: '0xd0d2d1'
-
-    normal:
-      black:   '0x35383b'
-      red:     '0xb05655'
-      green:   '0x769972'
-      yellow:  '0xe1a574'
-      blue:    '0x7693ac'
-      magenta: '0x977ba0'
-      cyan:    '0x749e99'
-      white:   '0x848b92'
-
-    bright:
-      black:   '0x484c52'
-      red:     '0xd27c7b'
-      green:   '0xdffebe'
-      yellow:  '0xf0d189'
-      blue:    '0x96b1c9'
-      magenta: '0xbfa5c7'
-      cyan:    '0x9fc9c3'
-      white:   '0xfcf7e2'
-
-colors: *rafi
+  # List with all available hints
+  #
+  # The fields `command`, `binding.key` and `binding.mods` accept the same
+  # values as they do in the `key_bindings` section.
+  #
+  # enabled:
+  #   - regex: 'https?://(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}'
+  #     command: open
+  #     binding:
+  #       key: G
+  #       mods: Control|Shift
 
 #  vim: set ts=2 sw=2 tw=80 et :
