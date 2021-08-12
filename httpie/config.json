@@ -1,8 +1,0 @@
-{
-    "__meta__": {
-        "about": "HTTPie configuration file",
-        "help": "https://httpie.org/doc#config",
-        "httpie": "1.0.3"
-    },
-    "default_options": []
-}
