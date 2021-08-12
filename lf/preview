@@ -3,6 +3,7 @@
 # github.com/rafi/.config
 # ---
 # exit with non-zero code to disable lf caching
+set -eu
 
 FILE="${1}"
 WIDTH="${2}"
@@ -55,7 +56,6 @@ function view_binary() {
 # bat/pygmentize/highlight/cat
 function view_sourcecode() {
 	local input="$(if read -t 0; then echo ${FILE}; else echo '-'; fi)"
-	echo $input
 
 	bat "${input}" --theme=TwoDark --color=always \
 			--paging=never --tabs=2 --wrap=auto \
@@ -117,8 +117,8 @@ function view_pdf() {
 			-singlefile \
 			-jpeg -tiffcompression jpeg \
 			-- "${FILE}")
-	else
-		pdftotext -l 10 -nopgbrk -q -- "${FILE}" -
+	# else
+	# 	pdftotext -l 10 -nopgbrk -q -- "${FILE}" -
 	fi
 	return $?
 }
@@ -133,6 +133,6 @@ function view_sqlite() {
 main
 
 # always disable lf caching
-exit 1
+# exit 1
 
 # vim: set ts=2 sw=2 tw=80 noet :

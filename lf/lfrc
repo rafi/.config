@@ -19,6 +19,11 @@ set ratios '1:2:3'
 set timefmt '2006-01-02 15:04:05 -0700'
 set previewer ~/.config/lf/preview
 
+set promptfmt "
+\033[38;5;8m\033[48;5;236m %u@%h \033[38;5;236m\033[48;5;234m
+\033[38;5;8m\033[48;5;234m %w/%f \033[0m\033[38;5;234m\033[0m
+"
+
 # Secure logs and socket
 # ${{
 # 	if [ -S "${TMPDIR:-/tmp/}lf.${USER}.sock" ]; then
@@ -179,20 +184,21 @@ cmd fzf_z ${{
 
 # dynamically set info displayed based on the number of columns
 cmd resize %{{
-	# w=$(tmux display-message -p '#{width}' || tput cols)
-	w=$(tput cols)
-	if [ $w -le 60 ]; then
-		lf -remote "send $id set ratios 1"
+	w=$(tmux display-message -p '#{pane_width}' || tput cols)
+	# w=$(tput cols)
+	if [ $w -le 62 ]; then
+		lf -remote "send $id set ratios 1:4"
 		lf -remote "send $id set nopreview"
 	elif [ $w -le 80 ]; then
-		lf -remote "send $id set ratios 2:2"
+		lf -remote "send $id set ratios 1:2:2"
 	elif [ $w -le 100 ]; then
 		lf -remote "send $id set ratios 1:2:3"
 	else
-		lf -remote "send $id set ratios 1:2:5"
+		lf -remote "send $id set ratios 2:4:5"
 	fi
-	lf -remote "send $id echo 'ui adjusted for width of $w'"
+	# lf -remote "send $id echo 'ui adjusted for width of $w'"
 }}
+resize
 
 # cmd on-cd &{{
 # 	fmt=$(starship prompt)
