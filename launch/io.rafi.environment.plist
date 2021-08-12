@@ -20,6 +20,7 @@
 			launchctl setenv PASSWORD_STORE_DIR $HOME/docs/pass/
 			launchctl setenv NPM_CONFIG_USERCONFIG $XDG_CONFIG_HOME/npm/npmrc
 			launchctl setenv FONTCONFIG_PATH /usr/local/etc/fonts
+			launchctl setenv TERMINFO $XDG_DATA_HOME/terminfo
 			launchctl setenv RANDFILE $HOME/.cache/randfile
 			launchctl setenv MPD_HOST music.host
 		</string>
