@@ -11,7 +11,7 @@
 # 	file="$(rga --max-count=1 --ignore-case --files-with-matches --no-messages "$@" | fzf-tmux +m --preview="rga --ignore-case --pretty --context 10 '"$@"' {}")" && open "$file"
 # }
 
-fif() {
+function fif() {
 	INITIAL_QUERY="$*"
 	RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
 	export FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY'"

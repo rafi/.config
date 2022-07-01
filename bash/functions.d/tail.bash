@@ -3,14 +3,14 @@
 # tail functions
 # https://github.com/rafi/.config
 
-tailgrep() {
+function tailgrep() {
 	Q="$2"
 	: "${Q:="ERROR"}"
 	ESC="$(printf '\033')"
 	tail -f "$1" | sed "s,$Q,$ESC\[1;31m&$ESC\[0m,g"
 }
 
-tailfzf() {
+function tailfzf() {
 	fzf --preview-window follow --preview 'tail -f {}'
 
 	# With "follow", preview window will automatically scroll to the bottom.

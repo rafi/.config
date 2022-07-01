@@ -3,7 +3,7 @@
 # Certificate functions
 # https://github.com/rafi/.config
 
-ssl-info() {
+function ssl-info() {
 	openssl s_client \
 			-servername "$1" \
 			-connect "$1":443 </dev/null 2>&1 \

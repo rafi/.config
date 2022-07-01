@@ -4,7 +4,7 @@
 # https://github.com/rafi/.config
 
 # Yank selected public key with fzf and pbcopy
-pubkey() {
+function pubkey() {
 	cert="$(find ~/.ssh -type f -name "*.pub" -printf "%P\n" | fzf)"
 	if [ -n "$cert" ]; then
 		pbcopy < "$HOME/.ssh/$cert"
@@ -13,7 +13,7 @@ pubkey() {
 }
 
 # Super SSH: safe terminfo, persist user name, tmux window name
-ssh() {
+function ssh() {
 	# Use safest terminfo on remote server
 	if [ -n "$TMUX" ]; then
 		TERM=screen-256color
@@ -31,7 +31,7 @@ ssh() {
 }
 
 # Immediately attach/start a tmux session on remote server
-ssht() {
+function ssht() {
 	ssh "$*" -t '
 		PATH="$HOME/.local/bin:$HOME/bin:$PATH";
 		tmux attach 2>/dev/null || tmux -S $HOME/tmux attach || tmux || /bin/bash'

@@ -6,7 +6,7 @@
 # tm - Create and attach new tmux session, or switch to existing one.
 # `tm` will allow you to select your tmux session via fzf.
 # `tm irc` will attach to the edit session if it exists, or create it
-tm() {
+function tm() {
 	[[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
 	if [ -n "$1" ]; then
 		tmux "$change" -t "$1" 2>/dev/null || \
@@ -18,7 +18,7 @@ tm() {
 	fi
 }
 
-_tm() {
+function _tm() {
 	TMUX_SESSIONS=$(tmux ls -F '#S' | xargs)
 	local cur=${COMP_WORDS[COMP_CWORD]}
 	COMPREPLY=( $(compgen -W "$TMUX_SESSIONS" -- $cur) )

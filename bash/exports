@@ -60,13 +60,11 @@ export EDITOR
 export VISUAL="$EDITOR"
 
 export PAGER=less
-export LESS="-FiQMXR"
+export LESS="-FiQMXRwJ --incsearch --status-col-width 1"
 export LESSCHARSET="UTF-8"
 
 # Forces QT to use GTK icons
 export DESKTOP_SESSION=gnome
-# https://github.com/zealdocs/zeal/issues/172
-export QT_QPA_PLATFORMTHEME=gnome
 
 # Pull GTK2 RC files from the standard config location, similar to gtk-3.0
 [ -e /etc/gtk-2.0 ] && export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
@@ -100,13 +98,14 @@ export MPDCRON_DIR="$XDG_CONFIG_HOME/mpdcron"
 export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
 export MAD_CONFIG="$XDG_CONFIG_HOME/mad/config"
 export WEGORC="$XDG_CONFIG_HOME/wego/config"
-export MEMO_HOME="$HOME/docs/blog/"
+export MEMO_HOME="$HOME/docs/blog"
 export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
 export LESSKEY="$XDG_CONFIG_HOME/lesskey/output"
 export WAKATIME_HOME="$XDG_DATA_HOME/wakatime"
 export COINTOP_CONFIG="$XDG_CONFIG_HOME/cointop/config.toml"
 export BABEL_CACHE_PATH="$XDG_CACHE_HOME/babel.json"
+export ZK_NOTEBOOK_DIR="$HOME/docs/blog/.zk/config.toml"
 export _Z_DATA="$XDG_CACHE_HOME/z/data"
 export _ZL_DATA="$_Z_DATA"
 export _ZO_DATA_DIR="$XDG_CACHE_HOME/zoxide"
@@ -156,8 +155,8 @@ fi
 export PYTHONHISTORY="$XDG_CACHE_HOME/python_history"
 # Pyenv paths
 export PYENV_ROOT="${XDG_DATA_HOME}/python/pyenv"
-PATH="${PYENV_ROOT}/bin:${PATH}"
-eval "$(pyenv init --path)"
+PATH="${PYENV_ROOT}/shims:${PATH}"
+# eval "$(pyenv init --path)"
 # Disable virtualenv's prompt display
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 # Python utilities
@@ -168,7 +167,13 @@ export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython
 export WORKON_HOME="$XDG_DATA_HOME/python/envs"
 export POETRY_VIRTUALENVS_PATH="$WORKON_HOME"
 export PIPSI_HOME="$WORKON_HOME"
-export PIPX_HOME="$WORKON_HOME"
+
+# https://github.com/pypa/pipx
+if hash pipx 2>/dev/null; then
+	export PIPX_HOME="$XDG_DATA_HOME/python/pipx"
+	export PIPX_BIN_DIR="$XDG_DATA_HOME/python/pipx/bin"
+	PATH="${PIPX_BIN_DIR}:${PATH}"
+fi
 
 # PostgreSQL CLI utilities
 export PSQLRC="$XDG_CONFIG_HOME/psql/config"
@@ -190,10 +195,10 @@ if hash kubectl 2>/dev/null; then
 fi
 
 # Lua and Luarocks user config
-export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
-export LUA_PATH="$XDG_DATA_HOME/lua/5.3/share/lua/5.3/?.lua"
-export LUA_PATH="${LUA_PATH};${XDG_DATA_HOME}/lua/5.3/share/lua/5.3/?/init.lua;;"
-export LUA_CPATH="$XDG_DATA_HOME/lua/5.3/lib/lua/5.3/?.so;;"
+# export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
+# export LUA_PATH="$XDG_DATA_HOME/lua/5.3/share/lua/5.3/?.lua"
+# export LUA_PATH="${LUA_PATH};${XDG_DATA_HOME}/lua/5.3/share/lua/5.3/?/init.lua;;"
+# export LUA_CPATH="$XDG_DATA_HOME/lua/5.3/lib/lua/5.3/?.so;;"
 
 # Go configuration
 if hash go 2>/dev/null; then
@@ -206,6 +211,13 @@ if hash npm 2>/dev/null; then
 	export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
 	export N_PREFIX="${XDG_DATA_HOME}/nodejs"
 	PATH="${N_PREFIX}/bin:$PATH:${XDG_DATA_HOME}/npm/bin"
+fi
+
+# Node.js configuration
+if hash node 2>/dev/null; then
+	if [[ "$OSTYPE" == "darwin"* ]]; then
+		export NODE_EXTRA_CA_CERTS="$PREFIX"/etc/ca-certificates/cert.pem
+	fi
 fi
 
 # Rust Cargo configuration
@@ -256,6 +268,11 @@ if hash task 2>/dev/null
 then
 	export TASKRC="$XDG_CONFIG_HOME/task/config"
 	export TASKDATA="$XDG_DATA_HOME/task"
+fi
+
+# jk
+if hash jk 2>/dev/null; then
+	export JK_DIRS="$XDG_DATA_HOME/tldr:$HOME/docs/cheatsheets"
 fi
 
 # aria2c cli helper

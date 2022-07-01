@@ -4,7 +4,7 @@
 # https://github.com/rafi/.config
 
 # https://gist.github.com/SlexAxton/4989674
-gifify() {
+function gifify() {
 	if [[ -n "$1" ]]; then
 		if [[ $2 == '--good' ]]; then
 			ffmpeg -i "$1" -r 10 -vcodec png out-static-%05d.png

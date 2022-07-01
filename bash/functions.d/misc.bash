@@ -4,12 +4,12 @@
 # https://github.com/rafi/.config
 
 # Spellcheck with aspell
-spell() {
+function spell() {
 	echo "$@" | aspell -a | grep -Ev "^@|^$"
 }
 
 # Show active aria2 downloads with diana
-da() {
+function da() {
 	watch -ctn 3 "(echo '\033[32mGID\t\t Name\t\t\t\t\t\t\t%   Down   Size Speed    Up   S/L Time\033[36m'; \
 		diana list| cut -c -112; echo '\033[37m'; diana stats)"
 }

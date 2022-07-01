@@ -7,7 +7,7 @@
 #      https://github.com/junegunn/fzf
 
 # List of branches sorted by last commit date
-gbl() {
+function gbl() {
 	git branch -r "$@" | grep -v HEAD \
 		| xargs -n 1 git log --color=always --no-merges -n 1 \
 			--pretty="tformat:%C(yellow)%ci{%C(green)%ar{%C(blue)<%an>{%C(auto)%D%C(reset)" \
@@ -16,7 +16,7 @@ gbl() {
 
 # Checkout git branch/tag, with a preview showing the commits
 # between the tag/branch and HEAD
-gbs() {
+function gbs() {
 	local tags branches target
 	tags=$(git tag | awk '{print "\x1b[31;1mtag\x1b[m\t " $1}') || return
 	branches=$(git branch -vv --color=always --sort=-committerdate "$@" |
@@ -29,7 +29,7 @@ gbs() {
 }
 
 # git commit browser
-glf() {
+function glf() {
 	git log --graph --color=always \
 		--format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
 	fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
@@ -46,7 +46,7 @@ FZF-EOF"
 # enter shows you the contents of the stash
 # ctrl-d shows a diff of the stash against your current HEAD
 # ctrl-b checks the stash out as a branch, for easier merging
-gstash() {
+function gstash() {
 	local out q k sha
 	while out=$(
 		git stash list --pretty="%C(yellow)%h %>(14)%Cgreen%cr %C(blue)%gs" |
@@ -71,13 +71,11 @@ gstash() {
 }
 
 # Reclone a GitHub repository
-greclone() {
+function greclone() {
 	dir="$(basename "$PWD")"
 	[ -d "../${dir}.orig" ] && echo "${dir}.orig already exists" && exit 1
-	echo "dir: $dir"
-	repo="$1"
-	[ -n "$repo" ] || read -rp 'enter repo> ' repo
-	repo="git@github.com:${repo/.git/}.git"
+	repo="$(git remote get-url "$(git remote)")"
+	echo -e "dir: $dir\nrepo: $repo"
 	cd ..
 	mv "$dir" "${dir}.orig"
 	git clone --recursive "$repo" "$dir"

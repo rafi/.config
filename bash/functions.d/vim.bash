@@ -27,7 +27,7 @@ function vg() {
 				--bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
 				--delimiter : \
 				--preview 'bat --color=always {1} --highlight-line {2}' \
-				--preview-window 'up,60%,border-bottom,+{2}+3/3,~3'
+				--preview-window 'down,60%,border-bottom,+{2}+3/3,~3'
 	)
 	[ -n "${selected[0]}" ] && vim "${selected[0]}" "+${selected[1]}"
 }
@@ -44,6 +44,15 @@ function vs() {
 		| fzf --no-multi --no-sort \
 			--prompt='(Choose session):' --header=$'────────────\n\n' \
 		| xargs -I'{}' "$VIM" -S "$SESSIONS/{}.vim"
+}
+
+# Show all changed plugins in the last 24 hours
+function deinchanged() {
+	cd "$XDG_DATA_HOME"/nvim/dein/repos/github.com || exit
+	find . -not -path '*/\.git/*' -mtime -1 \
+		| grep -v '\.git' \
+		| awk -F'/' '{print $1"/"$2"/"$3}' \
+		| uniq
 }
 
 # vim: set ts=2 sw=2 tw=80 noet :

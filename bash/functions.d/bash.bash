@@ -5,11 +5,11 @@
 # ---
 # See: https://tiswww.case.edu/php/chet/bash/bashtop.html
 
-bashquote() {
+function bashquote() {
 	printf '%q\n' "$(cat)"
 }
 
-do5() {
+function do5() {
 	# shellcheck disable=2068
 	for _ in {1..5}; do $@; done
 }

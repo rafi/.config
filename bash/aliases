@@ -27,7 +27,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 # Listing directory contents
-# shellcheck disable=2139
+# shellcheck disable=2139,1003
 alias ls='LC_COLLATE=C \'${LSCMD}' --color=auto --group-directories-first'
 unset LSCMD
 alias l='ls -CFa'
@@ -148,21 +148,37 @@ alias gl='git lg -15'
 alias gll='git lg'
 alias gld='git lgd -15'
 
+## Git branches
+alias gball="git branch --sort=-committerdate --all --color=always --format \
+	'%(refname:short) %(if)%(upstream)%(then)-> %(upstream)%(end)'"
+gbf() { gball | fzf --ansi | awk '{print $1}'; }
+
 # Attach git aliases auto-completion
-if type __git_main &>/dev/null && type __git_complete &>/dev/null; then
-	__git_complete g __git_main
-	__git_complete gb _git_branch
-	__git_complete gc _git_checkout
-	__git_complete gc _git_checkout
-	__git_complete gd _git_diff
-	__git_complete gds _git_diff
-	__git_complete gf _git_fetch
-	__git_complete gfa _git_fetch
-	__git_complete gap _git_add
-	__git_complete gs _git_status
-	__git_complete gl _git_log
-	__git_complete gll _git_log
-	__git_complete gld _git_log
+if type __git_complete &>/dev/null; then
+	if type __git_main &>/dev/null; then
+		__git_complete g __git_main
+	fi
+	# __git_complete gb _git_branch
+	# __git_complete gc _git_checkout
+	# __git_complete gcb _git_checkout
+	# __git_complete gd _git_diff
+	# __git_complete gds _git_diff
+	# __git_complete gf _git_fetch
+	# __git_complete gfa _git_fetch
+	# __git_complete gl _git_log
+	# __git_complete gll _git_log
+	# __git_complete gld _git_log
+
+	complete -F _complete_alias gb
+	complete -F _complete_alias gc
+	complete -F _complete_alias gcb
+	complete -F _complete_alias gd
+	complete -F _complete_alias gds
+	complete -F _complete_alias gf
+	complete -F _complete_alias gfa
+	complete -F _complete_alias gl
+	complete -F _complete_alias gll
+	complete -F _complete_alias gld
 fi
 
 # }}}
@@ -197,14 +213,13 @@ fi
 
 # }}}
 # Kubernetes ----------------------------------------- k for kubernetes -- {{{
+# See more in functions.d/kubernetes.bash
 alias k=kubectl
 alias kc=kubectx
 alias kg='kubectl get'
+alias kgp='kubectl get pods'
 alias ke='kubectl edit'
 alias kr='kubectl run'
-alias kexec='kubectl fuzzy exec -APit --'
-alias kdescribe='kubectl fuzzy describe -AP'
-alias klog='kubectl fuzzy logs -AP'
 
 # Attach k alias to kubectl completion function
 if type __start_kubectl &>/dev/null; then
@@ -262,7 +277,6 @@ alias voldown='amixer set Master playback 3dB-'
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 alias ipinfo='curl -s ipinfo.io | jq .'
 alias weather='curl -s v2.wttr.in/Tel_Aviv'
-alias panic="curl -s https://corona-stats.online?format=json | jq '.data[] | select(.countryCode==\"IL\")'"
 alias ungzip='gzip -d'
 alias untar='tar xvf'
 alias ngrok-http='ngrok http --authtoken="$(pass tokens/ngrok)"'

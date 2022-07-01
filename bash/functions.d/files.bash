@@ -4,12 +4,12 @@
 # https://github.com/rafi/.config
 
 # Create and enter directory
-mk() {
+function mk() {
 	mkdir -p "$@" && cd "$1" || echo "Unable to cd into $1"
 }
 
 # Jump x directories up
-up() {
+function up() {
 	local path i
 	[ "$1" ] || set 1
 	for ((i = 0; i < $1; i++)); do
@@ -19,12 +19,12 @@ up() {
 }
 
 # diff-so-fancy with regular files
-dsf() {
+function dsf() {
 	diff -u "$1" "$2" | diff-so-fancy | less
 }
 
 # Show processes hogging files
-openedfiles() {
+function openedfiles() {
 	sysctl kern.maxfiles
 	sysctl kern.maxfilesperproc
 	sudo lsof -n +c 0 | cut -f1 -d' ' | uniq -c | sort | tail

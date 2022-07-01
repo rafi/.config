@@ -4,7 +4,7 @@
 # https://github.com/rafi/.config
 
 # show only requested dependencies from a shallow yarn list
-yarndeps() {
+function yarndeps() {
 	# preload installed dependencies, remove first and last lines
 	roster="$(yarn list --depth 0 2>/dev/null | awk '{print $2}' | sed '1d;$d')"
 	# match each dependency (from package.json) to the preloaded list
