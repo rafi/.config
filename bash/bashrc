@@ -48,12 +48,6 @@ source "$XDG_CONFIG_HOME/bash/utils"
 # Load symlink'ed prompt theme
 source "$XDG_CONFIG_HOME/bash/themes/current"
 
-# Load directory and file colors for GNU ls
-# eval "$(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")"
-
-LS_COLORS="$(vivid generate snazzy)"
-export LS_COLORS
-
 # Clean-up Apple's useless garbage
 [ -f .DS_Store ] && rm -f .DS_Store
 

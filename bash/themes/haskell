@@ -15,16 +15,22 @@
 
 function ps1_context {
 	local virtualenv
-	if [ -n "$VIRTUAL_ENV" ]; then
+	if [ ! -z "$VIRTUAL_ENV" ]; then
 		virtualenv="$(basename "$VIRTUAL_ENV")"
 		echo -n "${virtualenv:+${virtualenv}/}"
 	fi
 }
 
+LS_COLORS="$(vivid generate snazzy)"
+export LS_COLORS
+
+# Load directory and file colors for GNU ls
+# eval "$(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")"
+
 if [ -z "$SSH_CLIENT" ] && [ -z "$SSH_TTY" ]; then
 	# Local connections
-	PS1='\[\e[0;31m\]$(ps1_context)\[\e[0;34m\]${PWD##*/}/\[\e[1;90m\]$(__git_ps1 "%s") \[\e[0;32m\]λ\[\e[00m\]: '
+	PS1='\[\e[31m\]$(ps1_context)\[\e[34m\]${PWD##*/}/\[\e[90m\]$(__git_ps1 "%s") \[\e[32m\]λ\[\e[0m\]: '
 else
 	# Remote connections
-	PS1='\[\e[0;31m\]$(ps1_context)\[\e[0;33m\]\h\[\e[1;90m\]:\[\e[0;34m\]${PWD##*/}/\[\e[1;90m\]$(__git_ps1 "%s") \[\e[0;32m\]λ\[\e[00m\]: '
+	PS1='\[\e[31m\]$(ps1_context)\[\e[33m\]\h\[\e[90m\]:\[\e[34m\]${PWD##*/}/\[\e[90m\]$(__git_ps1 "%s") \[\e[32m\]λ\[\e[0m\]: '
 fi
