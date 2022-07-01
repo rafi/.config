@@ -10,6 +10,9 @@
 
 # shellcheck disable=1091
 
+export LC_ALL="en_US.UTF-8"
+export LANG="en_US.UTF-8"
+
 # XDG directories
 export XDG_CONFIG_HOME="$HOME/.config"
 export  XDG_CACHE_HOME="$HOME/.cache"
@@ -21,17 +24,17 @@ export   XDG_DATA_HOME="$HOME/.local/share"
 
 # macOS
 if [[ "$OSTYPE" == "darwin"* ]]; then
-	export PREFIX=/usr/local
+	# Intel binaries vs. ARM
+	PREFIX="/opt/homebrew"
+	[ ! -d "$PREFIX" ] && PREFIX="/usr/local"
+	export PREFIX
+
 	export BROWSER=open
 	export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc_osx
 	export XDG_RUNTIME_DIR="$XDG_CACHE_HOME/run"
 	[ -d "$XDG_RUNTIME_DIR" ] || mkdir -m 0700 "$XDG_RUNTIME_DIR"
 
-	PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin
-
-	# Python per user site-packages directory
-	# PATH="$PATH:$HOME/Library/Python/3.7/bin"
-	# PATH="$PATH:$HOME/Library/Python/2.7/bin"
+	PATH="$PREFIX"/bin:"$PREFIX"/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 
 # Linux
 else
@@ -39,10 +42,6 @@ else
 	export BROWSER=/usr/bin/google-chrome-stable
 	export XAUTHORITY="$XDG_CACHE_HOME/Xauthority"
 	export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc
-
-	# Python per user site-packages directory
-	# PATH="$PATH:$HOME/.local/lib/python3.7/bin"
-	# PATH="$PATH:$HOME/.local/lib/python2.7/bin"
 
 	# Set the systemd-style DBUS address
 	# export DBUS_SESSION_BUS_ADDRESS=unix:path=$XDG_RUNTIME_DIR/bus
@@ -145,9 +144,9 @@ export AWS_CONFIG_FILE="${HOME}/docs/aws/config"
 export AWS_SHARED_CREDENTIALS_FILE="${HOME}/docs/aws/credentials"
 
 # Google Cloud SDK
-if [ -d "/usr/local/Caskroom/google-cloud-sdk" ]; then
-	source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
-	source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
+if [ -d "$PREFIX/Caskroom/google-cloud-sdk" ]; then
+	source "$PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
+	source "$PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
 elif [ -d "${XDG_DATA_HOME}/google-cloud-sdk/bin" ]; then
 	PATH="${PATH}:${XDG_DATA_HOME}/google-cloud-sdk/bin"
 fi
