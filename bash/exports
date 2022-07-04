@@ -155,10 +155,7 @@ fi
 export PYTHONHISTORY="$XDG_CACHE_HOME/python_history"
 # Pyenv paths
 export PYENV_ROOT="${XDG_DATA_HOME}/python/pyenv"
-PATH="${PYENV_ROOT}/shims:${PATH}"
-# eval "$(pyenv init --path)"
 # Disable virtualenv's prompt display
-export VIRTUAL_ENV_DISABLE_PROMPT=1
 # Python utilities
 export PYLINTHOME="$XDG_CACHE_HOME/pylint"
 export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython

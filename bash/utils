@@ -53,7 +53,6 @@ fi
 # https://github.com/pyenv/pyenv
 # But don't overcast shims when inside an activated virtualenv sub-shell
 if [ -z "$VIRTUAL_ENV" ] && command -v pyenv 1>/dev/null 2>&1; then
-	export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 	eval "$(pyenv init -)"
 fi
 
