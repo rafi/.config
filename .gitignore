@@ -3,6 +3,7 @@
 *.cache
 *.py[co]
 
+/asciinema/
 /beets/state.pickle
 /bitlbee/purple/icons/
 /bitlbee/purple/rafi/accounts.xml
@@ -55,7 +56,6 @@
 /tox
 /vimb/*
 !/vimb/config
-/virtualbox
 /vlc
 /qutebrowser/quickmarks
 /zsh/.zcompdump

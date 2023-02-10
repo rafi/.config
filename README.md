@@ -18,6 +18,7 @@ The most interesting configs:
 - [git](./git/)
 - [i3](./i3/config)
 - [karabiner](./karabiner/)
+- [kitty](./kitty/)
 - [launch](./launch/)
 - [lf](./lf/)
 - [tmux](./tmux/)
@@ -40,7 +41,6 @@ git clone --recursive git@github.com:rafi/.config.git
 cd ~
 ln -s .config/bash/bashrc .bashrc
 ln -s .config/bash/profile .profile
-ln -s .config/tmux/config .tmux.conf
 
 # Create cache directories
 mkdir -p ~/.cache/{nvim,pacaur,proselint,xpanes,zoxide}
@@ -51,7 +51,7 @@ mkdir -p ~/.cache/node/{npm,gyp}
 # Create user local shared directories
 mkdir -p ~/.local/bin
 mkdir -p ~/.local/share/{cargo,composer,fonts,go,krew,lf,mailbox,mutt,neomutt}
-mkdir -p ~/.local/share/{newsbeuter,newsboat,nextword,tig,vagrant,virtualbox}
+mkdir -p ~/.local/share/{newsbeuter,newsboat,nextword,tig,vagrant}
 mkdir -p ~/.local/share/python/{envs,pyenv}
 ```
 
@@ -71,17 +71,16 @@ aliases in [bash/aliases](./bash/aliases).
 Some programs require special help to feed the proper config:
 
 ```sh
-alias cpan='cpan -j "$XDG_CONFIG_HOME"/cpan/config.pm'
-alias gcal='gcalcli --configFolder "$XDG_CONFIG_HOME"/gcalcli'
-alias mbsync='mbsync -c "$XDG_CONFIG_HOME"/isync/mbsyncrc'
-alias mysql='mysql --defaults-extra-file="$XDG_CONFIG_HOME"/mysql/config'
+alias mysql='mysql --defaults-extra-file="$XDG_CONFIG_HOME/mysql/config"'
 alias mutt='ESCDELAY=0 neomutt || mutt -F "$XDG_CONFIG_HOME"/mutt/config'
-alias ncmpc='ncmpc -f "$XDG_CONFIG_HOME"/ncmpc/config -k "$XDG_CONFIG_HOME"/ncmpc/keys'
-alias ncmpcpp='ncmpcpp -c "$XDG_CONFIG_HOME"/ncmpcpp/config'
-alias redshift='redshift -c "$XDG_CONFIG_HOME"/redshift/config'
-alias rtorrent='rtorrent -n -o import="$XDG_CONFIG_HOME"/rtorrent/config.rc'
-alias vercel='vercel --global-config="$XDG_CONFIG_HOME"/vercel'
-alias weechat='weechat --dir "$XDG_CONFIG_HOME"/weechat/'
+alias weechat='weechat --dir "$XDG_CONFIG_HOME/weechat/"'
+alias gdrive='gdrive -c "$XDG_CONFIG_HOME/gdrive"'
+alias cpan='cpan -j "$XDG_CONFIG_HOME/cpan/config.pm"'
+alias gcal='gcalcli --configFolder "$XDG_CONFIG_HOME/gcalcli"'
+alias redshift='redshift -c "$XDG_CONFIG_HOME/redshift/config"'
+alias rtorrent='rtorrent -n -o import="$XDG_CONFIG_HOME/rtorrent/config.rc"'
+alias vercel='vercel --global-config="$XDG_CONFIG_HOME/vercel"'
+alias mbsync='mbsync -c "$XDG_CONFIG_HOME/isync/mbsyncrc"'
 ```
 
 ## Protecting Secrets
