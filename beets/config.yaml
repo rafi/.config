@@ -7,10 +7,10 @@ import:
   move: yes
   timid: yes
 paths:
-  default: %the{$albumartist}/$year $album%aunique{}/$track $title
-  comp: _Compilations/$year $album%aunique{}/$track $title
-  albumtype:soundtrack: _Soundtracks/$year $album%aunique{}/$track $title
-  singleton: _Singles/%the{$albumartist} - $title
+  default: '%the{$albumartist}/$year $album%aunique{}/$track $title'
+  comp: '_Compilations/$year $album%aunique{}/$track $title'
+  albumtype:soundtrack: '_Soundtracks/$year $album%aunique{}/$track $title'
+  singleton: '_Singles/%the{$albumartist} - $title'
 match:
   preferred:
     countries: ['US', 'GB|UK']
