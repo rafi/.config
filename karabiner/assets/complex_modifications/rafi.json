@@ -1,0 +1,21 @@
+{
+  "title": "Rafi CapsLock",
+  "maintainers": ["Rafi"],
+  "homepage": "https://github.com/rafi/.config",
+  "rules": [
+    {
+      "description": "Caps_Lock to Escape (Alone) or Left_Shift",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "caps_lock",
+            "modifiers": { "optional": ["any"] }
+          },
+          "to": [{ "key_code": "left_shift" }],
+          "to_if_alone": [{ "key_code": "escape" }]
+        }
+      ]
+    }
+  ]
+}
