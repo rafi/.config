@@ -17,10 +17,12 @@ export LANG="en_US.UTF-8"
 export XDG_CONFIG_HOME="$HOME/.config"
 export  XDG_CACHE_HOME="$HOME/.cache"
 export   XDG_DATA_HOME="$HOME/.local/share"
+export  XDG_STATE_HOME="$HOME/.local/state"
 
 [ -d "$XDG_CONFIG_HOME" ] || mkdir -m 0750 "$XDG_CONFIG_HOME"
 [ -d "$XDG_CACHE_HOME" ]  || mkdir -m 0750 "$XDG_CACHE_HOME"
 [ -d "$XDG_DATA_HOME" ]   || mkdir -m 0750 "$XDG_DATA_HOME"
+[ -d "$XDG_STATE_HOME" ]  || mkdir -m 0750 "$XDG_STATE_HOME"
 
 # macOS
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -31,10 +33,11 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 
 	export BROWSER=open
 	export XINITRC="$XDG_CONFIG_HOME"/xorg/xinitrc_osx
-	export XDG_RUNTIME_DIR="$XDG_CACHE_HOME/run"
-	[ -d "$XDG_RUNTIME_DIR" ] || mkdir -m 0700 "$XDG_RUNTIME_DIR"
+	# export XDG_RUNTIME_DIR="$XDG_CACHE_HOME/run"
+	# [ -d "$XDG_RUNTIME_DIR" ] || mkdir -m 0700 "$XDG_RUNTIME_DIR"
 
-	PATH="$PREFIX"/bin:"$PREFIX"/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+	# Ensure Homebrew-provided packages are used instead of system's.
+	export PATH="$PREFIX/bin:$PREFIX/sbin:$PATH"
 
 # Linux
 else
@@ -59,18 +62,29 @@ fi
 export EDITOR
 export VISUAL="$EDITOR"
 
-export PAGER=less
-export LESS="-FiQMXRwJ --incsearch --status-col-width 1"
-export LESSCHARSET="UTF-8"
+# Secrets
+# ----
 
-# Forces QT to use GTK icons
-export DESKTOP_SESSION=gnome
+# Homebrew token
+# export GITHUB_TOKEN="{{ GITHUB_TOKEN }}"
+export HOMEBREW_GITHUB_API_TOKEN="{{ HOMEBREW_GITHUB_API_TOKEN }}"
 
-# Pull GTK2 RC files from the standard config location, similar to gtk-3.0
-[ -e /etc/gtk-2.0 ] && export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
+# Spotify
+export TMUX_SPOTIFY_API_KEY="{{ TMUX_SPOTIFY_API_KEY }}"
 
-# Set the session ssh-agent socket path (If it's not set)
-[ -z "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent"
+# Desktop and shells
+# ----
+
+# https://www.gnu.org/software/bash/manual/html_node/Readline-Init-File.html
+export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
+
+# Zsh and zplug
+# export ZPLUG_HOME="$PREFIX/opt/zplug"
+# export ZPLUG_REPOS="$XDG_DATA_HOME/zplug/repos"
+# export ZPLUG_CACHE_DIR="$XDG_CACHE_HOME/zplug"
+
+# export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
+export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
 
 # Look for terminfo files under data and find system collections
 if [ -d "$XDG_DATA_HOME/terminfo" ]; then
@@ -84,112 +98,170 @@ if [ -d "$XDG_DATA_HOME/terminfo" ]; then
 	fi
 fi
 
-export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/rc"
-export ZPLUG_HOME="$PREFIX/opt/zplug"
-export ZPLUG_REPOS="$XDG_DATA_HOME/zplug/repos"
-export ZPLUG_CACHE_DIR="$XDG_CACHE_HOME/zplug"
-export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
-export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
-export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
-export PASSWORD_STORE_DIR="$HOME/docs/pass/"
-export PACKER_CACHE_DIR="$XDG_CACHE_HOME/packer"
-export COMPOSER_HOME="$XDG_CACHE_HOME/composer"
-export MPDCRON_DIR="$XDG_CONFIG_HOME/mpdcron"
-export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
-export MAD_CONFIG="$XDG_CONFIG_HOME/mad/config"
-export WEGORC="$XDG_CONFIG_HOME/wego/config"
-export MEMO_HOME="$HOME/docs/blog"
-export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
-export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
-export LESSKEY="$XDG_CONFIG_HOME/lesskey/output"
-export WAKATIME_HOME="$XDG_DATA_HOME/wakatime"
-export COINTOP_CONFIG="$XDG_CONFIG_HOME/cointop/config.toml"
-export BABEL_CACHE_PATH="$XDG_CACHE_HOME/babel.json"
-export ZK_NOTEBOOK_DIR="$HOME/docs/blog/.zk/config.toml"
-export _Z_DATA="$XDG_CACHE_HOME/z/data"
-export _ZL_DATA="$_Z_DATA"
-export _ZO_DATA_DIR="$XDG_CACHE_HOME/zoxide"
+# Forces QT to use GTK icons
+export DESKTOP_SESSION=gnome
 
-hash bspwm      2>/dev/null && export      BSPWM_SOCKET="$XDG_RUNTIME_DIR/bswpm-socket"
-hash http       2>/dev/null && export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
-hash wget       2>/dev/null && export            WGETRC="$XDG_CONFIG_HOME/wget/config"
-hash gimp       2>/dev/null && export   GIMP2_DIRECTORY="$XDG_CONFIG_HOME/gimp-2.8"
-hash virtualbox 2>/dev/null && export    VBOX_USER_HOME="$XDG_CONFIG_HOME/virtualbox"
-hash mplayer    2>/dev/null && export      MPLAYER_HOME="$XDG_CONFIG_HOME/mplayer"
-hash mpv        2>/dev/null && export          MPV_HOME="$XDG_CONFIG_HOME/mpv"
-hash vagrant    2>/dev/null && export      VAGRANT_HOME="$XDG_DATA_HOME/vagrant"
-hash sshrc      2>/dev/null && export           SSHHOME="$XDG_CONFIG_HOME/sshrc"
+# Pull GTK2 RC files from the standard config location, similar to gtk-3.0
+[ -e /etc/gtk-2.0 ] && export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
 
-if hash fzf 2>/dev/null
-then
-	export FZF_DEFAULT_OPTS="--bind=ctrl-d:page-down,ctrl-u:page-up,ctrl-y:yank,tab:down,btab:up --inline-info --reverse --height 50%"
-	export FZF_DEFAULT_COMMAND='ag -U --hidden --follow --nogroup --nocolor -g ""'
-fi
-
-export JQ_COLORS="1;30:0;31:0;32:0;33:0;34:1;35:1;36"
+# Set the session ssh-agent socket path (If it's not set)
+# [ -z "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent"
 
 # See: https://github.com/tmux-python/tmuxp
 export TMUXP_CONFIGDIR="$XDG_CONFIG_HOME/tmuxp"
 
-# Android SDK and tools
-if [ -d "${HOME}/Library/Android/sdk" ]; then
-	export ANDROID_HOME="${HOME}/Library/Android/sdk"
-	PATH="${PATH}:${ANDROID_HOME}/tools"
-	PATH="${PATH}:${ANDROID_HOME}/platform-tools"
+# Pagers
+# ----
+export PAGER=less
+export LESS="-FiQMXRwJ --incsearch --status-col-width 1"
+export LESSCHARSET="UTF-8"
+export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
+export LESSKEY="$XDG_CONFIG_HOME/lesskey/output"
+
+# Finders
+# ----
+
+# Ripgrep https://github.com/BurntSushi/ripgrep
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/rc"
+
+# Fzf
+export FZF_DEFAULT_OPTS="--bind=ctrl-d:page-down,ctrl-u:page-up,ctrl-y:yank,tab:down,btab:up --inline-info --reverse --height 50%"
+export FZF_DEFAULT_COMMAND='ag -U --hidden --follow --nogroup --nocolor -g ""'
+
+export COINTOP_CONFIG="$XDG_CONFIG_HOME/cointop/config.toml"
+export MEMO_HOME="$HOME/docs/blog"
+export ZK_NOTEBOOK_DIR="$HOME/docs/wiki/.zk/config.toml"
+export ZIM_HOME="$XDG_DATA_HOME/zim"
+export _Z_DATA="$XDG_CACHE_HOME/z/data"
+export _ZL_DATA="$_Z_DATA"
+export _ZO_DATA_DIR="$XDG_CACHE_HOME/zoxide"
+
+# Ack configuration
+if hash ack 2> /dev/null; then
+	export ACKRC="$XDG_CONFIG_HOME/ack/ackrc"
+	export ACK_PAGER_COLOR="less -x4SRFX"
 fi
+
+# jk
+if hash jk 2>/dev/null; then
+	export JK_DIRS="$XDG_DATA_HOME/tldr:$HOME/docs/cheatsheets"
+fi
+
+# Security and Productivity
+# ----
+
+# https://www.gnupg.org/documentation/manuals/gnupg/GPG-Configuration.html
+export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
+export PASSWORD_STORE_DIR="$HOME/docs/pass/"
+
+export WEGORC="$XDG_CONFIG_HOME/wego/config"
+export WAKATIME_HOME="$XDG_DATA_HOME/wakatime"
+
+hash sshrc 2>/dev/null && export SSHHOME="$XDG_CONFIG_HOME/sshrc"
+
+# Task warrior configuration
+if hash task 2>/dev/null
+then
+	export TASKRC="$XDG_CONFIG_HOME/task/config"
+	export TASKDATA="$XDG_DATA_HOME/task"
+fi
+
+# Cloud and mobile development
+# ----
 
 # Amazon AWS
 export AWS_CONFIG_FILE="${HOME}/docs/aws/config"
 export AWS_SHARED_CREDENTIALS_FILE="${HOME}/docs/aws/credentials"
 
 # Google Cloud SDK
-if [ -d "$PREFIX/Caskroom/google-cloud-sdk" ]; then
-	source "$PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
-	source "$PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
-elif [ -d "${XDG_DATA_HOME}/google-cloud-sdk/bin" ]; then
-	PATH="${PATH}:${XDG_DATA_HOME}/google-cloud-sdk/bin"
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+# Bash only
+if [ -n "$BASH_VERSION" ]; then
+	if [ -d "$PREFIX/Caskroom/google-cloud-sdk" ]; then
+		source "$PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
+		source "$PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
+	elif [ -d "${XDG_DATA_HOME}/google-cloud-sdk/bin" ]; then
+		PATH="${PATH}:${XDG_DATA_HOME}/google-cloud-sdk/bin"
+	fi
 fi
 
-# Python
-# Pending: https://github.com/python/cpython/pull/13208
-export PYTHONHISTORY="$XDG_CACHE_HOME/python_history"
-# Pyenv paths
-export PYENV_ROOT="${XDG_DATA_HOME}/python/pyenv"
-# Disable virtualenv's prompt display
-# Python utilities
-export PYLINTHOME="$XDG_CACHE_HOME/pylint"
-export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython
-#export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter
-# Virtualenv managers
-export WORKON_HOME="$XDG_DATA_HOME/python/envs"
-export POETRY_VIRTUALENVS_PATH="$WORKON_HOME"
-export PIPSI_HOME="$WORKON_HOME"
-
-# https://github.com/pypa/pipx
-if hash pipx 2>/dev/null; then
-	export PIPX_HOME="$XDG_DATA_HOME/python/pipx"
-	export PIPX_BIN_DIR="$XDG_DATA_HOME/python/pipx/bin"
-	PATH="${PIPX_BIN_DIR}:${PATH}"
+# Android SDK and tools
+if [ -d "${HOME}/Library/Android/sdk" ]; then
+	export ANDROID_SDK_HOME="$XDG_DATA_HOME"/android
+	export ANDROID_HOME="${HOME}/Library/Android/sdk"
+	PATH="${PATH}:${ANDROID_HOME}/tools"
+	PATH="${PATH}:${ANDROID_HOME}/platform-tools"
 fi
+
+# Downloaders
+# ----
+
+# cURL .netrc location
+if [ -d "$HOME/docs/netrc" ]; then
+	export CURLOPT_NETRC_FILE="$HOME/docs/netrc/config"
+fi
+
+hash http 2>/dev/null && export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
+hash wget 2>/dev/null && export            WGETRC="$XDG_CONFIG_HOME/wget/config"
+
+# aria2c cli helper
+if hash diana 2>/dev/null; then
+	export DIANA_SECRET_TOKEN={{ DIANA_TOKEN }}
+	export DIANA_HOST=file.host
+fi
+
+# Virtualization
+# ----
+
+# Lima https://github.com/lima-vm/lima
+export LIMA_HOME="$XDG_DATA_HOME/lima"
+# Packer
+export PACKER_CACHE_DIR="$XDG_CACHE_HOME/packer"
+# Vagrant
+export VAGRANT_HOME="$XDG_DATA_HOME/vagrant"
+
+# Databases
+# ----
 
 # PostgreSQL CLI utilities
 export PSQLRC="$XDG_CONFIG_HOME/psql/config"
 export PGCLIRC="$XDG_CONFIG_HOME/pgcli/config"
-
-# Editors
-export ATOM_HOME="$XDG_DATA_HOME"/atom
-export ANDROID_SDK_HOME="$XDG_DATA_HOME"/android
-
-# Databases
+# MySQL
+export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
+# SQLite
 export SQLITE_HISTORY="$XDG_CACHE_HOME/sqlite_history"
 
 # Kubernetes
+# ----
+
 hash minikube 2>/dev/null && export MINIKUBE_HOME="$XDG_DATA_HOME/minikube"
+
 if hash kubectl 2>/dev/null; then
-	export KUBECONFIG="$XDG_CONFIG_HOME/kube/config.yml"
 	export KREW_ROOT="$XDG_DATA_HOME/krew"
 	PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
+
+# Media
+# ----
+
+hash gimp    2>/dev/null && export GIMP2_DIRECTORY="$XDG_CONFIG_HOME/gimp-2.8"
+hash mplayer 2>/dev/null && export    MPLAYER_HOME="$XDG_CONFIG_HOME/mplayer"
+hash mpv     2>/dev/null && export        MPV_HOME="$XDG_CONFIG_HOME/mpv"
+
+# Remote/local MPD host
+export MPD_HOST="music.host"
+
+# export MPDCRON_DIR="$XDG_CONFIG_HOME/mpdcron"
+
+# Data
+# ----
+
+# nextword https://github.com/high-moctane/nextword
+export NEXTWORD_DATA_PATH="$XDG_DATA_HOME/nextword"
+
+
+# Programming Languages
+# ----
 
 # Lua and Luarocks user config
 # export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
@@ -210,11 +282,41 @@ if hash npm 2>/dev/null; then
 	PATH="${N_PREFIX}/bin:$PATH:${XDG_DATA_HOME}/npm/bin"
 fi
 
+# Babel
+export BABEL_CACHE_PATH="$XDG_CACHE_HOME/babel.json"
+
 # Node.js configuration
 if hash node 2>/dev/null; then
 	if [[ "$OSTYPE" == "darwin"* ]]; then
 		export NODE_EXTRA_CA_CERTS="$PREFIX"/etc/ca-certificates/cert.pem
 	fi
+fi
+
+# PHP
+export COMPOSER_HOME="$XDG_CACHE_HOME/composer"
+
+# Python
+# Pending: https://github.com/python/cpython/pull/13208
+export PYTHONHISTORY="$XDG_CACHE_HOME/python_history"
+# Pyenv paths
+export PYENV_ROOT="${XDG_DATA_HOME}/python/pyenv"
+# Disable virtualenv's prompt display
+# Python utilities
+export PYLINTHOME="$XDG_CACHE_HOME/pylint"
+export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython
+#export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter
+# Virtualenv managers
+export WORKON_HOME="$XDG_DATA_HOME/python/envs"
+export PIPSI_HOME="$WORKON_HOME"
+export POETRY_VIRTUALENVS_PATH="$XDG_DATA_HOME"/python/poetry
+export POETRY_CONFIG_DIR="$XDG_CONFIG_HOME"/pypoetry
+export POETRY_DATA_DIR="$XDG_DATA_HOME"/pypoetry
+export POETRY_CACHE_DIR="$XDG_CACHE_HOME"/pypoetry
+# pipx https://github.com/pypa/pipx
+if hash pipx 2>/dev/null; then
+	export PIPX_HOME="$XDG_DATA_HOME/python/pipx"
+	export PIPX_BIN_DIR="$XDG_DATA_HOME/python/pipx/bin"
+	PATH="${PIPX_BIN_DIR}:${PATH}"
 fi
 
 # Rust Cargo configuration
@@ -244,52 +346,10 @@ if hash gem 2>/dev/null; then
 	# PATH="$PATH:$GEM_HOME/bin"
 fi
 
-# Ack configuration
-if hash ack 2> /dev/null; then
-	export ACKRC="$XDG_CONFIG_HOME/ack/ackrc"
-	export ACK_PAGER_COLOR="less -x4SRFX"
-fi
-
-# cURL .netrc location
-if [ -d "$HOME/docs/netrc" ]; then
-	export CURLOPT_NETRC_FILE="$HOME/docs/netrc/config"
-fi
-
 # Haskell cabal configuration
 if hash cabal 2>/dev/null; then
 	PATH="$PATH:$HOME/.cabal/bin"
 fi
-
-# Task warrior configuration
-if hash task 2>/dev/null
-then
-	export TASKRC="$XDG_CONFIG_HOME/task/config"
-	export TASKDATA="$XDG_DATA_HOME/task"
-fi
-
-# jk
-if hash jk 2>/dev/null; then
-	export JK_DIRS="$XDG_DATA_HOME/tldr:$HOME/docs/cheatsheets"
-fi
-
-# aria2c cli helper
-if hash diana 2>/dev/null; then
-	export DIANA_SECRET_TOKEN={{ DIANA_TOKEN }}
-	export DIANA_HOST=file.host
-fi
-
-# nextword https://github.com/high-moctane/nextword
-export NEXTWORD_DATA_PATH="$XDG_DATA_HOME/nextword"
-
-# Remote/local MPD host
-export MPD_HOST="music.host"
-
-# Homebrew token
-export GITHUB_TOKEN="{{ GITHUB_TOKEN }}"
-export HOMEBREW_GITHUB_API_TOKEN="{{ HOMEBREW_GITHUB_API_TOKEN }}"
-
-# Spotify
-export TMUX_SPOTIFY_API_KEY="{{ TMUX_SPOTIFY_API_KEY }}"
 
 # Export the final PATH
 export PATH

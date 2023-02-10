@@ -26,14 +26,26 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	hash gls 2>/dev/null && LSCMD='gls'
 fi
 
+# See https://github.com/Peltoche/lsd
+if hash lsd 2>/dev/null; then
+	LSCMD='lsd'
+fi
+
 # Listing directory contents
 # shellcheck disable=2139,1003
 alias ls='LC_COLLATE=C \'${LSCMD}' --color=auto --group-directories-first'
 unset LSCMD
-alias l='ls -CFa'
 alias ll='ls -alF'
 alias llh='ls -alFh'
-alias lld='ls -Gal --color=always | grep ^d --colour=never'
+
+if hash lsd 2>/dev/null; then
+	alias l='ls -Fa'
+	alias lt='ll --tree --ignore-glob .git'
+	alias lld="lsd -al --color=always | grep '^\e\[[0-9*;]*md' --colour=never"
+else
+	alias l='ls -CFa'
+	alias lld='ls -Gal --color=always | grep ^d --colour=never'
+fi
 
 # See https://github.com/dundee/gdu
 # shellcheck disable=2139
@@ -50,7 +62,7 @@ if hash nvim 2>/dev/null; then
 	alias suvim='sudo -E nvim'
 	alias oldvim="VIMINIT='let \$MYVIMRC=\"\$XDG_CONFIG_HOME/nvim/init.vim\" | source \$MYVIMRC' $PREFIX/bin/vim"
 else
-	alias vless="vim -u $PREFIX/share/vim/vim74/macros/less.vim"
+	alias vless="vim -u $PREFIX/share/vim/vim90/macros/less.vim"
 	alias suvim='sudo -E vim'
 fi
 alias v='vim $(fzf)'
@@ -240,6 +252,14 @@ alias process='ps -ax'
 alias pst='pstree -g 3 -ws'
 
 # }}}
+# Task ----------------------------------------------------- j for just -- {{{
+# See: https://github.com/casey/just
+alias j=just
+if [ -n "$BASH_VERSION" ] && type _just &>/dev/null; then
+	complete -F _just -o bashdefault -o default j
+fi
+
+# }}}
 # Writing ------------------------------------------------- m for memos -- {{{
 # See: https://github.com/rafi/memo-sh
 alias m=memo
@@ -247,7 +267,6 @@ alias m=memo
 # }}}
 # XDG conformity --------------------------------------------------------- {{{
 # See: https://wiki.archlinux.org/index.php/XDG_Base_Directory
-alias tmux='tmux -f "$XDG_CONFIG_HOME/tmux/config"'
 alias mysql='mysql --defaults-extra-file="$XDG_CONFIG_HOME/mysql/config"'
 alias mutt='ESCDELAY=0 neomutt || mutt -F "$XDG_CONFIG_HOME"/mutt/config'
 alias weechat='weechat --dir "$XDG_CONFIG_HOME/weechat/"'

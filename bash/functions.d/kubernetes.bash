@@ -16,7 +16,7 @@ alias kp='kubectl get pods -o custom-columns=NAME:.metadata.name,STATUS:.status.
 alias kpi='kubectl get pods -o custom-columns=POD:.metadata.name,IMAGES:.spec..image'
 
 # Count Pod's total images
-alias kpimgsum="kubectl get pods --all-namespaces -o jsonpath=\"{.items[*]['spec.containers', 'spec.initContainers'][*].image}\" | tr -s '[[:space:]]' '\n' | sort | uniq -c | sort -nr"
+alias kpimgsum="kubectl get pods -A -o jsonpath=\"{.items[*]['spec.containers', 'spec.initContainers'][*].image}\" | tr -s '[[:space:]]' '\n' | sort | uniq -c | sort -nr"
 
 # List Pod's container names
 alias kpcontainernames='kubectl get pod -o jsonpath="{..spec['"'"'containers'"'"','"'"'initContainers'"'"'][*].name}"'
@@ -29,7 +29,8 @@ alias kpnotready='kubectl get pod --no-headers --field-selector=status.phase!=Ru
 
 # List unready Pods
 function kphealth() {
-	kubectl get pods -A -o json | jq -r '.items[] | select(.status.phase != "Running" or ([ .status.conditions[] | select(.type == "Ready" and .status == "False") ] | length ) == 1 ) | .metadata.namespace + "/" + .metadata.name'
+	kubectl get pods -o json "$@" \
+		| jq -r '.items[] | select(.status.phase != "Running" or ([ .status.conditions[] | select(.type == "Ready" and .status == "False") ] | length ) == 1 ) | .metadata.namespace + "/" + .metadata.name'
 }
 
 # Show human-readble init/containers status for specific Pod
@@ -41,26 +42,19 @@ alias kcontainerstatus='kubectl get pod -o go-template --template='"'"'Pod: {{.m
 # 	complete -F _complete_alias kcontainerstatus
 # fi
 
-# Describe Pod with interactive selection.
-function kpdesc() {
-	read -ra tokens < <(
-		kubectl get pods --all-namespaces \
-			| fzf \
-				--header-lines=1 \
-				--prompt "$(kubectl config current-context | sed 's/-context$//')> "
-	)
-	[ ${#tokens} -gt 1 ] &&
-		kubectl describe pod --namespace "${tokens[0]}" "${tokens[1]}"
+function _k8s_select_pod() {
+	kubectl get pods --all-namespaces \
+		| fzf --header-lines=1 --prompt "$(kubectl config current-context)> " \
+		| awk '{print $1 " " $2}'
 }
 
-# Exec into Pod with interactive selection.
+# Pod commands with interactive selection.
+alias kpdesc='_k8s_select_pod | xargs kubectl describe pod -n'
+alias kpip='_k8s_select_pod | xargs kubectl get pod -o jsonpath="{.status.podIPs[*].ip}" -n'
+alias kplog='_k8s_select_pod | xargs kubectl logs -f -n'
+
 function kexec() {
-	read -ra tokens < <(
-		kubectl get pods --all-namespaces \
-			| fzf \
-				--header-lines=1 \
-				--prompt "$(kubectl config current-context | sed 's/-context$//')> "
-	)
+	read -ra tokens < <(_k8s_select_pod)
 	if [ ${#tokens} -gt 1 ]; then
 		# Try bash first, then sh.
 		kubectl exec -it --namespace "${tokens[0]}" "${tokens[1]}" -- bash \
@@ -73,8 +67,8 @@ function kexec() {
 function ktail() {
 	read -ra tokens < <(
 		kubectl get pods --all-namespaces |
-			fzf --info=inline --layout=reverse --header-lines=1 --border \
-					--prompt "$(kubectl config current-context | sed 's/-context$//')> " \
+			fzf --info=inline --layout=reverse --header-lines=1 \
+					--prompt "$(kubectl config current-context)> " \
 					--header $'Press CTRL-O to open log in editor\n\n' \
 					--bind ctrl-/:toggle-preview \
 					--bind 'ctrl-o:execute:${EDITOR:-nvim} <(kubectl logs --namespace {1} {2}) > /dev/tty' \
@@ -85,6 +79,14 @@ function ktail() {
 		kubectl logs -f --namespace "${tokens[0]}" "${tokens[1]}"
 }
 
+# NODES
+# ---
+
+# Wide informative Node list
+alias knode='kubectl get node -owide'
+
+alias ktaints='kubectl get nodes -o=custom-columns=NodeName:.metadata.name,TaintKey:.spec.taints[*].key,TaintValue:.spec.taints[*].value,TaintEffect:.spec.taints[*].effect'
+
 # INGRESS
 # ---
 
@@ -93,9 +95,6 @@ alias kingress='kubectl get ingress -o custom-columns="NAMESPACE:.metadata.names
 
 # Display even more robusy Ingress list
 alias kingress-wide='kubectl get ingress -o custom-columns="NAMESPACE:.metadata.namespace,NAME:.metadata.name,CLASS:.metadata.annotations.kubernetes\.io/ingress\.class,HOSTS:.spec.rules[*].host,PATHS:.spec.rules[*].http.paths[*].path,SERVICES:.spec.rules[*].http.paths[*].backend.serviceName,PORTS:.spec.rules[*].http.paths[*].backend.servicePort"'
-
-# Wide informative Node list
-alias knode='kubectl get node -owide'
 
 # EVENTS
 # ---

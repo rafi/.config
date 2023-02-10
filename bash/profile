@@ -10,6 +10,12 @@
 # exec 3>&2 2>/tmp/bashstart.$$.log
 # set -x
 
+# Avoid PATH duplication inside Tmux sessions.
+if [ -n "$TMUX" ] && [ -f /etc/profile ]; then
+	PATH=""
+	source /etc/profile
+fi
+
 # Load all environment exports
 source "$HOME/.config/bash/exports"
 
@@ -38,12 +44,12 @@ if hash keychain 2>/dev/null; then
 fi
 
 if [[ $- == *i* ]] && hash tmux 2>/dev/null && [ -z "$TMUX" ]; then
-	# If SSH session and not running tmux, list tmux sessions on log-in.
+	# In SSH sessions, list tmux sessions on log-in.
 	if [ -n "$SSH_TTY" ]; then
 		tmux list-sessions 2>/dev/null | sed 's/^/# tmux /'
 	else
-		# auto-attach (or new session)
-		tmux new-session -A -s main
+		# Auto-attach (or new session)
+		tmux attach || tmux new-session -A -s main
 	fi
 fi
 
