@@ -1,16 +1,111 @@
-set gdefault
+set nocompatible
+
+set scrolloff=5 sidescrolloff=10
+set backspace=2
+set number
+set autoindent
+set smartindent
+set smartcase
+set nowrapscan
+set incsearch
 set hlsearch
-set ignorecase
+set showmatch
+set ruler
+set clipboard=unnamedplus
+
+set surround
+set gdefault
 
 " Want a different map leader than \
-let mapleader=" "
-
-" Maps the semicolon to colon in normal mode
-nmap ; :
+let mapleader=','
 
 " Quick insert mode exit
 imap jk <Esc>
+noremap Y y$
+
+nnoremap <Esc><Esc> :nohlsearch<CR><Esc>
+
+" Split navagation you know and love
+nnoremap <c-l> <c-w>l
+nnoremap <c-j> <c-w>j
+nnoremap <c-h> <c-w>h
+nnoremap <c-k> <c-w>k
+
+nnoremap <c-o> :action Back<CR>
+nnoremap <c-i> :action Forward<CR>
+
+nnoremap <Space>w :w<CR>
+nnoremap <Space>r :source ~/.ideavimrc<CR>
+
+nnoremap sg :action SplitVertically<CR>
+nnoremap sv :action SplitHorizontally<CR>
 
 " Instead of 1 line, move 3 at a time
 nnoremap <C-e> 3<C-e>
 nnoremap <C-y> 3<C-y>
+
+" Keep visual mode after indent
+vnoremap < <gv
+vnoremap > >gv
+
+" Goto
+nnoremap <C-]> :action GotoDeclaration<CR>
+nnoremap ;b :action RecentFiles<CR>
+nnoremap ;f :action GotoFile<CR>
+nnoremap ;c :action GotoClass<CR>
+nnoremap ;g :action GotoSymbol<CR>
+nnoremap ;i :action GotoImplementation<CR>
+nnoremap ;a :action AceJumpAction<CR>
+nnoremap ;e :action ActivateProjectToolWindow<CR>
+nnoremap ;o :action FileStructurePopup<CR>
+
+map <leader>d :action Compare.SameVersion<CR>
+nmap <leader>= :action ReformatCode<CR>
+nmap <leader>- :action CollapseSelection<CR>
+
+nn g; :action JumpToLastChange<CR>
+nn g, :action JumpToNextChange<CR>
+
+nmap <space><space> :action VimFilePrevious<CR>
+nmap <space>f :action SearchEverywhere<CR>
+nmap <space>z :action FindInPath<cr>
+nmap <space>u :action FindUsages<CR>
+nmap <space>s :action ShowUsages<CR>
+nnoremap <Space>E :action Switcher<CR>
+nnoremap <space>v :action CommentByLineComment<CR>
+vnoremap <space>v :action CommentByLineComment<CR>
+
+" Tabs
+nnoremap gt :action NextTab<CR>
+nnoremap gT :action PreviousTab<CR>
+nnoremap gr :action PreviousTab
+
+"nnoremap q :action CloseEditor<CR>
+nn q :action CloseContent<CR>
+nn Q :action ReopenClosedContent<CR>
+nn <c-s-tab> gT
+nn <c-tab> gt
+
+" Unimpaired mappings
+nn [<space> O<esc>j
+nn ]<space> o<esc>k
+nn [q :action PreviousOccurence<cr>
+nn ]q :action NextOccurence<cr>
+nn [m :action MethodUp<cr>
+nn ]m :action MethodDown<cr>
+nn [n :action VcsShowPrevChangeMarker<cr>
+nn ]n :action VcsShowNextChangeMarker<cr>
+nn ]e ddp
+nn [e ddkkp
+nn ]c :action GotoNextError<CR>
+nn [c :action GotoPreviousError<CR>
+
+" Hierarchy
+nnoremap <Space>o :action MethodHierarchy.OverrideMethodAction<CR>
+nnoremap <Space>i :action MethodHierarchy.ImplementMethodAction<CR>
+
+" change font size
+nnoremap + :action EditorIncreaseFontSize<CR>
+nnoremap - :action EditorDecreaseFontSize<CR>
+
+" vim: set ts=2 sw=2 tw=80 noet :
