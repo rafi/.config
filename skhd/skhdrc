@@ -3,8 +3,8 @@
 # See https://github.com/koekeishiya/skhd/blob/master/examples/skhdrc
 
 # open terminal, blazingly fast compared to iTerm/Hyper
-# alt - return : /Applications/Alacritty.app/Contents/MacOS/alacritty
-cmd - return : /Applications/Alacritty.app/Contents/MacOS/alacritty
+# alt - return : /Applications/kitty.app/Contents/MacOS/kitty
+cmd - return : open -na /Applications/kitty.app
 
 # open qutebrowser
 # cmd + shift - return : ~/Scripts/qtb.sh
@@ -97,33 +97,29 @@ cmd + alt - x : yabai -m space --focus recent
 cmd + alt - z : yabai -m space --focus prev
 cmd + alt - c : yabai -m space --focus next
 
-cmd - 1 : yabai -m space --focus 1
-cmd - 2 : yabai -m space --focus 2
-cmd - 3 : yabai -m space --focus 3
-# cmd - 3 : yabai -m space --focus 3 \
-#           && yabai -m query --windows --space \
-#             | jq -er 'map(select(.focused == 1)) | length > 0' \
-#           || yabai -m window --focus mouse
-cmd - 4 : yabai -m space --focus 4
-cmd - 5 : yabai -m space --focus 5
-cmd - 6 : yabai -m space --focus 6
-cmd - 7 : yabai -m space --focus 7
-cmd - 8 : yabai -m space --focus 8
-cmd - 9 : yabai -m space --focus 9
+# cmd - 1 : yabai -m space --focus 1
+# cmd - 2 : yabai -m space --focus 2
+# cmd - 3 : yabai -m space --focus 3
+# cmd - 4 : yabai -m space --focus 4
+# cmd - 5 : yabai -m space --focus 5
+# cmd - 6 : yabai -m space --focus 6
+# cmd - 7 : yabai -m space --focus 7
+# cmd - 8 : yabai -m space --focus 8
+# cmd - 9 : yabai -m space --focus 9
 
 # send window to desktop and follow focus
 shift + cmd - x : yabai -m window --space recent; yabai -m space --focus recent
 shift + cmd - z : yabai -m window --space prev; yabai -m space --focus prev
 shift + cmd - c : yabai -m window --space next; yabai -m space --focus next
-shift + cmd - 1 : yabai -m window --space 1; yabai -m space --focus 1
-shift + cmd - 2 : yabai -m window --space 2; yabai -m space --focus 2
-shift + cmd - 3 : yabai -m window --space 3; yabai -m space --focus 3
-shift + cmd - 4 : yabai -m window --space 4; yabai -m space --focus 4
-shift + cmd - 5 : yabai -m window --space 5; yabai -m space --focus 5
-shift + cmd - 6 : yabai -m window --space 6; yabai -m space --focus 6
-shift + cmd - 7 : yabai -m window --space 7; yabai -m space --focus 7
-shift + cmd - 8 : yabai -m window --space 8; yabai -m space --focus 8
-shift + cmd - 9 : yabai -m window --space 9; yabai -m space --focus 9
+shift + cmd - 1 : yabai -m window --space 1 --focus
+shift + cmd - 2 : yabai -m window --space 2 --focus
+shift + cmd - 3 : yabai -m window --space 3 --focus
+shift + cmd - 4 : yabai -m window --space 4 --focus
+shift + cmd - 5 : yabai -m window --space 5 --focus
+shift + cmd - 6 : yabai -m window --space 6 --focus
+shift + cmd - 7 : yabai -m window --space 7 --focus
+shift + cmd - 8 : yabai -m window --space 8 --focus
+shift + cmd - 9 : yabai -m window --space 9 --focus
 
 # focus monitor
 ctrl + alt - x  : yabai -m display --focus recent
@@ -169,15 +165,17 @@ alt - e : yabai -m window --toggle split
 # yabai -m window --resize abs:1250:700
 
 # toggle sticky (show on all spaces)
-# alt - s : yabai -m window --toggle sticky
+alt - s : yabai -m window --toggle sticky
 
 # toggle topmost (keep above other windows)
-# alt - o : yabai -m window --toggle topmost
+alt - o : yabai -m window --toggle topmost
 
 # toggle sticky, topmost and resize to picture-in-picture size
-# alt - p : yabai -m window --toggle sticky;\
-#           yabai -m window --toggle topmost;\
-#           yabai -m window --grid 5:5:4:0:1:1
+alt - p : yabai -m window --toggle sticky;\
+          yabai -m window --toggle topmost;\
+          yabai -m window --grid 5:5:4:0:1:1
 
 # Reload yabai
 ctrl + alt + cmd - z : launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
+
+#  vim: set ts=2 sw=16 tw=80 et ft=conf :

@@ -6,7 +6,7 @@
 #
 # Reload: launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
 
-# macOS Big Sur
+yabai -m signal --add event=dock_did_restart action="sudo yabai --load-sa"
 sudo yabai --load-sa
 
 yabai -m config layout  bsp  # bsp, float
@@ -14,12 +14,13 @@ yabai -m config layout  bsp  # bsp, float
 # New window spawns to the right if vertical split or bottom if horizontal split
 yabai -m config window_placement  second_child
 
-yabai -m config split_ratio       0.5
-yabai -m config auto_balance      off
+yabai -m config split_ratio   0.5
+yabai -m config auto_balance  off
 
 # global settings
+yabai -m config focus_follows_mouse   off  # off, autoraise, autofocus
 yabai -m config mouse_follows_focus   off
-yabai -m config focus_follows_mouse   autofocus  # off, autoraise, autofocus
+yabai -m config window_origin_display focused
 
 yabai -m config mouse_modifier        alt
 yabai -m config mouse_action1         move    # modifier + left-click drag
@@ -28,13 +29,14 @@ yabai -m config mouse_action2         resize  # modifier + right-click drag
 yabai -m config window_topmost                  off
 yabai -m config window_shadow                   off  # on, off, float
 yabai -m config window_opacity                  off
-# yabai -m config window_opacity_duration         0.0
-yabai -m config window_border                   on
-yabai -m config window_border_width             4
-yabai -m config active_window_border_color      0xff444444
-yabai -m config normal_window_border_color      0xff171717
 yabai -m config active_window_opacity           1.0
 yabai -m config normal_window_opacity           0.8
+# yabai -m config window_opacity_duration         0.0
+yabai -m config window_animation_duration       0.0
+yabai -m config window_border                   on
+yabai -m config window_border_width             2
+yabai -m config active_window_border_color      0xff444444
+yabai -m config normal_window_border_color      0xff171717
 
 # Global space settings
 yabai -m config top_padding                     0
@@ -43,6 +45,10 @@ yabai -m config left_padding                    0
 yabai -m config right_padding                   0
 yabai -m config window_gap                      5
 
+# Override gaps for specific spaces only
+yabai -m config --space 1 window_gap 0
+yabai -m config --space 2 window_gap 0
+
 # Space labels
 yabai -m space 1 --label 'Code'
 yabai -m space 2 --label 'Browser'
@@ -50,10 +56,6 @@ yabai -m space 3 --label 'Comms'
 yabai -m space 4 --label 'Media'
 yabai -m space 5 --label 'Tools'
 yabai -m space 6 --label 'Misc'
-
-# Override gaps for specific spaces only
-yabai -m config --space 1 window_gap 0
-yabai -m config --space 2 window_gap 0
 
 # function dynamic_space_naming() {
 #   anonymous() {
@@ -66,13 +68,13 @@ yabai -m config --space 2 window_gap 0
 #   anonymous
 # }
 
-function focus_under_cursor {
-	yabai -m window --focus recent
-	# if yabai -m query --windows --space |
-	# 	jq -er 'map(select(.focused == 1)) | length == 0' >/dev/null; then
-	# 		yabai -m window --focus mouse 2>/dev/null || true
-	# fi
-}
+# focus_under_cursor() {
+# 	yabai -m window --focus recent
+# 	# if yabai -m query --windows --space |
+# 	# 	jq -er 'map(select(.focused == 1)) | length == 0' >/dev/null; then
+# 	# 		yabai -m window --focus mouse 2>/dev/null || true
+# 	# fi
+# }
 
 # If no window on the current space is focused after a window is destroyed or
 # minimized, or an application is hidden, focus the window under the cursor.
@@ -83,70 +85,89 @@ function focus_under_cursor {
 #   action="${functions[focus_under_cursor]}"
 
 # Space assignments
-yabai -m rule --add app='^Alacritty$'       space=1
-yabai -m rule --add app='^Google Chrome$'   space=2
-yabai -m rule --add app='^Slack$'           space=3
-yabai -m rule --add app='^Messages$'        space=3
-yabai -m rule --add app='^Telegram$'        space=3
-yabai -m rule --add app='^Spotify$'         space=4
-yabai -m rule --add app='^Music$'           space=4
-yabai -m rule --add app='^zoom.us$'         space=5
+yabai -m rule --add app='^(Alacritty|kitty)$' space=1
+yabai -m rule --add app='^Google Chrome$'     space=2
+yabai -m rule --add app='^Slack$'             space=3
+yabai -m rule --add app='^Messages$'          space=3
+yabai -m rule --add app='^Telegram$'          space=3
+yabai -m rule --add app='^Spotify$'           space=4
+yabai -m rule --add app='^Music$'             space=4
+yabai -m rule --add app='^Microsoft Outlook'  space=5
+yabai -m rule --add app='^zoom.us$'           space=5
 
-yabai -m signal --add event=application_launched app='^Alacritty$' \
-	action="yabai -m space --focus 1"
-yabai -m signal --add event=application_launched app='^Google Chrome$' \
-	action="yabai -m space --focus 2"
-yabai -m signal --add event=application_launched app='^(Slack|Messages|Telegram)$' \
-	action="yabai -m space --focus 3"
-yabai -m signal --add event=application_launched app='^(Spotify|Music)$' \
-	action="yabai -m space --focus 4"
-yabai -m signal --add event=application_launched app='^zoom.us$' \
-	action="yabai -m space --focus 5"
+# # 7-8-2022: Doesn't work well, SIP is enabled.
+# # Maybe will work in newer version or SIP disabled?
+# # ---
+# yabai -m signal --add event=application_launched app='^(Alacritty|kitty)$' \
+# 	action="yabai -m space --focus 1"
+# yabai -m signal --add event=application_launched app='^Google Chrome$' \
+# 	action="yabai -m space --focus 2"
+# yabai -m signal --add event=application_launched app='^(Slack|Messages|Telegram|WhatsApp)$' \
+# 	action="yabai -m space --focus 3"
+# yabai -m signal --add event=application_launched app='^(Spotify|Music)$' \
+# 	action="yabai -m space --focus 4"
+# yabai -m signal --add event=application_launched app='^Microsoft Outlook' \
+# 	action="yabai -m space --focus 5"
+# yabai -m signal --add event=application_launched app='^zoom.us$' \
+# 	action="yabai -m space --focus 5"
 
-# Unmanaged floats
-yabai -m rule --add title='Preferences$'          manage=off layer=above border=off
-yabai -m rule --add title='^Software Update$'     manage=off layer=above border=off
-yabai -m rule --add title='Updating '             manage=off layer=above border=off
-yabai -m rule --add title='^Slack \| mini panel$' manage=off layer=above border=off
-yabai -m rule --add app='^System Preferences$'    manage=off layer=above border=off
-yabai -m rule --add app='Finder$'                 manage=off layer=above border=off
-yabai -m rule --add app='^Installer$'             manage=off layer=above border=off
-yabai -m rule --add app='^EndpointConnect$'       manage=off layer=above border=off
-yabai -m rule --add app='^Activity Monitor$'      manage=off layer=above border=off
-yabai -m rule --add app='^Around$'                manage=off layer=above border=off
-yabai -m rule --add app='^Pixelmator'             manage=off border=off
-yabai -m rule --add app='^Contexts$'              manage=off border=off
-yabai -m rule --add app='^Beyond Compare$'        manage=off border=off
-yabai -m rule --add app='^Photo Mechanic Plus$'   manage=off border=off
-yabai -m rule --add app='^ColorSlurp$'            manage=off border=off
-yabai -m rule --add app='^Karabiner-Elements$'    manage=off border=off
-yabai -m rule --add app='^Telegram$' title='^$'   manage=off layer=above border=off
-yabai -m rule --add app='^zoom.us$'               border=off
+# # Unmanaged floats
+# yabai -m rule --add title='Preferences$'          manage=off layer=above border=off
+# yabai -m rule --add title='^Software Update$'     manage=off layer=above border=off
+# yabai -m rule --add title='Updating '             manage=off layer=above border=off
+# yabai -m rule --add title='^Slack \| mini panel$' manage=off layer=above border=off
+# yabai -m rule --add app='^System Preferences$'    manage=off layer=above border=off
+# yabai -m rule --add app='^System Settings$'       manage=off layer=above border=off
+# yabai -m rule --add app='^System Information$'    manage=off layer=above border=off
+# yabai -m rule --add app='Finder$'                 manage=off layer=above border=off
+# yabai -m rule --add app='^Reminders$'             manage=off layer=above border=off
+# yabai -m rule --add app='^Installer$'             manage=off layer=above border=off
+# yabai -m rule --add app='^Clipy$'                 manage=off layer=above border=off
+# yabai -m rule --add app='^Help Viewer$'           manage=off border=off
+# yabai -m rule --add app='^Safari$'                manage=off border=off
+# yabai -m rule --add title='^QEMU$'                manage=off layer=above border=off
+# yabai -m rule --add app='^VNC Viewer$'            manage=off border=off
+# yabai -m rule --add app='^qemu-system-'           manage=off border=off
+# yabai -m rule --add app='^Raycast$'               manage=off layer=above border=off
+# yabai -m rule --add app='^Activity Monitor$'      manage=off layer=above border=off
+# yabai -m rule --add title='^Picture in Picture$'  manage=off layer=above border=off
+# yabai -m rule --add app='^Pixelmator'             manage=off border=off
+# yabai -m rule --add app='^Contexts$'              manage=off border=off
+# yabai -m rule --add app='^Beyond Compare$'        manage=off border=off
+# yabai -m rule --add app='^Photo Mechanic Plus$'   manage=off border=off
+# yabai -m rule --add app='^Snagit 20..$'           manage=off border=off
+# yabai -m rule --add app='^QuickTime Player$'      manage=off border=off
+# yabai -m rule --add app='^ColorSlurp$'            manage=off border=off
+# yabai -m rule --add app='^FortiClient$'           manage=off border=off
+# yabai -m rule --add app='^Stats$'                 manage=off layer=above border=off
+# yabai -m rule --add app='^Karabiner-Elements$'    manage=off border=off
+# yabai -m rule --add app='^Telegram$' title='^$'   manage=off layer=above border=off
+# yabai -m rule --add app='^zoom.us$'               border=off
 
-yabai -m rule --add app='^iTerm2$' title='^Preferences$' manage=off layer=above border=off
-yabai -m rule --add app='^Microsoft AutoUpdate$' manage=off layer=above border=off
-yabai -m rule --add app='^Microsoft Outlook' title=' Reminder$' manage=off layer=above border=off
-yabai -m rule --add app='^Microsoft Outlook' border=off
+# yabai -m rule --add app='^iTerm2$' title='^Preferences$' manage=off layer=above border=off
+# yabai -m rule --add app='^Microsoft AutoUpdate$' manage=off layer=above border=off
+# yabai -m rule --add app='^Microsoft Outlook' title=' Reminder$' manage=off layer=above border=off
+# yabai -m rule --add app='^Microsoft Outlook' border=off
 
-yabai -m rule --add app='^Marked 2$' title='^Updating' manage=off layer=above border=off
-yabai -m rule --add app='^Marked 2$'         manage=off layer=above grid=1:2:1:0:1:1
+# yabai -m rule --add app='^Marked 2$' title='^Updating' manage=off layer=above border=off
+# yabai -m rule --add app='^Marked 2$'         manage=off border=off layer=above grid=1:2:1:0:1:1
 
-yabai -m rule --add app='^Dictionary$'       manage=off layer=above grid=24:24:15:1:8:14
-yabai -m rule --add app='^Preview$'          manage=off layer=above grid=1:2:1:0:1:1
-yabai -m rule --add app='^Dash$'             manage=off layer=above grid=1:2:1:0:1:1
-yabai -m rule --add app='^Docker$'           manage=off layer=above border=off
-yabai -m rule --add app='^Docker Desktop$'   manage=off layer=above border=off grid=4:4:1:1:2:2
-yabai -m rule --add app='^Dozer$'            manage=off layer=above border=off
-yabai -m rule --add app='^TablePlus$'        manage=off layer=above
-yabai -m rule --add app='^App Store$'        manage=off grid=24:24:1:1:22:22
-yabai -m rule --add app='^Transmission$'     manage=off grid=4:4:1:1:2:2
-yabai -m rule --add app='^Keychain Access$'  manage=off grid=4:4:1:1:2:2
-yabai -m rule --add app='^Code$'             manage=off # grid=24:24:1:1:22:22
-yabai -m rule --add app='^Mast$'             manage=off grid=24:24:1:1:22:22
-yabai -m rule --add app='^Harvest$'          manage=off grid=24:24:1:1:22:22
-yabai -m rule --add app='^ScreenFlow 9$'     manage=off grid=24:24:1:1:22:22
-yabai -m rule --add app='^Cisco Webex'       manage=off grid=4:4:1:1:2:2
-# yabai -m rule --add app='^Snap Camera'       manage=off grid=4:4:1:1:2:2
-# yabai -m rule --add app='^VMware '           manage=off grid=4:4:1:1:2:2
+# yabai -m rule --add app='^Dictionary$'       manage=off layer=above grid=24:24:15:1:8:14
+# yabai -m rule --add app='^Preview$'          manage=off layer=above grid=1:2:1:0:1:1
+# yabai -m rule --add app='^Dash$'             manage=off layer=above grid=1:2:1:0:1:1
+# yabai -m rule --add app='^Docker$'           manage=off layer=above border=off
+# yabai -m rule --add app='^Docker Desktop$'   manage=off layer=above border=off grid=4:4:1:1:2:2
+# yabai -m rule --add app='^Dozer$'            manage=off layer=above border=off
+# yabai -m rule --add app='^TablePlus$'        manage=off layer=above
+# yabai -m rule --add app='^App Store$'        manage=off grid=24:24:1:1:22:22
+# yabai -m rule --add app='^Transmission$'     manage=off grid=4:4:1:1:2:2
+# yabai -m rule --add app='^Keychain Access$'  manage=off grid=4:4:1:1:2:2
+# yabai -m rule --add app='^Code$'             manage=off # grid=24:24:1:1:22:22
+# yabai -m rule --add app='^Mast$'             manage=off grid=24:24:1:1:22:22
+# yabai -m rule --add app='^Harvest$'          manage=off grid=24:24:1:1:22:22
+# yabai -m rule --add app='^ScreenFlow 9$'     manage=off grid=24:24:1:1:22:22
+# yabai -m rule --add app='^Cisco Webex'       manage=off grid=4:4:1:1:2:2
+# # yabai -m rule --add app='^Snap Camera'       manage=off grid=4:4:1:1:2:2
+# # yabai -m rule --add app='^VMware '           manage=off grid=4:4:1:1:2:2
 
 # vim: set ts=2 sw=2 tw=80 noet :
