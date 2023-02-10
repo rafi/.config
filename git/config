@@ -5,7 +5,7 @@
 # See: man git-config
 
 [include]
-	path = users/current
+	path = users/map
 [init]
 	defaultBranch = master
 	# templatedir = ~/.config/git/template
@@ -36,6 +36,8 @@
 [commit]
 	# https://git-scm.com/docs/git-commit#Documentation/git-commit.txt--v
 	verbose = true
+	# https://git-scm.com/book/en/v2/Customizing-Git-Git-Configuration
+	# template =
 [rerere]
 	# https://git-scm.com/docs/git-rerere
 	enabled = true
@@ -125,10 +127,10 @@
 	ui = true
 	pager = true
 	showbranch = true
-	diff = auto
-	status = auto
 	branch = auto
+	diff = auto
 	interactive = auto
+	status = auto
 [color "branch"]
 	plain = yellow
 	current = magenta bold
@@ -142,25 +144,29 @@
 	commit = yellow
 	meta = blue
 	frag = cyan
-	func = yellow bold
+	func = yellow
 	whitespace = red reverse
 [color "diff-highlight"]
-	oldNormal = red bold
-	oldHighlight = red bold 52
-	newNormal = green bold
-	newHighlight = green bold 22
+	oldNormal = 9
+	oldHighlight = 9 52
+	newNormal = 10
+	newHighlight = 10 22
 [color "status"]
 	header = 243
 	added = green
 	changed = red
 	untracked = blue
-	branch = green bold
+	branch = 10
 	nobranch = red
 
 [url "git@github.com"]
 	insteadOf = gh
 [url "git@bitbucket.org"]
 	insteadOf = bb
+[url "git@bitbucket.org:"]
+	insteadOf = https://bitbucket.org/
+[url "git@gitlab.com:"]
+	insteadOf = https://gitlab.com/
 
 [alias]
 	s  = status -sb
@@ -178,6 +184,7 @@
 	dh = diff --color-words HEAD
 	dp = !git log --pretty=mini | fzf | cut -d ' ' -f1 | xargs -o git show
 	patch = !git --no-pager diff --no-color
+	post  = !sh -c 'git --no-pager format-patch --stdout $1 | ix' -
 	prune = fetch --prune
 	mend = commit --amend --no-edit
 	reword = commit --amend
