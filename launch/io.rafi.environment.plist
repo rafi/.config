@@ -9,17 +9,14 @@
 		<string>sh</string>
 		<string>-c</string>
 		<string>
-			launchctl setenv ATOM_HOME $HOME/.local/share/atom
 			launchctl setenv ANDROID_SDK_HOME $HOME/.local/share/android
 			launchctl setenv XDG_CONFIG_HOME $HOME/.config
 			launchctl setenv XDG_CACHE_HOME $HOME/.cache
 			launchctl setenv XDG_DATA_HOME $HOME/.local/share
-			launchctl setenv XDG_RUNTIME_DIR /tmp/run
+			launchctl setenv XDG_STATE_HOME $HOME/.local/state
 			launchctl setenv GNUPGHOME $HOME/.config/gnupg
-			launchctl setenv VBOX_USER_HOME $HOME/.config/virtualbox
 			launchctl setenv PASSWORD_STORE_DIR $HOME/docs/pass/
 			launchctl setenv NPM_CONFIG_USERCONFIG $XDG_CONFIG_HOME/npm/npmrc
-			launchctl setenv FONTCONFIG_PATH /usr/local/etc/fonts
 			launchctl setenv TERMINFO $XDG_DATA_HOME/terminfo
 			launchctl setenv RANDFILE $HOME/.cache/randfile
 			launchctl setenv MPD_HOST music.host
