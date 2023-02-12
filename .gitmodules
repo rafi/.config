@@ -1,12 +1,6 @@
-[submodule "tmux/plugins/better-mouse"]
-	path = tmux/plugins/better-mouse
-	url = git@github.com:nhdaly/tmux-better-mouse-mode.git
 [submodule "tmux/plugins/extrakto"]
 	path = tmux/plugins/extrakto
 	url = git@github.com:laktak/extrakto.git
-[submodule "tmux/plugins/fingers"]
-	path = tmux/plugins/fingers
-	url = git@github.com:Morantron/tmux-fingers.git
 [submodule "tmux/plugins/pass"]
 	path = tmux/plugins/pass
 	url = git@github.com:rafi/tmux-pass.git
