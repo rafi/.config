@@ -47,10 +47,6 @@ else
 	alias lld='ls -Gal --color=always | grep ^d --colour=never'
 fi
 
-# See https://github.com/dundee/gdu
-# shellcheck disable=2139
-test -f "$PREFIX/opt/gdu/bin/gdu" && alias gdu="$PREFIX/opt/gdu/bin/gdu"
-
 # }}}
 # Editor ---------------------------------------------------- v for vim -- {{{
 
@@ -72,21 +68,7 @@ alias vimdiff='vim -d'
 alias testvim="VIMINIT='let \$MYVIMRC=\"\$HOME/box/testvim/init.vim\" | source \$MYVIMRC' nvim"
 
 # }}}
-# Grepping / Parsing --------------------------------------- p for grep -- {{{
-if hash rg 2>/dev/null; then
-	# Use https://github.com/BurntSushi/ripgrep by default
-	alias p=rg
-elif hash ag 2>/dev/null; then
-	# Fallback to https://github.com/ggreer/the_silver_searcher
-	alias p=ag
-else
-	# Fallback to slow grep
-	alias p=grep
-fi
-# Use https://github.com/cykerway/complete-alias for bash alias completion
-if type _complete_alias &>/dev/null; then
-	complete -F _complete_alias p
-fi
+# Grepping / Parsing ----------------------------------------------------- {{{
 
 # Productive defaults for grep and tree
 alias grep='grep --color=auto --exclude-dir=.git'
@@ -100,17 +82,6 @@ hash gtail 2>/dev/null && alias catt='gtail -n $((${LINES:-12}-4)) -s.1'
 
 # Use colordiff by default
 hash colordiff 2>/dev/null && alias diff=colordiff
-
-# }}}
-# Explorer --------------------------------------------- e for explorer -- {{{
-
-if hash lf 2>/dev/null; then
-	# Use https://github.com/gokcehan/lf by default
-	alias e=lf
-elif hash ranger 2>/dev/null; then
-	# Fallback to https://github.com/ranger/ranger
-	alias e=ranger
-fi
 
 # }}}
 # Jump around ------------------------------------------- z for jumping -- {{{
@@ -128,16 +99,15 @@ alias .....='cd ../../../../'
 
 # }}}
 # File find ------------------------------------------------ f for find -- {{{
-if ! hash fd 2>/dev/null; then
-	# Slow
-	alias f='find . -iname '
-else
+if hash fd 2>/dev/null; then
 	# Use https://github.com/sharkdp/fd
 	alias f=fd
-fi
-# Use https://github.com/cykerway/complete-alias for bash alias completion
-if type _complete_alias &>/dev/null; then
-	complete -F _complete_alias f
+	if type _fd &>/dev/null; then
+		complete -o bashdefault -o default -F _fd f
+	fi
+else
+	# Slower
+	alias f='find . -iname '
 fi
 
 # }}}
@@ -160,37 +130,19 @@ alias gl='git lg -15'
 alias gll='git lg'
 alias gld='git lgd -15'
 
-## Git branches
-alias gball="git branch --sort=-committerdate --all --color=always --format \
-	'%(refname:short) %(if)%(upstream)%(then)-> %(upstream)%(end)'"
-gbf() { gball | fzf --ansi | awk '{print $1}'; }
-
 # Attach git aliases auto-completion
 if type __git_complete &>/dev/null; then
-	if type __git_main &>/dev/null; then
-		__git_complete g __git_main
-	fi
-	# __git_complete gb _git_branch
-	# __git_complete gc _git_checkout
-	# __git_complete gcb _git_checkout
-	# __git_complete gd _git_diff
-	# __git_complete gds _git_diff
-	# __git_complete gf _git_fetch
-	# __git_complete gfa _git_fetch
-	# __git_complete gl _git_log
-	# __git_complete gll _git_log
-	# __git_complete gld _git_log
-
-	complete -F _complete_alias gb
-	complete -F _complete_alias gc
-	complete -F _complete_alias gcb
-	complete -F _complete_alias gd
-	complete -F _complete_alias gds
-	complete -F _complete_alias gf
-	complete -F _complete_alias gfa
-	complete -F _complete_alias gl
-	complete -F _complete_alias gll
-	complete -F _complete_alias gld
+	__git_complete g __git_main
+	__git_complete gb _git_branch
+	__git_complete gc _git_checkout
+	__git_complete gcb _git_checkout
+	__git_complete gd _git_diff
+	__git_complete gds _git_diff
+	__git_complete gf _git_fetch
+	__git_complete gfa _git_fetch
+	__git_complete gl _git_log
+	__git_complete gll _git_log
+	__git_complete gld _git_log
 fi
 
 # }}}
@@ -200,7 +152,7 @@ alias dk='docker compose'
 alias dps='docker ps --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{ .Ports }}\\t{{.RunningFor}}\\t{{.Command}}\\t{{ .ID }}" | cut -c-$(tput cols)'
 alias dls='docker ps -a --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{ .Ports }}\\t{{.RunningFor}}\\t{{.Command}}\\t{{ .ID }}" | cut -c-$(tput cols)'
 alias dim='docker images --format "table {{.Repository}}\\t{{.Tag}}\\t{{.ID}}\\t{{.Size}}\\t{{.CreatedSince}}"'
-alias dip='docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}"'
+alias dip='docker inspect --format "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}"'
 alias dgc='docker rmi $(docker images -qf "dangling=true")'
 alias dvc='docker volume ls -qf dangling=true | xargs docker volume rm'
 alias dtop='docker stats $(docker ps --format="{{.Names}}")'
@@ -213,14 +165,13 @@ alias dtag='docker inspect --format "{{.Name}}
 {{range \$index, \$label := .Config.Labels}}  - {{\$index}}={{\$label}}
 {{end}}" $(docker ps -q)'
 
-# Use https://github.com/cykerway/complete-alias for bash alias completion
-if type _complete_alias &>/dev/null; then
-	complete -F _complete_alias d
-	complete -F _complete_alias dk
-	complete -F _complete_alias dim
-	complete -F _complete_alias dip
-	complete -F _complete_alias dgc
-	complete -F _complete_alias dtop
+if type _docker &>/dev/null; then
+	complete -F _docker d
+	complete -F _docker_compose dk
+	complete -F _docker_images dim
+	complete -F _docker_inspect dip
+	complete -F _docker_rmi dgc
+	complete -F _docker_stats dtop
 fi
 
 # }}}
@@ -255,8 +206,10 @@ alias pst='pstree -g 3 -ws'
 # Task ----------------------------------------------------- j for just -- {{{
 # See: https://github.com/casey/just
 alias j=just
+alias jc='just --choose'
 if [ -n "$BASH_VERSION" ] && type _just &>/dev/null; then
 	complete -F _just -o bashdefault -o default j
+	complete -F _just -o bashdefault -o default jc
 fi
 
 # }}}
@@ -277,6 +230,7 @@ alias redshift='redshift -c "$XDG_CONFIG_HOME/redshift/config"'
 alias rtorrent='rtorrent -n -o import="$XDG_CONFIG_HOME/rtorrent/config.rc"'
 alias vercel='vercel --global-config="$XDG_CONFIG_HOME/vercel"'
 alias mbsync='mbsync -c "$XDG_CONFIG_HOME/isync/mbsyncrc"'
+alias alert="terminal-notifier -title 'command complete' -message \"\$(HISTTIMEFORMAT='' history|tail -n1|sed -E 's/^ *[0-9]+ *//;s/[;&|] *alert$//')\""
 
 # }}}
 # Storage ---------------------------------------------------------------- {{{
@@ -324,7 +278,7 @@ if [ "$(uname -s)" = "Darwin" ]; then
 	alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
 
 	# Lock the screen (Away From Keyboard)
-	alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+	alias afk='pmset displaysleepnow'
 
 	# Recursively delete `.DS_Store` files
 	alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
