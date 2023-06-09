@@ -1,0 +1,36 @@
+## where to store your database, default is your system data directory
+## mac: ~/Library/Application Support/com.elliehuxtable.atuin/history.db
+## linux: ~/.local/share/atuin/history.db
+# db_path = "~/.history.db"
+
+## where to store your encryption key, default is your system data directory
+# key_path = "~/.key"
+
+# where to store your auth session token, default is your system data directory
+# session_path = "~/.key"
+
+dialect = "us"            # us, uk
+style = "compact"         # auto, full, compact
+inline_height = 30        # interface max lines, or 0 for full screen
+show_preview = true       # bottom preview pane for long commands
+search_mode = "fuzzy"     # prefix, fulltext, fuzzy, skim
+word_jump_mode = "emacs"  # emacs, subl
+
+scroll_context_lines = 2
+exit_mode = "return-original"  # possible values: return-original, return-query
+# filter_mode = "global"  # global, host, session, directory
+#filter_mode_shell_up_keybinding = "global"  # unset to use "filter_mode" value
+
+auto_sync = false
+# update_check = true
+# sync_address = "https://api.atuin.sh"
+# sync_frequency = "1h"
+
+## characters that count as a part of a word
+# word_chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+# Unanchored regular-expression (match anywhere unless ^ or $ is used).
+# https://docs.rs/regex/latest/regex/#syntax
+history_filter = [
+  "^ ",
+]
