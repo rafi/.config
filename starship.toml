@@ -1,0 +1,55 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+# ship configuration
+# ---
+# see https://starship.rs/config/
+
+add_newline = false
+
+format = """
+$username\
+$hostname\
+$localip\
+$shlvl\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$memory_usage\
+$env_var\
+$custom\
+$sudo\
+$cmd_duration\
+$jobs\
+$battery\
+$time\
+$status\
+$os\
+$container\
+$git_status\
+$shell\
+$character"""
+
+[character]
+success_symbol = ' [λ](green):'
+error_symbol = ' [x](red)'
+
+[directory]
+format = '[$path/]($style)[$read_only]($read_only_style)'
+style = 'blue'
+truncation_length = 4
+
+[git_branch]
+format = '[$symbol](fg:8)[$branch]($style)([:$remote_branch](fg:243))'
+symbol = ''
+style = 'green'
+
+[git_status]
+format = '( [$all_status$ahead_behind]($style))'
+
+[hostname]
+ssh_only = true
+
+[cmd_duration]
+format = ' took [$duration]($style)'  # add leading space
