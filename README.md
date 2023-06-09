@@ -13,7 +13,6 @@ with the clean and smudge filter features of Git attributes.
 
 The most interesting configs:
 
-- [alacritty](./alacritty/)
 - [bash](./bash/)
 - [git](./git/)
 - [i3](./i3/config)
@@ -26,11 +25,18 @@ The most interesting configs:
 - [skhd](./skhd/skhdrc)
 - [yabai](./yabai/yabairc)
 
-... and make sure to check-out [github.com/rafi/vim-config]!
+... And make sure to check out [github.com/rafi/vim-config]
 
 ## Install
 
-There is **no** installation script, only three symlinks:
+----
+
+**DO NOT** install! These are my customized settings that are tailored to my
+set-up. If you blindly install it, you won't have a good time.
+
+----
+
+There is **no** installation script, only two symlinks:
 
 ```sh
 # Clone the .config repo
@@ -52,7 +58,7 @@ mkdir -p ~/.cache/node/{npm,gyp}
 mkdir -p ~/.local/bin
 mkdir -p ~/.local/share/{cargo,composer,fonts,go,krew,lf,mailbox,mutt,neomutt}
 mkdir -p ~/.local/share/{newsbeuter,newsboat,nextword,tig,vagrant}
-mkdir -p ~/.local/share/python/{envs,pyenv}
+mkdir -p ~/.local/share/python/{poetry,pyenv}
 ```
 
 ## macOS-specific Software
@@ -62,26 +68,15 @@ on macOS, make sure you check these out:
 - [launchctl](./launch/)
 - [Karabiner](./karabiner/)
 
+https://macos-defaults.com/ --- https://github.com/yannbertrand/macos-defaults
+
 ## XDG Conformity
 
 Configuration directories are organized neatly by defining
-specific environment variables in [bash/exports](./bash/exports) and
-aliases in [bash/aliases](./bash/aliases).
+specific environment variables in [bash/exports] and aliases in [bash/aliases].
 
-Some programs require special help to feed the proper config:
-
-```sh
-alias mysql='mysql --defaults-extra-file="$XDG_CONFIG_HOME/mysql/config"'
-alias mutt='ESCDELAY=0 neomutt || mutt -F "$XDG_CONFIG_HOME"/mutt/config'
-alias weechat='weechat --dir "$XDG_CONFIG_HOME/weechat/"'
-alias gdrive='gdrive -c "$XDG_CONFIG_HOME/gdrive"'
-alias cpan='cpan -j "$XDG_CONFIG_HOME/cpan/config.pm"'
-alias gcal='gcalcli --configFolder "$XDG_CONFIG_HOME/gcalcli"'
-alias redshift='redshift -c "$XDG_CONFIG_HOME/redshift/config"'
-alias rtorrent='rtorrent -n -o import="$XDG_CONFIG_HOME/rtorrent/config.rc"'
-alias vercel='vercel --global-config="$XDG_CONFIG_HOME/vercel"'
-alias mbsync='mbsync -c "$XDG_CONFIG_HOME/isync/mbsyncrc"'
-```
+Some programs require special aliases to feed the proper config, see "XDG
+conformity" in [bash/aliases].
 
 ## Protecting Secrets
 
@@ -123,5 +118,7 @@ committed. And on checkout, the `smudge.sed` will inject your secrets into
 their proper placeholders. _Note_ that `smudge.sed` is ignored from being
 committed mistakenly.
 
-[XDG standard]: https://wiki.archlinux.org/index.php/XDG_Base_Directory
+[bash/aliases]: ./bash/aliases
+[bash/exports]: ./bash/exports
 [github.com/rafi/vim-config]: https://github.com/rafi/vim-config
+[XDG standard]: https://wiki.archlinux.org/index.php/XDG_Base_Directory
