@@ -3,9 +3,21 @@
 # Misc functions
 # https://github.com/rafi/.config
 
+# Shuffle words
+function shufflewords() {
+	local url='https://raw.githubusercontent.com/first20hours/google-10000-english/master/google-10000-english-usa-no-swears-medium.txt'
+	local count="${1:-4}"
+	curl -s "$url" | shuf -n"$count" | tr -d '\n'
+}
+
 # Spellcheck with aspell
 function spell() {
 	echo "$@" | aspell -a | grep -Ev "^@|^$"
+}
+
+# Query dictionary server
+function dict() {
+	curl dict://dict.org/d:"$*"
 }
 
 # Show active aria2 downloads with diana

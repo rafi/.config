@@ -16,10 +16,7 @@ alias kp='kubectl get pods -o custom-columns=NAME:.metadata.name,STATUS:.status.
 alias kpi='kubectl get pods -o custom-columns=POD:.metadata.name,IMAGES:.spec..image'
 
 # Count Pod's total images
-alias kpimgsum="kubectl get pods -A -o jsonpath=\"{.items[*]['spec.containers', 'spec.initContainers'][*].image}\" | tr -s '[[:space:]]' '\n' | sort | uniq -c | sort -nr"
-
-# List Pod's container names
-alias kpcontainernames='kubectl get pod -o jsonpath="{..spec['"'"'containers'"'"','"'"'initContainers'"'"'][*].name}"'
+alias kpicount="kubectl get pods -A -o jsonpath=\"{.items[*]['spec.containers', 'spec.initContainers'][*].image}\" | tr -s '[[:space:]]' '\n' | sort | uniq -c | sort -nr"
 
 # Show recent Pod termination states
 alias kprestarts='kubectl get pod -o=custom-columns=NAME:.metadata.name,RESTARTS:..restartCount,REASON:..reason,EXIT_CODE:..lastState.terminated.exitCode,LAST_RESTART_TIME:..lastState.terminated.finishedAt --sort-by="{..lastState.terminated.finishedAt}"'
@@ -33,32 +30,76 @@ function kphealth() {
 		| jq -r '.items[] | select(.status.phase != "Running" or ([ .status.conditions[] | select(.type == "Ready" and .status == "False") ] | length ) == 1 ) | .metadata.namespace + "/" + .metadata.name'
 }
 
-# Show human-readble init/containers status for specific Pod
+# Show human-readble init/containers status for each Pod
 # shellcheck disable=2154
-alias kcontainerstatus='kubectl get pod -o go-template --template='"'"'Pod: {{.metadata.name}}{{"\n"}}---{{"\n"}}Containers:{{"\n"}}{{range .status.containerStatuses}}  {{.name}} {{range $key, $state := .state}}  {{$key}}{{if $state.reason}}/{{$state.reason}}{{end}}{{if $state.exitCode}}/{{$state.exitCode}}{{end}}{{end}}{{if lt 0 .restartCount}}  ({{.restartCount}} restarts){{end}}{{"\n"}}{{end}}{{if .status.initContainerStatuses }}Init containers:{{"\n"}}{{range .status.initContainerStatuses}}  {{.name}} {{range $key, $state := .state}}  {{$key}}{{if $state.reason}}/{{$state.reason}}{{end}}{{if $state.exitCode}}/{{$state.exitCode}}{{end}}{{end}}{{if lt 0 .restartCount}}  ({{.restartCount}} restarts){{end}}{{"\n"}}{{end}}{{end}}'"'"
+alias kpc="kubectl get pod -o go-template --template='{{range .items}}{{printf \"\033[48;5;236m:: \033[38;5;4m%-48s \033[38;5;242m%s as %s\033[K\033[0m\n\" .metadata.name .status.phase .status.qosClass}}{{if .status.initContainerStatuses }}{{range .status.initContainerStatuses}}{{printf \"\033[38;5;243m\t|->\033[0m \033[38;5;3m%-31s\\033[0m (init)\" .name}} {{range \$key, \$state := .state}} {{\"\033[38;5;243m\"}}{{if ne \$state.reason \"Completed\"}}{{\"\033[38;5;1m\"}}{{end}}{{\$key}}{{if \$state.reason}}/{{\$state.reason}}{{end}}{{if \$state.exitCode}}/{{\$state.exitCode}}{{end}}{{end}}{{if gt .restartCount 0}} {{\"\033[38;5;174m\"}}({{.restartCount}} restarts){{end}}{{\"\033[0m\n\"}}{{end}}{{end}}{{range .status.containerStatuses}}{{printf \"\033[38;5;243m\t|->\033[0m \033[38;5;2m%-38s\033[0m\" .name}} {{range \$key, \$state := .state}} {{\"\033[38;5;243m\"}}{{if ne \$key \"running\"}}{{\"\033[38;5;1m\"}}{{end}}{{\$key}}{{if \$state.reason}}/{{\$state.reason}}{{end}}{{if \$state.exitCode}}/{{\$state.exitCode}}{{end}}{{end}}{{if gt .restartCount 0}} {{\"\033[38;5;174m\"}}({{.restartCount}} restarts){{end}}{{\"\033[0m\n\"}}{{end}}{{end}}'"
 
 # Use https://github.com/cykerway/complete-alias for bash alias completion
-# if [ "$(type -t _complete_alias)" = function ]; then
-# 	complete -F _complete_alias kcontainerstatus
-# fi
+if type _complete_alias &>/dev/null; then
+	complete -F _complete_alias kp
+	complete -F _complete_alias kpc
+	complete -F _complete_alias kpi
+	complete -F _complete_alias kprestarts
+	complete -F _complete_alias kpnotready
+fi
 
-function _k8s_select_pod() {
-	kubectl get pods --all-namespaces \
+function _rafi_k8s_parse_args() {
+	declare -a args; args=()
+	if [ "${1:0:1}" != "-" ]; then
+		if [ -n "${1}" ]; then
+			args+=("${1}")
+			shift
+		else
+			args+=("pods")
+		fi
+	fi
+	if [ "${1:0:1}" == "-" ] || [ -z "${1}" ]; then
+		# FIXME: Need to iterate over all args and add -A if args doesn't include
+		# -n/-A/--all-namespaces.
+		args+=("-A")
+	else
+		args+=("-n")
+	fi
+	echo "${args[@]}" "$@"
+}
+
+# shellcheck disable=SC2046
+kwatch() { kubectl get -w $(_rafi_k8s_parse_args "$@"); }
+# shellcheck disable=SC2046
+kget() { kubectl get $(_rafi_k8s_parse_args "$@"); }
+# shellcheck disable=SC2046
+# kdesc() { kubectl describe $(_rafi_k8s_parse_args "$@"); }
+
+# Select resource with labels, sorted by ascending age.
+function kgsort() {
+	kubectl get $(_rafi_k8s_parse_args "$@") \
+		--show-labels --sort-by .metadata.creationTimestamp --no-headers |
+		fzf --tac
+}
+
+# shellcheck disable=SC2120
+function _rafi_k8s_select_pod() {
+	local kind="${1:-pods}"
+	shift
+	kubectl get "$kind" --all-namespaces "$@" \
 		| fzf --header-lines=1 --prompt "$(kubectl config current-context)> " \
 		| awk '{print $1 " " $2}'
 }
 
 # Pod commands with interactive selection.
-alias kpdesc='_k8s_select_pod | xargs kubectl describe pod -n'
-alias kpip='_k8s_select_pod | xargs kubectl get pod -o jsonpath="{.status.podIPs[*].ip}" -n'
-alias kplog='_k8s_select_pod | xargs kubectl logs -f -n'
+alias kpdesc='_rafi_k8s_select_pod | xargs kubectl describe pod -n'
+alias kpdelete='_rafi_k8s_select_pod | xargs kubectl delete pod -n'
+alias kplog='_rafi_k8s_select_pod | xargs kubectl logs -f -n'
+alias kpman='_rafi_k8s_select_pod | xargs kubectl get pod -o json -n | fx'
+alias kpip='_rafi_k8s_select_pod | xargs kubectl get pod -o jsonpath="{.status.podIPs[*]}" -n | jq'
+alias ksdconf="_rafi_k8s_select_pod secrets --field-selector type=kubernetes.io/dockerconfigjson | xargs kubectl get secret -o go-template='{{index .data \".dockerconfigjson\" | base64decode }}' -n | jq"
 
 function kexec() {
-	read -ra tokens < <(_k8s_select_pod)
+	read -ra tokens < <(_rafi_k8s_select_pod)
 	if [ ${#tokens} -gt 1 ]; then
 		# Try bash first, then sh.
-		kubectl exec -it --namespace "${tokens[0]}" "${tokens[1]}" -- bash \
-			|| kubectl exec -it --namespace "${tokens[0]}" "${tokens[1]}" -- sh
+		kubectl exec -it --namespace "${tokens[@]}" -- bash \
+			|| kubectl exec -it --namespace "${tokens[@]}" -- sh
 	fi
 }
 
@@ -75,8 +116,7 @@ function ktail() {
 					--preview-window down,follow \
 					--preview 'kubectl logs -f --tail=100 --all-containers --namespace {1} {2}' "$@"
 	)
-	[ ${#tokens} -gt 1 ] &&
-		kubectl logs -f --namespace "${tokens[0]}" "${tokens[1]}"
+	[ ${#tokens} -gt 1 ] && kubectl logs -f --namespace "${tokens[@]}"
 }
 
 # NODES
@@ -91,10 +131,10 @@ alias ktaints='kubectl get nodes -o=custom-columns=NodeName:.metadata.name,Taint
 # ---
 
 # Display in-depth Ingress objects
-alias kingress='kubectl get ingress -o custom-columns="NAMESPACE:.metadata.namespace,NAME:.metadata.name,CLASS:.metadata.annotations.kubernetes\.io/ingress\.class,HOSTS:.spec.rules[*].host,PATHS:.spec.rules[*].http.paths[*].path"'
+alias kingress='kubectl get ingress -o custom-columns="NAMESPACE:.metadata.namespace,NAME:.metadata.name,CLASS:.spec.ingressClassName,HOSTS:.spec.rules[*].host,PATHS:.spec.rules[*].http.paths[*].path"'
 
 # Display even more robusy Ingress list
-alias kingress-wide='kubectl get ingress -o custom-columns="NAMESPACE:.metadata.namespace,NAME:.metadata.name,CLASS:.metadata.annotations.kubernetes\.io/ingress\.class,HOSTS:.spec.rules[*].host,PATHS:.spec.rules[*].http.paths[*].path,SERVICES:.spec.rules[*].http.paths[*].backend.serviceName,PORTS:.spec.rules[*].http.paths[*].backend.servicePort"'
+alias kingress-wide='kubectl get ingress -o custom-columns="NAMESPACE:.metadata.namespace,NAME:.metadata.name,CLASS:.spec.ingressClassName,HOSTS:.spec.rules[*].host,PATHS:.spec.rules[*].http.paths[*].path,SERVICES:.spec.rules[*].http.paths[*].backend.serviceName,PORTS:.spec.rules[*].http.paths[*].backend.servicePort"'
 
 # EVENTS
 # ---
@@ -104,6 +144,7 @@ alias kevents='kubectl get events --sort-by=.metadata.creationTimestamp'
 
 # Show events by specific resource name, use with -A or -n
 function kobjevents() {
+	[ -z "$1" ] && echo "usage: kobjevents <object> [...]" && return 1
 	local obj="${1}"
 	shift
 	kubectl get event \
@@ -116,7 +157,7 @@ function kobjevents() {
 # METRICS
 # ---
 
-# Show cpu/memory matrix for pods, use with -A or -n
+# Show cpu/memory matrix for pods, use with -A or -n <namespace>
 function kstats() {
 	local COLS="NAME:.metadata.name"
 	COLS="$COLS,CPU_REQ(cores):.spec.containers[*].resources.requests.cpu"

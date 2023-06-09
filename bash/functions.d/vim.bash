@@ -46,13 +46,4 @@ function vs() {
 		| xargs -I'{}' "$VIM" -S "$SESSIONS/{}.vim"
 }
 
-# Show all changed plugins in the last 24 hours
-function deinchanged() {
-	cd "$XDG_DATA_HOME"/nvim/dein/repos/github.com || exit
-	find . -not -path '*/\.git/*' -mtime -1 \
-		| grep -v '\.git' \
-		| awk -F'/' '{print $1"/"$2"/"$3}' \
-		| uniq
-}
-
 # vim: set ts=2 sw=2 tw=80 noet :

@@ -6,26 +6,27 @@
 # See: https://git-scm.com/
 #      https://github.com/junegunn/fzf
 
+## Git branches
+alias gball="git branch --sort=-committerdate --all --color=always --format \
+	'%(refname:short) %(if)%(upstream)%(then)-> %(upstream)%(end)'"
+gbf() { gball | fzf --ansi | awk '{print $1}'; }
+
 # List of branches sorted by last commit date
 function gbl() {
 	git branch -r "$@" | grep -v HEAD \
 		| xargs -n 1 git log --color=always --no-merges -n 1 \
 			--pretty="tformat:%C(yellow)%ci{%C(green)%ar{%C(blue)<%an>{%C(auto)%D%C(reset)" \
 		| sort -r | sed -E 's/^[^{]+{//g' | column -t -s '{' | less -FXRS
-	}
+}
 
-# Checkout git branch/tag, with a preview showing the commits
-# between the tag/branch and HEAD
+# Checkout git branch/tag, with a branch preview.
 function gbs() {
-	local tags branches target
-	tags=$(git tag | awk '{print "\x1b[31;1mtag\x1b[m\t " $1}') || return
-	branches=$(git branch -vv --color=always --sort=-committerdate "$@" |
-		grep -v HEAD | sed "s/^[ *]*//" |
-		awk '{print "\x1b[34;1mbranch\x1b[m\t " $0}') || return
-	target=$( ([ -n "$tags" ] && echo "$tags"; echo "$branches") |
+	git for-each-ref --format="%(refname)" refs/heads refs/tags --sort=-committerdate | \
+		awk '{sub(/^refs\/tags\//, "\x1b[31;1mtag\x1b[m\t "); sub(/^refs\/heads\//, "\x1b[34;1mbranch\x1b[m\t ")} {print}' | \
 		fzf --no-hscroll --no-multi --delimiter=" " -n 2 \
-			--ansi --preview="git-branch-overview {2}" ) || return
-	git checkout "$(echo "$target" | awk '{print $2}' | sed "s#remotes/[^/]*/##")"
+			--ansi --preview="git-branch-overview {2}" --preview-window=right,70% | \
+		awk '{print $2}' | \
+		xargs git checkout
 }
 
 # git commit browser

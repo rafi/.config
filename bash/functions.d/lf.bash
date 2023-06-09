@@ -6,6 +6,22 @@
 # See https://github.com/gokcehan/lf
 
 if hash lf 2>/dev/null; then
+
+	lfcd () {
+		tmp="$(mktemp)"
+		# `command` is needed in case `lfcd` is aliased to `lf`
+		command lf -last-dir-path="$tmp" "$@"
+		if [ -f "$tmp" ]; then
+			dir="$(cat "$tmp")"
+			rm -f "$tmp"
+			if [ -d "$dir" ]; then
+				if [ "$dir" != "$(pwd)" ]; then
+					cd "$dir" || return
+				fi
+			fi
+		fi
+	}
+
 	export LF_ICONS="\
 di=:\
 fi=:\
