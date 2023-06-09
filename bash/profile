@@ -3,20 +3,15 @@
 # ---
 # github.com/rafi/.config
 
-# shellcheck disable=1091
-
-# Profile START
-# PS4='+ $(gdate "+%s.%N")\011 '
-# exec 3>&2 2>/tmp/bashstart.$$.log
-# set -x
-
 # Avoid PATH duplication inside Tmux sessions.
 if [ -n "$TMUX" ] && [ -f /etc/profile ]; then
+	# shellcheck disable=SC2123
 	PATH=""
 	source /etc/profile
 fi
 
 # Load all environment exports
+# shellcheck disable=1091
 source "$HOME/.config/bash/exports"
 
 if [[ "$OSTYPE" != "darwin"* ]] && \
@@ -33,23 +28,20 @@ if [ "$BASH" ]; then
 	source "$XDG_CONFIG_HOME/bash/bashrc"
 fi
 
-# Profile END
-# set +x
-# exec 2>&3 3>&-
-
 # Use keychain to persist keys
 # https://github.com/funtoo/keychain
 if hash keychain 2>/dev/null; then
 	eval "$(keychain --dir "$XDG_CACHE_HOME/keychain" --eval --agents ssh -Q --quiet current)"
 fi
 
+# Tmux: on login, attach to existing session or create a new one.
 if [[ $- == *i* ]] && hash tmux 2>/dev/null && [ -z "$TMUX" ]; then
 	# In SSH sessions, list tmux sessions on log-in.
 	if [ -n "$SSH_TTY" ]; then
 		tmux list-sessions 2>/dev/null | sed 's/^/# tmux /'
 	else
 		# Auto-attach (or new session)
-		tmux attach || tmux new-session -A -s main
+		tmux attach 2>/dev/null || tmux new-session -A -s main
 	fi
 fi
 

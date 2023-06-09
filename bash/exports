@@ -26,8 +26,7 @@ export  XDG_STATE_HOME="$HOME/.local/state"
 
 # macOS
 if [[ "$OSTYPE" == "darwin"* ]]; then
-	# Intel binaries vs. ARM
-	PREFIX="/opt/homebrew"
+	PREFIX="${HOMEBREW_PREFIX:-/opt/homebrew}"
 	[ ! -d "$PREFIX" ] && PREFIX="/usr/local"
 	export PREFIX
 
@@ -68,6 +67,9 @@ export VISUAL="$EDITOR"
 # Homebrew token
 # export GITHUB_TOKEN="{{ GITHUB_TOKEN }}"
 export HOMEBREW_GITHUB_API_TOKEN="{{ HOMEBREW_GITHUB_API_TOKEN }}"
+
+# OpenAI
+export OPENAI_API_KEY="{{ OPENAI_API_KEY }}"
 
 # Spotify
 export TMUX_SPOTIFY_API_KEY="{{ TMUX_SPOTIFY_API_KEY }}"
@@ -126,7 +128,7 @@ export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/rc"
 
 # Fzf
 export FZF_DEFAULT_OPTS="--bind=ctrl-d:page-down,ctrl-u:page-up,ctrl-y:yank,tab:down,btab:up --inline-info --reverse --height 50%"
-export FZF_DEFAULT_COMMAND='ag -U --hidden --follow --nogroup --nocolor -g ""'
+export FZF_DEFAULT_COMMAND='rg --vimgrep --files --follow --hidden --no-ignore-vcs --smart-case --glob !**/.git/*'
 
 export COINTOP_CONFIG="$XDG_CONFIG_HOME/cointop/config.toml"
 export MEMO_HOME="$HOME/docs/blog"
@@ -141,6 +143,9 @@ if hash ack 2> /dev/null; then
 	export ACKRC="$XDG_CONFIG_HOME/ack/ackrc"
 	export ACK_PAGER_COLOR="less -x4SRFX"
 fi
+
+export INTELLI_HOME="$XDG_STATE_HOME/intellishell"
+export INTELLI_SKIP_ESC_BIND=1
 
 # jk
 if hash jk 2>/dev/null; then
@@ -175,13 +180,11 @@ export AWS_SHARED_CREDENTIALS_FILE="${HOME}/docs/aws/credentials"
 
 # Google Cloud SDK
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+export CLOUDSDK_CONFIG="$XDG_STATE_HOME/gcloud"
 # Bash only
 if [ -n "$BASH_VERSION" ]; then
-	if [ -d "$PREFIX/Caskroom/google-cloud-sdk" ]; then
-		source "$PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
-		source "$PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
-	elif [ -d "${XDG_DATA_HOME}/google-cloud-sdk/bin" ]; then
-		PATH="${PATH}:${XDG_DATA_HOME}/google-cloud-sdk/bin"
+	if [ -f "$PREFIX/share/google-cloud-sdk/path.bash.inc" ]; then
+		source "$PREFIX/share/google-cloud-sdk/path.bash.inc"
 	fi
 fi
 
@@ -278,12 +281,17 @@ fi
 # Node NPM tool configuration
 if hash npm 2>/dev/null; then
 	export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
-	export N_PREFIX="${XDG_DATA_HOME}/nodejs"
-	PATH="${N_PREFIX}/bin:$PATH:${XDG_DATA_HOME}/npm/bin"
+	export NVM_DIR="$XDG_DATA_HOME/node"
+	# export N_PREFIX="${XDG_DATA_HOME}/node"
+	# PATH="${N_PREFIX}/bin:$PATH:${XDG_DATA_HOME}/npm/bin"
+fi
+
+if hash yarn 2>/dev/null; then
+	PATH="$XDG_DATA_HOME/yarn/global/node_modules/.bin/:$PATH"
 fi
 
 # Babel
-export BABEL_CACHE_PATH="$XDG_CACHE_HOME/babel.json"
+# export BABEL_CACHE_PATH="$XDG_CACHE_HOME/babel.json"
 
 # Node.js configuration
 if hash node 2>/dev/null; then
@@ -320,7 +328,7 @@ if hash pipx 2>/dev/null; then
 fi
 
 # Rust Cargo configuration
-if [ -d "$XDG_DATA_HOME"/cargo ]; then
+if hash cargo 2>/dev/null; then
 	export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 	export CARGO_HOME="$XDG_DATA_HOME"/cargo
 	PATH="$XDG_DATA_HOME/cargo/bin:$PATH"

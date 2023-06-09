@@ -3,8 +3,6 @@
 # ---
 # https://github.com/rafi/.config
 
-# shellcheck disable=1091
-
 # Abort if not running interactively
 [[ $- == *i* ]] || return 0
 
@@ -26,31 +24,6 @@ if [[ $DISPLAY ]]; then
 	shopt -s checkwinsize  # Update LINES and COLUMNS after each command
 fi
 
-export HISTFILE="$XDG_CACHE_HOME/bash_history"
-export HISTSIZE=20000
-export HISTFILESIZE=15000000
-export HISTTIMEFORMAT='[%F %T] '
-export HISTIGNORE='pwd:jobs:ll:ls:l:history:c:clear'
-export HISTCONTROL=ignoreboth
-
-# Append to history and set the window title as 'user@host:dir'
-export PROMPT_COMMAND='history -a; echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
-
-# Load bash completions
-source "$XDG_CONFIG_HOME/bash/completion"
-
-# Load bash aliases
-source "$XDG_CONFIG_HOME/bash/aliases"
-
-# Load CLI utilities
-source "$XDG_CONFIG_HOME/bash/utils"
-
-# Load symlink'ed prompt theme
-source "$XDG_CONFIG_HOME/bash/themes/current"
-
-# Clean-up Apple's useless garbage
-[ -f .DS_Store ] && rm -f .DS_Store
-
 # Enable readline vi-mode for myself only
 # See ./functions.d/ssh.bash for implementation
 if [ "${LC_IDENTIFICATION:-$USER}" = rafi ] \
@@ -58,5 +31,26 @@ if [ "${LC_IDENTIFICATION:-$USER}" = rafi ] \
 then
 	set -o vi
 fi
+
+export HISTFILE="$XDG_CACHE_HOME/bash_history"
+export HISTSIZE=20000
+export HISTFILESIZE=15000000
+export HISTTIMEFORMAT='[%F %T] '
+export HISTIGNORE='pwd:jobs:ll:ls:l:history:c:clear'
+export HISTCONTROL=ignoreboth
+
+# See sheldon/plugins.toml
+eval "$(sheldon source)"
+
+# Load bash completions
+source "$XDG_CONFIG_HOME/bash/completion"
+
+# Load bash aliases
+source "$XDG_CONFIG_HOME/bash/aliases"
+
+unset PREFIX
+
+# Clean-up Apple's useless garbage
+[ -f .DS_Store ] && rm -f .DS_Store
 
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :

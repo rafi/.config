@@ -20,4 +20,5 @@ s/^\(wwo-api-key=\).*$/\1{{ WEATHER_TOKEN }}/
 s/^\(forecast-api-key=\).*$/\1{{ FORECASTIO_TOKEN }}/
 s/\(GITHUB_TOKEN="\).*\("\)$/\1{{ GITHUB_TOKEN }}\2/
 s/\(HOMEBREW_GITHUB_API_TOKEN="\).*\("\)$/\1{{ HOMEBREW_GITHUB_API_TOKEN }}\2/
+s/\(OPENAI_API_KEY="\).*\("\)$/\1{{ OPENAI_API_KEY }}\2/
 s/\(TMUX_SPOTIFY_API_KEY="\).*\("\)$/\1{{ TMUX_SPOTIFY_API_KEY }}\2/

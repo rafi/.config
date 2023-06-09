@@ -24,6 +24,12 @@ function ps1_context {
 LS_COLORS="$(vivid generate snazzy)"
 export LS_COLORS
 
+if [ -z "$(LC_ALL=C type -t __git_ps1)" ]; then
+	__git_ps1() {
+		echo ''
+	}
+fi
+
 # Load directory and file colors for GNU ls
 # eval "$(dircolors -b "$XDG_CONFIG_HOME/bash/dircolors")"
 

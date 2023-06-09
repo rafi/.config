@@ -14,8 +14,12 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 	# macOS Homebrew bash completions
 	if [[ -f "$PREFIX/etc/profile.d/bash_completion.sh" ]]; then
 		# Load entire Homebrew installed software's bash completion
-		# BASH_COMPLETION_DEBUG=1
-		. "$PREFIX/etc/profile.d/bash_completion.sh"
+		# export BASH_COMPLETION_DEBUG=1
+		source "$PREFIX/etc/profile.d/bash_completion.sh"
+	else
+		for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+			[[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
+		done
 	fi
 
 	# Add tab completion for `defaults read|write NSGlobalDomain`
@@ -32,32 +36,6 @@ elif [ -f /etc/lsb-release ]; then
 	elif [ -f /etc/bash_completion ]; then
 		. /etc/bash_completion
 	fi
-fi
-
-# Load git bash prompt helper, if not loaded already
-# https://github.com/git/git/blob/master/contrib/completion
-if [ -z "$(LC_ALL=C type -t __git_ps1)" ]; then
-	for dir in \
-			etc/bash_completion.d \
-			share/git/contrib/completion \
-			share/git/completion \
-			share/git-core/contrib/completion
-	do
-		if [ -f "$PREFIX/$dir/git-prompt.sh" ]; then
-			. "$PREFIX/$dir/git-prompt.sh" && break
-		fi
-	done
-	unset dir
-fi
-
-# https://github.com/cykerway/complete-alias
-if [ -f "$PREFIX/etc/profile.d/complete_alias" ]; then
-	source "$PREFIX/etc/profile.d/complete_alias"
-fi
-
-# Google Cloud SDK
-if [ -f "$XDG_DATA_HOME/google-cloud-sdk/completion.bash.inc" ]; then
-	source "$XDG_DATA_HOME/google-cloud-sdk/completion.bash.inc"
 fi
 
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :

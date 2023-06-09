@@ -1,0 +1,75 @@
+# sheldon
+# ---
+# See https://github.com/rossmacarthur/sheldon
+
+shell = "bash"
+
+[plugins.bash-preexec]
+github = "rcaloras/bash-preexec"
+
+[plugins.complete-alias]
+github = "cykerway/complete-alias"
+use = ["complete_alias"]
+
+[plugins.local-functions]
+local = "~/.config/bash/functions.d"
+use = [ "*.bash" ]
+
+# [plugins.local-theme]
+# local = "~/.config/bash/themes"
+# use = [ "haskell" ]
+
+[plugins.local]
+local = "~/.local/bin"
+use = [ "jk-completion.bash" ]
+
+[plugins.pyenv]
+inline = '''
+if [ -z "$VIRTUAL_ENV" ] && hash pyenv 2>/dev/null; then
+	# export VIRTUAL_ENV_DISABLE_PROMPT=1
+	eval "$(pyenv init --no-push-path -)"
+fi
+'''
+
+[plugins.vivid]
+inline = '''
+LS_COLORS="$(vivid generate nord)"
+export LS_COLORS
+'''
+
+[plugins.intelli-shell]
+remote = "https://raw.githubusercontent.com/lasantosr/intelli-shell/main/intelli-shell.sh"
+
+[plugins.zoxide]
+inline = '''
+if hash zoxide 2>/dev/null; then
+	eval "$(_ZO_ECHO=1 zoxide init bash)"
+fi
+'''
+
+[plugins.starship]
+inline = 'eval "$(starship init bash)"'
+
+[plugins.atuin]
+inline = '''
+if hash atuin 2>/dev/null; then
+	eval "$(ATUIN_NOBIND=true atuin init bash)"
+	bind -m vi-command -x '"\C-r": __atuin_history'
+	bind -m vi-insert -x '"\C-r": __atuin_history'
+fi
+'''
+
+# [plugins.rtx]
+# inline = 'eval "$(rtx activate bash)"'
+
+# [plugins.git-prompt]
+# remote = "https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh"
+#
+# [plugins.git-prompt.hooks]
+# pre = """
+# export GIT_PS1_SHOWDIRTYSTATE=1
+# export GIT_PS1_SHOWSTASHSTATE=1
+# export GIT_PS1_SHOWCOLORHINTS=0
+# export GIT_PS1_SHOWUNTRACKEDFILES=1
+# export GIT_PS1_SHOWUPSTREAM='auto'
+# """
