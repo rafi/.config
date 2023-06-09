@@ -1,0 +1,49 @@
+[note]
+
+language = "en"
+# default-title = "Untitled"
+filename = "{{slug title}}"
+extension = "md"
+template = "default.md"
+# id-charset = "alphanum"
+# id-length = 4
+# id-case = "lower"
+
+[format.markdown]
+hashtags = true
+colon-tags = true
+multiword-tags = false
+
+[tool]
+#editor = "nvim"
+pager = "less -FIRX"
+fzf-preview = "bat -p --color always {-1}"
+
+[group.wiki]
+paths = ["/Users/rafaelb/docs/wiki"]
+
+[filter]
+recents = "--sort created- --created-after 'last two weeks'"
+
+[alias]
+
+# Edit the last modified note.
+edlast = "zk edit --limit 1 --sort modified- $@"
+
+# Edit the notes selected interactively among the notes created the last two weeks.
+recent = "zk edit --sort created- --created-after 'last two weeks' --interactive"
+
+# Show a random note.
+lucky = "zk list --quiet --format full --sort random --limit 1"
+
+# LSP (EDITOR INTEGRATION)
+[lsp]
+
+[lsp.completion]
+use-additional-text-edits = true
+
+[lsp.diagnostics]
+# Report titles of wiki-links as hints.
+wiki-title = "hint"
+# Warn for dead links between notes.
+dead-link = "error"
