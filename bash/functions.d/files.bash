@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # File functions
 # https://github.com/rafi/.config
 
@@ -22,6 +20,24 @@ function up() {
 function dsf() {
 	diff -u "$1" "$2" | diff-so-fancy | less
 }
+
+# See https://github.com/gokcehan/lf
+if hash lf 2>/dev/null; then
+	lfcd () {
+		tmp="$(mktemp)"
+		# `command` is needed in case `lfcd` is aliased to `lf`
+		command lf -last-dir-path="$tmp" "$@"
+		if [ -f "$tmp" ]; then
+			dir="$(cat "$tmp")"
+			rm -f "$tmp"
+			if [ -d "$dir" ]; then
+				if [ "$dir" != "$(pwd)" ]; then
+					cd "$dir" || return
+				fi
+			fi
+		fi
+	}
+fi
 
 # Show processes hogging files
 function openedfiles() {

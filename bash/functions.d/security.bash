@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # Certificate functions
 # https://github.com/rafi/.config
 

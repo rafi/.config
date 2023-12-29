@@ -1,11 +1,9 @@
-#!/usr/bin/env bash
-
 # SSH functions
 # https://github.com/rafi/.config
 
 # Yank selected public key with fzf and pbcopy
 function pubkey() {
-	cert="$(find ~/.ssh -type f -name "*.pub" -printf "%P\n" | fzf)"
+	cert="$( (cd ~/.ssh && find . -type f -name '*.pub') | fzf)"
 	if [ -n "$cert" ]; then
 		pbcopy < "$HOME/.ssh/$cert"
 		echo "=> Public key yanked."
@@ -20,12 +18,17 @@ function ssh() {
 	else
 		TERM=xterm
 	fi
-	# Don't overwrite environment variable if it's not empty
+	# Propagate local user name, for remote goodies.
+	# But don't overwrite environment variable if it's not empty.
 	export LC_IDENTIFICATION="${LC_IDENTIFICATION:-$USER}"
 	# Rename tmux window
 	[ -n "$TMUX" ] && tmux rename-window "${@: -1}" 1>/dev/null
 	# Execute ssh with identification
-	command ssh -o SendEnv=LC_IDENTIFICATION "$@"
+	if hash assh 2>/dev/null; then
+		assh wrapper ssh -- -o SendEnv=LC_IDENTIFICATION "$@"
+	else
+		command ssh -o SendEnv=LC_IDENTIFICATION "$@"
+	fi
 	# Reset tmux window name
 	[ -n "$TMUX" ] && tmux set-window-option automatic-rename "on" 1>/dev/null
 }

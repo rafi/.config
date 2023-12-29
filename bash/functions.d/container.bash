@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-
-# Crane functions
+# Container/image functions
 # https://github.com/rafi/.config
 # ---
 # See: https://github.com/google/go-containerregistry/blob/main/cmd/crane/doc/crane.md

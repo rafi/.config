@@ -1,32 +1,35 @@
-#!/usr/bin/env bash
-
 # Grepping and Parsing
 # https://github.com/rafi/.config
 
-# rga (ripgrep-all) + fzf-tmux
-# find-in-file - usage: fif <searchTerm> or fif "string with spaces" or fif "regex"
-# fif() {
-# 	if [ ! "$#" -gt 0 ]; then echo "Need a string to search for!"; return 1; fi
-# 	local file
-# 	file="$(rga --max-count=1 --ignore-case --files-with-matches --no-messages "$@" | fzf-tmux +m --preview="rga --ignore-case --pretty --context 10 '"$@"' {}")" && open "$file"
-# }
+# Fuzzy find files and edit selected in vim.
+# Dependencies: fzf, ripgrep, bat
+function ffi() {
+	BAT_ENV=BAT_STYLE=changes,header-filename,numbers
+	rg --color=always --line-number --no-heading --smart-case "${*:-}" |
+		fzf --ansi --multi --delimiter : \
+			--color "hl:-1:underline,hl+:-1:underline:reverse" \
+			--preview="$BAT_ENV bat --color=always {1} --highlight-line {2}" \
+			--preview-window 'right,50%,border-left,+{2}+3/3,~1' |
+		sed 's/:.*//g' |
+		xargs "$EDITOR" -O
+}
 
+# Fuzzy grep and edit selected in vim.
+# Dependencies: fzf, ripgrep, bat
 function fif() {
 	INITIAL_QUERY="$*"
-	RG_PREFIX="rg --column --line-number --no-heading --color=always --smart-case "
-	export FZF_DEFAULT_COMMAND="$RG_PREFIX '$INITIAL_QUERY'"
+	BAT_ENV=BAT_STYLE=changes,header-filename,numbers
+	RG_PREFIX='rg --column --line-number --no-heading --color=always --smart-case'
+	FZF_DEFAULT_COMMAND="$RG_PREFIX $(printf %q "$INITIAL_QUERY")"
+	export FZF_DEFAULT_COMMAND
 
-	FZF="fzf"
-	HEIGHT="50%"
-	if [ -n "$TMUX" ]; then
-		FZF="fzf-tmux"
-		HEIGHT="100%"
-	fi
-
-	"$FZF" --bind \
-		"ctrl-d:page-down,ctrl-u:page-up,ctrl-y:yank,tab:down,btab:up,change:reload:$RG_PREFIX {q} || true" \
-		--ansi --phony --query "$INITIAL_QUERY" \
-		--height="$HEIGHT" --layout=reverse
+	fzf --nth 1 --delimiter : --ansi --phony --query "$INITIAL_QUERY" \
+		--height="50%" \
+		--bind "change:reload:sleep 0.1; $RG_PREFIX {q} || true" \
+		--preview="$BAT_ENV bat --color=always {1} --highlight-line {2}" \
+		--preview-label "Hey hey" \
+		--preview-window 'right,50%,border-left,nowrap,+{2}+3/3,~1' |
+		awk -F: '{print $1 " +" $2}' | xargs "$EDITOR"
 }
 
 #  vim: set ft=sh ts=2 sw=2 tw=80 noet :

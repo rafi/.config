@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # Kubernetes helpers
 # https://github.com/rafi/.config
 # ---
@@ -10,7 +8,7 @@
 # ---
 
 # Display Pod workload information
-alias kp='kubectl get pods -o custom-columns=NAME:.metadata.name,STATUS:.status.phase,RESTARTS:.status.containerStatuses[*].restartCount,M_REQUESTS:.spec.containers[*].resources.requests.memory,M_LIMITS:.spec.containers[*].resources.limits.memory,NODE_IP:.status.hostIP,POD_IP:.status.podIP'
+alias kp='kubectl get pods -o custom-columns=:.metadata.namespace,NAME:.metadata.name,STATUS:.status.phase,RESTARTS:.status.containerStatuses[*].restartCount,M_REQUESTS:.spec.containers[*].resources.requests.memory,M_LIMITS:.spec.containers[*].resources.limits.memory,NODE:.spec.nodeName,IP:.status.podIP'
 
 # Display Pod's images
 alias kpi='kubectl get pods -o custom-columns=POD:.metadata.name,IMAGES:.spec..image'
@@ -45,38 +43,51 @@ fi
 
 function _rafi_k8s_parse_args() {
 	declare -a args; args=()
-	if [ "${1:0:1}" != "-" ]; then
-		if [ -n "${1}" ]; then
-			args+=("${1}")
-			shift
-		else
-			args+=("pods")
-		fi
-	fi
-	if [ "${1:0:1}" == "-" ] || [ -z "${1}" ]; then
-		# FIXME: Need to iterate over all args and add -A if args doesn't include
-		# -n/-A/--all-namespaces.
-		args+=("-A")
-	else
-		args+=("-n")
-	fi
-	echo "${args[@]}" "$@"
+	local found_kind found_ns
+
+	while [ $# -gt 0 ]; do
+		case "$1" in
+		-n|--namespace) shift; found_ns="--namespace=$1";;
+		-A) found_ns='-A';;
+		*) if [ -z "$found_kind" ]; then found_kind="$1"
+			else args+=("${1}")
+			fi;;
+		esac
+		shift
+	done
+	[ -n "$found_kind" ] || found_kind=pods
+	[ -n "$found_ns" ] || found_ns='-A'
+	echo "$found_kind" "$found_ns" "${args[@]}"
 }
 
 # shellcheck disable=SC2046
-kwatch() { kubectl get -w $(_rafi_k8s_parse_args "$@"); }
+kwatch() { kubectl get -w $(_rafi_k8s_parse_args "$@") | cut -c-$(tput cols); }
 # shellcheck disable=SC2046
-kget() { kubectl get $(_rafi_k8s_parse_args "$@"); }
+kget() { kubectl get $(_rafi_k8s_parse_args "$@") | cut -c-$(tput cols); }
 # shellcheck disable=SC2046
-# kdesc() { kubectl describe $(_rafi_k8s_parse_args "$@"); }
+kdesc() { kubectl describe $(_rafi_k8s_parse_args "$@"); }
+
+if [[ $(type -t compopt) = 'builtin' ]]; then
+	__rafi_complete_k8s_get() {
+		local cur prev words cword
+		_get_comp_words_by_ref -n "=:" cur prev words cword
+		words=(kubectl get "${words[@]:1}")
+		COMPREPLY=()
+		__kubectl_get_completion_results
+		__kubectl_process_completion_results
+	}
+	complete -o default -F __rafi_complete_k8s_get kwatch
+	complete -o default -F __rafi_complete_k8s_get kget
+fi
 
 # Select resource with labels, sorted by ascending age.
 function kgsort() {
-	kubectl get $(_rafi_k8s_parse_args "$@") \
+	kubectl get "$(_rafi_k8s_parse_args "$@")" \
 		--show-labels --sort-by .metadata.creationTimestamp --no-headers |
 		fzf --tac
 }
 
+# Use fzf to select resource and namespace pair.
 # shellcheck disable=SC2120
 function _rafi_k8s_select_pod() {
 	local kind="${1:-pods}"
@@ -92,7 +103,24 @@ alias kpdelete='_rafi_k8s_select_pod | xargs kubectl delete pod -n'
 alias kplog='_rafi_k8s_select_pod | xargs kubectl logs -f -n'
 alias kpman='_rafi_k8s_select_pod | xargs kubectl get pod -o json -n | fx'
 alias kpip='_rafi_k8s_select_pod | xargs kubectl get pod -o jsonpath="{.status.podIPs[*]}" -n | jq'
-alias ksdconf="_rafi_k8s_select_pod secrets --field-selector type=kubernetes.io/dockerconfigjson | xargs kubectl get secret -o go-template='{{index .data \".dockerconfigjson\" | base64decode }}' -n | jq"
+alias ksdockerconfig="_rafi_k8s_select_pod secrets --field-selector type=kubernetes.io/dockerconfigjson | xargs kubectl get secret -o go-template='{{index .data \".dockerconfigjson\" | base64decode }}' -n | jq"
+
+function ksecretdecode() {
+	local args secret_key
+	read -ra args < <(_rafi_k8s_select_pod secret)
+	if [ ${#args} -lt 1 ]; then
+		return
+	fi
+	# shellcheck disable=SC2016
+	secret_key="$( \
+		kubectl get secrets -n "${args[@]}" \
+			-o go-template='{{ range $k, $v := .data }}{{ printf "%s\n" $k }}{{end}}' \
+		| fzf \
+	)"
+	if [ -n "$secret_key" ]; then
+		kubectl get secrets -n "${args[@]}" -o go-template="{{ index .data \"$secret_key\" | base64decode }}"
+	fi
+}
 
 function kexec() {
 	read -ra tokens < <(_rafi_k8s_select_pod)
@@ -116,8 +144,12 @@ function ktail() {
 					--preview-window down,follow \
 					--preview 'kubectl logs -f --tail=100 --all-containers --namespace {1} {2}' "$@"
 	)
-	[ ${#tokens} -gt 1 ] && kubectl logs -f --namespace "${tokens[@]}"
+	[ ${#tokens} -gt 1 ] && kubectl logs -f --namespace "${tokens[0]}" "${tokens[1]}"
 }
+
+# DEPLOYMENTS
+# ---
+alias krestart='_rafi_k8s_select_pod deployments | xargs kubectl rollout restart deployment -n'
 
 # NODES
 # ---
@@ -126,6 +158,23 @@ function ktail() {
 alias knode='kubectl get node -owide'
 
 alias ktaints='kubectl get nodes -o=custom-columns=NodeName:.metadata.name,TaintKey:.spec.taints[*].key,TaintValue:.spec.taints[*].value,TaintEffect:.spec.taints[*].effect'
+
+kdebug() { kubectl debug -it --image=ubuntu node/"$1"; }
+
+# Provide auto-completion with custom function
+if [[ $(type -t compopt) = 'builtin' ]]; then
+	__rafi_complete_k8s_nodes() {
+		local cur prev words cword
+		_get_comp_words_by_ref -n "=:" cur prev words cword
+		words=(kubectl get node "${words[@]:1}")
+		COMPREPLY=()
+		__kubectl_get_completion_results
+		__kubectl_process_completion_results
+	}
+	complete -o default -F __rafi_complete_k8s_nodes knode
+	complete -o default -F __rafi_complete_k8s_nodes ktaints
+	complete -o default -F __rafi_complete_k8s_nodes kdebug
+fi
 
 # INGRESS
 # ---
@@ -150,8 +199,6 @@ function kobjevents() {
 	kubectl get event \
 		--field-selector "involvedObject.name=${obj}" \
 		--sort-by=.metadata.creationTimestamp "$@"
-# involvedObject.kind=Pod,
-#  --sort-by='.lastTimestamp'
 }
 
 # METRICS

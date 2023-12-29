@@ -1,7 +1,9 @@
-#!/usr/bin/env bash
-
-# bash/aliases
+# Encoding functions
 # https://github.com/rafi/.config
+
+function bashquote() {
+	printf '%q\n' "$(cat)"
+}
 
 function b64enc() {
 	echo -n "$1" | base64 | pbcopy

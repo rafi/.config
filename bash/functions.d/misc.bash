@@ -1,7 +1,10 @@
-#!/usr/bin/env bash
-
 # Misc functions
 # https://github.com/rafi/.config
+
+function do5() {
+	# shellcheck disable=2068
+	for _ in {1..5}; do $@; done
+}
 
 # Shuffle words
 function shufflewords() {

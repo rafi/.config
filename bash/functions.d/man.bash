@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
-
 # Man functions
 # https://github.com/rafi/.config
 
 # View man pages in OSX Preview.app
-function manpdf() { man -t "$@" | ps2pdf - - | open -f -a Preview; }
+function manpdf() {
+	man -t "$@" | ps2pdf - - | open -f -a Preview
+}
 
 # Man page coloring using less
 function man() {

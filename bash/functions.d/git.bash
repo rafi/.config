@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # Git functions
 # https://github.com/rafi/.config
 # ---
