@@ -29,7 +29,7 @@ set -g status-left '#{?client_prefix,#[fg=colour236]#[bg=colour2],} #S #{?client
 
 set -g status-right-length 90
 set -g status-right-style fg=colour240,bg=default,none
-set -g status-right "#[fg=colour234]#[fg=colour238,bg=colour234] #(kubectl config current-context 2>/dev/null | tail -c 35) #[fg=colour235]#[fg=colour239,bg=colour235]  #(uptime | sed 's/.*load average[^0-9]*//;s/,//g') #[fg=colour236]#[fg=colour241,bg=colour236] #(batt) #[fg=colour237]#[fg=colour243,bg=colour237] %H:%M #[fg=colour238]#[fg=colour244,bg=colour238] #H "
+set -g status-right "#[fg=colour234]#[fg=colour238,bg=colour234] #(kubectl config current-context 2>/dev/null | tail -c 35) #[fg=colour235]#[fg=colour239,bg=colour235] 󰍛 #(uptime | sed 's/.*load average[^0-9]*//;s/,//g') #[fg=colour236]#[fg=colour241,bg=colour236] #(batt) #[fg=colour237]#[fg=colour243,bg=colour237] %H:%M #[fg=colour238]#[fg=colour244,bg=colour238] #H "
 
 setw -g window-style ''
 setw -g window-active-style ''
