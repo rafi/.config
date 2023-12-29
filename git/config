@@ -76,6 +76,15 @@
 # [interactive]
 # 	diffFilter = delta --color-only
 
+[diff]
+	tool = nvimdiff
+	algorithm = patience
+	renames = copies
+	mnemonicprefix = true
+	compactionHeuristic = true
+[difftool "nvimdiff"]
+	cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+
 [delta]
 	features = theme
 	navigate = true
@@ -99,15 +108,6 @@
 	minus-style = normal "#330011"
 	plus-emph-style = syntax "#003300"
 	plus-style = syntax "#001a00"
-
-[diff]
-	tool = nvimdiff
-	algorithm = patience
-	renames = copies
-	mnemonicprefix = true
-	compactionHeuristic = true
-[difftool "nvimdiff"]
-	cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 
 [merge]
 	tool = bc3
@@ -163,6 +163,8 @@
 	insteadOf = gh
 [url "git@bitbucket.org"]
 	insteadOf = bb
+
+# Convert HTTP to SSH
 [url "git@bitbucket.org:"]
 	insteadOf = https://bitbucket.org/
 [url "git@gitlab.com:"]
@@ -192,21 +194,33 @@
 	topic = !git checkout "$(git current-remote)/master" -b
 	stash-all = stash save --include-untracked
 	sync-tags = fetch --prune origin '+refs/tags/*:refs/tags/*'
-	w  = whatchanged --decorate
-	wp = whatchanged --decorate -p
-	#===============================================
 	sm    = submodule
 	smu   = submodule foreach git pull origin master
+
+	#===============================================
+	w  = whatchanged --decorate
+	wp = whatchanged --decorate -p
 	lcrev = log --reverse --no-merges --stat @{1}..
 	lcp   = diff @{1}..
+
 	#===============================================
 	tree = log --graph --all --oneline --decorate
 	lb   = log --graph --simplify-by-decoration --pretty=mini --notes --date-order --relative-date
-	# log  = log --pretty=cool
 	lg   = log --graph --pretty=cool --all
 	lgd  = log --graph --pretty=cool
 	lgw  = !sh -c '"while true; do clear; git lg -15; sleep 5; done"'
+
 	#===============================================
+	# Take a snapshot of your current working tree without removing the changes from your tree.
+	# via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
+	snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
+	snapshots = !git stash list --grep snapshot
+
+	#===============================================
+	# Branches
+	bf     = !git diff "$(git oldest-ancestor)..@"
+	ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
+	theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
 	current-branch = branch --show-current
 	current-remote = !git branch-remote "$(git current-branch)"
 	unmerged = !git branch --no-merged | awk '{print $1}' | xargs -L1 git --no-pager log --pretty=cool -1
@@ -215,20 +229,42 @@
 	merged-remote = !git branch -r --merged | grep -v HEAD | xargs -L1 git --no-pager log --pretty=cool -1
 	recent-branches = branch --sort=-committerdate --sort=committername --format '%(align:22)%(committerdate:relative)%(end) %(align:20)%(committername)%(end) %(refname:lstrip=-1) %(upstream:track)'
 	all-branches = branch -a --sort=-committerdate --format '%(align:28)%(committerdate:iso8601)%(end) %(align:20)%(committername)%(end) %(refname:short) %(upstream:track)'
-	branch-remote = "!f() { \
-		local b=\"${1:?Branch name required.}\"; \
+	upstream = rev-parse --abbrev-ref --symbolic-full-name @{u}
+
+	# Guess upstream branch name.
+	guess-upstream = "!bash -c 'f() { \
+			local u=\"$(git upstream 2>/dev/null)\"; \
+			if [ -z \"$u\" ]; then \
+				local b=\"$(git current-branch)\"; \
+				u=\"$(git current-remote)\"; \
+				if ! git ls-remote --exit-code --heads \"$u\" \"$b\" >/dev/null; then \
+					echo \"No remote branch found for $b on $u\" >&2; return 1; \
+				fi; \
+				r=\"$u/$b\"; \
+			fi; \
+			echo \"$u\"; \
+		}; f $@'"
+
+	# Find branch remote name.
+	branch-remote = "!bash -c 'f() { \
+		local b=\"${0:?Branch name required.}\"; \
 		local r=\"$(git config \"branch.${b}.remote\")\"; \
 		echo \"${r:-$(git remote)}\"; \
-	}; f"
+	}; f $@'"
+
+	# Find oldest ancestor or two refs.
 	oldest-ancestor = "!bash -c 'f() { \
-		/usr/bin/diff --old-line-format='' --new-line-format='' \
-			<(git rev-list --first-parent ${0:-master}) \
+		local u=\"${0}\"; \
+		if [ \"$u\" = bash ] || [ -z \"$u\" ]; then \
+			u=\"$(git guess-upstream)\"; \
+		fi; \
+		grep -F -x -f \
+			<(git rev-list --first-parent ${u}) \
 			<(git rev-list --first-parent ${1:-HEAD}) \
 		| head -1; \
 		}; f $@'"
-	bf     = !git diff "$(git oldest-ancestor)..@"
-	ours   = "!f() { git checkout --ours $@ && git add $@; }; f"
-	theirs = "!f() { git checkout --theirs $@ && git add $@; }; f"
+	
+	# For a remote repository.
 	remote-fork = "!f() { \
 		local me=\"$(git config --get github.user)\"; \
 		local r=\"$(git config remote.origin.url)\"; \
@@ -242,9 +278,3 @@
 		git remote add \"$me\" \"$rn\" && \
 		git fetch \"$me\"; \
 	}; f"
-	#===============================================
-	# Take a snapshot of your current working tree without removing the changes from your tree.
-	# via http://blog.apiaxle.com/post/handy-git-tips-to-stop-you-getting-fired/
-	snapshot = !git stash save "snapshot: $(date)" && git stash apply "stash@{0}"
-	snapshots = !git stash list --grep snapshot
-	change-commits = "!f() { VAR=$1; OLD=$2; NEW=$3; shift 3; git filter-branch --env-filter \"if [[ \\\"$`echo $VAR`\\\" = '$OLD' ]]; then export $VAR='$NEW'; fi\" $@; }; f"
