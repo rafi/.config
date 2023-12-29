@@ -2,6 +2,7 @@
 .atom/
 .apm
 .cocoapods/
+.docusaurus/
 .git
 .gradle/
 .idea

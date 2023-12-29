@@ -18,12 +18,12 @@ launchctl unload -w ~/Library/LaunchAgents/io.rafi.environment.plist
 
 ## Available Services
 
-- `io.rafi.environment.plist` - My XDG system-wide environment variables
+- `io.rafi.environment.plist` — My XDG system-wide environment variables.
 
 ## macOS Service Directories
 
-- `~/Library/LaunchAgents` - Per-user agents provided by the user.
-- `/Library/LaunchAgents` - Per-user agents provided by the administrator.
-- `/Library/LaunchDaemons` - System wide daemons provided by the administrator.
-- `/System/Library/LaunchAgents` - OS X Per-user agents.
-- `/System/Library/LaunchDaemons` - OS X System wide daemons.
+- `~/Library/LaunchAgents` — Per-user agents provided by the user.
+- `/Library/LaunchAgents` — Per-user agents provided by the administrator.
+- `/Library/LaunchDaemons` — System wide daemons provided by the administrator.
+- `/System/Library/LaunchAgents` — OS X Per-user agents.
+- `/System/Library/LaunchDaemons` — OS X System wide daemons.
