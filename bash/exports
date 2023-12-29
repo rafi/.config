@@ -10,8 +10,9 @@
 
 # shellcheck disable=1091
 
-export LC_ALL="en_US.UTF-8"
 export LANG="en_US.UTF-8"
+export LC_CTYPE="$LANG"
+export LC_ALL="$LANG"
 
 # XDG directories
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -55,6 +56,19 @@ fi
 # Local bin
 PATH="$HOME/.local/bin:$PATH:bin"
 
+# History settings
+export HISTSIZE=20000
+if [ "$BASH" ]; then
+	export HISTFILE="$XDG_CACHE_HOME/bash_history"
+	export HISTFILESIZE=15000000
+	export HISTTIMEFORMAT='[%F %T] '
+	export HISTIGNORE='pwd:jobs:ll:ls:l:history:c:clear'
+	export HISTCONTROL=ignoreboth
+elif [ "$ZSH_VERSION" ]; then
+	export HISTFILE="${XDG_CACHE_HOME}/zsh_history"
+	export SAVEHIST="${HISTSIZE}"
+fi
+
 # Editor and pager
 EDITOR=vim
 if hash nvim 2>/dev/null; then
@@ -70,10 +84,8 @@ export VISUAL="$EDITOR"
 # https://www.gnu.org/software/bash/manual/html_node/Readline-Init-File.html
 export INPUTRC="$XDG_CONFIG_HOME/bash/inputrc"
 
-# Zsh and zplug
-# export ZPLUG_HOME="$PREFIX/opt/zplug"
-# export ZPLUG_REPOS="$XDG_DATA_HOME/zplug/repos"
-# export ZPLUG_CACHE_DIR="$XDG_CACHE_HOME/zplug"
+# Zsh
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 # export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
 export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
@@ -116,17 +128,11 @@ export LESSKEY="$XDG_CONFIG_HOME/lesskey/output"
 # Ripgrep https://github.com/BurntSushi/ripgrep
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/rc"
 
-# Fzf
-export FZF_DEFAULT_OPTS="--bind=ctrl-d:page-down,ctrl-u:page-up,ctrl-y:yank,tab:down,btab:up --inline-info --reverse --height 50%"
-export FZF_DEFAULT_COMMAND='rg --vimgrep --files --follow --hidden --no-ignore-vcs --smart-case --glob !**/.git/*'
-
-export COINTOP_CONFIG="$XDG_CONFIG_HOME/cointop/config.toml"
-export MEMO_HOME="$HOME/docs/blog"
+# zk https://github.com/mickael-menu/zk
 export ZK_NOTEBOOK_DIR="$HOME/docs/wiki/.zk/config.toml"
-export ZIM_HOME="$XDG_DATA_HOME/zim"
-export _Z_DATA="$XDG_CACHE_HOME/z/data"
-export _ZL_DATA="$_Z_DATA"
-export _ZO_DATA_DIR="$XDG_CACHE_HOME/zoxide"
+
+# Cointop  TODO: deprecated
+export COINTOP_CONFIG="$XDG_CONFIG_HOME/cointop/config.toml"
 
 # Ack configuration
 if hash ack 2> /dev/null; then
@@ -196,12 +202,6 @@ fi
 
 hash http 2>/dev/null && export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
 hash wget 2>/dev/null && export            WGETRC="$XDG_CONFIG_HOME/wget/config"
-
-# aria2c cli helper
-if hash diana 2>/dev/null; then
-	export DIANA_SECRET_TOKEN={{ DIANA_TOKEN }}
-	export DIANA_HOST=file.host
-fi
 
 # Virtualization
 # ----
@@ -296,9 +296,6 @@ export COMPOSER_HOME="$XDG_CACHE_HOME/composer"
 # Python
 # Pending: https://github.com/python/cpython/pull/13208
 export PYTHONHISTORY="$XDG_CACHE_HOME/python_history"
-# Pyenv paths
-export PYENV_ROOT="${XDG_DATA_HOME}/python/pyenv"
-# Disable virtualenv's prompt display
 # Python utilities
 export PYLINTHOME="$XDG_CACHE_HOME/pylint"
 export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython
@@ -348,6 +345,8 @@ fi
 if hash cabal 2>/dev/null; then
 	PATH="$PATH:$HOME/.cabal/bin"
 fi
+
+unset PREFIX
 
 # Export the final PATH
 export PATH

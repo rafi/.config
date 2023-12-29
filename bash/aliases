@@ -3,13 +3,9 @@
 # bash/aliases
 # https://github.com/rafi/.config
 
-# Carry over aliases to the root account when using sudo
-alias sudo='sudo '
-
-# Make watch work with aliases
-alias watch='watch '
-
-# Useful shortcuts
+# Useful general shortcuts
+alias sudo='sudo '    # Carry over aliases to the root account when using sudo
+alias watch='watch '  # Make watch work with aliases
 alias c=clear
 alias cal='task cal'
 alias start='{ test -f .tmuxp.* && tmuxp load -y .; } ||
@@ -29,19 +25,23 @@ fi
 # See https://github.com/Peltoche/lsd
 if hash lsd 2>/dev/null; then
 	LSCMD='lsd'
+# See https://github.com/ogham/exa
+elif hash exa 2>/dev/null; then
+	export EXA_ICON_SPACING=2
+	LSCMD='exa'
 fi
 
 # Listing directory contents
-# shellcheck disable=2139,1003
-alias ls='LC_COLLATE=C \'${LSCMD}' --color=auto --group-directories-first'
+# shellcheck disable=2139
+alias ls="LC_COLLATE=C ${LSCMD} --color=auto --group-directories-first"
 unset LSCMD
 alias ll='ls -alF'
 alias llh='ls -alFh'
 
-if hash lsd 2>/dev/null; then
+if hash lsd 2>/dev/null || hash exa 2>/dev/null; then
 	alias l='ls -Fa'
 	alias lt='ll --tree --ignore-glob .git'
-	alias lld="lsd -al --color=always | grep '^\e\[[0-9*;]*md' --colour=never"
+	alias lld="ls -al --color=always | grep '^\e\[[0-9*;]*md' --colour=never"
 else
 	alias l='ls -CFa'
 	alias lld='ls -Gal --color=always | grep ^d --colour=never'
@@ -54,18 +54,16 @@ fi
 # shellcheck disable=2139
 if hash nvim 2>/dev/null; then
 	alias vim=nvim
-	alias vless="nvim -u $PREFIX/share/nvim/runtime/macros/less.vim"
+	# alias vless="nvim -u $PREFIX/share/nvim/runtime/macros/less.vim"
 	alias suvim='sudo -E nvim'
-	alias oldvim="VIMINIT='let \$MYVIMRC=\"\$XDG_CONFIG_HOME/nvim/init.vim\" | source \$MYVIMRC' $PREFIX/bin/vim"
 else
-	alias vless="vim -u $PREFIX/share/vim/vim90/macros/less.vim"
+	# alias vless="vim -u $PREFIX/share/vim/vim90/macros/less.vim"
 	alias suvim='sudo -E vim'
 fi
 alias v='vim $(fzf)'
 alias vi=vim
 alias ve='tmux split-window -h "$EDITOR"'
 alias vimdiff='vim -d'
-alias testvim="VIMINIT='let \$MYVIMRC=\"\$HOME/box/testvim/init.vim\" | source \$MYVIMRC' nvim"
 
 # }}}
 # Grepping / Parsing ----------------------------------------------------- {{{
@@ -87,6 +85,7 @@ hash colordiff 2>/dev/null && alias diff=colordiff
 # Jump around ------------------------------------------- z for jumping -- {{{
 alias cdf='cd "$(dirname "$(fzf)")"'
 alias cdd='cd "$(fd --type d | fzf)"'
+alias cwd='pwd | tr -d "\r\n" | pbcopy'
 
 # Jump to previous directory with --
 alias -- -="cd -"
@@ -102,7 +101,7 @@ alias .....='cd ../../../../'
 if hash fd 2>/dev/null; then
 	# Use https://github.com/sharkdp/fd
 	alias f=fd
-	if type _fd &>/dev/null; then
+	if [ "$BASH" ] && type _fd &>/dev/null; then
 		complete -o bashdefault -o default -F _fd f
 	fi
 else
@@ -111,7 +110,7 @@ else
 fi
 
 # }}}
-# Git ------------------------------------------------------ g for git --- {{{
+# Git ------------------------------------------------------- g for git -- {{{
 # See more in ./functions.d/git.bash
 alias g=git
 alias gb='git branch'
@@ -131,7 +130,7 @@ alias gll='git lg'
 alias gld='git lgd -15'
 
 # Attach git aliases auto-completion
-if type __git_complete &>/dev/null; then
+if [ "$BASH" ] && type __git_complete &>/dev/null; then # {{{
 	__git_complete g __git_main
 	__git_complete gb _git_branch
 	__git_complete gc _git_checkout
@@ -143,7 +142,7 @@ if type __git_complete &>/dev/null; then
 	__git_complete gl _git_log
 	__git_complete gll _git_log
 	__git_complete gld _git_log
-fi
+fi # }}}
 
 # }}}
 # Docker ------------------------------------------------- d for docker -- {{{
@@ -153,7 +152,7 @@ alias dps='docker ps --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{ 
 alias dls='docker ps -a --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{ .Ports }}\\t{{.RunningFor}}\\t{{.Command}}\\t{{ .ID }}" | cut -c-$(tput cols)'
 alias dim='docker images --format "table {{.Repository}}\\t{{.Tag}}\\t{{.ID}}\\t{{.Size}}\\t{{.CreatedSince}}"'
 alias dip='docker inspect --format "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}"'
-alias dgc='docker rmi $(docker images -qf "dangling=true")'
+alias dgc='docker image prune -f'
 alias dvc='docker volume ls -qf dangling=true | xargs docker volume rm'
 alias dtop='docker stats $(docker ps --format="{{.Names}}")'
 # shellcheck disable=2154
@@ -165,37 +164,37 @@ alias dtag='docker inspect --format "{{.Name}}
 {{range \$index, \$label := .Config.Labels}}  - {{\$index}}={{\$label}}
 {{end}}" $(docker ps -q)'
 
-if type _docker &>/dev/null; then
+if [ "$BASH" ] && type _docker &>/dev/null; then # {{{
 	complete -F _docker d
 	complete -F _docker_compose dk
 	complete -F _docker_images dim
 	complete -F _docker_inspect dip
 	complete -F _docker_rmi dgc
 	complete -F _docker_stats dtop
-fi
+fi # }}}
 
 # }}}
 # Kubernetes ----------------------------------------- k for kubernetes -- {{{
 # See more in functions.d/kubernetes.bash
 alias k=kubectl
 alias kc=kubectx
+alias ks='kubectl switch'
 alias kg='kubectl get'
 alias kgp='kubectl get pods'
 alias ke='kubectl edit'
-alias kr='kubectl run'
 
-# Attach k alias to kubectl completion function
-if type __start_kubectl &>/dev/null; then
-	complete -o default -F __start_kubectl k
-fi
-
-# Use https://github.com/cykerway/complete-alias for bash alias completion
-if type _complete_alias &>/dev/null; then
-	complete -F _complete_alias kc
-	complete -F _complete_alias kg
-	complete -F _complete_alias ke
-	complete -F _complete_alias kr
-fi
+if [ "$BASH" ]; then # {{{
+	# Attach k alias to kubectl completion function
+	if type __start_kubectl &>/dev/null; then
+		complete -o default -F __start_kubectl k
+	fi
+	# Use https://github.com/cykerway/complete-alias for bash alias completion
+	if type _complete_alias &>/dev/null; then
+		complete -F _complete_alias kc
+		complete -F _complete_alias kg
+		complete -F _complete_alias ke
+	fi
+fi # }}}
 
 # }}}
 # Processes -------------------------------------------------------------- {{{
@@ -207,15 +206,19 @@ alias pst='pstree -g 3 -ws'
 # See: https://github.com/casey/just
 alias j=just
 alias jc='just --choose'
-if [ -n "$BASH_VERSION" ] && type _just &>/dev/null; then
+if [ -n "$BASH" ] && type _just &>/dev/null; then # {{{
 	complete -F _just -o bashdefault -o default j
 	complete -F _just -o bashdefault -o default jc
-fi
+fi # }}}
 
 # }}}
-# Writing ------------------------------------------------- m for memos -- {{{
-# See: https://github.com/rafi/memo-sh
-alias m=memo
+# Machines --------------------------------------------- m for machines -- {{{
+# See: https://github.com/lima-vm/lima
+alias m=limactl
+
+if [ -n "$BASH" ] && type __start_limactl &>/dev/null; then
+	complete -o default -F __start_limactl m
+fi
 
 # }}}
 # XDG conformity --------------------------------------------------------- {{{
@@ -260,25 +263,33 @@ alias subdl='subliminal download -l en -d "$XDG_CACHE_HOME/subtitles"'
 # shellcheck disable=2154
 alias multiopen='while read arg; do open "$arg"; done <<<'
 
+# https://github.com/alt-romes/programmer-calculator
+if hash pcalc 2>/dev/null; then
+	alias calc=pcalc
+fi
+
 # }}}
 # OS Specific Network and Filesystem ------------------------------------- {{{
 
 # IP addresses
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 alias iplocal="ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'"
+# alias ipremote=""  # TODO
 
 if [ "$(uname -s)" = "Darwin" ]; then
 	alias netinfo='networksetup -getinfo "$(networksetup -listallnetworkservices | sed 1d | fzf)"'
-	# alias ipremote=""  # TODO
 
 	# Show active network interfaces
 	alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
 
 	# Flush Directory Service cache
-	alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
+	alias flush='dscacheutil -flushcache && killall -HUP mDNSResponder'
+
+	alias hwmodel='sysctl -n hw.model'
+	alias osversion='sw_vers -productVersion'
 
 	# Lock the screen (Away From Keyboard)
-	alias afk='pmset displaysleepnow'
+	alias afk='open -a ScreenSaverEngine'
 
 	# Recursively delete `.DS_Store` files
 	alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
@@ -292,17 +303,29 @@ if [ "$(uname -s)" = "Darwin" ]; then
 		sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
 
 else
-	alias ipremote="ip route get 1 | awk '{print \$NF;exit}'"
+	# shellcheck disable=2142
+	alias netinfo="ip -br -c addr show | fzf --ansi | awk '{print \$1}' | xargs ip -c -h -d -s addr show"
+	# alias netinfo="lspci | grep -Ei --color 'network|ethernet|wireless|wi-fi' | fzf | awk '{print \$1}' | xargs -I{} find /sys/bus/pci/devices -name '*{}*' | xargs -I{} ls -1 {}/net | xargs ip -c -h -d -s addr show"
 
-	# Show active network interfaces
-	# alias ifactive=""  # TODO
+	alias hwmodel="sudo dmidecode -s system-product-name"
+	alias osversion="cat /etc/os-release | grep PRETTY_NAME | cut -d'=' -f2 | tr -d '\"'"
 
-	# Flush Directory Service cache
-	# alias flush=""  # TODO
+	# Show active network interfaces NEEDS TESTING
+	alias ifactive="ip -c link show | grep UP"
+
+	# Flush Directory Service cache NEEDS TESTING
+	alias flush='sudo systemd-resolve --flush-caches'
 
 	# Lock the screen (Away From Keyboard)
-	# alias afk=""  # TODO
-	# alias afk='gnome-screensaver-command --lock'
+	if hash i3lock 2>/dev/null; then
+		alias afk='i3lock -c 000000'
+	elif hash xscreensaver-command 2>/dev/null; then
+		alias afk='xscreensaver-command -lock'
+	elif hash xdg-screensaver 2>/dev/null; then
+		alias afk='xdg-screensaver lock'
+	elif hash gnome-screensaver-command 2>/dev/null; then
+		alias afk='gnome-screensaver-command --lock'
+	fi
 
 	# open, pbcopy and pbpaste on Linux
 	if [ -z "$(command -v pbcopy)" ]; then
@@ -314,9 +337,21 @@ else
 			alias pbpaste="xsel --clipboard --output"
 		fi
 	fi
-	if [ -e /usr/bin/xdg-open ]; then
-		alias open="xdg-open"
-	fi
+
+	# Check for various OS openers. Quit as soon as we find one that works.
+	for opener in browser-exec xdg-open cmd.exe cygstart "start" open; do
+		if command -v $opener >/dev/null 2>&1; then
+			if [[ "$opener" == "cmd.exe" ]]; then
+				# shellcheck disable=SC2139
+				alias open="$opener /c start"
+			else
+				# shellcheck disable=SC2139
+				alias open="$opener"
+			fi
+			break;
+		fi
+	done
 fi
 # }}}
+
 #  vim: set ft=sh fdm=marker ts=2 sw=2 tw=80 noet :

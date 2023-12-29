@@ -12,12 +12,12 @@
 # macOS / Darwin
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	# macOS Homebrew bash completions
-	if [[ -f "$PREFIX/etc/profile.d/bash_completion.sh" ]]; then
+	if [[ -f "/opt/homebrew/etc/profile.d/bash_completion.sh" ]]; then
 		# Load entire Homebrew installed software's bash completion
 		# export BASH_COMPLETION_DEBUG=1
-		source "$PREFIX/etc/profile.d/bash_completion.sh"
+		source "/opt/homebrew/etc/profile.d/bash_completion.sh"
 	else
-		for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+		for COMPLETION in "/opt/homebrew/etc/bash_completion.d/"*; do
 			[[ -r "${COMPLETION}" ]] && source "${COMPLETION}"
 		done
 	fi

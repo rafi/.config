@@ -1,6 +1,7 @@
 # inputrc config
 # ---
 # github.com/rafi/.config
+# https://www.gnu.org/software/bash/manual/html_node/Readline-Init-File-Syntax.html
 
 $include /etc/inputrc
 
@@ -8,38 +9,38 @@ $include /etc/inputrc
 set bell-style audible
 
 # Ignore case when matching and completing paths
-set completion-ignore-case On
+set completion-ignore-case on
 
 # Treat underscores and hyphens the same way for completion purposes
-set completion-map-case On
+set completion-map-case on
 
 # Show me up to 5,000 completion items, don't be shy
 set completion-query-items 5000
 
 # Don't display control characters like ^C if I input them
-set echo-control-characters Off
+set echo-control-characters off
 
 # Expand tilde to full path on completion
-set expand-tilde On
+set expand-tilde on
 
 # Preserve caret position while browsing through history lines
-set history-preserve-point On
+set history-preserve-point on
 
 # When completing directories, add a trailing slash
-set mark-directories On
+set mark-directories on
 
 # Do the same for symlinked directories
-set mark-symlinked-directories On
+set mark-symlinked-directories on
 
 # on menu-complete, first display the common prefix, then cycle through the
 # options when hitting TAB
-set menu-complete-display-prefix On
+set menu-complete-display-prefix on
 
 # Don't paginate possible completions
-set page-completions Off
+set page-completions off
 
 # Show multiple completions on first tab press
-set show-all-if-ambiguous On
+set show-all-if-ambiguous on
 
 # ?
 set show-all-if-unmodified on
@@ -55,7 +56,7 @@ set visible-stats on
 set colored-stats on
 
 # Color the common prefix
-set colored-completion-prefix On
+set colored-completion-prefix on
 
 # vi mode
 # set editing-mode vi

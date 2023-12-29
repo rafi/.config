@@ -6,49 +6,8 @@
 # Abort if not running interactively
 [[ $- == *i* ]] || return 0
 
-# Remove the ^S ^Q mappings. See all mappings: stty -a
-stty stop undef
-stty start undef
-
-# Bash settings
-shopt -s cdspell         # Auto-corrects cd misspellings
-shopt -s cmdhist         # Save multi-line commands in history as single line
-shopt -s dotglob         # Include dotfiles in pathname expansion
-shopt -s expand_aliases  # Expand aliases
-shopt -s extglob         # Enable extended pattern-matching features
-shopt -s histreedit      # Add failed commands to the bash history
-shopt -s histappend      # Append each session's history to $HISTFILE
-shopt -s histverify      # Edit a recalled history line before executing
-
-if [[ $DISPLAY ]]; then
-	shopt -s checkwinsize  # Update LINES and COLUMNS after each command
-fi
-
-# Enable readline vi-mode for myself only
-# See ./functions.d/ssh.bash for implementation
-if [ "${LC_IDENTIFICATION:-$USER}" = rafi ] \
-	|| [[ "${LC_IDENTIFICATION:-$USER}" == rafael* ]]
-then
-	set -o vi
-fi
-
-export HISTFILE="$XDG_CACHE_HOME/bash_history"
-export HISTSIZE=20000
-export HISTFILESIZE=15000000
-export HISTTIMEFORMAT='[%F %T] '
-export HISTIGNORE='pwd:jobs:ll:ls:l:history:c:clear'
-export HISTCONTROL=ignoreboth
-
 # See sheldon/plugins.toml
 eval "$(sheldon source)"
-
-# Load bash completions
-source "$XDG_CONFIG_HOME/bash/completion"
-
-# Load bash aliases
-source "$XDG_CONFIG_HOME/bash/aliases"
-
-unset PREFIX
 
 # Clean-up Apple's useless garbage
 [ -f .DS_Store ] && rm -f .DS_Store

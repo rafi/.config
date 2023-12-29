@@ -7,6 +7,7 @@
 add_newline = false
 
 format = """
+$python\
 $username\
 $hostname\
 $localip\
@@ -32,8 +33,8 @@ $shell\
 $character"""
 
 [character]
-success_symbol = ' [λ](green):'
-error_symbol = ' [x](red)'
+success_symbol = '[λ](green):'
+error_symbol = '[x](red)'
 
 [directory]
 format = '[$path/]($style)[$read_only]($read_only_style)'
@@ -41,15 +42,19 @@ style = 'blue'
 truncation_length = 4
 
 [git_branch]
-format = '[$symbol](fg:8)[$branch]($style)([:$remote_branch](fg:243))'
+format = '([$symbol](fg:8)[$branch]($style)([:$remote_branch](fg:243)) )'
 symbol = ''
 style = 'green'
 
 [git_status]
-format = '( [$all_status$ahead_behind]($style))'
+format = '([$all_status$ahead_behind]($style) )'
 
 [hostname]
 ssh_only = true
 
-[cmd_duration]
-format = ' took [$duration]($style)'  # add leading space
+# [cmd_duration]
+# format = ' took [$duration]($style)'  # add leading space
+
+[python]
+format = '([${version}](fg:242)[/](fg:246))'
+pyenv_version_name = true
