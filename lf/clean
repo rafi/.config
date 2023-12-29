@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+/opt/homebrew/bin/kitty +kitten icat --clear --stdin no --transfer-mode memory < /dev/null > /dev/tty

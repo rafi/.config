@@ -13,6 +13,9 @@ HEIGHT="${3:-$(tput lines)}"
 WIDTH="$(( WIDTH - 3 ))"
 HEIGHT="$(( HEIGHT - 3 ))"
 
+X="$4"
+Y="$5"
+
 [ -L "${FILE}" ] && FILE="$(readlink "$FILE")"
 
 # Main procedure
@@ -31,7 +34,7 @@ function main() {
 		*.7z|*.dmg|*.gz) 7z l -- "${FILE}" && return $?;;
 		*.bzip|*.bzip2|*.bp|*.bz2) als "${FILE}" && return $?;;
 
-		*.jpg|*.JPG|*.png|*.PNG) view_image || view_binary;;
+		*.jpg|*.JPG|*.png|*.PNG) view_image_kitty && return $?;;
 		*.ans|*.ANS) view_ansi && return $?;;
 		*.json) jq -C . "${FILE}" && return $?;;
 		*.md) glow -s dark -w "${WIDTH}" "${FILE}" && return $?;;
@@ -42,14 +45,14 @@ function main() {
 
 	# Use the right tool for the mimetype label
 	case "$(file -b --mime-type "${FILE}")" in
-		image/*) view_image || view_binary;;
+		image/*) view_image_kitty;;
 		video/*|audio/*) view_multimedia || view_binary;;
 		application/pdf) view_pdf || view_binary;;
 		application/epub*) view_epub || view_binary;;
 		application/gzip|application-x-xz) tar tvf "${FILE}";;
 		application/x-sqlite*) view_sqlite || view_binary;;
 		application/x-terminfo|text/x-bytecode.python) view_binary;;
-		application/vnd.*-officedocument*|application/vnd.*.opendocument*)
+		application/vnd.*-officedocument.wordprocessingml.document)
 			view_opendocument || view_binary;;
 		application/octet-stream|application/x-*-binary|application/x-*executable)
 			view_binary;;
@@ -57,6 +60,10 @@ function main() {
 		*) view_sourcecode;;
 	esac
 	return $?
+}
+
+function zebra_lines() {
+	gsed $'1~2s/^/\e[38;05;242m/;s/$/\e[m/' < /dev/stdin
 }
 
 # View binary hexyl/heksa/hexdump
@@ -84,6 +91,13 @@ function view_sourcecode() {
 	return $?
 }
 
+# View images in kitty
+function view_image_kitty() {
+	kitty +kitten icat --transfer-mode memory --stdin no \
+		--place "${WIDTH}x${HEIGHT}@${X}x$((Y + 2))" \
+		"${1:-$FILE}" < /dev/null > /dev/tty
+}
+
 # View images in terminal with chafa/timg/catimg/imgcat
 function view_image() {
 	local input="${1:-$FILE}"
@@ -105,10 +119,14 @@ function view_image() {
 
 # Viw multimedia metadata with mediainfo/id3ted/exiftool/id3info
 function view_multimedia() {
-	mediainfo "${FILE}" | sed 's/ *:/:/g' || \
-		id3ted -L "${FILE}" || \
-		exiftool "${FILE}" || \
-		id3info "${FILE}"
+	if hash mediainfo 2>/dev/null; then
+		mediainfo "${FILE}" | zebra_lines
+		return $?
+	fi
+
+	id3ted -L "${FILE}" || \
+		id3info "${FILE}" || \
+		exiftool "${FILE}"
 
 	return $?
 }
@@ -189,5 +207,6 @@ function view_ansi() {
 }
 
 main
+exit 1
 
 # vim: set ts=2 sw=2 tw=80 noet :
