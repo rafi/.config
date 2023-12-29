@@ -31,7 +31,7 @@ port = 6600
 
 [last.fm]
 url = http://post.audioscrobbler.com/
-username = {{ LASTFM_USER }}
+username = rafib
 password = {{ LASTFM_PASS }}
 journal = /home/rafi/.cache/mpdscribble/lastfm.journal
 

@@ -1,5 +1,6 @@
+# Per-directory user
 # https://git-scm.com/docs/git-config#_includes
 [include]
 	path = personal
-#[includeIf "gitdir:~/code/clients/foo/"]
-#	path = work
+[includeIf "gitdir:~/code/clients/"]
+	path = work

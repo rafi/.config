@@ -94,22 +94,20 @@ However, you have to create the `smudge.sed` script yourself, for example:
 ```sh
 cat > ~/.config/smudge.sed
 s/{{ \(DIANA\|ARIA2\)_TOKEN }}/secret/
-s/{{ LASTFM_USER }}/username/
 s/{{ LASTFM_TOKEN }}/token/
-s/{{ LASTFM_PASS }}/token/
-s/{{ SPOTIFY_USER }}/username/
-s/{{ SPOTIFY_PASS }}/password/
-s/{{ ECHONEST_TOKEN }}/token/
+s/{{ LASTFM_PASS }}/password/
+s/{{ GIT_NAME }}/Joe Shmoe/
+s/{{ GIT_EMAIL }}/name@gmail.com ; personal/
+s/{{ GIT_WORK_EMAIL }}/name@gmail.com ; work/
 s/{{ JIRA_URL }}/url/
 s/{{ JIRA_USER }}/username/
 s/{{ JIRA_PASS }}/password/
-s/{{ GIT_EMAIL }}/name@gmail.com/
-s/{{ GIT_NAME }}/Joe Shmoe/
-s/{{ GIT_USER }}/joe/
-s/{{ WEATHER_TOKEN }}/token/
 s/{{ FORECASTIO_TOKEN }}/token/
 s/{{ GITHUB_TOKEN }}/token/
 s/{{ HOMEBREW_GITHUB_API_TOKEN }}/token/
+s/{{ GITLAB_TOKEN }}/token/
+s/{{ OPENAI_API_KEY }}/token/
+s/{{ DICTIONARY_API_KEY }}/key/
 s/{{ TMUX_SPOTIFY_API_KEY }}/token/
 ```
 
@@ -117,6 +115,18 @@ Now whenever you stage files, the `clean.sed` will prevent secrets being
 committed. And on checkout, the `smudge.sed` will inject your secrets into
 their proper placeholders. _Note_ that `smudge.sed` is ignored from being
 committed mistakenly.
+
+Create a `~/.config/.secrets.env` file with the following format:
+
+```sh
+export GITHUB_TOKEN="{{ GITHUB_TOKEN }}"
+export HOMEBREW_GITHUB_API_TOKEN="{{ HOMEBREW_GITHUB_API_TOKEN }}"
+export OPENAI_API_KEY="{{ OPENAI_API_KEY }}"
+export DICTIONARY_API_KEY="{{ DICTIONARY_API_KEY }}"
+export GITLAB_TOKEN="{{ GITLAB_TOKEN }}"
+
+# And so on…
+```
 
 [bash/aliases]: ./bash/aliases
 [bash/exports]: ./bash/exports

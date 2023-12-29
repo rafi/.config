@@ -37,7 +37,7 @@ mpd:
   host: music.host
   port: 6600
 lastfm:
-  user: {{ LASTFM_USER }}
+  user: rafib
   api_key: {{ LASTFM_TOKEN }}
 echonest:
   auto: no

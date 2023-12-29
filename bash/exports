@@ -24,6 +24,9 @@ export  XDG_STATE_HOME="$HOME/.local/state"
 [ -d "$XDG_DATA_HOME" ]   || mkdir -m 0750 "$XDG_DATA_HOME"
 [ -d "$XDG_STATE_HOME" ]  || mkdir -m 0750 "$XDG_STATE_HOME"
 
+# Source secrets
+[ -f "$XDG_CONFIG_HOME/.secrets.env" ] && source "$XDG_CONFIG_HOME/.secrets.env"
+
 # macOS
 if [[ "$OSTYPE" == "darwin"* ]]; then
 	PREFIX="${HOMEBREW_PREFIX:-/opt/homebrew}"
@@ -60,19 +63,6 @@ if hash nvim 2>/dev/null; then
 fi
 export EDITOR
 export VISUAL="$EDITOR"
-
-# Secrets
-# ----
-
-# Homebrew token
-# export GITHUB_TOKEN="{{ GITHUB_TOKEN }}"
-export HOMEBREW_GITHUB_API_TOKEN="{{ HOMEBREW_GITHUB_API_TOKEN }}"
-
-# OpenAI
-export OPENAI_API_KEY="{{ OPENAI_API_KEY }}"
-
-# Spotify
-export TMUX_SPOTIFY_API_KEY="{{ TMUX_SPOTIFY_API_KEY }}"
 
 # Desktop and shells
 # ----

@@ -66,6 +66,8 @@
 /ranger/tagged
 /rasa/
 /rome/recovery
+/raycast/extensions/
+/.semgrep/
 /smudge.sed
 /spacefm
 /spotify-tui/*
@@ -97,5 +99,6 @@
 /weechat/script
 /wego/
 /yarn
+/zed/conversations/
 /zsh/.zcompdump
 /zsh/*.zwc

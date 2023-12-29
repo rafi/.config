@@ -1,5 +1,5 @@
 [user]
 	name = {{ GIT_NAME }}
-	email = {{ GIT_EMAIL }}
+	email = {{ GIT_EMAIL }} ; personal
 [github]
-	user = {{ GIT_USER }}
+	user = rafi

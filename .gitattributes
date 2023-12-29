@@ -1,9 +1,6 @@
+.secrets.env filter=vault
 aria2/daemon filter=vault
-bash/exports filter=vault
 beets/config.yaml filter=vault
-bugwarrior/config filter=vault
-clerk/helper_config filter=vault
-git/gitk filter=vault
 git/users/* filter=vault
 mpd/mpd.conf filter=vault
 mpdscribble/config filter=vault
