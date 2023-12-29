@@ -1,56 +1,39 @@
+# ctags
+# ---
+
 --recurse=yes
 --tag-relative=yes
---fields=+ailmnS
---sort=yes
---verbose=no
+#--fields=+ailmnS
+#--sort=yes
+#--verbose=no
 
---languages=-javascript
+#--languages=-javascript
 --languages=-JSON
 
 --exclude=.cache
 --exclude=.git
---exclude=tags
 --exclude=.bundle
 --exclude=.idea
 --exclude=.tox
 --exclude=build
 --exclude=dist
 --exclude=node_modules
+--exclude=tags
+--exclude=*.svg
 --exclude=*/cache
 --exclude=*/compiled
 --exclude=*/js/vendor
 --exclude=*/js/libs
---exclude=google-chrome*
+--exclude=*/automatic_backups
 --exclude=chromium*
+--exclude=google-chrome*
+--exclude=weechat
 --exclude=wp-admin
 --exclude=wp-content
 --exclude=wp-includes
 --exclude=application/vendor
 --exclude=*/vendor/ckeditor
 --exclude=media/vendor
-
---langdef=markdown
---langmap=markdown:.md.markdown.mdown.mkd.mkdn
---regex-markdown=/^#+[ \t]+(.*)/\1/h,heading1/
-
---langdef=ansible
---langmap=ansible:.yml.yaml
---regex-ansible=/^[ \t]*-[ \t]*name:[ \t]*(.+)/\1/k,tasks/
-
---langmap=css:+.scss
---langmap=css:+.sass
---langmap=css:+.styl
---langmap=css:+.less
---regex-css=/^[ \t]*\.([A-Za-z0-9_-]+)/#\1/c,class,classes/
---regex-css=/^[ \t]*#([A-Za-z0-9_-]+)/.\1/i,id,ids/
---regex-css=/^[ \t]*(([A-Za-z0-9_-]+[ \t\n,]+)+)\{/\1/t,tag,tags/
---regex-css=/^[ \t]*@media\s+([A-Za-z0-9_-]+)/\1/m,media,medias/
-
---langdef=scss
---langmap=scss:.scss
---regex-scss=/^[ \t]*([^\t {][^{]{1,100})(\t| )*\{/| \1/d,definition/
---regex-scss=/^[@]mixin ([^ (]+).*/\1/m,mixin/
---regex-scss=/^[@]function ([^ (]+).*/\1/f,function/
 
 --langdef=snippets
 --langmap=snippets:.snip
