@@ -1,0 +1,37 @@
+# rafi
+
+[colors.bright]
+black = "0x686868"
+blue = "0x98CBFE"
+cyan = "0x75DAA9"
+green = "0xA3D572"
+magenta = "0xE5B0FF"
+red = "0xFFA7DA"
+white = "0xCFCFCF"
+yellow = "0xEFBD8B"
+
+[colors.cursor]
+cursor = "0xEF4CDB"
+text = "0x000000"
+
+[colors.normal]
+black = "0x2A2A2A"
+blue = "0x6095C5"
+cyan = "0x3BA275"
+green = "0x6D9E3F"
+magenta = "0xAC7BDE"
+red = "0xD370A3"
+white = "0xFFFFFF"
+yellow = "0xB58858"
+
+[colors.primary]
+background = "0x232323"
+foreground = "0xA0A0A0"
+
+[colors.selection]
+background = "0x404040"
+text = "0xeaeaea"
+
+[colors.vi_mode_cursor]
+cursor = "#4cef51"
+text = "#000000"

@@ -1,0 +1,124 @@
+[[keyboard.bindings]]
+chars = "\u001B[13;2u"
+key = "Return"
+mods = "Shift"
+
+[[keyboard.bindings]]
+chars = "\u001B[13;5u"
+key = "Return"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001B[13;6u"
+key = "Return"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+chars = "\u001B[39;5u"
+key = "'"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001B[47;5u"
+key = "Slash"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001B[57;5;63~"
+key = "Slash"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+chars = "\u001B[58;6u"
+key = "Semicolon"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001B[27;5;105~"
+key = "I"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001B[27;5;9~"
+key = "Tab"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001B[27;6;9~"
+key = "Tab"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+chars = "\u001E"
+key = "Key6"
+mods = "Control"
+
+[[keyboard.bindings]]
+chars = "\u001B[74;5u"
+key = "J"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+chars = "\u001B[75;5u"
+key = "K"
+mods = "Control|Shift"
+
+[[keyboard.bindings]]
+chars = "\u001Bh"
+key = "H"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001Bj"
+key = "J"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001Bk"
+key = "K"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001Bl"
+key = "L"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001B,"
+key = "Comma"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001B."
+key = "Period"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001B<"
+key = "Comma"
+mods = "Command|Shift"
+
+[[keyboard.bindings]]
+chars = "\u001B>"
+key = "Period"
+mods = "Command|Shift"
+
+[[keyboard.bindings]]
+chars = "\u001B["
+key = "LBracket"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001B]"
+key = "RBracket"
+mods = "Command"
+
+[[keyboard.bindings]]
+chars = "\u001B{"
+key = "LBracket"
+mods = "Command|Shift"
+
+[[keyboard.bindings]]
+chars = "\u001B}"
+key = "RBracket"
+mods = "Command|Shift"

@@ -1,0 +1,55 @@
+# Alacritty config
+# ---
+# See: https://github.com/alacritty/alacritty/blob/master/alacritty.yml
+
+live_config_reload = false
+import = [
+	"~/.config/alacritty/themes/rafi.toml",
+	"~/.config/alacritty/bindings.toml"
+]
+
+[shell]
+args = ["--login"]
+program = "/opt/homebrew/bin/bash"
+
+[window]
+decorations = "none"
+option_as_alt = "OnlyLeft"
+
+[window.padding]
+x = 3
+y = 3
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[cursor]
+thickness = 0.25
+vi_mode_style = "Beam"
+
+[cursor.style]
+blinking = "Off"
+shape = "Block"
+
+[env]
+LANG = "en_US.UTF-8"
+LC_ALL = "en_US.UTF-8"
+# Set to 'alacritty' automatically if terminfo exists
+TERM = "alacritty"
+
+[hints]
+alphabet = "jfkdls;ahgurieowpq"
+
+[mouse]
+hide_when_typing = true
+
+[selection]
+save_to_clipboard = true
+
+[font]
+size = 21
+builtin_box_drawing = false
+normal = { family = "PragmataPro Liga", style = "Regular" }
+bold = { family = "PragmataPro Liga", style = "Bold" }
+italic = { family = "PragmataPro Liga", style = "Italic" }
+bold_italic = { family = "PragmataPro Liga", style = "Bold Italic" }
