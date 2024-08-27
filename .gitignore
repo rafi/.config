@@ -16,7 +16,7 @@
 /.exercism.json
 /fb-client
 /fetchmail
-/fish/fishd.*
+/fish/plugins/
 /fish/fish_variables
 /fontforge
 /gcalcli
