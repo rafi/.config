@@ -1,0 +1,5 @@
+[plugin]
+deps = [{ use = "dedukun/bookmarks", rev = "600f87c0" }, { use = "yazi-rs/plugins:hide-preview", rev = "0b9f325f" }, { use = "yazi-rs/plugins:max-preview", rev = "0b9f325f" }, { use = "Reledia/glow", rev = "4e016fa2" }, { use = "Reledia/hexyl", rev = "f845ea5e" }, { use = "ndtoan96/ouch", rev = "251da693" }, { use = "cschult/odt", rev = "15865f75" }, { use = "Sonico98/exifaudio", rev = "62054604" }]
+
+[flavor]
+deps = [{ use = "dangooddd/kanagawa", rev = "b32f205c" }]

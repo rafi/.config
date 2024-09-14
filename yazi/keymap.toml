@@ -1,0 +1,39 @@
+"$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
+
+# Yazi keymaps
+
+[manager]
+prepend_keymap = [
+	{ on = [ "l" ], run = "plugin --sync smart-enter", desc = "Enter the child directory, or open the file" },
+	{ on = [ "i" ], run = "LESS='-iWQMXR~' bat --paging=always --theme=TwoDark {}" },
+	{ on = [ "<Esc>" ], run = "close", desc = "Cancel input" },
+
+	{ on = [ "<C-s>" ], run = 'shell "$SHELL" --block --confirm', desc = "Open shell here" },
+
+	# Selection
+	{ on = [ "*" ], run = "select_all --state=none", desc = "Inverse selection" },
+
+	# Operation
+	# { on = ["<C-Enter>"], run = "open --interactive", desc = "Open the selected files interactively" },
+	{ on = ["c", "a"], run = "plugin ouch --args=zip", desc = "Compress with ouch" },
+
+	# Goto, tabs and help
+	{ on = [ "g", "?" ], run = "help", desc = "Help" },
+	{ on = [ "g", "o" ], run = "cd ~/code", desc = "Go to code directory" },
+	{ on = [ "g", "t" ], run = "tab_switch 1 --relative", desc = "Switch to the next tab" },
+	{ on = [ "g", "T" ], run = "tab_switch -1 --relative", desc = "Switch to the previous tab" },
+
+	# Plugins
+	{ on = [ "<Tab>" ], run = "plugin --sync max-preview", desc = "Maximize preview" },
+	{ on = [ "<C-g>" ], run = "plugin --sync hide-preview", desc = "Hide preview" },
+]
+
+[help]
+prepend_keymap = [
+	{ on = "<C-d>", run = "arrow 25", desc = "Move cursor down half page" },
+	{ on = "<C-u>", run = "arrow -25", desc = "Move cursor up half page" },
+	{ on = "<C-f>", run = "arrow 100%",  desc = "Move cursor down one page" },
+	{ on = "<C-b>", run = "arrow -100%", desc = "Move cursor up one page" },
+	{ on = [ "g", "g" ], run = "arrow -99999999", desc = "Move cursor to the top" },
+	{ on = "G",          run = "arrow 99999999",  desc = "Move cursor to the bottom" },
+]

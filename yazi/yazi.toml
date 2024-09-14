@@ -1,0 +1,45 @@
+# See https://github.com/sxyazi/yazi/blob/main/yazi-config/preset/yazi.toml
+"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+
+[manager]
+linemode       = "size_and_mtime"  # none, size, permissions, mtime
+ratio          = [ 1, 4, 3 ]
+scrolloff      = 3
+sort_dir_first = true
+sort_sensitive = true
+show_hidden    = true
+show_symlink   = true
+title_format   = "[yazi] {cwd}"
+
+# Run `yazi --clear-cache` when changing preview settings.
+[preview]
+# nearest (fast), triangle, catmull-rom, lanczos3 (slow)
+image_filter    = "triangle"
+image_quality   = 60 # 50-90
+
+[opener]
+edit = [
+	{ run = 'nvim "$@"', block = true, for = "unix" },
+]
+# archive = [
+# 	{ run = 'unar "$1"', desc = "Extract here", for = "unix" },
+# ]
+# text = [{ run = '$EDITOR "$@"', block = true }]
+
+[plugin]
+prepend_previewers = [
+	{ mime = "audio/*", run = "exifaudio" },
+	{ name = "*.md", run = "glow" },
+	{ mime = "application/vnd.oasis.opendocument.text", run = "odt" },
+
+	# Archive previewer
+	{ mime = "application/*zip",            run = "ouch" },
+	{ mime = "application/x-tar",           run = "ouch" },
+	{ mime = "application/x-bzip2",         run = "ouch" },
+	{ mime = "application/x-7z-compressed", run = "ouch" },
+	{ mime = "application/x-rar",           run = "ouch" },
+	{ mime = "application/x-xz",            run = "ouch" },
+]
+append_previewers = [
+	{ name = "*", run = "hexyl" },
+]
