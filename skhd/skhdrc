@@ -3,7 +3,14 @@
 # See https://github.com/koekeishiya/skhd/blob/master/examples/skhdrc
 
 # open terminal, blazingly fast compared to iTerm/Hyper
-cmd - return : open -na /Applications/kitty.app
+# alt - return : /Applications/kitty.app/Contents/MacOS/kitty
+# cmd - return : open -na /Applications/kitty.app
+
+# open qutebrowser
+# cmd + shift - return : ~/Scripts/qtb.sh
+
+# open mpv
+# cmd - m : open -na /Applications/mpv.app $(pbpaste)
 
 # focus window:  hjkl is tmux, aswd is yabai
 alt - h : yabai -m window --focus west
@@ -35,8 +42,52 @@ alt + ctrl - c : yabai -m window --resize 4:4:1:1:2:2
 alt - 0x2A : yabai -m window --focus recent
 cmd - 0x2A : yabai -m window --focus recent
 
+# move window
+# shift + ctrl - h : yabai -m window --move rel:-20:0
+# shift + ctrl - j : yabai -m window --move rel:0:20
+# shift + ctrl - k : yabai -m window --move rel:0:-20
+# shift + ctrl - l : yabai -m window --move rel:20:0
+
+# change window size
+# cmd + alt - left  : yabai -m window --resize right:-40:0
+# cmd + alt - down  : yabai -m window --resize bottom:0:-20
+# cmd + alt - up    : yabai -m window --resize bottom:0:20
+# cmd + alt - right : yabai -m window --resize right:40:0
+
+# not needed
+# ctrl + cmd - left   : yabai -m window --resize left:-20:0
+# ctrl + cmd - down  : yabai -m window --resize bottom:0:20
+# ctrl + cmd - up    : yabai -m window --resize bottom:0:-20
+# ctrl + cmd - right  : yabai -m window --resize left:20:0
+
+# set insertion point in focused container
+# ctrl + alt - h : yabai -m window --insert west
+# ctrl + alt - j : yabai -m window --insert south
+# ctrl + alt - k : yabai -m window --insert north
+# ctrl + alt - l : yabai -m window --insert east
+
 # balance size of windows
 shift + alt - 0 : yabai -m space --balance
+
+# make floating window fill screen
+# shift + alt - up     : yabai -m window --grid 1:1:0:0:1:1
+
+# make floating window fill left-half of screen
+# shift + alt - left   : yabai -m window --grid 1:2:0:0:1:1
+
+# make floating window fill right-half of screen
+# shift + alt - right  : yabai -m window --grid 1:2:1:0:1:1
+
+# create desktop, move window and follow focus (requires jq)
+# cmd + alt - n : yabai -m space --create && \
+#                 index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')" && \
+#                 yabai -m window --space "${index}" && \
+#                 yabai -m space --focus "${index}"
+
+# create desktop and follow focus (requires jq)
+# shift + cmd - n : yabai -m space --create && \
+#                   index="$(yabai -m query --spaces --display | jq 'map(select(."native-fullscreen" == 0))[-1].index')" && \
+#                   yabai -m space --focus "${index}"
 
 # destroy desktop
 shift + cmd - w : yabai -m space --destroy
@@ -57,6 +108,9 @@ cmd - 8 : yabai -m space --focus 8 || skhd -k "ctrl + alt + cmd - 8"
 cmd - 9 : yabai -m space --focus 9 || skhd -k "ctrl + alt + cmd - 9"
 
 # send window to desktop and follow focus
+# shift + cmd - x : yabai -m window --space recent; yabai -m space --focus recent
+# shift + cmd - z : yabai -m window --space prev; yabai -m space --focus prev
+# shift + cmd - c : yabai -m window --space next; yabai -m space --focus next
 shift + cmd - 1 : yabai -m window --space 1 --focus
 shift + cmd - 2 : yabai -m window --space 2 --focus
 shift + cmd - 3 : yabai -m window --space 3 --focus
@@ -70,6 +124,7 @@ shift + cmd - 9 : yabai -m window --space 9 --focus
 # focus monitor
 ctrl + alt - x  : yabai -m display --focus recent
 ctrl + alt - z  : yabai -m display --focus prev
+# ctrl + alt - c  : yabai -m display --focus next
 ctrl + alt - 1  : yabai -m display --focus 1
 ctrl + alt - 2  : yabai -m display --focus 2
 ctrl + alt - 3  : yabai -m display --focus 3
@@ -105,6 +160,9 @@ shift + alt - b : yabai -m window --toggle border
 
 # toggle window split type
 alt - e : yabai -m window --toggle split
+
+# yabai -m window --move abs:90:90
+# yabai -m window --resize abs:1250:700
 
 # toggle sticky (show on all spaces)
 alt - s : yabai -m window --toggle sticky

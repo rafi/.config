@@ -15,6 +15,9 @@ yabai -m signal --add event=display_removed action="yabai --restart-service"
 yabai -m signal --add event=display_resized action="yabai --restart-service"
 yabai -m signal --add event=display_moved   action="yabai --restart-service"
 
+	# external_bar               all:35:0     \
+	# normal_window_opacity      0.95         \
+
 yabai -m config \
 	external_bar               all:0:0      \
 	mouse_follows_focus        off          \
@@ -27,7 +30,7 @@ yabai -m config \
 	window_opacity_duration    0.2          \
 	active_window_opacity      1.0          \
 	normal_window_opacity      1.0          \
-	window_animation_duration  0.3          \
+	window_animation_duration  0.0          \
 	insert_feedback_color      0xff9dd274   \
 	split_ratio                0.50         \
 	auto_balance               off          \
@@ -49,7 +52,64 @@ yabai -m rule --add label="Safari" app="^Safari$" title="^(General|(Tab|Password
 yabai -m rule --add label="About This Mac" app="System Information" title="About This Mac" manage=off
 yabai -m rule --add label="Select file to save to" app="^Inkscape$" title="Select file to save to" manage=off
 
+# global settings
+# yabai -m config window_origin_display focused
+
+# yabai -m config window_opacity                  off
+# yabai -m config active_window_opacity           1.0
+# yabai -m config normal_window_opacity           0.8
+# # yabai -m config window_opacity_duration         0.0
+# yabai -m config window_animation_duration       0.0
+
+# Global space settings
+# yabai -m config top_padding                     0
+# yabai -m config bottom_padding                  0
+# yabai -m config left_padding                    0
+# yabai -m config right_padding                   0
+# yabai -m config window_gap                      5
+
+# Override gaps for specific spaces only
+# yabai -m config --space 1 window_gap 0
+# yabai -m config --space 2 window_gap 0
+
+# Space assignments
+# yabai -m rule --add app='^(Alacritty|kitty)$' space=1
+# yabai -m rule --add app='^Google Chrome$'     space=2
+# yabai -m rule --add app='^Arc$'               space=2
+# yabai -m rule --add app='^Slack$'             space=3
+# yabai -m rule --add app='^Messages$'          space=3
+# yabai -m rule --add app='^Telegram$'          space=3
+# yabai -m rule --add app='^Spotify$'           space=4
+# yabai -m rule --add app='^Music$'             space=4
+# yabai -m rule --add app='^Microsoft Outlook'  space=5
+# yabai -m rule --add app='^zoom.us$'           space=5
+
+# # 7-8-2022: Doesn't work well, SIP is enabled.
+# # Maybe will work in newer version or SIP disabled?
+# # ---
+yabai -m signal --add event=application_launched app='^(Alacritty|kitty)$' \
+	action="yabai -m space --focus 1"
+yabai -m signal --add event=application_launched app='^Google Chrome$' \
+	action="yabai -m space --focus 2"
+yabai -m signal --add event=application_launched app='^(Slack|Messages|Telegram|WhatsApp)$' \
+	action="yabai -m space --focus 3"
+yabai -m signal --add event=application_launched app='^(Spotify|Music)$' \
+	action="yabai -m space --focus 4"
+yabai -m signal --add event=application_launched app='^Microsoft Outlook' \
+	action="yabai -m space --focus 5"
+yabai -m signal --add event=application_launched app='^zoom.us$' \
+	action="yabai -m space --focus 5"
+
+# System
+# yabai -m rule --add app='^Help Viewer$'           manage=off
+# yabai -m rule --add app='^Installer$'             manage=off
+# yabai -m rule --add app='^Reminders$'             manage=off
+# yabai -m rule --add app='^System Information$'    manage=off
+# yabai -m rule --add title='Updating '             manage=off
+# yabai -m rule --add title='^Picture in Picture$'  manage=off
+
 # Apps
+yabai -m rule --add app='^ATV Remote$'         manage=off
 yabai -m rule --add app='^Bartender .$'        manage=off
 yabai -m rule --add app='^Beyond Compare$'     manage=off
 yabai -m rule --add app='^Calendar$'           manage=off
@@ -57,12 +117,21 @@ yabai -m rule --add app='^ColorSlurp$'         manage=off
 yabai -m rule --add app='^Contexts$'           manage=off
 yabai -m rule --add app='^Dozer$'              manage=off
 yabai -m rule --add app='^FortiClient$'        manage=off
+yabai -m rule --add app='^Gauntlet$'           manage=off
+yabai -m rule --add app='^JuxtaCode$'          manage=off
+yabai -m rule --add app='^Kap$'                manage=off
 yabai -m rule --add app='^Karabiner-Elements$' manage=off
 yabai -m rule --add app='^Maccy$'              manage=off
 yabai -m rule --add app='^Monosnap$'           manage=off
 yabai -m rule --add app='^Pixelmator'          manage=off
+yabai -m rule --add app='^Plexamp'             manage=off
 yabai -m rule --add app='^Raycast$'            manage=off
 yabai -m rule --add app='^Reminders$'          manage=off
+yabai -m rule --add app='^QuickRecorder$'      manage=off
+yabai -m rule --add app='^qView$'              manage=off
+# yabai -m rule --add app='^Slack$' title='^Slack \| mini panel$' manage=off
+# yabai -m rule --add app='^Slack$' title='^Threads - '           manage=off
+# yabai -m rule --add app='^Slack$' title='^Slack - Huddle$'      manage=off
 
 # Placement
 yabai -m rule --add app='^App Store$'        grid=24:24:1:1:22:22
@@ -71,12 +140,12 @@ yabai -m rule --add app='^Docker Desktop$'   manage=off grid=4:4:1:1:2:2
 yabai -m rule --add app='^Marked 2$'         manage=off layer=above grid=1:2:1:0:1:1
 yabai -m rule --add app='^Preview$'          manage=off grid=1:2:1:0:1:1
 
-# yabai -m rule --add app='^Dictionary$'       manage=off layer=above grid=24:24:15:1:8:14
-# yabai -m rule --add app='^Preview$'          manage=off layer=above grid=1:2:1:0:1:1
-# yabai -m rule --add app='^Dash$'             manage=off layer=above grid=1:2:1:0:1:1
-# yabai -m rule --add app='^Docker$'           manage=off layer=above border=off
-# yabai -m rule --add app='^Docker Desktop$'   manage=off layer=above border=off grid=4:4:1:1:2:2
-# yabai -m rule --add app='^Dozer$'            manage=off layer=above border=off
+# yabai -m rule --add app='^VNC Viewer$'            manage=off
+# yabai -m rule --add app='^iTerm2$' title='^Preferences$' manage=off layer=above
+# yabai -m rule --add app='^qemu-system-'           manage=off
+# yabai -m rule --add title='Preferences$'          manage=off
+# yabai -m rule --add title='^QEMU$'                manage=off layer=above
+
 # Borders
 # /opt/homebrew/bin/borders active_color=0xff84153D inactive_color=0xff494d64 width=5.0 2>/dev/null 1>&2 &
 
