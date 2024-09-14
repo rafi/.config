@@ -1,2 +1,4 @@
---style changes,grid,snip,numbers
---terminal-width -2
+--theme="gruvbox-dark"
+--italic-text=always
+--tabs=2
+--style=plain

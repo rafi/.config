@@ -1,0 +1,21 @@
+---
+# lsd configuration
+# See https://github.com/Peltoche/lsd
+
+color:
+  # 'default' or theme in ~/.config/lsd/themes/<theme>.yaml, or file path.
+  theme: custom
+
+# Possible values: date, relative, '+<strftime format>'
+date: '+%d-%m-%Y %X'
+
+icons:
+  when: never
+  separator: "  "
+
+indicators: true
+
+sorting:
+  # Possible values: extension, name, time, size, version
+  column: name
+  dir-grouping: first

@@ -13,6 +13,7 @@
 web:*.{html,css,js}*
 
 # Using glob patterns to include/exclude files or folders
+# FIXME:
 --ignore-file=/Users/rafi/.config/ripgrep/ignore
 
 # Set the colors.

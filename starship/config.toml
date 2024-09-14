@@ -58,3 +58,8 @@ ssh_only = true
 [python]
 format = '([${version}](fg:242)[/](fg:246))'
 pyenv_version_name = true
+
+[custom.yazi]
+when = ''' test -n "$YAZI_LEVEL" '''
+format = '\[[Yazi]($style)\] '
+style = 'green'

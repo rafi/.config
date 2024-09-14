@@ -12,6 +12,16 @@
 [core]
 	excludesfile = ~/.config/git/ignore
 	hooksPath = ~/.config/git/hooks
+
+	# Make `git rebase` safer on macOS.
+	# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
+	trustctime = false
+	# Prevent showing files whose names contain non-ASCII symbols as unversioned.
+	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+	precomposeunicode = false
+	# Speed up commands involving untracked files such as `git status`.
+	# https://git-scm.com/docs/git-update-index#_untracked_cache
+	untrackedCache = true
 	# The length object names are abbreviated to
 	abbrev = 8
 	# Do NOT auto-convert CRLF line endings into LF
@@ -32,7 +42,7 @@
 [push]
 	# https://git-scm.com/docs/git-config#Documentation/git-config.txt-pushdefault
 	default = current
-	followTags = true
+	followTags = false
 [commit]
 	# https://git-scm.com/docs/git-commit#Documentation/git-commit.txt--v
 	verbose = true
@@ -66,9 +76,12 @@
 	# https://git-scm.com/docs/git-config#git-config-transferfsckObjects
 	# via https://groups.google.com/forum/#!topic/binary-transparency/f-BI4o8HZW0
 	fsckobjects = false
+[branch]
+	sort = -committerdate
 [pager]
 	show-branch = true
 	status = true
+	difftool = true
 # 	diff = delta
 # 	log = delta
 # 	reflog = delta
@@ -76,14 +89,21 @@
 # [interactive]
 # 	diffFilter = delta --color-only
 
+[stash]
+	showPatch = true
+
 [diff]
-	tool = nvimdiff
-	algorithm = patience
+	tool = difftastic
+	; algorithm = patience
 	renames = copies
-	mnemonicprefix = true
-	compactionHeuristic = true
-[difftool "nvimdiff"]
-	cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
+	; mnemonicprefix = true
+	; compactionHeuristic = true
+
+[difftool]
+	prompt = false
+
+[difftool "difftastic"]
+	cmd = difft "$LOCAL" "$REMOTE"
 
 [delta]
 	features = theme
@@ -110,10 +130,10 @@
 	plus-style = syntax "#001a00"
 
 [merge]
-	tool = bc3
+	tool = bc4
 	verbosity = 1
-	summary = true
 	stat = true
+	log = true
 	# Standard diff is two sets of final changes.
 	# This introduces the original text before each side's changes.
 	# https://git-scm.com/docs/git-config#Documentation/git-config.txt-mergeconflictStyle
@@ -159,10 +179,21 @@
 	branch = 10
 	nobranch = red
 
-[url "git@github.com"]
-	insteadOf = gh
-[url "git@bitbucket.org"]
-	insteadOf = bb
+# Remote shortcuts
+
+[url "git@github.com:"]
+	insteadOf = "gh:"
+	pushInsteadOf = "github:"
+	pushInsteadOf = "git://github.com/"
+
+[url "git://github.com/"]
+	insteadOf = "github:"
+
+[url "git@bitbucket.org:"]
+	insteadOf = "bb:"
+
+[url "git@git.sr.ht"]
+	insteadOf = "srht:"
 
 # Convert HTTP to SSH
 [url "git@bitbucket.org:"]
@@ -171,9 +202,12 @@
 	insteadOf = https://gitlab.com/
 
 [alias]
+	aliases = config --get-regexp alias
 	s  = status -sb
 	f  = fetch --prune
 	c  = commit -v
+	co = commit -v
+	cl = clone --recursive
 	cm = commit -vm
 	br = branch -v
 	st = status
@@ -181,10 +215,13 @@
 	t  = tag --column
 	tn = tag -n
 	d  = diff
+	dft = difftool
+	dlog = "!f() { GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f"
 	ds = diff --staged
 	dw = diff --color-words
 	dh = diff --color-words HEAD
 	dp = !git log --pretty=mini | fzf | cut -d ' ' -f1 | xargs -o git show
+	p = pull --recurse-submodules
 	patch = !git --no-pager diff --no-color
 	post  = !sh -c 'git --no-pager format-patch --stdout $1 | ix' -
 	prune = fetch --prune
@@ -192,10 +229,31 @@
 	reword = commit --amend
 	track = checkout --track
 	topic = !git checkout "$(git current-remote)/master" -b
-	stash-all = stash save --include-untracked
+	push-all = !git remote | xargs -L1 git push
+	stash-all = stash save --all
 	sync-tags = fetch --prune origin '+refs/tags/*:refs/tags/*'
 	sm    = submodule
 	smu   = submodule foreach git pull origin master
+
+	# Show verbose output about tags, branches or remotes
+	branches = branch --all
+	remotes = remote --verbose
+
+	# List contributors with number of commits.
+	contributors = shortlog --summary --numbered
+
+	# Show the user email for the current repository.
+	whoami = config user.email
+
+	# Tags =========================================
+
+	tags = tag -l
+
+	# Remove the old tag with this name and tag the latest commit with it.
+	retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
+
+	# Find tags containing commit
+	ft = "!f() { git describe --always --contains $1; }; f"
 
 	#===============================================
 	w  = whatchanged --decorate
@@ -205,10 +263,11 @@
 
 	#===============================================
 	tree = log --graph --all --oneline --decorate
-	lb   = log --graph --simplify-by-decoration --pretty=mini --notes --date-order --relative-date
+	lb   = log --graph --all --simplify-by-decoration --pretty=mini --notes --date-order --relative-date
 	lg   = log --graph --pretty=cool --all
 	lgd  = log --graph --pretty=cool
 	lgw  = !sh -c '"while true; do clear; git lg -15; sleep 5; done"'
+	dlog = "!f() { GIT_EXTERNAL_DIFF=difft git log -p --ext-diff $@; }; f"
 
 	#===============================================
 	# Take a snapshot of your current working tree without removing the changes from your tree.

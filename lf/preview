@@ -149,10 +149,12 @@ function view_opendocument() {
 # View PDF with pdftoppm or pdftotext
 function view_pdf() {
 	if hash pdftoppm 2>/dev/null; then
-		 pdftoppm -f 1 -l 1 -scale-to-x 1024 -scale-to-y -1 \
-				-singlefile -jpeg -tiffcompression jpeg -- "${FILE}" \
-			| view_image -
-		hash pdfinfo 2>/dev/null && pdfinfo "$FILE"
+		SHA=$(stat --printf '%n\0%i\0%F\0%s\0%W\0%Y' -- "$(readlink -f "$FILE")" | sha256sum | awk '{print $1}')
+		THUMB="$HOME/.cache/lf/thumbnail.${SHA}"
+		pdftoppm -f 1 -l 1 -scale-to-x 1024 -scale-to-y -1 \
+			-singlefile -jpeg -tiffcompression jpeg -- "${FILE}" > "$THUMB"
+		view_image_kitty "$THUMB"
+		# hash pdfinfo 2>/dev/null && pdfinfo "$FILE"
 	elif hash pdftotext 2>/dev/null; then
 		pdftotext -raw -l 10 -nopgbrk -q -- "${FILE}" -
 	fi

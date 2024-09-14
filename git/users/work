@@ -1,3 +1,6 @@
+[init]
+defaultBranch = main
+
 [user]
 	name = {{ GIT_NAME }}
 	email = {{ GIT_WORK_EMAIL }} ; work

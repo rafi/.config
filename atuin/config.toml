@@ -21,6 +21,9 @@ search_mode = "fuzzy"     # prefix, fulltext, fuzzy, skim
 word_jump_mode = "emacs"  # emacs, subl
 # show_help = false
 
+keymap_mode = "vim-insert"
+# prefix = true
+
 scroll_context_lines = 2
 exit_mode = "return-original"  # return-original, return-query
 filter_mode = "global"  # global, host, session, directory
@@ -38,3 +41,6 @@ update_check = false
 history_filter = [
   "^ ",
 ]
+
+# [sync]
+# records = true

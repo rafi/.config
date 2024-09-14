@@ -20,10 +20,10 @@ set timefmt '2006-01-02 15:04:05 -0700'
 set previewer ~/.config/lf/preview
 set cleaner ~/.config/lf/clean
 
-set promptfmt "
-\033[38;5;8m\033[48;5;236m %u@%h \033[38;5;236m\033[48;5;234m
-\033[38;5;8m\033[48;5;234m %w/%f \033[0m\033[38;5;234m\033[0m
-"
+# set promptfmt "
+# \033[38;5;8m\033[48;5;236m %u@%h \033[38;5;236m\033[48;5;234m
+# \033[38;5;8m\033[48;5;234m %w/%f \033[0m\033[38;5;234m\033[0m
+# "
 
 # Secure logs and socket
 # ${{
@@ -94,6 +94,17 @@ map go cd /opt
 map g/ cd /
 map g~ cd ~
 
+cmd git_branch ${{
+	git branch | fzf | xargs git checkout
+	pwd_shell=$(pwd | sed 's/\\/\\\\/g;s/"/\\"/g')
+	lf -remote "send $id updir"
+	lf -remote "send $id cd \"$pwd_shell\""
+}}
+map gb :git_branch
+map gp ${{clear; git pull --rebase || true; echo "press ENTER"; read ENTER}}
+map gs ${{clear; git status}}
+map gl ${{clear; git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit}}
+
 # waiting for https://github.com/gokcehan/lf/issues/111
 # cmap <c-right> cmd-word
 # cmap <c-left> cmd-word-back
@@ -103,6 +114,29 @@ map g~ cd ~
 
 cmd mkdir %[ -n "${1}" ] && mkdir -p ${@} || echo "Argument needed"
 cmd mkfile %[ -n "${1}" ] && touch ${@} || echo "Argument needed"
+
+cmd on-select &{{
+	lf -remote "send $id set statfmt \"$(exa -ld --color=always "$f")\""
+}}
+
+cmd on-cd &{{
+	export STARSHIP_SHELL=
+	fmt="$(starship prompt)"
+	lf -remote "send $id set promptfmt \"$fmt\""
+}}
+
+# cmd on-cd &{{
+# # display git repository status in your prompt
+# 	source /opt/homebrew/etc/bash_completion.d/git-prompt.sh
+# 		GIT_PS1_SHOWDIRTYSTATE=auto
+# 		GIT_PS1_SHOWSTASHSTATE=auto
+# 		GIT_PS1_SHOWUNTRACKEDFILES=auto
+# 		GIT_PS1_SHOWUPSTREAM=auto
+# 		GIT_PS1_COMPRESSSPARSESTATE=auto
+# 		git=$(__git_ps1 " [GIT BRANCH:> %s]") || true
+# 		fmt="\033[32;1m%u@%h\033[0m:\033[34;1m%w\033[0m\033[33;1m$git\033[0m"
+# 		lf -remote "send $id set promptfmt \"$fmt\""
+# }}
 
 # Implement trash command
 cmd trash ${{
@@ -155,7 +189,7 @@ cmd z ${{
 	prefix=''
 	[[ "$OSTYPE" == "darwin"* ]] && prefix='/usr/local'
 	if hash zoxide 2>/dev/null; then
-		dest="$(zoxide query "$@")"
+		dest="$(zoxide query --exclude "$PWD" "$@" | sed 's/\\/\\\\/g;s/"/\\"/g')"
 	# See: https://github.com/skywind3000/z.lua
 	elif [ -f "$prefix/etc/profile.d/z.lua" ]; then
 		export _ZL_NO_PROMPT_COMMAND=1
@@ -178,6 +212,19 @@ cmd fzf_z ${{
 	sel="$(zoxide query -l | fzf +s)"
 	[ -d "$sel" ] && lf -remote "send $id cd \"$sel\""
 }}
+cmd fzf_jump ${{
+	res="$(find . -maxdepth 1 | fzf --reverse --header='Jump to location')"
+	if [ -n "$res" ]; then
+		if [ -d "$res" ]; then
+			cmd="cd"
+		else
+			cmd="select"
+		fi
+		res="$(printf '%s' "$res" | sed 's/\\/\\\\/g;s/"/\\"/g')"
+		lf -remote "send $id $cmd \"$res\""
+	fi
+}}
+map <c-f> :fzf_jump
 
 # dynamically set info displayed based on the number of columns
 cmd resize %{{
