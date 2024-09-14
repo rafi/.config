@@ -15,51 +15,31 @@ The most interesting configs:
 
 - [bash](./bash/)
 - [git](./git/)
+- [fish](./fish/)
 - [i3](./i3/config)
 - [karabiner](./karabiner/)
 - [kitty](./kitty/)
 - [launch](./launch/)
 - [lf](./lf/)
+- [lsd](./lsd/)
 - [tmux](./tmux/)
 - [xorg](./xorg/)
 - [skhd](./skhd/skhdrc)
+- [starship](./starship/)
 - [yabai](./yabai/yabairc)
+- [yazi](./yazi/)
+- [zsh](./zsh/)
 
 ... And make sure to check out [github.com/rafi/vim-config]
 
 ## Install
 
-----
-
+:::danger
 **DO NOT** install! These are my customized settings that are tailored to my
 set-up. If you blindly install it, you won't have a good time.
+:::
 
-----
-
-There is **no** installation script, only two symlinks:
-
-```sh
-# Clone the .config repo
-cd ~
-git clone --recursive git@github.com:rafi/.config.git
-
-# Symlink few files manually:
-cd ~
-ln -s .config/bash/bashrc .bashrc
-ln -s .config/bash/profile .profile
-
-# Create cache directories
-mkdir -p ~/.cache/{nvim,pacaur,proselint,xpanes,zoxide}
-mkdir -p ~/.cache/{aria2,beets,mpd,mpdscribble,mutt,neomutt,rtorrent,subtitles}
-mkdir -p ~/.cache/ncmpcpp/lyrics
-mkdir -p ~/.cache/node/{npm,gyp}
-
-# Create user local shared directories
-mkdir -p ~/.local/bin
-mkdir -p ~/.local/share/{cargo,composer,fonts,go,krew,lf,mailbox,mutt,neomutt}
-mkdir -p ~/.local/share/{newsbeuter,newsboat,nextword,tig,vagrant}
-mkdir -p ~/.local/share/python/{poetry,pyenv}
-```
+See [`justfile`](./justfile) for the available commands.
 
 ## macOS-specific Software
 
@@ -68,7 +48,10 @@ on macOS, make sure you check these out:
 - [launchctl](./launch/)
 - [Karabiner](./karabiner/)
 
-https://macos-defaults.com/ --- https://github.com/yannbertrand/macos-defaults
+macOS defaults:
+
+- [macos-defaults.com](https://macos-defaults.com/)
+- [github.com/yannbertrand/macos-defaults](https://github.com/yannbertrand/macos-defaults)
 
 ## XDG Conformity
 
@@ -77,6 +60,19 @@ specific environment variables in [bash/exports] and aliases in [bash/aliases].
 
 Some programs require special aliases to feed the proper config, see "XDG
 conformity" in [bash/aliases].
+
+## Software Configuration Included
+
+### Fish
+
+Recommended plugins:
+
+```txt
+jorgebucaran/fisher
+jorgebucaran/autopair.fish
+franciscolourenco/done
+patrickf1/fzf.fish
+```
 
 ## Protecting Secrets
 
@@ -116,17 +112,18 @@ committed. And on checkout, the `smudge.sed` will inject your secrets into
 their proper placeholders. _Note_ that `smudge.sed` is ignored from being
 committed mistakenly.
 
-Create a `~/.config/.secrets.env` file with the following format:
+Copy `.env.example` to `~/.config/.env` and fill in your secrets:
 
 ```sh
-export GITHUB_TOKEN="{{ GITHUB_TOKEN }}"
-export HOMEBREW_GITHUB_API_TOKEN="{{ HOMEBREW_GITHUB_API_TOKEN }}"
-export OPENAI_API_KEY="{{ OPENAI_API_KEY }}"
-export DICTIONARY_API_KEY="{{ DICTIONARY_API_KEY }}"
-export GITLAB_TOKEN="{{ GITLAB_TOKEN }}"
+HOMEBREW_GITHUB_API_TOKEN=
+GITLAB_TOKEN=
+OPENAI_API_KEY=
+DICTIONARY_API_KEY=
 
 # And so on…
 ```
+
+For maximum portability, refrain from using quotes or 'export' commands.
 
 [bash/aliases]: ./bash/aliases
 [bash/exports]: ./bash/exports

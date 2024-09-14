@@ -1,4 +1,4 @@
-.secrets.env filter=vault
+.env filter=vault
 aria2/daemon filter=vault
 beets/config.yaml filter=vault
 git/users/* filter=vault
