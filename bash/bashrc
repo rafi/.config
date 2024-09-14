@@ -1,13 +1,55 @@
 #!/usr/bin/env bash
-# bashrc
-# ---
-# https://github.com/rafi/.config
+# bashrc           _▄▄
+# _▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄█●_█
+# █  - ◄█▘ ◦ ▝█  -▄█  █
+# ▜▄▄█▄▄█▄▄█▄▄█▄▄███▄▄▛
+# github.com/rafi/.config
 
 # Abort if not running interactively
 [[ $- == *i* ]] || return 0
 
-# See sheldon/plugins.toml
-eval "$(sheldon source)"
+# Remove mappings. See all: stty -a
+stty stop undef          # Remove the ^Q mapping
+stty start undef         # Remove the ^S mapping
+
+# Bash settings
+shopt -s cdspell         # Auto-corrects cd misspellings
+# shopt -s dirspell        # Auto-corrects cd misspellings
+shopt -s cmdhist         # Save multi-line commands in history as single line
+shopt -s dotglob         # Include dotfiles in pathname expansion
+shopt -s expand_aliases  # Expand aliases
+shopt -s extglob         # Enable extended pattern-matching features
+shopt -s histreedit      # Add failed commands to the bash history
+shopt -s histappend      # Append each session's history to $HISTFILE
+shopt -s histverify      # Edit a recalled history line before executing
+
+if [[ $DISPLAY ]]; then
+	shopt -s checkwinsize  # Update LINES and COLUMNS after each command
+fi
+
+# Enable readline vi-mode for myself only
+# See ./functions.d/ssh.bash for implementation
+if [ "${LC_IDENTIFICATION:-$USER}" = rafi ] \
+	|| [[ "${LC_IDENTIFICATION:-$USER}" == rafael* ]]
+then
+	set -o vi
+fi
+
+# Source all extra functions
+for func in "$XDG_CONFIG_HOME/bash/functions.d/"*.bash; do
+	# shellcheck disable=1090
+	source "$func"
+done
+unset func
+
+# Load bash completions
+source "$XDG_CONFIG_HOME/bash/completion"
+
+# Load bash aliases
+source "$XDG_CONFIG_HOME/bash/aliases"
+
+# Load CLI utilities
+source "$XDG_CONFIG_HOME/bash/utils"
 
 # Clean-up Apple's useless garbage
 [ -f .DS_Store ] && rm -f .DS_Store

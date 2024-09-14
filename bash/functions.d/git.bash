@@ -21,7 +21,7 @@ function gbl() {
 function gbs() {
 	git for-each-ref --format="%(refname)" refs/heads refs/tags --sort=-committerdate | \
 		awk '{sub(/^refs\/tags\//, "\x1b[31;1mtag\x1b[m\t "); sub(/^refs\/heads\//, "\x1b[34;1mbranch\x1b[m\t ")} {print}' | \
-		fzf --no-hscroll --no-multi --delimiter=" " -n 2 \
+		fzf --no-multi --delimiter=" " -n 2 \
 			--ansi --preview="git-branch-overview {2}" --preview-window=right,70% | \
 		awk '{print $2}' | \
 		xargs git checkout

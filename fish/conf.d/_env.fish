@@ -1,4 +1,4 @@
-# Fish variables
+# Fish environment variables  <><
 # github.com/rafi/.config
 
 # XDG dirs

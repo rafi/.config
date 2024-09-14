@@ -34,11 +34,12 @@ end
 
 set -l lscmd ls
 command -q gls; and set lscmd gls
-command -q eza; and set lscmd eza
 command -q lsd; and set lscmd lsd
+command -q eza; and set lscmd "EZA_MIN_LUMINANCE=70 eza --color-scale=all --color-scale-mode=gradient"
 alias ls "$lscmd --color=always --group-directories-first"
-alias l  "$lscmd --all --classify"
-alias ll "$lscmd --all --long --classify"
+alias l  "$lscmd --all --classify --color=always --group-directories-first"
+alias ll "$lscmd --all --long --classify --color=always --group-directories-first"
+set -u lscmd
 
 abbr lf yazi
 
@@ -72,10 +73,6 @@ command -q colordiff; and abbr diff colordiff
 alias tree 'tree -F --dirsfirst -a -I ".git|.hg|.svn|__pycache__|.mypy_cache|.pytest_cache|*.egg-info|.sass-cache|.DS_Store"'
 abbr tree2 'tree -L 2'
 abbr tree3 'tree -L 3'
-
-# Head and tail will show as much possible without scrolling
-# command -q ghead; and alias ,head 'ghead -n $((${LINES:-12}-4))'
-# command -q gtail; and alias ,tail 'gtail -n $((${LINES:-12}-4)) -s.1'
 
 # }}}
 # Path ------------------------------------------------------------------- {{{

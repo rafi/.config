@@ -1,6 +1,43 @@
 # Vim functions
 # https://github.com/rafi/.config
 
+function v() {
+	# shellcheck disable=SC2016
+	f="$(fd |
+		fzf --multi --header 'Press CTRL-Space to toggle preview mode' \
+		--preview="bat --theme=Coldark-Dark --color=always {}" \
+		--preview-label="cat" \
+		--bind='ctrl-space:transform:[[ $FZF_PREVIEW_LABEL =~ cat ]] \
+				&& echo "change-preview(git log -p --stat --color=always \{})+change-preview-label( log )" \
+				|| echo "change-preview(bat --theme=Coldark-Dark --color=always \{})+change-preview-label( cat )"'
+					)"
+
+	if test -z "$f"; then
+		return 1
+	fi
+	nvim "$f"
+}
+
+# Interactively select Vim session with fzf
+function vs() {
+	local SESSIONS="$XDG_STATE_HOME/nvim/sessions"
+	local list
+	if test ! -d "$SESSIONS"; then
+		echo "No sessions found."
+		return 1
+	fi
+	if hash fd 2> /dev/null; then
+		list="$(fd --strip-cwd-prefix -I --type f --base-directory "$SESSIONS" --exec-batch ls -1t)"
+	else
+		list="$(find "$SESSIONS" -type f -printf '%Ts %f\n' | sort -nr | cut -d' ' -f2-)"
+	fi
+	echo "$list" |
+		sed "s/\.vim$//g;s/%/\//g;s%$HOME%~%g" |
+		fzf --no-multi --prompt='Session  ' |
+		sed "s%~%$HOME%g;s/\//%/g" |
+		xargs -I'{}' "$EDITOR" -c "e $SESSIONS/{}.vim | source %"
+}
+
 # Select a profile to launch Neovim with.
 # Credits: https://github.com/folke/dot/blob/master/config/fish/conf.d/nvim.fish
 function nvims() {
@@ -55,19 +92,6 @@ function nvims_install() {
 
 	git clone "$url".git "$dest"
 	nvims "$profile"
-}
-
-# Interactively select Vim session with fzf
-function vs() {
-	SESSIONS="$XDG_STATE_HOME/nvim/sessions"
-	gfind "$SESSIONS" -type f -printf '%Cs %f\n' \
-		| sed "s/\.vim$//g;s/%/\//g;s%$HOME%~%g" \
-		| sort -r \
-		| awk "{print \$2}" \
-		| fzf --no-multi --no-sort \
-			--prompt='(Choose session): ' --header=$'────────────\n' \
-		| sed "s%~%$HOME%g;s/\//%/g" \
-		| xargs -I'{}' "$EDITOR" -S "$SESSIONS/{}.vim"
 }
 
 # vim: set ts=2 sw=2 tw=80 noet :

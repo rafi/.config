@@ -137,4 +137,4 @@ set keymap vi-command
 "\e[C": redraw-current-line
 "\e[D": redraw-current-line
 
-#  vim: set ft=readline ts=2 sw=2 tw=80 noet :
+# vim: set ft=readline ts=2 sw=2 tw=80 noet :

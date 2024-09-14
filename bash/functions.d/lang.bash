@@ -8,7 +8,7 @@ function go-outdated() {
 }
 
 # Python - delete all packages in virtualenv
-function wipeenv() {
+function pip-wipeout() {
 	pip freeze --exclude-editable --require-virtualenv | xargs pip uninstall -y
 }
 
@@ -24,4 +24,19 @@ function yarn-deps() {
 	while IFS= read -r dependency; do
 		echo "${roster}" | GREP_OPTIONS='' grep --color=never "^${dependency}@"
 	done <<< "$(jq -r '.dependencies,.devDependencies|keys[]' package.json)"
+}
+
+function brew-installed() {
+	brew leaves --installed-on-request
+}
+
+# Show latest modified brew packages.
+# https://stackoverflow.com/a/67845884/351947
+function brew-latest() {
+	CELLAR="$(brew --prefix)/Cellar"
+	jq -nr --arg cellar "$CELLAR" '
+		[inputs | {time, file: (input_filename|sub($cellar;"") | sub("/INSTALL_RECEIPT.json";""))}]
+		| sort_by(.time)[-40:][]
+		| .file
+	' "$CELLAR"/*/*/INSTALL_RECEIPT.json
 }

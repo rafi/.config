@@ -1,0 +1,100 @@
+# bash/utils
+# ---
+# github.com/rafi/.config
+
+# shellcheck disable=1091,1090
+
+# Vivid https://github.com/sharkdp/vivid
+# nice ones: rose-pine, nord, snazzy, one-dark, jellybeans
+LS_COLORS="$(vivid generate snazzy)"
+export LS_COLORS
+
+# # Git prompt settings
+# # See: https://github.com/git/git/blob/master/contrib/completion/git-prompt.sh
+# export GIT_PS1_SHOWDIRTYSTATE=1
+# export GIT_PS1_SHOWSTASHSTATE=1
+# export GIT_PS1_SHOWCOLORHINTS=0
+# export GIT_PS1_SHOWUNTRACKEDFILES=1
+# export GIT_PS1_SHOWUPSTREAM="auto"
+
+# See https://github.com/junegunn/fzf
+fzf_keymaps=(
+	ctrl-d:half-page-down
+	ctrl-u:half-page-up
+	ctrl-f:preview-half-page-down
+	ctrl-b:preview-half-page-up
+	ctrl-t:toggle-preview-wrap
+	ctrl-y:yank
+	shift-up:toggle+up
+	shift-down:toggle+down
+	tab:down
+	btab:up
+)
+keymaps="$(printf ",%s" "${fzf_keymaps[@]}")"
+export FZF_DEFAULT_OPTS="--margin 1,5% --border --info=inline-right --separator ━ --reverse --height 100% --bind ${keymaps:1}"
+export FZF_DEFAULT_COMMAND='rg --vimgrep --files --follow --hidden --no-ignore-vcs --smart-case --glob !**/.git/*'
+unset fzf_keymaps keymaps
+
+# # See https://github.com/junegunn/fzf
+# if [ -f "$PREFIX/opt/fzf/shell/key-bindings.bash" ]; then
+# 	. "$PREFIX/opt/fzf/shell/key-bindings.bash"
+# fi
+
+# Must be loaded _after_ setting PROMPT_COMMAND
+# Use https://github.com/ajeetdsouza/zoxide by default
+# shellcheck disable=SC1091
+if command -v zoxide 1>/dev/null 2>&1; then
+	export _ZO_ECHO=1
+	export _ZO_DATA_DIR="$XDG_STATE_HOME/zoxide"
+	eval "$(zoxide init bash)"
+	# Fallback to https://github.com/skywind3000/z.lua
+elif [ -f "$PREFIX/etc/profile.d/z.lua" ]; then
+	export FZ_HISTORY_CD_CMD="_zlua"
+	export _ZL_ECHO=1
+	export _ZL_HYPHEN=1
+	eval "$(lua "$PREFIX/etc/profile.d/z.lua" --init bash enhanced once)"
+
+# Fallback to https://github.com/rupa/z
+elif [ -f "$PREFIX/etc/profile.d/z.sh" ]; then
+	. "$PREFIX/etc/profile.d/z.sh"
+elif [ -f "$PREFIX/share/z/z.sh" ]; then
+	. "$PREFIX/share/z/z.sh"
+fi
+
+# See: https://github.com/changyuheng/fz
+# Must be loaded _after_ sourcing z or z.lua
+# if [ -f "$PREFIX/etc/profile.d/fz.sh" ]; then
+# 	. "$PREFIX/etc/profile.d/fz.sh"
+# fi
+
+# https://github.com/lasantosr/intelli-shell
+# source intelli-shell.sh
+
+# Work with multiple versions of Python via https://github.com/pyenv/pyenv
+# But don't overcast shims when inside an activated virtualenv sub-shell.
+# if [ -z "$VIRTUAL_ENV" ] && hash pyenv 2>/dev/null; then
+# 	export PYENV_ROOT="$XDG_DATA_HOME/python/pyenv"
+# 	export PYENV_VIRTUALENV_DISABLE_PROMPT=1
+# 	eval "$(pyenv init --no-push-path -)"
+# fi
+
+# Rye
+if [ -f "$XDG_DATA_HOME/python/rye/env" ]; then
+	. "$XDG_DATA_HOME/python/rye/env"
+fi
+
+# Initialize Atuin setup scripts, without the default key-bindings.
+# Manually bind <C-r> and <C-p> for history browsing.
+if hash atuin 2>/dev/null; then
+	# source ~/.atuin
+	eval "$(ATUIN_NOBIND=true atuin init bash)"
+	bind -m vi-command -x '"\C-r": __atuin_history'
+	bind -m vi-insert  -x '"\C-r": __atuin_history'
+	bind -m vi-command -x '"\C-p": __atuin_history --shell-up-key-binding'
+	bind -m vi-insert  -x '"\C-p": __atuin_history --shell-up-key-binding'
+fi
+
+# Pretty prompt.
+eval "$(starship init bash)"
+
+# vim: set ft=sh ts=2 sw=2 tw=80 noet :

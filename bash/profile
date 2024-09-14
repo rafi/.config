@@ -28,21 +28,12 @@ if [ "$BASH" ]; then
 	source "$XDG_CONFIG_HOME/bash/bashrc"
 fi
 
-# Use keychain to persist keys
-# https://github.com/funtoo/keychain
-if hash keychain 2>/dev/null; then
-	eval "$(keychain --dir "$XDG_CACHE_HOME/keychain" --eval --agents ssh -Q --quiet current)"
-fi
-
 # Tmux: on login, attach to existing session or create a new one.
 if [[ $- == *i* ]] && hash tmux 2>/dev/null && [ -z "$TMUX" ]; then
 	# In SSH sessions, list tmux sessions on log-in.
 	if [ -n "$SSH_TTY" ]; then
-		tmux list-sessions 2>/dev/null | sed 's/^/# tmux /'
-	else
-		# Auto-attach (or new session)
-		tmux attach 2>/dev/null || tmux new-session -A -s main
+		tmux list-sessions -F '#S #{session_path} (#{session_windows}) > #H > #W (#{window_panes}) > #{pane_title} #{buffer_created} #{buffer_sample} #{session_activity} #{user} #{socket_path}' 2>/dev/null
 	fi
 fi
 
-# vim: set ft=sh ts=2 sw=0 tw=80 noet :
+# vim: set ft=sh ts=2 sw=2 tw=80 noet :

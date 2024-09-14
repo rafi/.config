@@ -64,15 +64,19 @@ if [ "$BASH" ]; then
 	export HISTTIMEFORMAT='[%F %T] '
 	export HISTIGNORE='pwd:jobs:ll:ls:l:history:c:clear'
 	export HISTCONTROL=ignoreboth
+	# export HISTCONTROL='ignoreboth:erasedups'
+	# Append to history and set the window title as 'user@host:dir'
+	# export PROMPT_COMMAND="history -a; ${PROMPT_COMMAND}"
+	# export PROMPT_COMMAND='history -a; echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
 elif [ "$ZSH_VERSION" ]; then
 	export HISTFILE="${XDG_CACHE_HOME}/zsh_history"
 	export SAVEHIST="${HISTSIZE}"
 fi
 
-# Editor and pager
+# Editor
 EDITOR=vim
 if hash nvim 2>/dev/null; then
-	export MANPAGER='nvim +Man!'
+	export MANPAGER="nvim +'set cmdheight=2' +Man!"
 	EDITOR=nvim
 fi
 export EDITOR
@@ -117,19 +121,18 @@ export TMUXP_CONFIGDIR="$XDG_CONFIG_HOME/tmuxp"
 # Pagers
 # ----
 export PAGER=less
-export LESS="-FiQMXRwJ --incsearch --status-col-width 1"
+export LESS="-FiQMXRW --incsearch"
 export LESSCHARSET="UTF-8"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
 export LESSKEY="$XDG_CONFIG_HOME/lesskey/output"
+# On newer versions of less, use the following to support Nerdfonts.
+export LESSUTFCHARDEF="E000-F8FF:p,F0000-FFFFD:p,100000-10FFFD:p"
 
 # Finders
 # ----
 
 # Ripgrep https://github.com/BurntSushi/ripgrep
 export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/rc"
-
-# zk https://github.com/mickael-menu/zk
-export ZK_NOTEBOOK_DIR="$HOME/docs/wiki/.zk/config.toml"
 
 # Cointop  TODO: deprecated
 export COINTOP_CONFIG="$XDG_CONFIG_HOME/cointop/config.toml"
@@ -147,6 +150,11 @@ export INTELLI_SKIP_ESC_BIND=1
 if hash jk 2>/dev/null; then
 	export JK_DIRS="$XDG_DATA_HOME/tldr:$HOME/docs/cheatsheets"
 fi
+
+# Prompt
+# ----
+
+export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/config.toml"
 
 # Security and Productivity
 # ----
@@ -201,7 +209,9 @@ if [ -d "$HOME/docs/netrc" ]; then
 fi
 
 hash http 2>/dev/null && export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
-hash wget 2>/dev/null && export            WGETRC="$XDG_CONFIG_HOME/wget/config"
+if [ -f "$XDG_CONFIG_HOME/wget/config" ]; then
+	export WGETRC="$XDG_CONFIG_HOME/wget/config"
+fi
 
 # Virtualization
 # ----
@@ -230,6 +240,7 @@ export SQLITE_HISTORY="$XDG_CACHE_HOME/sqlite_history"
 hash minikube 2>/dev/null && export MINIKUBE_HOME="$XDG_DATA_HOME/minikube"
 
 if hash kubectl 2>/dev/null; then
+	export KUBECTL_EXTERNAL_DIFF='diff -u -N --color=always'
 	export KREW_ROOT="$XDG_DATA_HOME/krew"
 	PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
@@ -271,7 +282,6 @@ fi
 # Node NPM tool configuration
 if hash npm 2>/dev/null; then
 	export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
-	export NVM_DIR="$XDG_DATA_HOME/node"
 	# export N_PREFIX="${XDG_DATA_HOME}/node"
 	# PATH="${N_PREFIX}/bin:$PATH:${XDG_DATA_HOME}/npm/bin"
 fi
@@ -294,13 +304,14 @@ fi
 export COMPOSER_HOME="$XDG_CACHE_HOME/composer"
 
 # Python
-# Pending: https://github.com/python/cpython/pull/13208
-export PYTHONHISTORY="$XDG_CACHE_HOME/python_history"
+export PYTHON_COLORS=1
+export PYTHON_HISTORY="$XDG_CACHE_HOME/python_history"
 # Python utilities
 export PYLINTHOME="$XDG_CACHE_HOME/pylint"
 export IPYTHONDIR="$XDG_CONFIG_HOME"/ipython
 #export JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter
 # Virtualenv managers
+export RYE_HOME="$XDG_DATA_HOME/python/rye"
 export WORKON_HOME="$XDG_DATA_HOME/python/envs"
 export PIPSI_HOME="$WORKON_HOME"
 export POETRY_VIRTUALENVS_PATH="$XDG_DATA_HOME"/python/poetry

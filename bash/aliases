@@ -7,7 +7,7 @@
 alias sudo='sudo '    # Carry over aliases to the root account when using sudo
 alias watch='watch '  # Make watch work with aliases
 alias c=clear
-alias cal='task cal'
+alias cal='task cal 2>/dev/null || ncal -wC3 || \cal'
 alias start='{ test -f .tmuxp.* && tmuxp load -y .; } ||
 	{ tmuxp ls | fzf | xargs tmuxp load -y; }'
 
@@ -60,7 +60,6 @@ else
 	# alias vless="vim -u $PREFIX/share/vim/vim90/macros/less.vim"
 	alias suvim='sudo -E vim'
 fi
-alias v='vim $(fzf)'
 alias vi=vim
 alias ve='tmux split-window -h "$EDITOR"'
 alias vimdiff='vim -d'
@@ -113,12 +112,14 @@ fi
 # Git ------------------------------------------------------- g for git -- {{{
 # See more in ./functions.d/git.bash
 alias g=git
+alias ga='git add'
 alias gb='git branch'
 alias gc='git checkout'
 alias gcb='git checkout -b'
 alias gcd='cd "$(git rev-parse --show-toplevel)"'
 alias gd='git diff'
 alias gds='git diff --cached'
+alias gdt='git difftool'
 alias gfl='git fetch --prune && git lg -15'
 alias gf='git fetch --prune'
 alias gfa='git fetch --all --tags --prune'
@@ -128,6 +129,9 @@ alias gs='git status -sb'
 alias gl='git lg -15'
 alias gll='git lg'
 alias gld='git lgd -15'
+
+# Completely remove all unreachable objects from the repository.
+alias ggcnow='git -c gc.reflogExpireUnreachable=now gc --prune=now'
 
 # Attach git aliases auto-completion
 if [ "$BASH" ] && type __git_complete &>/dev/null; then # {{{
@@ -150,7 +154,9 @@ alias d=docker
 alias dk='docker compose'
 alias dps='docker ps --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{ .Ports }}\\t{{.RunningFor}}\\t{{.Command}}\\t{{ .ID }}" | cut -c-$(tput cols)'
 alias dls='docker ps -a --format "table {{.Names}}\\t{{.Image}}\\t{{.Status}}\\t{{ .Ports }}\\t{{.RunningFor}}\\t{{.Command}}\\t{{ .ID }}" | cut -c-$(tput cols)'
-alias dim='docker images --format "table {{.Repository}}\\t{{.Tag}}\\t{{.ID}}\\t{{.Size}}\\t{{.CreatedSince}}"'
+# alias dim='docker images --format "table {{.Repository}}:{{.Tag}}\\t{{.ID}}\\t{{.Size}}\\t{{.CreatedSince}}"'
+alias dim='docker images --format "table {{.Repository}}:{{.Tag}}\\t{{.ID}}\\t{{.Size}}\\t{{.CreatedSince}}" | sed -re "s/^(.+):([^ ]*)\ (.+)$/\1:$(tput setaf 2)\2$(tput sgr0)\3/g"'
+alias dih='docker history --no-trunc --format "{{ .CreatedBy }}"'
 alias dip='docker inspect --format "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}"'
 alias dgc='docker image prune -f'
 alias dvc='docker volume ls -qf dangling=true | xargs docker volume rm'
@@ -168,6 +174,7 @@ if [ "$BASH" ] && type _docker &>/dev/null; then # {{{
 	complete -F _docker d
 	complete -F _docker_compose dk
 	complete -F _docker_images dim
+	complete -F _docker_images dih
 	complete -F _docker_inspect dip
 	complete -F _docker_rmi dgc
 	complete -F _docker_stats dtop
@@ -244,37 +251,36 @@ alias dum='df -hT -x devtmpfs -x tmpfs'
 # }}}
 # Misc ------------------------------------------------------------------- {{{
 
-alias fontcache='fc-cache -f -v'
-alias fontfind='fc-list : family style'
-alias freq='cut -f1 -d" " "$HISTFILE" | sort | uniq -c | sort -nr | head -n 30'
-alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
-alias volup='amixer set Master playback 3dB+'
-alias voldown='amixer set Master playback 3dB-'
-alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
-alias ipinfo='curl -s ipinfo.io | jq .'
-alias weather='curl -s v2.wttr.in/Tel_Aviv'
+alias ,fontcache='fc-cache -f -v'
+alias ,fontfind='fc-list : family style'
+alias ,freq='cut -f1 -d" " "$HISTFILE" | sort | uniq -c | sort -nr | head -n 30'
+# shellcheck disable=2142
+alias ,lspci="lspci -nn | fzf -0 | awk '{print \$1}' | xargs lspci -v -s"
+alias ,ngrok-http='ngrok http --authtoken="$(pass tokens/ngrok)"'
+alias ,sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
+alias ,spell='aspell -c -l en_US'
+alias ,subdl='subliminal download -l en -d "$XDG_CACHE_HOME/subtitles"'
+alias ,tt=ttdl
+alias ,ttycast-this="tmux split-window \'ttyd -p 8888 bash -c \'tmux a\'\'"
+alias ,ttycast="ttyd -p 8888 bash -c 'tmux new-session -d -s cast \; split-window -d \; attach -t cast'"
+alias ,urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
+alias ,weather='curl -s v2.wttr.in/Tel_Aviv'
 alias ungzip='gzip -d'
 alias untar='tar xvf'
-alias ngrok-http='ngrok http --authtoken="$(pass tokens/ngrok)"'
-alias aspell='aspell -c -l en_US'
-alias ttycast="ttyd -p 8888 bash -c 'tmux new-session -d -s cast \; split-window -d \; attach -t cast'"
-alias ttycast-this="tmux split-window \'ttyd -p 8888 bash -c \'tmux a\'\'"
-alias subdl='subliminal download -l en -d "$XDG_CACHE_HOME/subtitles"'
-# shellcheck disable=2154
-alias multiopen='while read arg; do open "$arg"; done <<<'
 
 # https://github.com/alt-romes/programmer-calculator
 if hash pcalc 2>/dev/null; then
-	alias calc=pcalc
+	alias ,calc=pcalc
+else
+	alias ,calc='bc -l'
 fi
-
 # }}}
 # OS Specific Network and Filesystem ------------------------------------- {{{
 
 # IP addresses
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
 alias iplocal="ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'"
-# alias ipremote=""  # TODO
+alias ipremote="\dig +short myip.opendns.com @resolver1.opendns.com || \curl https://checkip.amazonaws.com"
 
 if [ "$(uname -s)" = "Darwin" ]; then
 	alias netinfo='networksetup -getinfo "$(networksetup -listallnetworkservices | sed 1d | fzf)"'
@@ -282,11 +288,11 @@ if [ "$(uname -s)" = "Darwin" ]; then
 	# Show active network interfaces
 	alias ifactive="ifconfig | pcregrep -M -o '^[^\t:]+:([^\n]|\n\t)*status: active'"
 
-	# Flush Directory Service cache
-	alias flush='dscacheutil -flushcache && killall -HUP mDNSResponder'
-
 	alias hwmodel='sysctl -n hw.model'
 	alias osversion='sw_vers -productVersion'
+
+	# Flush Directory Service cache
+	alias flush='dscacheutil -flushcache && killall -HUP mDNSResponder'
 
 	# Lock the screen (Away From Keyboard)
 	alias afk='open -a ScreenSaverEngine'
@@ -354,4 +360,4 @@ else
 fi
 # }}}
 
-#  vim: set ft=sh fdm=marker ts=2 sw=2 tw=80 noet :
+# vim: set ft=sh fdm=marker ts=2 sw=2 tw=80 noet :

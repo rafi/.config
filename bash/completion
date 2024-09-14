@@ -38,4 +38,37 @@ elif [ -f /etc/lsb-release ]; then
 	fi
 fi
 
+# # Load git bash prompt helper, if not loaded already
+# # https://github.com/git/git/blob/master/contrib/completion
+# if [ -z "$(LC_ALL=C type -t __git_ps1)" ]; then
+# 	for dir in \
+# 		etc/bash_completion.d \
+# 		share/git/contrib/completion \
+# 		share/git/completion \
+# 		share/git-core/contrib/completion
+# 		do
+# 			if [ -f "$PREFIX/$dir/git-prompt.sh" ]; then
+# 				. "$PREFIX/$dir/git-prompt.sh" && break
+# 			fi
+# 		done
+# 		unset dir
+# fi
+
+# Complete-alias is used to auto-complete bash aliases.
+# https://github.com/cykerway/complete-alias
+if [ -f "$PREFIX/etc/profile.d/complete_alias" ]; then
+	source "$PREFIX/etc/profile.d/complete_alias"
+fi
+
+# Event pre/post bash hooks implementation.
+# https://github.com/rcaloras/bash-preexec
+if [ -f "$PREFIX/etc/profile.d/bash-preexec.sh" ]; then
+	source "$PREFIX/etc/profile.d/bash-preexec.sh"
+fi
+
+# Google Cloud SDK
+if [ -f "$XDG_DATA_HOME/google-cloud-sdk/completion.bash.inc" ]; then
+	source "$XDG_DATA_HOME/google-cloud-sdk/completion.bash.inc"
+fi
+
 # vim: set ft=sh ts=2 sw=2 tw=80 noet :

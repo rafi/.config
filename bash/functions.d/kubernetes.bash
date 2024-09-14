@@ -151,6 +151,10 @@ function ktail() {
 # ---
 alias krestart='_rafi_k8s_select_pod deployments | xargs kubectl rollout restart deployment -n'
 
+# ROLES
+# ---
+alias kgroups="kubectl get clusterrolebindings -o go-template='{{range .items}}{{range .subjects}}{{.kind}} @ {{.name}} {{end -}} - {{.metadata.name}} {{\"\n\"}}{{end}}'"
+
 # NODES
 # ---
 

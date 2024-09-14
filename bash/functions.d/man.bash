@@ -7,7 +7,7 @@ function manpdf() {
 }
 
 # Man page coloring using less
-function man() {
+function manless() {
 	env \
 		LESS_TERMCAP_mb="$(printf "\e[1;31m")" \
 		LESS_TERMCAP_md="$(printf "\e[0;35m")" \

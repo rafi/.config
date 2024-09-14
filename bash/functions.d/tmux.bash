@@ -11,9 +11,8 @@ function tm() {
 			(tmux new-session -d -s "$1" && tmux "$change" -t "$1")
 		return
 	else
-		session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0)
-		echo "tmux $change $session"
-		tmux "$change" -t "$session" || echo "No sessions found."
+		session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf -1 -0)
+		tmux "$change" -t "$session" || tmux new-session -A -s main
 	fi
 }
 
