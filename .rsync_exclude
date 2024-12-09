@@ -20,6 +20,7 @@
 .vercel
 __pycache__
 _explore
+dist
 explore
 node_modules
 nvim-profiles

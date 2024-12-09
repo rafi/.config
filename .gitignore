@@ -3,11 +3,13 @@
 *.cache
 *.py[co]
 
+/_archive/
 /asciinema/
 /beets/state.pickle
 /bitlbee/*
 !/bitlbee/bitlbee.conf
 /chromium*
+/cointop/
 /configstore/
 /clerk/ratings*
 /clerk/*cache*
@@ -55,6 +57,7 @@
 /neomutt/accounts
 /noti
 /nvim
+/nvim-profiles
 /oni/sessions/
 /oni2/*
 !/oni2/configuration.json
@@ -103,8 +106,12 @@
 /wego/
 /yarn
 /yazi/**/DO_NOT_MODIFY_ANYTHING_IN_THIS_DIRECTORY
+/yazi/**/*.png
+/yazi/**/README*
+/yazi/**/LICENSE*
 /zed/conversations/
 /zed/embeddings/
+/zed/prompts/
 /zed/.tmp*
 /zsh/.zcompdump
 /zsh/*.zwc
