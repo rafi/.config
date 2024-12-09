@@ -4,21 +4,22 @@
 *.s?o
 *.sass-cache
 *.swp
+.DS_Store
+.DS_Store?
+.Genymobile
 .android/
 .apm
 .atom/
 .cocoapods/
 .docusaurus/
-.DS_Store
-.DS_Store?
 .fingerprint/
-.Genymobile
 .git
 .go/
 .gradle/
 .idea
 .mypy_cache
 .node-gyp/
+.output
 .proselint
 .pytest_cache
 .stversions
@@ -34,6 +35,7 @@ compile-cache/
 gems/
 node_modules/
 package-lock.json
+pnpm-lock.yaml
 tmp/
 watch_later/
 
