@@ -1,10 +1,8 @@
-// 20220321134049
-// https://raw.githubusercontent.com/pqrs-org/KE-complex_modifications/7694a3b3ba66cf7193253cf958e22d8e8c49d9ad/public/json/fc660c_media_keys.json
 {
-  "title": "Rafi Media Controls",
+  "title": "Rafi Volume Control",
   "rules": [
     {
-      "description": "Rafi Volume Controls (cmd + up/down to volume up/down)",
+      "description": "Cmd+Up/Down to increase/decrease volume.",
       "manipulators": [
         {
           "type": "basic",
@@ -22,27 +20,6 @@
             }
           },
           "to": [ { "key_code": "volume_increment" } ]
-        }
-      ]
-    },
-    {
-      "description": "Rafi Media Keys (cmd + left/right to rewind/fastforward)",
-      "manipulators": [
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "left_arrow",
-            "modifiers": { "mandatory": [ "command" ] }
-          },
-          "to": [ { "key_code": "rewind" } ]
-        },
-        {
-          "type": "basic",
-          "from": {
-            "key_code": "right_arrow",
-            "modifiers": { "mandatory": [ "command" ] }
-          },
-          "to": [ { "key_code": "fastforward" } ]
         }
       ]
     }

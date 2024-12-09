@@ -1,10 +1,10 @@
 {
-  "title": "Rafi CapsLock",
+  "title": "Rafi's CapsLock Chord (Escape/LShift)",
   "maintainers": ["Rafi"],
   "homepage": "https://github.com/rafi/.config",
   "rules": [
     {
-      "description": "Caps_Lock to Escape (Alone) or Left_Shift",
+      "description": "Caps_Lock => Escape (Alone) or Left_Shift (With other keys).",
       "manipulators": [
         {
           "type": "basic",

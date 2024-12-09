@@ -1,0 +1,264 @@
+// https://github.com/pqrs-org/KE-complex_modifications/blob/main/public/json/super-ctrl.json
+{
+  "title": "Rafi EMACS CTRL G/S/W [excluding terminals]",
+  "maintainers": ["Rafi"],
+  "homepage": "https://github.com/rafi/.config",
+  "rules": [
+    {
+      "description": "CTRL-S => Option+Left (jump word backward) excluding terminals.",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "s",
+            "modifiers": { "mandatory": [ "control" ], "optional": [ "any" ] }
+          },
+          "to": [
+            {
+              "key_code": "left_arrow",
+              "modifiers": [ "option" ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "com.github.wez.wezterm",
+                "com.ident.goneovim",
+                "com.microsoft.VSCode",
+                "com.qvacua.VimR",
+                "com.sublimetext.3",
+                "dev.warp",
+                "org.tabby",
+                "org.vim.MacVim",
+                "co.zeit.hyper",
+                "com.apple.Terminal",
+                "com.googlecode.iterm2",
+                "io.alacritty",
+                "net.kovidgoyal.kitty"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "CTRL-G => Option+Right (jump word forward) excluding terminals.",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "g",
+            "modifiers": { "mandatory": [ "control" ], "optional": [ "any" ] }
+          },
+          "to": [
+            {
+              "key_code": "right_arrow",
+              "modifiers": [ "option" ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "com.github.wez.wezterm",
+                "com.ident.goneovim",
+                "com.microsoft.VSCode",
+                "com.qvacua.VimR",
+                "com.sublimetext.3",
+                "dev.warp",
+                "org.tabby",
+                "org.vim.MacVim",
+                "co.zeit.hyper",
+                "com.apple.Terminal",
+                "com.googlecode.iterm2",
+                "io.alacritty",
+                "net.kovidgoyal.kitty"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "CTRL-W => Option+Delete (delete word before) excluding terminals.",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "w",
+            "modifiers": { "mandatory": [ "control" ], "optional": [ "any" ] }
+          },
+          "to": [
+            {
+              "key_code": "delete_or_backspace",
+              "modifiers": [ "option" ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "com.github.wez.wezterm",
+                "com.ident.goneovim",
+                "com.microsoft.VSCode",
+                "com.qvacua.VimR",
+                "com.sublimetext.3",
+                "dev.warp",
+                "org.tabby",
+                "org.vim.MacVim",
+                "co.zeit.hyper",
+                "com.apple.Terminal",
+                "com.googlecode.iterm2",
+                "io.alacritty",
+                "net.kovidgoyal.kitty"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "CTRL-X => Fn+Option+Delete (delete word ahead) excluding terminals.",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "x",
+            "modifiers": { "mandatory": [ "control" ], "optional": [ "any" ] }
+          },
+          "to": [
+            {
+              "key_code": "delete_or_backspace",
+              "modifiers": [ "option", "fn" ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "com.github.wez.wezterm",
+                "com.ident.goneovim",
+                "com.microsoft.VSCode",
+                "com.qvacua.VimR",
+                "com.sublimetext.3",
+                "dev.warp",
+                "org.tabby",
+                "org.vim.MacVim",
+                "co.zeit.hyper",
+                "com.apple.Terminal",
+                "com.googlecode.iterm2",
+                "io.alacritty",
+                "net.kovidgoyal.kitty"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "CTRL-U => Cmd+Delete (delete all before) excluding terminals.",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "u",
+            "modifiers": { "mandatory": [ "control" ], "optional": [ "any" ] }
+          },
+          "to": [
+            {
+              "key_code": "delete_or_backspace",
+              "modifiers": [ "command" ]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "com.github.wez.wezterm",
+                "com.ident.goneovim",
+                "com.microsoft.VSCode",
+                "com.qvacua.VimR",
+                "com.sublimetext.3",
+                "dev.warp",
+                "org.tabby",
+                "org.vim.MacVim",
+                "co.zeit.hyper",
+                "com.apple.Terminal",
+                "com.googlecode.iterm2",
+                "io.alacritty",
+                "net.kovidgoyal.kitty"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "CTRL-P => Up, excluding terminals.",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "p",
+            "modifiers": { "mandatory": [ "control" ], "optional": [ "any" ] }
+          },
+          "to": [{ "key_code": "up_arrow" }],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "com.github.wez.wezterm",
+                "com.ident.goneovim",
+                "com.microsoft.VSCode",
+                "com.qvacua.VimR",
+                "com.sublimetext.3",
+                "dev.warp",
+                "org.tabby",
+                "org.vim.MacVim",
+                "co.zeit.hyper",
+                "com.apple.Terminal",
+                "com.googlecode.iterm2",
+                "io.alacritty",
+                "net.kovidgoyal.kitty"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "description": "CTRL-N => Down, excluding terminals.",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "n",
+            "modifiers": { "mandatory": [ "control" ], "optional": [ "any" ] }
+          },
+          "to": [{ "key_code": "down_arrow" }],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "com.github.wez.wezterm",
+                "com.ident.goneovim",
+                "com.microsoft.VSCode",
+                "com.qvacua.VimR",
+                "com.sublimetext.3",
+                "dev.warp",
+                "org.tabby",
+                "org.vim.MacVim",
+                "co.zeit.hyper",
+                "com.apple.Terminal",
+                "com.googlecode.iterm2",
+                "io.alacritty",
+                "net.kovidgoyal.kitty"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
