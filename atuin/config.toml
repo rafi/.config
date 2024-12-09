@@ -39,8 +39,20 @@ update_check = false
 # Unanchored regular-expression (match anywhere unless ^ or $ is used).
 # https://docs.rs/regex/latest/regex/#syntax
 history_filter = [
-  "^ ",
+  "^ ", "clear",
 ]
 
 # [sync]
 # records = true
+
+[stats]
+common_subcommands = [
+  "cargo",
+  "go",
+  "git",
+  "npm",
+  "yarn",
+  "pnpm",
+  "kubectl",
+  "k",
+]
