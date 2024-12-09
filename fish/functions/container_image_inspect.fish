@@ -1,4 +1,4 @@
-function image_inspect --description 'Inspect a container image' \
+function container_image_inspect --description 'Inspect a container image' \
 	--argument-names repo
 	set -l repo $argv[1]
 	set -l target (crane ls $repo | \

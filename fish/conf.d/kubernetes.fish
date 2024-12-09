@@ -47,14 +47,14 @@ function _rafi_k8s_filter_args
 	set -f kind pods
 	if set -q argv[1]; and string match -qr '[^\-]' -- $argv[1]
 		set -f kind $argv[1]
-		set -f argv $argv[2..-1]
+		set -f args $argv[2..-1]
 	end
-	echo -- $kind $_flag_namespace $argv
+	echo -- $kind $_flag_namespace $args
 end
 
 # [k8s watch] Watch resources.
 function kwatch --wraps='kubectl get'
-	_rafi_k8s_filter_args "$argv" | xargs kubectl get -w | cut -c-(tput cols)
+	_rafi_k8s_filter_args $argv | xargs kubectl get -w | cut -c-(tput cols)
 end
 
 # [k8s get] List resources.
@@ -74,29 +74,45 @@ function kgsort --wraps='kubectl get'
 		fzf --tac
 end
 
-function kexec
-	set -f args (_rafi_k8s_select_resource)
-	if test -n $args
-		# Try bash first, then sh.
-		kubectl exec -it -n (string split ' ' $args) -- bash \
-			|| kubectl exec -it -n (string split ' ' $args) -- sh
-	end
+function kexec --wraps='kubectl exec'
+	set -f args (string split -- ' ' (_rafi_k8s_select_resource pod $argv))
+	set -q args[1]; or return
+
+	# Try bash first, then sh.
+	kubectl exec -it -n $args -- bash \
+		|| kubectl exec -it -n $args -- sh
 end
 
 # Live tail preview with fzf and follow log once selected.
-# shellcheck disable=2016
-function ktail
-	set -f args ( \
-		kubectl get pods --all-namespaces |
-			fzf --info=inline --layout=reverse --header-lines=1 \
-					--prompt "$(kubectl config current-context)> " \
-					--header 'Press CTRL-O to open log in editor\n\n' \
-					--bind ctrl-/:toggle-preview \
-					--bind 'ctrl-o:execute:${EDITOR:-nvim} <(kubectl logs --namespace {1} {2}) > /dev/tty' \
-					--preview-window down,follow \
-					--preview 'kubectl logs -f --tail=100 --all-containers --namespace {1} {2}' $argv \
+function ktail --wraps='kubectl get pod'
+	set -f args $argv
+	argparse --ignore-unknown A n/namespace= -- $argv
+	set -f pat '{1} {2}'
+	if set -q _flag_namespace; and test -n $_flag_namespace
+		set -f pat $_flag_namespace '{1}'
+	end
+
+	set -q EDITOR; or set EDITOR nvim
+	set -f nsname (string split -- ' ' \
+		(_rafi_k8s_filter_args pods $args \
+			| xargs kubectl get \
+			| fzf --info=inline --layout=reverse --header-lines=1 \
+				--prompt "$(kubectl config current-context)> " \
+				--header 'Press CTRL-O to open log in editor\n\n' \
+				--bind ctrl-/:toggle-preview \
+				--bind "ctrl-o:execute(kubectl logs -n $pat | \$EDITOR - > /dev/tty)" \
+				--preview-window down,follow \
+				--preview "kubectl logs -f --tail=100 --all-containers -n $pat" \
+			| awk '{print $1 " " $2}'
+		)
 	)
-	test -n $tokens; and kubectl logs -f --namespace (string split ' ' $args)
+	set -q nsname; or return
+
+	if set -q _flag_namespace; and test -n $_flag_namespace
+		kubectl logs -f --all-containers -n $_flag_namespace $nsname[1]
+	else
+		kubectl logs -f --all-containers -n $nsname
+	end
 end
 
 # Use fzf to select resource and namespace pair.
@@ -104,66 +120,117 @@ function _rafi_k8s_select_resource
 	set -f kind "pods"
 	if set -q argv[1]
 		set -f kind $argv[1]
-		set -f argv $argv[2..-1]
+		set -f args $argv[2..-1]
 	end
-	kubectl get $kind --all-namespaces $argv \
-		| fzf --header-lines=1 --prompt "$(kubectl config current-context)> " \
-		| awk '{print $1 " " $2}'
+	set -f prompt "$(kubectl config current-context)> "
+
+	set -f nsname (string split -- ' ' ( \
+		_rafi_k8s_filter_args $kind $args \
+			| xargs kubectl get \
+			| fzf -1 -0 --header-lines=1 --prompt $prompt \
+			| awk '{print $1 " " $2}'
+	))
+
+	argparse --ignore-unknown A n/namespace= -- $args
+	if set -q _flag_namespace; and test -n $_flag_namespace
+		echo -- $_flag_namespace $nsname[1]
+	else
+		echo -- $nsname
+	end
 end
 
 # Functions that push commands to the command-line.
 
 function kpdesc --wraps='kubectl describe pod'
-	commandline -- "kubectl describe pod -n $(_rafi_k8s_select_resource pod)"
+	commandline -- "kubectl describe pod -n $(_rafi_k8s_select_resource pod $argv)"
 end
 
 function kpdelete --wraps='kubectl delete pod'
-	commandline -- "kubectl delete pod -n $(_rafi_k8s_select_resource pod)"
+	commandline -- "kubectl delete pod -n $(_rafi_k8s_select_resource pod $argv)"
 end
 
 function kplog --wraps='kubectl log'
-	commandline -- "kubectl logs -f -n $(_rafi_k8s_select_resource pod)"
+	commandline -- "kubectl logs -f -n $(_rafi_k8s_select_resource pod $argv)"
 end
 
 function kpman --wraps='kubectl get pod -o json'
-	commandline -- "kubectl get pod -o json -n $(_rafi_k8s_select_resource pod) | fx"
+	commandline -- "kubectl get pod -o json -n $(_rafi_k8s_select_resource pod $argv) | fx"
 end
 
 function kpip --wraps='kubectl get pod'
-	commandline -- "kubectl get pod -o jsonpath='{.status.podIPs[*]}' -n $(_rafi_k8s_select_resource pod) | jq"
+	commandline -- "kubectl get pod -o jsonpath='{.status.podIPs[*]}' -n $(_rafi_k8s_select_resource pod $argv) | jq"
 end
 
 # SECRETS
 # ---
 
-function ksdecode --description='Decode Kubernetes secret key'
-	set -f args (_rafi_k8s_select_resource secret)
-	if test -z $args
+function ksdecode --wraps='kubectl get secret' --description='Decode Kubernetes secret key or decode stdin'
+	# stdin: expect a Secret, decode each .data.* into stringData.*
+	if not tty >/dev/null
+		set -l stdin
+		IFS=\n read -az stdin
+		printf "%s\n" $stdin | yq '.stringData = (.data | map_values(@base64d)) | del(.data)'
 		return
 	end
 
+	set -f args (string split -- ' ' (_rafi_k8s_select_resource secret $argv))
+	set -q args[1]; or return
+
 	set -f secret_key ( \
-		echo $args | xargs kubectl get secrets \
+		kubectl get secrets -n $args \
 			-o go-template='{{ range $k, $v := .data }}{{ printf "%s\n" $k }}{{end}}' \
-			-n \
 		| fzf
 	)
 	if test -n "$secret_key"
-		echo $args | xargs kubectl get secrets \
-			-o go-template="{{ index .data \"$secret_key\" | base64decode }}" \
-			-n
+		kubectl get secrets -n $args \
+			-o go-template="{{ index .data \"$secret_key\" | base64decode }}"
 	end
 end
 
-function kube-ca-fingerprint
-	kubectl get secret $argv[1] -ojsonpath='{.data.ca\.crt}' \
-		| base64 -d \
-		| openssl x509 -fingerprint -in /dev/stdin -noout
+function kcencode --wraps='kubectl get configmap' --description='Encode Kubernetes configmap'
+	if not tty >/dev/null
+		set -l stdin
+		IFS=\n read -az stdin
+		printf "%s\n" $stdin | yq '.stringData = (.data | map_values(@base64)) | del(.data)'
+		return
+	end
+
+	set -f args (string split -- ' ' (_rafi_k8s_select_resource configmap $argv))
+	set -q args[1]; or return
+
+	set -f configmap_key ( \
+		kubectl get configmap -n $args \
+			-o go-template='{{ range $k, $v := .data }}{{ printf "%s\n" $k }}{{end}}' \
+		| fzf
+	)
+	if test -n "$configmap_key"
+		kubectl get configmap -n $args \
+			-o go-template="{{ index .data \"$configmap_key\" }}" \
+		| base64
+	end
+end
+
+function kstls --wraps='kubectl get secret' --description='Decode TLS secret'
+	set -f args (string split -- ' ' \
+		(_rafi_k8s_select_resource secret --field-selector type=kubernetes.io/tls $argv) \
+	)
+	set -q args[1]; or return
+
+	set -f tls_field ( \
+		kubectl get secret -n $args \
+			-o go-template='{{ range $k, $v := .data }}{{ printf "%s\n" $k }}{{end}}' \
+		| fzf
+	)
+	if test -n "$tls_field"
+		kubectl get secrets -n $args \
+			-o go-template="{{ index .data \"$tls_field\" | base64decode }}" \
+			| openssl x509 -noout -issuer -subject -fingerprint -serial -dates -in /dev/stdin
+	end
 end
 
 function ksdockerconfig --wraps='kubectl get secret' --description='Decode Docker config secret'
 	_rafi_k8s_select_resource secrets \
-			--field-selector type=kubernetes.io/dockerconfigjson \
+			--field-selector type=kubernetes.io/dockerconfigjson $argv \
 		| xargs kubectl get secret \
 			-o go-template='{{index .data ".dockerconfigjson" | base64decode }}' \
 			-n \
@@ -176,7 +243,8 @@ alias krestart '_rafi_k8s_select_resource deployments | xargs kubectl rollout re
 
 # ROLES
 # ---
-alias kgroups "kubectl get clusterrolebindings -o go-template='{{range .items}}{{range .subjects}}{{.kind}} @ {{.name}} {{end -}} - {{.metadata.name}} {{\"\n\"}}{{end}}'"
+alias kgroups "echo 'KIND NAME BINDING ROLE' && kubectl get rolebindings -A -o go-template='{{range .items}}{{\$r := . }}{{range .subjects}}{{.kind}} {{if .namespace}}{{.namespace}}/{{end}}{{.name}} {{\$r.metadata.name}} {{\$r.roleRef.kind}}/{{\$r.roleRef.name}}{{\"\n\"}}{{end -}}{{end}}' | column -t -s' '"
+alias kclustergroups "kubectl get clusterrolebindings -o go-template='{{range .items}}{{\$r := . }}{{range .subjects}}{{.kind}} {{if .namespace}}{{.namespace}}/{{end}}{{.name}} {{\$r.metadata.name}} {{\$r.roleRef.kind}}/{{\$r.roleRef.name}}{{\"\n\"}}{{end -}}{{end}}'"
 
 # NODES
 # ---

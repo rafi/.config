@@ -28,6 +28,11 @@ switch (uname)
 		echo 'OS not supported.'
 end
 
+# terminfo in config home.
+if test -d "$XDG_CONFIG_HOME/terminfo"
+	set -gx TERMINFO "$XDG_CONFIG_HOME/terminfo"
+end
+
 # Editor and browser
 if command -q nvim
 	set -gx EDITOR $LOCAL_PREFIX/bin/nvim

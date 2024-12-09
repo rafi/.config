@@ -19,3 +19,7 @@ function tmux_attach_unless_ssh --description 'list tmux session if in SSH, othe
 		tmux attach 2>/dev/null || tmux new-session -A -s main
 	end
 end
+
+function tmux_auto_rename --on-event tmux_auto_rename
+	tmux set-window-option automatic-rename on
+end

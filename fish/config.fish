@@ -15,13 +15,17 @@ set fish_emoji_width 2
 set fish_term24bit 1
 set -g fish_key_bindings fish_vi_key_bindings
 
-# Cursor styles
+# Cursor styles.
 set -gx fish_vi_force_cursor 1
 set -gx fish_cursor_default block
 set -gx fish_cursor_insert line blink
 set -gx fish_cursor_visual block
 set -gx fish_cursor_replace_one underscore
 
+# Prompt path length.
+set -g fish_prompt_pwd_dir_length 2
+
+# Prompt git info.
 set -g __fish_git_prompt_show_informative_status true
 # set -g __fish_git_prompt_showupstream auto
 set -g __fish_git_prompt_showupstream informative
@@ -29,7 +33,6 @@ set -g __fish_git_prompt_showcolorhints true
 
 # }}}
 # Paths {{{
-set -x fish_user_paths
 fish_add_path "$LOCAL_PREFIX"/bin "$LOCAL_PREFIX"/sbin
 fish_add_path "$GOPATH/bin"
 fish_add_path "$XDG_DATA_HOME/cargo/bin"
@@ -40,24 +43,12 @@ fish_add_path "$KREW_ROOT/bin"
 fish_add_path "$PIPX_BIN_DIR"
 fish_add_path "$RYE_HOME/shims"
 fish_add_path ~/.local/bin
-
-# }}}
-# Fisher setup {{{
-# https://github.com/jorgebucaran/fisher
-# Load fisher plugins from custom path.
-# set fisher_path $__fish_config_dir/plugins
-# set fish_complete_path $fish_complete_path[1] $fisher_path/completions $fish_complete_path[2..]
-# set fish_function_path $fish_function_path[1] $fisher_path/functions $fish_function_path[2..]
-# if not functions -q fisher
-# 	echo 'Downloading fisher...' >&2
-# 	curl -sL git.io/fisher | source; and fisher install jorgebucaran/fisher
-# end
-# for file in $fisher_path/conf.d/*.fish
-# 	source $file
-# end
+fish_add_path node_modules/.bin/
+# fish_add_path bin/
 
 # }}}
 # Key-bindings {{{
+# See /opt/homebrew/share/fish/functions/fish_vi_key_bindings.fish
 
 # Disable Escape in Normal mode.
 bind \e true
@@ -102,7 +93,8 @@ end
 # }}}
 
 # File list colors. (nice ones: rose-pine, nord, snazzy, one-dark, jellybeans)
-set -gx LS_COLORS (vivid generate snazzy)
+# TODO: Needed at all? 15-09-2024
+# set -gx LS_COLORS (cat "$XDG_CONFIG_HOME/vivid/snazzy.dircolors")
 
 # Attach or create tmux session on login. If in SSH, only list sessions.
 tmux_attach_unless_ssh

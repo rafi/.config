@@ -6,25 +6,23 @@ if not status is-interactive
 end
 
 # Useful general shortcuts
-abbr c clear
+abbr c ' clear'
+abbr clear ' clear'
 abbr cal 'task cal; or ncal -wC3; or command cal -B1 -A1'
-alias start '{ test -f .jig* && jig start .; } ||
-	{ jig ls | fzf | xargs jig start; }'
 
 alias update 'brew update && brew outdated'
 alias upgrade 'ya pack -u && brew upgrade'
 alias outdated 'brew outdated'
+alias work 'cd ~/code/work'
+alias wiki 'cd ~/code/rafi/*/content/wiki'
+alias start '{ test -f .jig* && jig start .; } ||
+	{ jig ls | fzf | xargs jig start; }'
 
-abbr dig q
-abbr ping gping
-abbr watch hwatch
-abbr wiki 'cd ~/code/rafi/rafi.io/content'
-
-abbr ncdu 'ncdu --color dark'
-abbr -a --position anywhere --set-cursor -- -h "-h 2>&1 | bat --plain --language=help"
+abbr -a --position anywhere --function last_history_item -- !!
+abbr -a --position anywhere --set-cursor -- -h "-h 2>&1 | bat -pl=help"
 
 if [ $OS_DARWIN ]
-	command -q gdircolors; and abbr dircolors gdircolors	
+	command -q gdircolors; and abbr dircolors gdircolors
 	command -q gfind; and abbr find gfind
 	command -q gsort; and abbr sort gsort
 	command -q gstat; and abbr stat gstat
@@ -33,9 +31,15 @@ end
 # Lists ---------------------------------------------------- l for list -- {{{
 
 set -l lscmd ls
-command -q gls; and set lscmd gls
-command -q lsd; and set lscmd lsd
-command -q eza; and set lscmd "EZA_MIN_LUMINANCE=70 eza --color-scale=all --color-scale-mode=gradient"
+if command -q eza
+	set lscmd "EZA_MIN_LUMINANCE=75 eza --color-scale=all --color-scale-mode=gradient"
+	alias lt "$lscmd --icons=always --color=always --header --git --long --all --group-directories-first"
+else if command -q lsd
+	set lscmd lsd
+	alias lt "$lscmd --icon=always --color=always --header --git --long --all --group-directories-first"
+else if command -q gls
+	set lscmd gls
+end
 alias ls "$lscmd --color=always --group-directories-first"
 alias l  "$lscmd --all --classify --color=always --group-directories-first"
 alias ll "$lscmd --all --long --classify --color=always --group-directories-first"
@@ -53,12 +57,16 @@ if command -q nvim
 	abbr vim nvim
 	abbr nvi nvim
 	abbr suvim sudo -E nvim
+	abbr vimpager 'nvim - -c "lua Snacks.terminal.colorize()"'
+	# alias vless="nvim -u $PREFIX/share/nvim/runtime/macros/less.vim"
 else
 	abbr v 'vim (fzf)'
 	abbr vi vim
 	abbr suvim sudo -E vim
+	# alias vless="vim -u $PREFIX/share/vim/vim90/macros/less.vim"
 end
 alias ve 'tmux split-window -h "$EDITOR"'
+# alias vimdiff='vim -d'
 
 # }}}
 # Grepping / Parsing ----------------------------------------------------- {{{
@@ -77,8 +85,12 @@ abbr tree3 'tree -L 3'
 # }}}
 # Path ------------------------------------------------------------------- {{{
 
+# Jump to MRU directories
+abbr -a cdprev prevd
+abbr -a cdnext nextd
+
 # Paste current directory to clipboard
-alias cwd 'pwd | tr -d "\r\n" | pbcopy'
+alias cwd 'pwd | tr -d "\r\n" | fish_clipboard_copy'
 
 # Jump to previous directory with --
 abbr - 'cd -'
@@ -102,24 +114,28 @@ end
 
 # }}}
 # systemctl ------------------------------------------ sc for systemctl -- {{{
-abbr sc systemctl
-abbr scu "systemctl --user"
-abbr scs "command systemctl status"
-abbr scl "systemctl --type service --state running"
-abbr sclu "systemctl --user --type service --state running"
-abbr sce "sudo systemctl enable --now"
-abbr scd "sudo systemctl disable --now"
-abbr scr "sudo systemctl restart"
-abbr sco "sudo systemctl stop"
-abbr sca "sudo systemctl start"
-abbr scf "systemctl --failed --all"
+if [ $OS_LINUX ]
+	abbr sc systemctl
+	abbr scu "systemctl --user"
+	abbr scs "command systemctl status"
+	abbr scl "systemctl --type service --state running"
+	abbr sclu "systemctl --user --type service --state running"
+	abbr sce "sudo systemctl enable --now"
+	abbr scd "sudo systemctl disable --now"
+	abbr scr "sudo systemctl restart"
+	abbr sco "sudo systemctl stop"
+	abbr sca "sudo systemctl start"
+	abbr scf "systemctl --failed --all"
+end
 
 # }}}
 # journalctl ---------------------------------------- j+ for journalctl -- {{{
-abbr jb "journalctl -b"
-abbr jf "journalctl --follow"
-abbr jg "journalctl -b --grep"
-abbr ju "journalctl --unit"
+if [ $OS_LINUX ]
+	abbr jb "journalctl -b"
+	abbr jf "journalctl --follow"
+	abbr jg "journalctl -b --grep"
+	abbr ju "journalctl --unit"
+end
 
 # }}}
 # Git ------------------------------------------------------- g for git -- {{{
@@ -143,8 +159,8 @@ abbr gl  git lg -15
 abbr gll git lg
 abbr gld git lgd -15
 
-# Completely remove all unreachable objects from the repository.
-alias ggcnow='git -c gc.reflogExpireUnreachable=now gc --prune=now'
+# Promoted git aliases
+abbr ck git checkout
 
 # }}}
 # Docker ------------------------------------------------- d for docker -- {{{
@@ -171,7 +187,7 @@ alias dtag 'docker inspect --format "{{.Name}}
 # See more in functions.d/kubernetes.bash
 abbr k kubectl
 abbr kc  kubectx
-abbr ks  kubectl switch
+abbr ki  kubectl config-import
 abbr kd  kubectl describe
 abbr kg  kubectl get
 abbr kgy kubectl get -o yaml
@@ -180,6 +196,12 @@ abbr kdp kubectl describe pod
 abbr kgp kubectl get pod
 abbr kgpy kubectl get pod -o yaml
 abbr krr kubectl rollout restart deploy
+
+# }}}
+# Virtualization / Emulation --------------------------------------------- {{{
+# See: https://github.com/lima-vm/lima
+abbr li  lima
+abbr lic limactl
 
 # }}}
 # Processes -------------------------------------------------------------- {{{
@@ -191,11 +213,6 @@ abbr pst pstree -g 3 -ws
 # See: https://github.com/casey/just
 abbr j just
 abbr jc just --choose
-
-# }}}
-# Machines --------------------------------------------- m for machines -- {{{
-# See: https://github.com/lima-vm/lima
-abbr m limactl
 
 # }}}
 # XDG conformity --------------------------------------------------------- {{{
@@ -282,14 +299,9 @@ else
 	or test command -q xdg-screensaver; and alias afk 'xdg-screensaver lock'
 	or test command -q gnome-screensaver-command; and alias afk 'gnome-screensaver-command --lock'
 
-	if test command -q pbcopy
-		if test command -q xclip
-			alias pbcopy "xclip -selection clipboard"
-			alias pbpaste "xclip -selection clipboard -o"
-		else if test command -q xsel
-			alias pbcopy "xsel --clipboard --input"
-			alias pbpaste "xsel --clipboard --output"
-		end
+	if ! test command -q pbcopy
+		alias pbcopy fish_clipboard_copy
+		alias pbpaste fish_clipboard_paste
 	end
 
 	# TODO

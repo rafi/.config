@@ -1,6 +1,6 @@
 function format_time \
 	--description="Format milliseconds to a human readable format" \
-	--argument-names milliseconds threshold show_subsecond
+	--argument-names milliseconds threshold show_subsecond prefix
 
 	set --query show_subsecond[1]; or set show_subsecond false
 	test "$milliseconds" -lt 0; and return 1
@@ -23,20 +23,5 @@ function format_time \
 		test "$seconds" -gt $threshold; and set --append time (printf "%ss" $seconds)
 	end
 
-	echo -e (string join ' ' $time)
-end
-
-function format_time_subseconds \
-	--description="Format duration milliseconds to a human readable format" \
-	--argument-names \
-	duration \
-	threshold
-
-	set --local subseconds
-	if test "$duration" -gt $threshold
-		set --local precision 2
-		set --local milliseconds (string sub --start -3 --length $precision $duration)
-		set --append subseconds '.'$milliseconds
-	end
-	echo $subseconds
+	echo -e "$prefix$(string join ' ' $time)"
 end
