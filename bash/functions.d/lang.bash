@@ -2,6 +2,15 @@
 # https://github.com/rafi/.config
 # ---
 
+# Golang - go get or tidy
+function gg() {
+	if [ -z "$1" ]; then
+		go mod tidy -v
+	else
+		go get -u "$@"
+	fi
+}
+
 # Golang - show outdated, indirect dependencies
 function go-outdated() {
 	go list -u -m -f '{{ if and (not .Indirect) .Update }}{{.}}{{end}}' all

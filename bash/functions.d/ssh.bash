@@ -18,19 +18,26 @@ function ssh() {
 	else
 		TERM=xterm
 	fi
+
 	# Propagate local user name, for remote goodies.
 	# But don't overwrite environment variable if it's not empty.
 	export LC_IDENTIFICATION="${LC_IDENTIFICATION:-$USER}"
+
 	# Rename tmux window
 	[ -n "$TMUX" ] && tmux rename-window "${@: -1}" 1>/dev/null
+
 	# Execute ssh with identification
+	local ssh_status=0
 	if hash assh 2>/dev/null; then
 		assh wrapper ssh -- -o SendEnv=LC_IDENTIFICATION "$@"
+		ssh_status=$?
 	else
 		command ssh -o SendEnv=LC_IDENTIFICATION "$@"
+		ssh_status=$?
 	fi
 	# Reset tmux window name
 	[ -n "$TMUX" ] && tmux set-window-option automatic-rename "on" 1>/dev/null
+	return $ssh_status
 }
 
 # Immediately attach/start a tmux session on remote server

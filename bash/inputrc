@@ -100,6 +100,9 @@ set keymap vi-insert
 # Shortcut for inserting a grep pipeline at eol
 "\C-g": "\e$a | grep "
 
+# Flip through autocompletion matches with Shift-Tab.
+"\e[Z": menu-complete
+
 # Ctrl+left/right for word movement
 "\e\e[C": forward-word
 "\e\e[D": backward-word

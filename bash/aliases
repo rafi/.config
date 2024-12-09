@@ -130,8 +130,8 @@ alias gl='git lg -15'
 alias gll='git lg'
 alias gld='git lgd -15'
 
-# Completely remove all unreachable objects from the repository.
-alias ggcnow='git -c gc.reflogExpireUnreachable=now gc --prune=now'
+# Promoted git aliases
+alias ck='git checkout'
 
 # Attach git aliases auto-completion
 if [ "$BASH" ] && type __git_complete &>/dev/null; then # {{{
@@ -185,10 +185,15 @@ fi # }}}
 # See more in functions.d/kubernetes.bash
 alias k=kubectl
 alias kc=kubectx
-alias ks='kubectl switch'
+alias ki='kubectl config-import'
+alias kd='kubectl describe'
 alias kg='kubectl get'
-alias kgp='kubectl get pods'
+alias kgy='kubectl get'
 alias ke='kubectl edit'
+alias kdp='kubectl describe pod'
+alias kgp='kubectl get pods'
+alias kgpy='kubectl get pods -o yaml'
+alias krr='kubectl rollout restart deploy'
 
 if [ "$BASH" ]; then # {{{
 	# Attach k alias to kubectl completion function
@@ -198,8 +203,15 @@ if [ "$BASH" ]; then # {{{
 	# Use https://github.com/cykerway/complete-alias for bash alias completion
 	if type _complete_alias &>/dev/null; then
 		complete -F _complete_alias kc
+		complete -F _complete_alias ki
+		complete -F _complete_alias kd
 		complete -F _complete_alias kg
+		complete -F _complete_alias kgy
 		complete -F _complete_alias ke
+		complete -F _complete_alias kdp
+		complete -F _complete_alias kgp
+		complete -F _complete_alias kgpy
+		complete -F _complete_alias krr
 	fi
 fi # }}}
 

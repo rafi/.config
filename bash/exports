@@ -25,6 +25,11 @@ export  XDG_STATE_HOME="$HOME/.local/state"
 [ -d "$XDG_DATA_HOME" ]   || mkdir -m 0750 "$XDG_DATA_HOME"
 [ -d "$XDG_STATE_HOME" ]  || mkdir -m 0750 "$XDG_STATE_HOME"
 
+# terminfo in config home.
+if [ -d "$XDG_CONFIG_HOME/terminfo" ]; then
+	export TERMINFO="$XDG_CONFIG_HOME/terminfo"
+fi
+
 # Source .env file is exists
 [ -f "$XDG_CONFIG_HOME/.env" ] && source "$XDG_CONFIG_HOME/.env"
 
@@ -73,7 +78,7 @@ elif [ "$ZSH_VERSION" ]; then
 	export SAVEHIST="${HISTSIZE}"
 fi
 
-# Editor
+# Editor and manpager
 EDITOR=vim
 if hash nvim 2>/dev/null; then
 	export MANPAGER="nvim +'set cmdheight=2' +Man!"
@@ -94,18 +99,6 @@ export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 # export RXVT_SOCKET="$XDG_RUNTIME_DIR/urxvtd"
 export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
 
-# Look for terminfo files under data and find system collections
-if [ -d "$XDG_DATA_HOME/terminfo" ]; then
-	export TERMINFO="$XDG_DATA_HOME/terminfo"
-	export TERMINFO_DIRS="$TERMINFO"
-	if [ -d "$PREFIX/share/terminfo" ]; then
-		export TERMINFO_DIRS="$TERMINFO_DIRS:$PREFIX/share/terminfo"
-	fi
-	if [ -d "$PREFIX/opt/ncurses/share/terminfo" ]; then
-		export TERMINFO_DIRS="$TERMINFO_DIRS:$PREFIX/opt/ncurses/share/terminfo"
-	fi
-fi
-
 # Forces QT to use GTK icons
 export DESKTOP_SESSION=gnome
 
@@ -115,8 +108,8 @@ export DESKTOP_SESSION=gnome
 # Set the session ssh-agent socket path (If it's not set)
 # [ -z "$SSH_AUTH_SOCK" ] && export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent"
 
-# See: https://github.com/tmux-python/tmuxp
-export TMUXP_CONFIGDIR="$XDG_CONFIG_HOME/tmuxp"
+# See https://github.com/rafi/jig
+export JIG_SESSION_CONFIG_PATH="$HOME/.local/opt/jig"
 
 # Pagers
 # ----

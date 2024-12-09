@@ -4,6 +4,9 @@
 # See: https://git-scm.com/
 #      https://github.com/junegunn/fzf
 
+# Completely remove all unreachable objects from the repository.
+alias ggcnow='git -c gc.reflogExpireUnreachable=now gc --prune=now'
+
 ## Git branches
 alias gball="git branch --sort=-committerdate --all --color=always --format \
 	'%(refname:short) %(if)%(upstream)%(then)-> %(upstream)%(end)'"

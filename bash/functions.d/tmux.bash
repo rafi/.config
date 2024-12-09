@@ -5,14 +5,15 @@
 # `tm` will allow you to select your tmux session via fzf.
 # `tm irc` will attach to the edit session if it exists, or create it
 function tm() {
-	[[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
+	local change="attach-session"
+	[ -n "$TMUX" ] && change="switch-client"
 	if [ -n "$1" ]; then
 		tmux "$change" -t "$1" 2>/dev/null || \
 			(tmux new-session -d -s "$1" && tmux "$change" -t "$1")
 		return
 	else
 		session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf -1 -0)
-		tmux "$change" -t "$session" || tmux new-session -A -s main
+		tmux "$change" -t "$session" 2>/dev/null || tmux new-session -A -s main
 	fi
 }
 

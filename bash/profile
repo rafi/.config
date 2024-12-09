@@ -33,6 +33,9 @@ if [[ $- == *i* ]] && hash tmux 2>/dev/null && [ -z "$TMUX" ]; then
 	# In SSH sessions, list tmux sessions on log-in.
 	if [ -n "$SSH_TTY" ]; then
 		tmux list-sessions -F '#S #{session_path} (#{session_windows}) > #H > #W (#{window_panes}) > #{pane_title} #{buffer_created} #{buffer_sample} #{session_activity} #{user} #{socket_path}' 2>/dev/null
+	# else
+	# 	# Auto-attach (or new session)
+	# 	tmux attach 2>/dev/null || tmux new-session -A -s main
 	fi
 fi
 
