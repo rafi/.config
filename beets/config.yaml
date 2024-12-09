@@ -1,45 +1,87 @@
-directory: ~/music
-library: ~/.cache/beets/musiclibrary.blb
+directory: ~/media/music
+library: ~/.config/beets/musiclibrary.blb
 # pluginpath:
 #   - /usr/lib/python2.7/site-packages/beetsplug
 #   - ~/code/python/beetsplug
 import:
+  write: yes
+  copy: no
   move: yes
+  hardlink: no
+  resume: ask
+  incremental: yes
+  quiet_fallback: skip
   timid: yes
+  log: ~/.cache/beets/beet.log
 paths:
   default: '%the{$albumartist}/$year $album%aunique{}/$track $title'
-  comp: '_Compilations/$year $album%aunique{}/$track $title'
+  comp:true: '_Compilations/$year $album%aunique{}/$track $title'
   albumtype:soundtrack: '_Soundtracks/$year $album%aunique{}/$track $title'
-  singleton: '_Singles/%the{$albumartist} - $title'
+  singleton:true: '_Singles/%the{$albumartist} - $title'
 match:
   preferred:
     countries: ['US', 'GB|UK']
     media: ['CD', 'Digital Media|File']
     original_year: yes
+per_disc_numbering: yes
+id3v23: yes
 original_date: yes
 format_album: '$albumartist - $album ($year)'
 clutter: [ "Thumbs.db", ".DS_Store", "*jpg", "*png" ]
-plugins: lastgenre scrub the zero ftintitle mpdupdate duplicates info lastimport mbsync play discogs
+plugins:
+  - edit
+  - info
+  # - copyartifacts
+  - lastgenre
+  - mbsync
+  - scrub
+  - the
+  - zero
+  - ftintitle
+  - duplicates
+  - info
+  - lastimport
+  - missing
+  - discogs
+  - lyrics
+  - unimported
+# plugins: fetchart embedart convert scrub replaygain lastgenre chroma web lyrics
+musicbrainz:
+  searchlimit: 10
+  extra_tags: [year, catalognum, country, media, label]
+  genres: no
+scrub:
+  auto: yes
+copyartifacts:
+  extensions: .cue .log .jpg .png .txt .pdf .doc .rtf .par2 .nfo
 zero:
   fields: month day comments lyrics albumartist_credit artist_credit
+  comments: [EAC, LAME, from.+collection, 'ripped by']
+lyrics:
+  auto: true
+  sources: bandcamp genius musixmatch
+# ftintitle:
+#   auto: yes
+#   drop: no
+#   format: feat. {0}
 #importfeeds:
 #  formats: m3u
 #  relative_to: /mnt/media/music/
 #  dir: /mnt/media/music/_Playlists/
 #  m3u_name: new_albums.m3u
-play:
-  relative_to: ~/music/
-  command: mpd-m3u-handler.sh
+# play:
+#   relative_to: ~/music/
+#   command: mpd-m3u-handler.sh
 replaygain:
   auto: no
   albumgain: yes
-mpd:
-  host: music.host
-  port: 6600
+# mpd:
+#   host: music.host
+#   port: 6600
 lastfm:
   user: rafib
   api_key: {{ LASTFM_TOKEN }}
-echonest:
-  auto: no
-  codegen: echoprint-codegen
-  apikey: {{ ECHONEST_TOKEN }}
+# echonest:
+#   auto: no
+#   codegen: echoprint-codegen
+#   apikey: {{ ECHONEST_TOKEN }}
