@@ -89,8 +89,8 @@ yabai -m rule --add label="Select file to save to" app="^Inkscape$" title="Selec
 # # ---
 yabai -m signal --add event=application_launched app='^(Alacritty|kitty)$' \
 	action="yabai -m space --focus 1"
-yabai -m signal --add event=application_launched app='^Google Chrome$' \
-	action="yabai -m space --focus 2"
+# yabai -m signal --add event=application_launched app='^Google Chrome$' \
+# 	action="yabai -m space --focus 2"
 yabai -m signal --add event=application_launched app='^(Slack|Messages|Telegram|WhatsApp)$' \
 	action="yabai -m space --focus 3"
 yabai -m signal --add event=application_launched app='^(Spotify|Music)$' \
@@ -127,6 +127,8 @@ yabai -m rule --add app='^Pixelmator'          manage=off
 yabai -m rule --add app='^Plexamp'             manage=off
 yabai -m rule --add app='^Raycast$'            manage=off
 yabai -m rule --add app='^Reminders$'          manage=off
+yabai -m rule --add app='^RSS Guard$'          manage=off
+yabai -m rule --add app='^OrbStack$'           manage=off
 yabai -m rule --add app='^QuickRecorder$'      manage=off
 yabai -m rule --add app='^qView$'              manage=off
 # yabai -m rule --add app='^Slack$' title='^Slack \| mini panel$' manage=off
