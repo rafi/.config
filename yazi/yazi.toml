@@ -33,13 +33,17 @@ prepend_previewers = [
 	{ mime = "application/vnd.oasis.opendocument.text", run = "odt" },
 
 	# Archive previewer
-	{ mime = "application/*zip",            run = "ouch" },
-	{ mime = "application/x-tar",           run = "ouch" },
-	{ mime = "application/x-bzip2",         run = "ouch" },
-	{ mime = "application/x-7z-compressed", run = "ouch" },
-	{ mime = "application/x-rar",           run = "ouch" },
-	{ mime = "application/x-xz",            run = "ouch" },
+	{ mime = "application/*zip",           run = "ouch" },
+	{ mime = "application/tar",            run = "ouch" },
+	{ mime = "application/bzip2",          run = "ouch" },
+	{ mime = "application/7z-compressed",  run = "ouch" },
+	{ mime = "application/rar",            run = "ouch" },
+	{ mime = "application/xz",             run = "ouch" },
 ]
 append_previewers = [
 	{ name = "*", run = "hexyl" },
+]
+prepend_fetchers = [
+	{ id = "git", name = "*", run = "git" },
+	{ id = "git", name = "*/", run = "git" },
 ]

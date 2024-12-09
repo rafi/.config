@@ -5,6 +5,14 @@ require("session"):setup({
 	sync_yanked = true,
 })
 
+-- Git plugin config
+THEME.git = THEME.git or {}
+THEME.git.modified_sign = "M"
+THEME.git.deleted_sign = "D"
+THEME.git.untracked_sign = "U"
+THEME.git.ignored_sign = "I"
+require("git"):setup()
+
 -- Show symlink in status bar
 function Status:name()
 	local h = self._tab.current.hovered
@@ -51,12 +59,12 @@ function Status:date()
 	end
 
 	local spans = {}
-	render_date(spans, h.cha.created, 'c', 'blue')
-	if math.abs(h.cha.modified - h.cha.created) > 600 then
-		render_date(spans, h.cha.modified, 'm', 'yellow')
+	render_date(spans, h.cha.btime, 'c', 'blue')
+	if math.abs(h.cha.mtime - h.cha.btime) > 600 then
+		render_date(spans, h.cha.mtime, 'm', 'yellow')
 	end
-	if math.abs(h.cha.modified - h.cha.accessed) > 600 then
-		render_date(spans, h.cha.accessed, 'a', 'green')
+	if math.abs(h.cha.mtime - h.cha.atime) > 600 then
+		render_date(spans, h.cha.atime, 'a', 'green')
 	end
 	return ui.Line(spans)
 end
@@ -91,14 +99,14 @@ Header:children_add(Header.tabs, Header.LEFT)
 
 function Linemode:size_and_mtime()
 	local year = os.date("%Y")
-	local time = (self._file.cha.modified or 0) // 1
-
+	local time = (self._file.cha.mtime or 0) // 1
+	local timestr
 	if time > 0 and os.date("%Y", time) == year then
-		time = os.date("%b %d %H:%M", time)
+		timestr = os.date("%b %d %H:%M", time)
 	else
-		time = time and os.date("%b %d  %Y", time) or ""
+		timestr = time and os.date("%b %d  %Y", time) or ""
 	end
 
 	local size = self._file:size()
-	return ui.Line(string.format(" %s %s ", size and ya.readable_size(size) or "-", time))
+	return ui.Line(string.format(" %s %s ", size and ya.readable_size(size) or "-", timestr))
 end

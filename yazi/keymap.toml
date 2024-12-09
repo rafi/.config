@@ -2,20 +2,30 @@
 
 # Yazi keymaps
 
+#  ,---,---,---,---,---,---,---,---,---,---,---,---,---,-----,
+#  | ` | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | - | = | <-  |
+#  |---'-,-'-,-'-,-'-,-'-,-'-,-'-,-'-,-'-,-'-,-'-,-'-,-'-,---|
+#  | ⭲   | Q | W | E | R | T | Y | U | I | O | P | [ | ] | \ |
+#  |-----',--',--',--',--',--',--',--',--',--',--',--',--'---|
+#  | Caps | A | S | D | F | G | H | J | K | L | ; | ' |    ⏎ |
+#  |------'-,-'-,-'-,-'-,-'-,-'-,-'-,-'-,-'-,-'-,-'-,-'------|
+#  | ⇧      | Z | X | C | V | B | N | M | , | . | / |      ⇧ |
+#  |---,---,'--,'---'---'---'---'---'---'---',--',--'-,--,---'
+#  |   | ^ | ⌥ |  ⌘ |         ␣         | ⌘  | ⌥ |.--.:--:.--.
+#  '---'---'---'----'-------------------'----'---''--''--''--'
+
 [manager]
 prepend_keymap = [
-	{ on = [ "l" ], run = "plugin --sync smart-enter", desc = "Enter the child directory, or open the file" },
+	{ on = [ "l" ], run = "plugin smart-enter", desc = "Enter the child directory, or open the file" },
 	{ on = [ "i" ], run = "LESS='-iWQMXR~' bat --paging=always --theme=TwoDark {}" },
-	{ on = [ "<Esc>" ], run = "close", desc = "Cancel input" },
 
-	{ on = [ "<C-s>" ], run = 'shell "$SHELL" --block --confirm', desc = "Open shell here" },
+	{ on = [ "<C-s>" ], run = 'shell "$SHELL" --block', desc = "Open shell here" },
 
 	# Selection
-	{ on = [ "*" ], run = "select_all --state=none", desc = "Inverse selection" },
+	{ on = [ "*" ], run = "toggle_all", desc = "Inverse selection" },
 
 	# Operation
 	# { on = ["<C-Enter>"], run = "open --interactive", desc = "Open the selected files interactively" },
-	{ on = ["c", "a"], run = "plugin ouch --args=zip", desc = "Compress with ouch" },
 
 	# Goto, tabs and help
 	{ on = [ "g", "?" ], run = "help", desc = "Help" },
@@ -24,8 +34,14 @@ prepend_keymap = [
 	{ on = [ "g", "T" ], run = "tab_switch -1 --relative", desc = "Switch to the previous tab" },
 
 	# Plugins
-	{ on = [ "<Tab>" ], run = "plugin --sync max-preview", desc = "Maximize preview" },
-	{ on = [ "<C-g>" ], run = "plugin --sync hide-preview", desc = "Hide preview" },
+	{ on   = "f", run  = "plugin jump-to-char", desc = "Jump to char" },
+	{ on = [ "<Tab>" ], run = "plugin max-preview", desc = "Maximize preview" },
+	{ on = [ "<C-g>" ], run = "plugin hide-preview", desc = "Hide preview" },
+	{ on = [ "c", "a" ], run = "plugin ouch --args=zip", desc = "Compress with ouch" },
+]
+
+append_keymap = [
+	{ on = [ "<Esc>" ], run = "close", desc = "Cancel input" },
 ]
 
 [help]
