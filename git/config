@@ -38,7 +38,8 @@
 	helper = cache --timeout=3600
 [http]
 	# https://git-scm.com/docs/git-config#Documentation/git-config.txt-httpversion
-	# version = HTTP/1.1
+	# Pacman issue on archlinux solution: https://stackoverflow.com/a/59926487
+	; postBuffer = 157286400
 [push]
 	# https://git-scm.com/docs/git-config#Documentation/git-config.txt-pushdefault
 	default = current
@@ -311,28 +312,19 @@
 		echo \"${r:-$(git remote)}\"; \
 	}; f $@'"
 
-	# Find oldest ancestor or two refs.
+	# Find oldest ancestor of two refs.
 	oldest-ancestor = "!bash -c 'f() { \
-		local u=\"${0}\"; \
-		if [ \"$u\" = bash ] || [ -z \"$u\" ]; then \
-			u=\"$(git guess-upstream)\"; \
-		fi; \
-		grep -F -x -f \
-			<(git rev-list --first-parent ${u}) \
-			<(git rev-list --first-parent ${1:-HEAD}) \
-		| head -1; \
+		diff --unified \
+			<(git rev-list --first-parent ${1:-master}) \
+			<(git rev-list --first-parent ${2:-HEAD}) \
+		| sed -ne \"s/^ //p\" | head -1; \
 		}; f $@'"
-	
-	# For a remote repository.
+
+	# Add a remote fork url with GitHub username.
 	remote-fork = "!f() { \
 		local me=\"$(git config --get github.user)\"; \
 		local r=\"$(git config remote.origin.url)\"; \
-		local rn=''; \
-		if [[ \"$OSTYPE\" == \"darwin\"* ]]; then \
-			rn=\"$(echo $r | sed -E \"s;(github.com[/:])[^/]+;\\1${me};\")\"; \
-		else \
-			rn=\"$(echo $r | sed \"s;\\(github.com[/:]\\)[^/]\\+;\\1${me};\")\"; \
-		fi; \
+		local rn; rn=\"$(echo $r | sed -E \"s;(github.com[/:])[^/]+;\\1${me};\")\"; \
 		[ \"$r\" -ne \"$rn\" ] && [ -n \"$rn\" ] && \
 		git remote add \"$me\" \"$rn\" && \
 		git fetch \"$me\"; \
