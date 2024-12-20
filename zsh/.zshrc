@@ -29,7 +29,6 @@ autoload -Uz compinit && compinit
 zcompare "${ZDOTDIR:-${HOME}}/.zshrc"
 
 # Enable readline vi-mode for myself only
-# See ./functions.d/ssh.bash for implementation
 if [ "${LC_IDENTIFICATION:-$USER}" = rafi ] \
 	|| [[ "${LC_IDENTIFICATION:-$USER}" == rafael* ]]
 then

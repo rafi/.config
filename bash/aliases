@@ -110,7 +110,7 @@ fi
 
 # }}}
 # Git ------------------------------------------------------- g for git -- {{{
-# See more in ./functions.d/git.bash
+# See more in ./functions/git.bash
 alias g=git
 alias ga='git add'
 alias gb='git branch'
@@ -182,7 +182,7 @@ fi # }}}
 
 # }}}
 # Kubernetes ----------------------------------------- k for kubernetes -- {{{
-# See more in functions.d/kubernetes.bash
+# See more in functions/kubernetes.bash
 alias k=kubectl
 alias kc=kubectx
 alias ki='kubectl config-import'

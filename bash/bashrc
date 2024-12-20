@@ -28,7 +28,7 @@ if [[ $DISPLAY ]]; then
 fi
 
 # Enable readline vi-mode for myself only
-# See ./functions.d/ssh.bash for implementation
+# See ./functions/ssh.bash for implementation
 if [ "${LC_IDENTIFICATION:-$USER}" = rafi ] \
 	|| [[ "${LC_IDENTIFICATION:-$USER}" == rafael* ]]
 then
@@ -36,7 +36,7 @@ then
 fi
 
 # Source all extra functions
-for func in "$XDG_CONFIG_HOME/bash/functions.d/"*.bash; do
+for func in "$XDG_CONFIG_HOME/bash/functions/"*.bash; do
 	# shellcheck disable=1090
 	source "$func"
 done
