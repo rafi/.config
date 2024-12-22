@@ -2,9 +2,9 @@
 function ssh --wraps ssh
 	# Use safest terminfo on remote server
 	if set -q TMUX
-		set -gx TERM screen-256color
+		set -lx TERM screen-256color
 	else
-		set -gx TERM xterm
+		set -lx TERM xterm-256color
 	end
 
 	# Propagate local user name, for remote goodies.
@@ -17,7 +17,7 @@ function ssh --wraps ssh
 		# Rename tmux window
 		set -l title (string match --invert -- '-*' $argv)
 		set -l session (tmux display-message -p '#{session_id}:#{window_id}')
-		tmux rename-window "$title" 1>/dev/null
+		test -n "$title"; and tmux rename-window "$title" 1>/dev/null
 	end
 
 	# Execute ssh with identification
@@ -30,7 +30,7 @@ function ssh --wraps ssh
 		or set ssh_status $status
 	end
 	# Reset tmux window name
-	set -q TMUX; and tmux set-window-option -t "$session" automatic-rename "on"
+	set -q TMUX; and tmux set-window-option -t "$session" automatic-rename on
 
 	return $ssh_status
 end
