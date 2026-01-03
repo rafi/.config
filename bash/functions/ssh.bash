@@ -16,7 +16,7 @@ function ssh() {
 	if [ -n "$TMUX" ]; then
 		TERM=screen-256color
 	else
-		TERM=xterm
+		TERM=xterm-256color
 	fi
 
 	# Propagate local user name, for remote goodies.

@@ -48,6 +48,7 @@ set -gx XAUTHORITY "$XDG_CACHE_HOME/Xauthority"
 
 # Pagers
 set -gx MANPAGER "nvim +'set cmdheight=2' +Man!"
+set -gx MANWIDTH 999
 
 # Less
 if not set -q LESSVERSION
