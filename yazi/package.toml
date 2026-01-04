@@ -1,5 +1,34 @@
-[plugin]
-deps = [{ use = "dedukun/bookmarks", rev = "20ece7e1" }, { use = "yazi-rs/plugins:hide-preview", rev = "ec97f884" }, { use = "yazi-rs/plugins:max-preview", rev = "ec97f884" }, { use = "Reledia/hexyl", rev = "39d3d4e2" }, { use = "ndtoan96/ouch", rev = "b8698865" }, { use = "cschult/odt", rev = "15865f75" }, { use = "Sonico98/exifaudio", rev = "d7946141" }, { use = "yazi-rs/plugins:smart-enter", rev = "ec97f884" }, { use = "yazi-rs/plugins:git", rev = "ec97f884" }, { use = "yazi-rs/plugins:jump-to-char", rev = "ec97f884" }, { use = "Reledia/glow", rev = "c2ed51ed" }]
+[[plugin.deps]]
+use = "yazi-rs/plugins:piper"
+rev = "03cdd4b5"
+hash = "2dd68af59418b631b9703a03f606b31f"
 
-[flavor]
-deps = [{ use = "dangooddd/kanagawa", rev = "b32f205c" }]
+[[plugin.deps]]
+use = "dedukun/bookmarks"
+rev = "9ef1254d"
+hash = "92fbb5483657fa7976cdf4e0104e18e0"
+
+[[plugin.deps]]
+use = "Sonico98/exifaudio"
+rev = "4506f9d5"
+hash = "4761fffb60a12d37096c34a356380cdf"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:smart-enter"
+rev = "03cdd4b5"
+hash = "56fdabc96fc1f4d53c96eb884b02a5be"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:jump-to-char"
+rev = "03cdd4b5"
+hash = "ce67445ebb1bf3d97b8e44f50904b2c5"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:toggle-pane"
+rev = "03cdd4b5"
+hash = "8a7c58225816a163a6e8730c0adafbc8"
+
+[[flavor.deps]]
+use = "dangooddd/kanagawa"
+rev = "04985d12"
+hash = "c69a63981e254a3a06a11c2bf0e6af1d"

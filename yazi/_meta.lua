@@ -1,15 +1,15 @@
 --- @meta _
 
-error('Cannot require a meta file')
+error("Cannot require a meta file")
 
-cx = {}
+--- @class cx
+cx = { active = {} }
 
---- @class THEME
-THEME = { manager = {} }
+--- @class Linemode
+Linemode = { _file = {} }
 
---- @class Command
---- @field PIPED any
--- Command = function() end
+--- @class th
+th = { git = {} }
 
 --- @class Status
 --- @field _tab table
@@ -26,7 +26,7 @@ Status = {
 	LEFT = 0,
 	RIGHT = 1,
 
-	_id = 'status',
+	_id = "status",
 	_inc = 1000,
 }
 
@@ -42,7 +42,7 @@ Header = {
 	LEFT = 0,
 	RIGHT = 1,
 
-	_id = 'header',
+	_id = "header",
 	_inc = 1000,
 }
 
@@ -54,25 +54,9 @@ Header = {
 --- @field Constraint table
 ui = {}
 
---- --- @class Manager
---- --- @field area any
---- --- @field layout fun(self: Manager, area: any)
---- Manager = {}
----
---- --- @class Progress
---- --- @field render fun(area: any, width: number): table
---- Progress = {}
-
 --- @class ya
---- @field clamp fun(min: number, x: number, max: number): number
---- @field round fun(value: number): number
 --- @field user_name fun(uid: number): string
 --- @field group_name fun(gid: number): string
 --- @field target_family fun(): string
---- @field app_emit fun(event: string, args: table)
---- @field manager_emit fun(event: string, args: table)
---- @field err fun(error: string)
---- @field preview_widgets fun(self: ya, args: table)
---- @field preview_code fun(self: ya)
---- @field truncate fun(str: string, args: table)
+--- @field readable_size fun(size: number)
 ya = {}

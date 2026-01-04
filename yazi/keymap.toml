@@ -1,6 +1,8 @@
 "$schema" = "https://yazi-rs.github.io/schemas/keymap.json"
 
 # Yazi keymaps
+# Defaults: https://github.com/sxyazi/yazi/blob/shipped/yazi-config/preset/keymap-default.toml
+#           https://yazi-rs.github.io/docs/quick-start
 
 #  ,---,---,---,---,---,---,---,---,---,---,---,---,---,-----,
 #  | ` | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 0 | - | = | <-  |
@@ -14,40 +16,43 @@
 #  |   | ^ | ⌥ |  ⌘ |         ␣         | ⌘  | ⌥ |.--.:--:.--.
 #  '---'---'---'----'-------------------'----'---''--''--''--'
 
-[manager]
+[mgr]
 prepend_keymap = [
-	{ on = [ "l" ], run = "plugin smart-enter", desc = "Enter the child directory, or open the file" },
-	{ on = [ "i" ], run = "LESS='-iWQMXR~' bat --paging=always --theme=TwoDark {}" },
-
-	{ on = [ "<C-s>" ], run = 'shell "$SHELL" --block', desc = "Open shell here" },
+	{ on = "l", run = "plugin smart-enter", desc = "Enter the child directory, or open the file" },
+	{ on = "i", run = "spot", desc = "Spot hovered file" },
+	{ on = "T", run = "LESS='-iWQMXR~' bat --paging=always --theme=TwoDark {}" },
+	# { on = [ "<C-s>" ], run = 'shell "$SHELL" --block', desc = "Open shell here" },
 
 	# Selection
-	{ on = [ "*" ], run = "toggle_all", desc = "Inverse selection" },
+	{ on = "*", run = "toggle_all", desc = "Inverse selection" },
+
+	#Linemode
+	{ on = [ "m", "d" ], run = "linemode size_and_mtime", desc = "Linemode: size and mtime" },
 
 	# Operation
 	# { on = ["<C-Enter>"], run = "open --interactive", desc = "Open the selected files interactively" },
 
 	# Goto, tabs and help
 	{ on = [ "g", "?" ], run = "help", desc = "Help" },
-	{ on = [ "g", "o" ], run = "cd ~/code", desc = "Go to code directory" },
+	{ on = [ "g", "o" ], run = "cd ~/code", desc = "Go to code" },
+	{ on = [ "g", "s" ], run = "cd ~/docs", desc = "Go to docs" },
 	{ on = [ "g", "t" ], run = "tab_switch 1 --relative", desc = "Switch to the next tab" },
 	{ on = [ "g", "T" ], run = "tab_switch -1 --relative", desc = "Switch to the previous tab" },
+	{ on = [ "g", "r" ], run = 'shell -- ya emit cd "$(git rev-parse --show-toplevel)"' },
 
 	# Plugins
-	{ on   = "f", run  = "plugin jump-to-char", desc = "Jump to char" },
-	{ on = [ "<Tab>" ], run = "plugin max-preview", desc = "Maximize preview" },
-	{ on = [ "<C-g>" ], run = "plugin hide-preview", desc = "Hide preview" },
-	{ on = [ "c", "a" ], run = "plugin ouch --args=zip", desc = "Compress with ouch" },
-]
-
-append_keymap = [
-	{ on = [ "<Esc>" ], run = "close", desc = "Cancel input" },
+	# { on   = "f", run  = "plugin jump-to-char", desc = "Jump to char" },
+	{ on = [ "<Tab>" ], run = "plugin toggle-pane max-preview", desc = "Maximize preview" },
+	{ on = [ "<C-g>" ], run = "plugin toggle-pane min-preview", desc = "Hide preview" },
+	{ on = [ "b", "f" ], run = "plugin bcompare", desc = "Diff the selected with the hovered file" },
+	# { on = [ "c", "a" ], run = "plugin ouch --args=zip", desc = "Compress with ouch" },
+	# { on = [ "c", "s" ], run  = "plugin what-size", desc = "Calc size of selection or cwd" },
 ]
 
 [help]
 prepend_keymap = [
-	{ on = "<C-d>", run = "arrow 25", desc = "Move cursor down half page" },
-	{ on = "<C-u>", run = "arrow -25", desc = "Move cursor up half page" },
+	{ on = "<C-d>", run = "arrow 50%", desc = "Move cursor down half page" },
+	{ on = "<C-u>", run = "arrow -50%", desc = "Move cursor up half page" },
 	{ on = "<C-f>", run = "arrow 100%",  desc = "Move cursor down one page" },
 	{ on = "<C-b>", run = "arrow -100%", desc = "Move cursor up one page" },
 	{ on = [ "g", "g" ], run = "arrow -99999999", desc = "Move cursor to the top" },

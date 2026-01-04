@@ -1,21 +1,19 @@
-# See https://github.com/sxyazi/yazi/blob/main/yazi-config/preset/yazi.toml
+# See https://github.com/sxyazi/yazi/blob/main/yazi-config/preset/yazi-default.toml
 "$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
 
-[manager]
-linemode       = "size_and_mtime"  # none, size, permissions, mtime
-ratio          = [ 1, 4, 3 ]
-scrolloff      = 3
-sort_dir_first = true
+[mgr]
 sort_sensitive = true
+linemode       = "size_and_mtime"
 show_hidden    = true
-show_symlink   = true
+scrolloff      = 3
 title_format   = "[yazi] {cwd}"
 
 # Run `yazi --clear-cache` when changing preview settings.
 [preview]
-# nearest (fast), triangle, catmull-rom, lanczos3 (slow)
-image_filter    = "triangle"
-image_quality   = 60 # 50-90
+cache_dir       = ""
+image_quality   = 75
+max_width  = 2000
+max_height = 2000
 
 [opener]
 edit = [
@@ -24,26 +22,26 @@ edit = [
 # archive = [
 # 	{ run = 'unar "$1"', desc = "Extract here", for = "unix" },
 # ]
-# text = [{ run = '$EDITOR "$@"', block = true }]
 
 [plugin]
 prepend_previewers = [
-	{ mime = "audio/*", run = "exifaudio" },
-	{ name = "*.md", run = "glow" },
-	{ mime = "application/vnd.oasis.opendocument.text", run = "odt" },
+	{ mime = "audio/*", run = "exifaudio" },  # Test
+	# { mime = "application/vnd.oasis.opendocument.text", run = "odt" },
 
-	# Archive previewer
-	{ mime = "application/*zip",           run = "ouch" },
-	{ mime = "application/tar",            run = "ouch" },
-	{ mime = "application/bzip2",          run = "ouch" },
-	{ mime = "application/7z-compressed",  run = "ouch" },
-	{ mime = "application/rar",            run = "ouch" },
-	{ mime = "application/xz",             run = "ouch" },
+	## Piper previews
+	{ url = "*.csv", run = 'piper -- bat -p --color=always "$1"' },
+	{ url = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
+
+	{ mime = "application/sqlite3", run  = 'piper -- sqlite3 "$1" ".schema --indent"' },
+
+	### Archive previewers
+	{ mime = "application/*zip",           run = 'piper --format=url -- ouch list -t -y "$1"' },
+	{ mime = "application/tar",            run = 'piper --format=url -- ouch list -t -y "$1"' },
+	{ mime = "application/bzip2",          run = 'piper --format=url -- ouch list -t -y "$1"' },
+	{ mime = "application/7z-compressed",  run = 'piper --format=url -- ouch list -t -y "$1"' },
+	{ mime = "application/rar",            run = 'piper --format=url -- ouch list -t -y "$1"' },
+	{ mime = "application/xz",             run = 'piper --format=url -- ouch list -t -y "$1"' },
 ]
 append_previewers = [
-	{ name = "*", run = "hexyl" },
-]
-prepend_fetchers = [
-	{ id = "git", name = "*", run = "git" },
-	{ id = "git", name = "*/", run = "git" },
+	{ url = "*", run = 'piper -- hexyl --border=none --terminal-width=$w "$1"' },
 ]
