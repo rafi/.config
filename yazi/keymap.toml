@@ -18,7 +18,6 @@
 
 [mgr]
 prepend_keymap = [
-	{ on = "l", run = "plugin smart-enter", desc = "Enter the child directory, or open the file" },
 	{ on = "i", run = "spot", desc = "Spot hovered file" },
 	{ on = "T", run = "LESS='-iWQMXR~' bat --paging=always --theme=TwoDark {}" },
 	# { on = [ "<C-s>" ], run = 'shell "$SHELL" --block', desc = "Open shell here" },
@@ -26,7 +25,7 @@ prepend_keymap = [
 	# Selection
 	{ on = "*", run = "toggle_all", desc = "Inverse selection" },
 
-	#Linemode
+	# Linemode
 	{ on = [ "m", "d" ], run = "linemode size_and_mtime", desc = "Linemode: size and mtime" },
 
 	# Operation
@@ -41,12 +40,15 @@ prepend_keymap = [
 	{ on = [ "g", "r" ], run = 'shell -- ya emit cd "$(git rev-parse --show-toplevel)"' },
 
 	# Plugins
-	# { on   = "f", run  = "plugin jump-to-char", desc = "Jump to char" },
-	{ on = [ "<Tab>" ], run = "plugin toggle-pane max-preview", desc = "Maximize preview" },
-	{ on = [ "<C-g>" ], run = "plugin toggle-pane min-preview", desc = "Hide preview" },
+	{ on = "l", run = "plugin smart-enter", desc = "Enter the child directory, or open the file" },
+	# { on = "f", run  = "plugin jump-to-char", desc = "Jump to char" },
+	{ on = "<Tab>", run = "plugin toggle-pane max-preview", desc = "Maximize preview" },
+	{ on = "<C-g>", run = "plugin toggle-pane min-preview", desc = "Hide preview" },
+	{ on = "+", run  = "plugin zoom 1", desc = "Zoom in hovered file" },
+	{ on = "-", run  = "plugin zoom -1", desc = "Zoom out hovered file" },
 	{ on = [ "b", "f" ], run = "plugin bcompare", desc = "Diff the selected with the hovered file" },
+	{ on = [ "c", "s" ], run  = "plugin what-size", desc = "Calc size of selection or cwd" },
 	# { on = [ "c", "a" ], run = "plugin ouch --args=zip", desc = "Compress with ouch" },
-	# { on = [ "c", "s" ], run  = "plugin what-size", desc = "Calc size of selection or cwd" },
 ]
 
 [help]

@@ -28,7 +28,27 @@ use = "yazi-rs/plugins:toggle-pane"
 rev = "03cdd4b5"
 hash = "8a7c58225816a163a6e8730c0adafbc8"
 
+[[plugin.deps]]
+use = "yazi-rs/plugins:types"
+rev = "03cdd4b5"
+hash = "a3564fe0d051557df2a191ca0b212c2d"
+
+[[plugin.deps]]
+use = "pirafrank/what-size"
+rev = "6fd634aa"
+hash = "c740548feff5d3523e4633363541fcd1"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:zoom"
+rev = "03cdd4b5"
+hash = "a638db397a5a41d3f3a08a7427ccead1"
+
 [[flavor.deps]]
 use = "dangooddd/kanagawa"
 rev = "04985d12"
 hash = "c69a63981e254a3a06a11c2bf0e6af1d"
+
+[[flavor.deps]]
+use = "gosxrgxx/flexoki-light"
+rev = "45eb0a0f"
+hash = "80ba3eec4bf0b9770b1558c26b5b4a72"

@@ -1,6 +1,6 @@
+# Yazi theme config
 "$schema" = "https://yazi-rs.github.io/schemas/theme.json"
 
-# Yazi theme config
-
 [flavor]
-use = "kanagawa"
+light = "flexoki-light"
+dark = "kanagawa"
