@@ -13,8 +13,8 @@ set fzf_keymaps \
 	alt-d:deselect-all \
 	shift-up:toggle+up \
 	shift-down:toggle+down \
-	tab:down \
-	btab:up
+	shift-tab:up \
+	tab:down
 
 set -gx FZF_DEFAULT_OPTS \
 	--ansi \

@@ -34,12 +34,11 @@ function openedfiles() {
 if hash yazi 2>/dev/null; then
 	alias lf=yazi
 
-	function lfcd() {
-		local tmp; tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-		yazi "$@" --cwd-file="$tmp"
-		if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-			cd -- "$cwd" || echo "Unable to cd"
-		fi
+	function y() {
+		local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+		command yazi "$@" --cwd-file="$tmp"
+		IFS= read -r -d '' cwd < "$tmp"
+		[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
 		rm -f -- "$tmp"
 	}
 

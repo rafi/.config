@@ -52,9 +52,9 @@ fish_add_path node_modules/.bin/
 # key-bindings: fish_hybrid_key_bindings, fish_hybrid_key_bindings
 set -g fish_key_bindings fish_vi_key_bindings
 
-# Map Ctrl-] to yazi function (see functions/yy.fish)
-bind ctrl-\] yy
-bind -M insert ctrl-\] yy
+# Map Ctrl-] to yazi function (see functions/y.fish)
+bind ctrl-\] y
+bind -M insert ctrl-\] y
 
 # Complete autosuggestion with Ctrl-f in both normal and insert modes.
 bind ctrl-f accept-autosuggestion

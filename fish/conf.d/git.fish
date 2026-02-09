@@ -9,13 +9,14 @@ function ggcnow --description 'Completely remove all unreachable objects from th
 end
 
 function gmr --description 'Force master/main branch to origin.'
-	if git rev-parse --abbrev-ref HEAD | grep -q 'master\|main'
-		echo 2>&1 "Already on $(git branch --show-current) branch."
+	set -l name (git remote | head -n1)
+	if ! git remote | grep -q $name
+		echo 2>&1 "No remote named '$name'."
 		return 1
 	end
-	local name=(git remote | head -n1)
-	if not git remote | grep -q $name
-		echo 2>&1 "No remote named '$name'."
+	if git rev-parse --abbrev-ref HEAD | grep -q 'master\|main'
+		echo 2>&1 "Already on $(git branch --show-current) branch."
+		git merge "$name/$(git branch --show-current)"
 		return 1
 	end
 	if git show-ref --quiet refs/heads/master

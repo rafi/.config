@@ -11,8 +11,9 @@ abbr clear ' clear'
 abbr cal 'task cal; or ncal -wC3; or command cal -B1 -A1'
 
 alias update 'brew update && brew outdated'
-alias upgrade 'ya pack -u && brew upgrade'
+alias upgrade 'ya pkg upgrade && brew upgrade'
 alias outdated 'brew outdated'
+
 alias work 'cd ~/code/work'
 alias wiki 'cd ~/code/rafi/*/content/wiki'
 # alias start '{ test -f .jig* && jig start .; } ||
