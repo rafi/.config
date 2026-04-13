@@ -1,0 +1,195 @@
+# Glide configuration
+# See https://github.com/glide-wm/glide/blob/main/glide.default.toml
+[settings]
+
+# Enable animations.
+animate = true
+
+# Disable each space by default. When this is set, Use the
+# toggle_space_activated command to enable a space.
+default_disable = false
+
+# Focus the window under the mouse as it moves.
+focus_follows_mouse = true
+
+# Move the mouse to the middle of the window each time the focus changes.
+mouse_follows_focus = true
+
+# Hide the mouse each time a new window is focused. Ignored if
+# mouse_follows_focus is false.
+mouse_hides_on_focus = true
+
+# Gap between windows and screen edges (in pixels).
+outer_gap = 3
+
+# Gap between adjacent windows (in pixels).
+inner_gap = 10
+
+# The default layout kind for new spaces: "tree" or "scroll".
+# Note: "scroll" requires settings.experimental.scroll.enable = true.
+default_layout_kind = "tree"
+
+# Visual bars for window groups (tabbed/stacked containers).
+group_bars.enable = true
+group_bars.thickness = 6
+group_bars.horizontal_placement = "top"
+group_bars.vertical_placement = "right"
+
+# Enables the status icon.
+status_icon.enable = true
+
+# Whether to include Glide's default key bindings.
+#
+# Note: Default keys are always included if there is no keys section of the
+# config. You can disable this by adding an empty `[keys]` section to your
+# config file.
+#
+# Individual key bindings can be disabled by setting the key to "disabled".
+default_keys = false
+
+[keys]
+# Note: Modifier and key names must be capitalized.
+# On Mac keyboards, "Alt" refers to the Option (⌥) key.
+#
+# Key names refer to physical key positions on a standard QWERTY keyboard,
+# not the characters produced by your keyboard layout. If you use an
+# alternative layout (e.g., Dvorak, Colemak), use the QWERTY name for the
+# physical key you want to bind.
+#
+# Arrow keys use the names: ArrowLeft, ArrowDown, ArrowUp, ArrowRight
+# Example: "Alt + ArrowDown" = { move_focus = "down" }
+#
+# For a comprehensive list of key names, see:
+# https://docs.rs/livesplit-hotkey/0.8.0/livesplit_hotkey/enum.KeyCode.html
+
+# Save the current state to the restore file and exit.
+# Restore this with the --restore option when starting glide.
+# Note that the restore file is only useful when upgrading or restarting
+# glide itself; it is not valid after the user logs out or restarts.
+"Alt + Shift + E" = "save_and_exit"
+
+# Toggle whether the current space is managed by Glide.
+"Alt + Z" = "toggle_space_activated"
+
+# Focus the window in the specified direction.
+"Alt + H" = { move_focus = "left" }
+"Alt + J" = { move_focus = "down" }
+"Alt + K" = { move_focus = "up" }
+"Alt + L" = { move_focus = "right" }
+
+# Move the focused window in the specified direction.
+"Alt + Shift + H" = { move_node = "left" }
+"Alt + Shift + J" = { move_node = "down" }
+"Alt + Shift + K" = { move_node = "up" }
+"Alt + Shift + L" = { move_node = "right" }
+
+# Resize the focused window in the specified direction by percentage.
+"Alt + Ctrl + H" = { resize = { direction = "left", percent = 5 } }
+"Alt + Ctrl + J" = { resize = { direction = "down", percent = 5 } }
+"Alt + Ctrl + K" = { resize = { direction = "up", percent = 5 } }
+"Alt + Ctrl + L" = { resize = { direction = "right", percent = 5 } }
+
+# Move up or down the tree hierarchy, selecting a parent or child node
+# respectively. These commands change which node is selected (similar to
+# move_focus) rather than moving windows. The selected node affects subsequent
+# operations like move_node, split, or group commands.
+# Note: The selected node is not currently shown visually.
+"Alt + A" = "ascend"
+"Alt + D" = "descend"
+
+# Toggle between saved layouts on the active space. This allows you to access
+# layouts from other screen sizes.
+"Alt + N" = "next_layout"
+"Alt + P" = "prev_layout"
+
+# Create a container above the current node in the specified orientation.
+# This has the effect of "splitting" the current window/node once a new node
+# is added.
+"Alt + Backslash" = { split = "horizontal" }
+"Alt + Equal" = { split = "vertical" }
+
+# Change the parent node to a horizontal or vertical group, also known as
+# "tabbed" and "stacked" respectively. Groups show one window at a time,
+# allocating their entire frame to that window.
+#
+# These commands all the parent of the current window, converting it to
+# or from a group.
+"Alt + T" = { group = "horizontal" }
+"Alt + S" = { group = "vertical" }
+"Alt + E" = "ungroup"
+
+# Float the current node. Floating windows are allowed to overlap and keep
+# whatever size and position you give them. Note that they do not actually
+# float on top of other windows, as that would require disabling security
+# protection on your machine.
+"Alt + Shift + Space" = "toggle_window_floating"
+
+# Toggle between focusing floating nodes. When switching to floating mode
+# this will put all floating windows on top, and when switching away it will
+# hide floating windows.
+# "Alt + Space" = "toggle_focus_floating"
+
+# Toggle whether the focused node takes up the whole screen.
+"Alt + F" = "toggle_fullscreen"
+
+#
+# Utilities
+#
+
+# Execute an arbitrary command. Accepts an array or space-delimited string as args.
+# DISABLED by default; see exec_cmd in Cargo.toml.
+# "<key>" = { "exec" = ["bash", "-c", "echo 'hello world' >/tmp/test.txt"] }
+
+#
+# Developer commands
+#
+
+# Print the current layout in the logs.
+"Alt + Shift + D" = "debug"
+
+# Scroll layout commands are experimental and intentionally not bound by
+# default. If you enable settings.experimental.scroll.enable, add explicit
+# keybindings in your personal config under [keys], for example:
+# "Alt + Shift + S" = "change_layout_kind"
+# "Alt + Shift + T" = "toggle_column_tabbed"
+# "Alt + Shift + W" = "cycle_column_width"
+
+# WARNING:
+# This section contains experimental features that might break or be removed in
+# the future. Use at your own risk!
+[settings.experimental]
+
+# Show the current space index on the status icon.
+status_icon.space_index = false
+
+# Use color in the icon.
+status_icon.color = false
+
+# Scroll layout settings.
+
+# Enable the experimental scroll/niri layout and related commands.
+scroll.enable = false
+
+# When to center the focused column: "never", "always", or "on_overflow".
+scroll.center_focused_column = "never"
+
+# Number of columns visible at once (1-5).
+scroll.visible_columns = 2
+
+# Preset column width proportions to cycle through with cycle_column_width.
+scroll.column_width_presets = [0.333, 0.5, 0.667, 1.0]
+
+# Where to place new windows: "new_column" or "same_column".
+scroll.new_window_in_column = "new_column"
+
+# Scroll sensitivity multiplier for trackpad/mouse wheel.
+scroll.scroll_sensitivity = 20.0
+
+# Invert the scroll direction (natural scrolling).
+scroll.invert_scroll_direction = false
+
+# Allow focus to wrap around from last column to first and vice versa.
+scroll.infinite_loop = false
+
+# Aspect ratio for single-column mode (e.g. "16:9"). Empty string disables.
+scroll.single_column_aspect_ratio = ""

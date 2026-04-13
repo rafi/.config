@@ -40,29 +40,49 @@ sketchybar --default "${default[@]}"
 
 # Adding Mission Control Space Indicators
 # ---
-# AeroSpace, see:
-# https://nikitabobko.github.io/AeroSpace/goodies#show-aerospace-workspaces-in-sketchybar
 # https://felixkratz.github.io/SketchyBar/config/components#space----associate-mission-control-spaces-with-an-item
 
-sketchybar --add event aerospace_workspace_change
-for sid in $(aerospace list-workspaces --all)
+SPACE_ICONS=("1" "2" "3" "4" "5" "6" "7" "8" "9" "10")
+for i in "${!SPACE_ICONS[@]}"
 do
+  sid="$(($i+1))"
   space=(
-    icon.padding_left=0
-    icon.padding_right=0
-    background.color=0x44ffffff
+    space="$sid"
+    icon="${SPACE_ICONS[i]}"
+    icon.padding_left=5
+    icon.padding_right=5
+    background.color=0x40ffffff
     background.corner_radius=5
     background.height=20
     background.drawing=off
-    label="$sid"
-    script="$PLUGIN_DIR/aerospace.sh $sid"
-    click_script="aerospace workspace $sid"
+    label.drawing=off
+    script="$PLUGIN_DIR/space.sh"
+    click_script="yabai -m space --focus $sid"
   )
-  sketchybar --add item space."$sid" left \
-    --subscribe space."$sid" aerospace_workspace_change \
-    --set space."$sid" \
-    "${space[@]}"
+  sketchybar --add space space."$sid" left --set space."$sid" "${space[@]}"
 done
+
+# AeroSpace, see:
+# https://nikitabobko.github.io/AeroSpace/goodies#show-aerospace-workspaces-in-sketchybar
+# sketchybar --add event aerospace_workspace_change
+# for sid in $(aerospace list-workspaces --all)
+# do
+#   space=(
+#     icon.padding_left=0
+#     icon.padding_right=0
+#     background.color=0x44ffffff
+#     background.corner_radius=5
+#     background.height=20
+#     background.drawing=off
+#     label="$sid"
+#     script="$PLUGIN_DIR/aerospace.sh $sid"
+#     click_script="aerospace workspace $sid"
+#   )
+#   sketchybar --add item space."$sid" left \
+#     --subscribe space."$sid" aerospace_workspace_change \
+#     --set space."$sid" \
+#     "${space[@]}"
+# done
 
 ##### Adding Left Items #####
 # We add some regular items to the left side of the bar
