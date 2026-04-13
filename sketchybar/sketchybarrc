@@ -101,7 +101,17 @@ sketchybar \
   --subscribe volume volume_change \
   --add item battery right \
   --set battery update_freq=120 script="$PLUGIN_DIR/battery.sh" \
-  --subscribe battery system_woke power_source_change
+  --subscribe battery system_woke power_source_change \
+  --add item        cpu_label right                \
+  --set cpu_label   label.font="SF Pro:Semibold:7" \
+                    label=CPU                      \
+                    y_offset=6                     \
+                    width=0                        \
+  --add item        cpu_percent right              \
+  --set cpu_percent label.font="SF Pro:Heavy:12"   \
+                    y_offset=-4                    \
+                    update_freq=2                  \
+                    script="$PLUGIN_DIR/cpu.sh"
 
 # Force all scripts to run the first time (never do this in a script)
 sketchybar --update

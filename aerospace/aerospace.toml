@@ -35,7 +35,7 @@ automatically-unhide-macos-hidden-apps = false
 # List of workspaces that should stay alive even when they contain no windows,
 # even when they are invisible.
 # Fallback value (if you omit the key): persistent-workspaces = []
-# persistent-workspaces = ["1", "2", "3", "4", "5", "6"]
+persistent-workspaces = ["1", "2", "3", "4", "5", "6"]
 
 # A callback that runs every time binding mode changes
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -203,3 +203,112 @@ exec-on-workspace-change = ['/bin/bash', '-c',
     alt-shift-j = ['join-with down', 'mode main']
     alt-shift-k = ['join-with up', 'mode main']
     alt-shift-l = ['join-with right', 'mode main']
+
+# WINDOW SPACE
+# ---
+
+[[on-window-detected]]
+    if.app-id = 'net.kovidgoyal.kitty'
+    run = ['move-node-to-workspace 1']
+
+[[on-window-detected]]
+    if.app-id = 'app.zen-browser.zen'
+    run = ['move-node-to-workspace 2']
+
+[[on-window-detected]]
+    if.app-name-regex-substring = '^Cursor$'
+    run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
+    if.app-id = 'net.whatsapp.WhatsApp'
+    run = ['move-node-to-workspace 4']
+
+[[on-window-detected]]
+    if.app-name-regex-substring = '^(Slack|Messages|Telegram|WhatsApp)$'
+    run = ['move-node-to-workspace 4']
+
+[[on-window-detected]]
+    if.app-name-regex-substring = '^(Spotify|Music)$'
+    run = ['move-node-to-workspace 5']
+
+[[on-window-detected]]
+    if.app-id = 'us.zoom.xos'
+    run = ['move-node-to-workspace 6']
+
+# FLOATING
+# ---
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.AppStore'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.Preview'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.Dictionary'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.reminders'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.iCal'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'com.IdeaPunch.ColorSlurp'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'com.pixelmatorteam.pixelmator.x'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'com.electron.dockerdesktop'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'com.ScooterSoftware.BeyondCompare'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'cc.ffitch.shottr'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'com.apple.finder'
+    run = ['layout floating']
+
+# DIALOGS
+# ---
+
+[[on-window-detected]]
+    if.app-id = 'club.mediosz.SwipeAeroSpace'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'com.steipete.codexbar'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'leits.MeetingBar'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'br.com.damascenorafael.reminders-menubar'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'org.p0deje.Maccy'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'org.pqrs.Karabiner-Elements.Settings'
+    run = ['layout floating']
+
+[[on-window-detected]]
+    if.app-id = 'org.pqrs.Karabiner-Updater'
+    run = ['layout floating']
