@@ -7,7 +7,15 @@
 *.~1~
 .DS_Store
 .cache
+.config/beets/beets.db
+.config/fish/fish_variables
+.config/fish/plugins/
+.config/tmux/plugins/
+.config/yazi/flavors/
+.config/yazi/plugins/
+.config/zed/
 .docker_cache
+.git
 .go
 .gradle
 .mypy_cache
@@ -20,6 +28,7 @@
 .vercel
 __pycache__
 _explore
+bitlbee/purple/icons/
 dist
 explore
 node_modules
@@ -31,3 +40,4 @@ state/nvim/lazy
 state/nvim/neogit
 state/nvim/swap
 tmp
+weechat*/logs/
