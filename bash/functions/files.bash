@@ -38,7 +38,7 @@ if hash yazi 2>/dev/null; then
 		local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 		command yazi "$@" --cwd-file="$tmp"
 		IFS= read -r -d '' cwd < "$tmp"
-		[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+		[ "$cwd" != "$PWD" ] && [ -d "$cwd" ] && builtin cd -- "$cwd"
 		rm -f -- "$tmp"
 	}
 

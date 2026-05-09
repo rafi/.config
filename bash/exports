@@ -156,6 +156,7 @@ export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/config.toml"
 # https://www.gnupg.org/documentation/manuals/gnupg/GPG-Configuration.html
 export GNUPGHOME="$XDG_CONFIG_HOME/gnupg"
 export PASSWORD_STORE_DIR="$HOME/docs/pass/"
+export SOPS_AGE_KEY_FILE="$HOME/docs/pass/default.agekey"
 
 export WEGORC="$XDG_CONFIG_HOME/wego/config"
 export WAKATIME_HOME="$XDG_DATA_HOME/wakatime"

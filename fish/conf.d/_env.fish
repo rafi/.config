@@ -79,6 +79,7 @@ set -gx CLOUDSDK_CONFIG "$XDG_STATE_HOME/gcloud"
 set -gx GNUPGHOME "$XDG_CONFIG_HOME/gnupg"
 set -gx INPUTRC "$XDG_CONFIG_HOME/bash/inputrc"
 set -gx PASSWORD_STORE_DIR "$HOME/docs/pass/"
+set -gx SOPS_AGE_KEY_FILE "$HOME/docs/pass/default.agekey"
 set -gx ZDOTDIR "$XDG_CONFIG_HOME/zsh"
 
 set -gx CARGO_HOME "$XDG_DATA_HOME"/cargo
