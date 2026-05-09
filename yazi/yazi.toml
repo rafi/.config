@@ -1,5 +1,7 @@
-# See https://github.com/sxyazi/yazi/blob/main/yazi-config/preset/yazi-default.toml
-"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+# Yazi base config
+#:schema https://yazi-rs.github.io/schemas/yazi.json
+
+# Defaults: https://github.com/sxyazi/yazi/blob/main/yazi-config/preset/yazi-default.toml
 
 [mgr]
 sort_sensitive = true
@@ -31,6 +33,7 @@ prepend_previewers = [
 	## Piper previews
 	{ url = "*.csv", run = 'piper -- bat -p --color=always "$1"' },
 	{ url = "*.md", run = 'piper -- CLICOLOR_FORCE=1 glow -w=$w -s=dark "$1"' },
+	{ url = "*.plist", run = 'piper -- plutil -p "$1"' },
 
 	{ mime = "application/sqlite3", run  = 'piper -- sqlite3 "$1" ".schema --indent"' },
 

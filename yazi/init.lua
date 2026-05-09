@@ -5,6 +5,8 @@ require("session"):setup({
 	sync_yanked = true,
 })
 
+require("sshfs"):setup()
+
 -- Show user/group of files in status bar
 Status:children_add(function()
 	local h = cx.active.current.hovered
