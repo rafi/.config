@@ -39,7 +39,7 @@
 /gimp/2.8/*
 !/gimp/2.8/gimprc
 /github-copilot/
-/glab-cli/
+/glab-cli/config.yml
 /gnupg/*
 !/gnupg/gpg*.conf
 /google-chrome/
