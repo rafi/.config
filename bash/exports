@@ -255,6 +255,10 @@ export MPD_HOST="music.host"
 # Data
 # ----
 
+# Claude
+export DISABLE_TELEMETRY=1
+export DISABLE_ERROR_REPORTING=1
+
 # nextword https://github.com/high-moctane/nextword
 export NEXTWORD_DATA_PATH="$XDG_DATA_HOME/nextword"
 

@@ -66,6 +66,8 @@ set -gx LESSKEY "$XDG_CONFIG_HOME/lesskey/output"
 set -gx LESSUTFCHARDEF "E000-F8FF:p,F0000-FFFFD:p,100000-10FFFD:p"
 
 # Package managers and tools settings
+set -gx DISABLE_TELEMETRY 1
+set -gx DISABLE_ERROR_REPORTING 1
 set -gx HOMEBREW_NO_AUTO_UPDATE 1
 set -gx INTELLI_SKIP_ESC_BIND 1
 set -gx PYTHON_COLORS 1
