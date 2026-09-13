@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+# Secret guard: block commits containing high-signal credential patterns.
+#
+# The `vault` clean filter in .gitattributes only scrubs files that were
+# explicitly registered. This hook is the backstop for everything else.
+#
+# Install:  just hooks      (or: git config core.hooksPath git/hooks)
+# Bypass:   git commit --no-verify
+
+set -uo pipefail
+
+patterns=(
+	'gh[pousr]_[A-Za-z0-9]{30,}'
+	'github_pat_[A-Za-z0-9_]{30,}'
+	'glpat-[A-Za-z0-9_-]{20,}'
+	'sk-(proj|ant|or)-[A-Za-z0-9_-]{20,}'
+	'sk-[A-Za-z0-9]{32,}'
+	'AKIA[0-9A-Z]{16}'
+	'ASIA[0-9A-Z]{16}'
+	'AIza[0-9A-Za-z_-]{35}'
+	'xox[baprs]-[A-Za-z0-9-]{10,}'
+	'-----BEGIN [A-Z ]*PRIVATE KEY-----'
+	'hf_[A-Za-z0-9]{30,}'
+	'dop_v1_[a-f0-9]{64}'
+	'(?i)aws_secret_access_key\s*[:=]\s*\S{20,}'
+)
+
+joined=$(IFS='|'; echo "${patterns[*]}")
+found=0
+
+# Scan the staged content only, so a scrubbed working tree still passes.
+while IFS= read -r -d '' file; do
+	# Skip this hook itself; its pattern list is not a leak.
+	[ "$file" = "git/hooks/pre-commit" ] && continue
+
+	# grep -I drops binary blobs for us, so pipe the staged content straight in.
+	if hits=$(git show ":$file" 2>/dev/null | grep -nIEi "$joined" 2>/dev/null); then
+		if [ "$found" -eq 0 ]; then
+			echo "✖ pre-commit: possible secrets in staged changes" >&2
+			echo >&2
+		fi
+		found=1
+		echo "  $file" >&2
+		# Show line numbers only, never the secret value itself.
+		echo "$hits" | cut -d: -f1 | sed 's/^/    line /' >&2
+	fi
+done < <(git diff --cached --name-only --diff-filter=ACM -z)
+
+if [ "$found" -ne 0 ]; then
+	cat >&2 <<-'EOF'
+
+		Rotate the credential, then either:
+		  - move it out of the repo and add it to .gitignore, or
+		  - register the file with the vault filter in .gitattributes
+		    and add a scrubbing rule to clean.sed
+
+		To commit anyway: git commit --no-verify
+	EOF
+	exit 1
+fi
+
+exit 0
