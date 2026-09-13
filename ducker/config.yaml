@@ -1,0 +1,15 @@
+prompt: 🦆
+# default_exec: /bin/bash
+# docker_path: unix:///var/run/docker.sock
+docker_path: unix:///Users/rafaelb/.docker/run/docker.sock
+check_for_update: false
+theme:
+  use_theme: false
+  title: '#96E072'
+  help: '#EE5D43'
+  background: '#23262E'
+  footer: '#00E8C6'
+  success: '#96E072'
+  error: '#EE5D43'
+  positive_highlight: '#96E072'
+  negative_highlight: '#FF00AA'

@@ -1,0 +1,16 @@
+---
+# keymap when process list is focused
+keymap_procs:
+  <Tab>: { c: toggle-focus }
+  <C-q>: { c: toggle-focus }
+  <C-a>: null
+
+# keymap when terminal is focused
+keymap_term:
+  reset: true
+  <C-q>: { c: toggle-focus }
+  <C-j>:
+    c: batch
+    cmds:
+      - { c: focus-procs }
+      - { c: next-proc }
