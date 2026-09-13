@@ -1,0 +1,15 @@
+{
+	"name": "surfingkeys",
+	"module": "index.ts",
+	"type": "module",
+	"scripts": {
+		"build": "bun build src/index.ts --outfile=dist.js",
+		"watch": "bun build src/index.ts --outfile=dist.js --watch"
+	},
+	"devDependencies": {
+		"bun-types": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	}
+}

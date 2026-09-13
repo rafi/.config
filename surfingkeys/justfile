@@ -1,0 +1,6 @@
+# github.com/rafi/.config/tree/master/surfraw
+# ---
+
+# Build surfingkeys from source, output to dist.js.
+build:
+  bun build src/index.ts > dist.js
