@@ -22,6 +22,9 @@
 ._*
 .Trashes
 
+# AI
+/.claude/settings.local.json
+
 # Other things
 .bundle
 .vagrant
