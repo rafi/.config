@@ -1,0 +1,89 @@
+{
+	"name": "Vimium C",
+	"@time": "10/25/2024, 5:02:07 PM",
+	"time": 1729864927991,
+	"environment": {
+		"extension": "2.11.3",
+		"platform": "mac",
+		"chromium": 130
+	},
+	"allBrowserUrls": true,
+	"exclusionRules": [
+		{
+			"passKeys": "/ j k t ",
+			"pattern": "^https://git(hub|lab)\\.com"
+		},
+		{
+			"passKeys": "/ h j k l t ",
+			"pattern": "^https://(mail|docs|drive)\\.google\\.com"
+		},
+		{
+			"passKeys": "/ t ",
+			"pattern": "^https://www\\.tradingview\\.com"
+		},
+		{
+			"passKeys": "/ t ",
+			"pattern": "^https://.*\\.atlassian\\.net"
+		}
+	],
+	"keyLayout": 2,
+	"keyMappings": [
+		"#!no-check",
+		"mapKey J j",
+		"mapKey K k",
+		"unmap <a-p>",
+		"map <c-s-p> togglePinTab",
+		""
+	],
+	"localeEncoding": "",
+	"nextPatterns": "next,more,newer,>,›,→,»,≫,>>",
+	"previousPatterns": "prev,previous,back,older,<,‹,←,«,≪,<<",
+	"searchEngines": [
+		"g|go|gg|google|Google: https://www.google.com/search?q=%s \\",
+		"  www.google.com re=/^(?:\\.[a-z]{2,4})?\\/search\\b.*?[#&?]q=([^#&]*)/i \\",
+		"  blank=https://www.google.com/ Google",
+		"br|brave: https://search.brave.com/search?q=%s Brave",
+		"d|dd|ddg|duckduckgo: https://duckduckgo.com/?q=%s DuckDuckGo",
+		"ec|ecosia: https://www.ecosia.org/search?q=%s Ecosia",
+		"qw|qwant: https://www.qwant.com/?q=%s Qwant",
+		"ya|yd|yandex: https://yandex.com/search/?text=%s Yandex",
+		"yh|yahoo: https://search.yahoo.com/search?p=%s Yahoo",
+		"",
+		"g.m|gm|g.map|gmap: https://www.google.com/maps?q=%s \\",
+		"  blank=https://www.google.com/maps Google Maps",
+		"y|yt: https://www.youtube.com/results?search_query=%s \\",
+		"  blank=https://www.youtube.com/ YouTube",
+		"w|wiki: https://www.wikipedia.org/w/index.php?search=%s Wikipedia",
+		"g.s|gs|gscholar: https://scholar.google.com/scholar?q=$s \\",
+		"  scholar.google.com re=/^(?:\\.[a-z]{2,4})?\\/scholar\\b.*?[#&?]q=([^#&]*)/i \\",
+		"  blank=https://scholar.google.com/ Google Scholar",
+		"",
+		"a|ae|ali|alie|aliexp: https://www.aliexpress.com/wholesale?SearchText=%s \\",
+		"  blank=https://www.aliexpress.com/ AliExpress",
+		"j|jd|jb|joy|joybuy: https://www.joybuy.com/search?keywords=%s \\",
+		"  blank=https://www.joybuy.com/ Joybuy",
+		"az|amazon: https://www.amazon.com/s?k=%s \\",
+		"  blank=https://www.amazon.com/ Amazon",
+		"",
+		"\\:i: vimium://sed/s/^//,lower\\ $S re= Lower case",
+		"v.m|math: vimium://math\\ $S re= Calculate",
+		"v.p: vimium://parse\\ $S re= Redo Search",
+		"gh|github: https://github.com/search?q=$s \\",
+		"  blank=https://github.com/ GitHub Repo",
+		"ge|gitee: https://search.gitee.com/?type=repository&q=$s \\",
+		"  blank=https://gitee.com/ Gitee 仓库",
+		"js\\:|Js: javascript:\\ $S; JavaScript",
+		""
+	],
+	"userDefinedCss": [
+		"/* Anchor link buttons */",
+		".D > .LH {",
+		"  font-size: 16px;",
+		"  font-weight: normal;",
+		"  color: #000000;",
+		"  background: linear-gradient(#db0, #c80);",
+		"}",
+		""
+	],
+	"vimSync": true
+}
