@@ -6,10 +6,15 @@
 /_archive/
 /asciinema/
 /beets/state.pickle
+/beets/discogs_token.json
+/beets/beets.db
+/beets/musiclibrary.blb
 /bitlbee/*
 !/bitlbee/bitlbee.conf
 /chromium*
 /cointop/
+/containers/
+/cronboard/secret.key
 /configstore/
 /clerk/ratings*
 /clerk/*cache*
@@ -47,6 +52,7 @@
 /lazygit/state.yml
 /litecli/history
 /litecli/log
+/mariner/config.yml
 /menus/
 /micro/buffers/
 /mps-youtube
@@ -72,6 +78,7 @@
 /ranger/tagged
 /rasa/
 /rome/recovery
+/ruroco/*.pem
 /raycast/extensions/
 /.semgrep/
 /smudge.sed
