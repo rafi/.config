@@ -12,8 +12,11 @@
 /bitlbee/*
 !/bitlbee/bitlbee.conf
 /chromium*
+/cagent/
 /cointop/
+/cursor/
 /containers/
+/dub/library.db
 /cronboard/secret.key
 /configstore/
 /clerk/ratings*
@@ -42,6 +45,7 @@
 /grv/
 /gtk-2.0/gtkfilechooser.ini
 /helm/
+/homebrew/trust.json*
 /ipython/profile_default/*
 /ipython/profile_default/ipython_config.py
 /isync/
@@ -53,7 +57,9 @@
 /litecli/history
 /litecli/log
 /mariner/config.yml
+/medusa/config.json
 /menus/
+/mole/clean-list.txt
 /micro/buffers/
 /mps-youtube
 /mpv/watch_later
@@ -78,6 +84,8 @@
 /ranger/tagged
 /rasa/
 /rome/recovery
+/snyk/
+/superfile/theme/
 /ruroco/*.pem
 /raycast/extensions/
 /.semgrep/
@@ -108,6 +116,7 @@
 !/vimb/config
 /qutebrowser/quickmarks
 /warpd/lock
+/wireshark/recent*
 /weechat/irc.conf
 /weechat/sec.conf
 /weechat/logs
