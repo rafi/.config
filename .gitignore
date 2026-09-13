@@ -116,6 +116,7 @@
 !/vimb/config
 /qutebrowser/quickmarks
 /warpd/lock
+/wezterm/config/domains.lua
 /wireshark/recent*
 /weechat/irc.conf
 /weechat/sec.conf
