@@ -1,0 +1,79 @@
+---
+# Lazygit
+# See https://github.com/jesseduffield/lazygit/blob/master/docs/Config.md
+
+quitOnTopLevelReturn: false
+disableStartupPopups: false
+
+gui:
+  # If true, increase the height of the focused side window; creating an accordion effect.
+  expandFocusedSidePanel: true
+
+  statusPanelView: allBranchesLog
+
+  # Uses Go's time format syntax: https://pkg.go.dev/time#Time.Format
+  shortTimeFormat: 15:04
+
+  spinner:
+    rate: 50
+    frames:
+      - '|'
+      - /
+      - '-'
+      - \
+
+  mouseEvents: false
+  theme:
+    activeBorderColor:
+      - "#5ef1ff"
+    inactiveBorderColor:
+      - "#7b8496"
+    searchingActiveBorderColor:
+      - "#ff5ef1"
+    optionsTextColor:
+      - "#3c4048"
+    selectedLineBgColor:
+      - "#3c4048"
+    cherryPickedCommitBgColor:
+      - "#3c4048"
+    cherryPickedCommitFgColor:
+      - "#ff5ea0"
+    unstagedChangesColor:
+      - "#ffbd5e"
+    defaultFgColor:
+      - "#ffffff"
+
+git:
+  pagers:
+    - colorArg: always
+      pager: delta --dark --paging=never
+      # pager: diff-so-fancy
+      # pager: ydiff -p cat -s --wrap --width={{columnWidth}}
+  log:
+    # displays the whole git graph by default in the commits view (equivalent to passing the `--all` argument to `git log`)
+    showWholeGraph: true
+
+    # One of: 'date-order' | 'author-date-order' | 'topo-order' | 'default'
+    # 'topo-order' makes it easier to read the git log graph, but commits may not
+    # appear chronologically. See https://git-scm.com/docs/
+    # Deprecated: Configure this with `Log menu -> Commit sort order`
+    order: topo-order
+
+    # One of 'always' | 'never' | 'when-maximised'
+    # Deprecated: Configure this with `Log menu -> Show git graph`
+    showGraph: always
+
+update:
+  method: never
+
+keybinding:
+  # universal:
+  commits:
+    moveDownCommit: <disabled>  # <c-j>
+    moveUpCommit: <disabled>  # <c-k>
+    openLogMenu: <c-g>
+
+os:
+  copyToClipboardCmd: "pbcopy < {{text}}"
+  editPreset: 'nvim'
+  open: 'open {{filename}}'
