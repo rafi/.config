@@ -1,0 +1,6 @@
+[Unit]
+Description=Xorg target
+Requires=xorg@%i.service
+
+[Install]
+WantedBy=xorg@.service

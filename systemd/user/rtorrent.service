@@ -1,0 +1,14 @@
+[Unit]
+Description=rTorrent
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=%h/.cache/rtorrent
+ExecStartPre=-/bin/rm -f %h/.cache/rtorrent/session/rtorrent.pid
+ExecStart=/usr/bin/rtorrent -n -o import="%h/.config/rtorrent/config.rc" -o system.daemon.set=true
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target

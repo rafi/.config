@@ -1,0 +1,4 @@
+[Unit]
+Description=Window manager target -- xinitrc stuff
+Requires=xorg@%i.target
+Requires=dbus.socket

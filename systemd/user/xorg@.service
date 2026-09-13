@@ -1,0 +1,14 @@
+[Unit]
+Description=Xorg server at display %i
+
+Requires=xorg@%i.socket
+After=xorg@%i.socket
+
+[Service]
+Type=simple
+SuccessExitStatus=0 1
+
+ExecStart=/usr/bin/Xorg :%i -nolisten tcp -noreset -verbose 2 "vt${XDG_VTNR}"
+
+[Install]
+WantedBy=xorg@.target

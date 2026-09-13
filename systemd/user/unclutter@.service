@@ -1,0 +1,10 @@
+[Unit]
+Description=Hide the rat
+
+[Service]
+Type=simple
+Environment=DISPLAY=:%i
+ExecStart=/usr/bin/unclutter
+
+[Install]
+WantedBy=wm@.target
