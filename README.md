@@ -112,6 +112,21 @@ committed. And on checkout, the `smudge.sed` will inject your secrets into
 their proper placeholders. _Note_ that `smudge.sed` is ignored from being
 committed mistakenly.
 
+### Defense in depth
+
+The vault filter only scrubs files explicitly listed in `.gitattributes`, so a
+new config holding a credential is not covered by it. Two extra layers help:
+
+```sh
+just hooks           # install the pre-commit secret guard (core.hooksPath)
+just audit-secrets   # scan untracked, unignored files for credentials
+```
+
+The `git/hooks/pre-commit` guard scans staged content for well-known token
+formats (GitHub, GitLab, OpenAI, AWS, Google, Slack, PEM private keys) and
+aborts the commit, reporting file and line numbers without printing the secret.
+Bypass a false positive with `git commit --no-verify`.
+
 Copy `.env.example` to `~/.config/.env` and fill in your secrets:
 
 ```sh
