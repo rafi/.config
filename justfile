@@ -41,6 +41,36 @@ setup:
   ls -al ~/code/rafi/machines/bin/setup*sh
   @echo -e 'Jump into ~/code/rafi/machines\nand run a ./bin/ script.'
 
+# Enable the repo's git hooks (pre-commit secret guard).
+@hooks:
+  git config core.hooksPath git/hooks
+  chmod +x git/hooks/*
+  echo "core.hooksPath -> $(git config core.hooksPath)"
+
+# Scan the working tree for credentials that are neither ignored nor scrubbed.
+audit-secrets:
+  #!/usr/bin/env bash
+  # Checks untracked+unignored files, i.e. the ones a `git add -A` would catch.
+  set -uo pipefail
+  # The generic rule needs a literal value, so code references such as
+  # `key = config.fooKey` and mustache-style placeholders do not trip it.
+  pattern='gh[pousr]_[A-Za-z0-9]{30,}|glpat-[A-Za-z0-9_-]{20,}|sk-[A-Za-z0-9_-]{32,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|xox[baprs]-[A-Za-z0-9-]{10,}|BEGIN [A-Z ]*PRIVATE KEY|(token|secret|password|api_?key)["'"'"' ]*[:=][ ]*["'"'"'][A-Za-z0-9/+_.-]{16,}["'"'"']|(token|secret|password|api_?key)[ ]*=[ ]*[A-Za-z0-9/+_-]{16,}$'
+  found=0
+  while read -r f; do
+    [ -f "$f" ] || continue
+    if grep -qIEi "$pattern" "$f" 2>/dev/null; then
+      echo "  at risk: $f"
+      found=1
+    fi
+  done < <(git status --porcelain | sed -n 's/^?? //p')
+  if [ "$found" -eq 0 ]; then
+    echo "OK: no unignored files look like they hold credentials."
+  else
+    echo
+    echo "Add these to .gitignore, or register them with the vault filter."
+    exit 1
+  fi
+
 # Productivity
 # ---
 

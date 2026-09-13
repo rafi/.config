@@ -83,6 +83,9 @@
 /.semgrep/
 /smudge.sed
 /spacefm
+/surfingkeys/config.json
+/surfingkeys/dist.js
+/surfingkeys/node_modules/
 /spotify-tui/*
 !/spotify-tui/config.yml
 /.stversions
