@@ -1,0 +1,100 @@
+# Tirith security policy
+# Documentation: https://tirith.dev/docs/policy
+
+# Fail mode: "open" (allow on error) or "closed" (block on error)
+fail_mode: open
+
+# Paranoia level (1-4): higher = more sensitive detection
+paranoia: 1
+
+# Allow TIRITH=0 bypass in interactive terminals
+allow_bypass_env: true
+
+# Require explicit acknowledgement for warn findings in interactive mode
+strict_warn: true
+
+# Severity overrides per rule (e.g., shortened_url: LOW)
+severity_overrides: {}
+
+# URL patterns to always allow
+allowlist: []
+
+# URL patterns to always block (overrides allowlist)
+blocklist: []
+
+# Force specific rules to block (upgrade only, cannot downgrade)
+# action_overrides:
+#   shortened_url: block
+
+# Escalation: upgrade warnings to blocks based on session history
+# escalation:
+#   - trigger: repeat_count    # block after N warnings for the same rule
+#     rule_ids: ["*"]          # "*" = any rule, or list specific rule IDs
+#     threshold: 5
+#     window_minutes: 60
+#     action: block
+#   - trigger: multi_medium    # block when N+ medium findings on one command
+#     min_findings: 3
+#     action: block
+
+# Scan configuration overrides.
+scan:
+  # Glob patterns to ignore during scan
+  ignore_patterns: []
+
+  # MCP server names you trust. A name listed here suppresses every
+  # per-server MCP config finding (insecure transport, raw IP, suspicious
+  # args, wildcard tools, duplicate name) and exempts the server from
+  # drift detection via `tirith mcp verify` / the `mcp_server_drift` rule.
+  # Run `tirith mcp policy init` to scaffold this list from `.tirith/mcp.lock`.
+  # trusted_mcp_servers:
+  #   - my-trusted-server
+
+  # Per-server allowed tools. Keys are MCP server names; values are the
+  # tool names that server may expose. A tool the lockfile records that
+  # is NOT in this set raises a High-severity `mcp_server_drift` finding,
+  # and drift that adds a tool outside the set upgrades the drift finding
+  # from Medium to High. Servers not listed here are unconstrained.
+  # mcp_allowed_tools:
+  #   my-trusted-server:
+  #     - read_only
+
+# Per-agent governance rules — M4 item 8 (enforcement).
+#
+# `agent_rules` lets a policy declare which AgentOrigin variants it
+# allows or denies, where `AgentOrigin` is the recorded caller — Human,
+# Agent, Mcp, Gateway, Ci, or Ide. A `deny` match forces the verdict to
+# Block and appends an `agent_denied_by_policy` finding naming the
+# matched origin and policy file; a `deny` entry beats any matching
+# `allow` entry, mirroring how `blocklist` beats `allowlist`. `allow`
+# is NOT a bypass — a verdict the engine already blocked stays blocked
+# even if the caller is on the allow list. See `rule_explanations.toml`
+# (`agent_denied_by_policy`) for the operator-facing description.
+#
+# Enforcement scope: `apply_agent_rules` runs on every analysis path —
+# `tirith check`, the gateway request / notification paths, `tirith
+# paste`, `tirith install`, `tirith ecosystem scan`, and all MCP
+# `tools/call_check_*` handlers (`call_check_command`, `call_check_url`,
+# `call_check_paste`). The interactive `TIRITH=0` bypass currently
+# skips `apply_agent_rules` (pinned by
+# `agent_rules_deny_skipped_under_tirith_bypass_today`); revisit that
+# semantic in M5.
+#
+# Trust caveat: every signal feeding AgentOrigin is OPERATOR-TRUST,
+# never adversary-resistant — TIRITH_INTEGRATION, MCP clientInfo, CI
+# env vars are all settable by any process running as the user. Use
+# `agent_rules` for operator-trust scoping ("I do not run my MCP
+# server's commands on traffic my CI ran"), not adversarial security;
+# layer real authentication elsewhere if the decision must withstand a
+# hostile environment.
+#
+# Run `tirith agent policy init` to scaffold this block from the local
+# audit log's observed origins.
+# agent_rules:
+#   allow:
+#     - kind: agent
+#       name: claude-code
+#     - kind: human
+#   deny:
+#     - kind: agent
+#       name: untrusted-tool

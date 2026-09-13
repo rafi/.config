@@ -1,0 +1,11 @@
+# Panache
+# ---
+# Example: https://github.com/jolars/panache/blob/main/examples/panache.toml
+
+flavor = "gfm" # Options: pandoc, quarto, rmarkdown, gfm, commonmark
+
+line-width = 80
+
+# Formatting options
+# [format]
+# wrap = "reflow" # Wrapping mode. Options: "reflow", "preserve", "sentence"
