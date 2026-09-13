@@ -16,6 +16,7 @@
 /cointop/
 /cursor/
 /containers/
+/drift/config.toml
 /dub/library.db
 /cronboard/secret.key
 /configstore/
@@ -59,6 +60,7 @@
 /litecli/log
 /mariner/config.yml
 /medusa/config.json
+/mark/config.toml
 /menus/
 /mole/clean-list.txt
 /micro/buffers/
