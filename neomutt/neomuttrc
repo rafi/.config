@@ -1,0 +1,118 @@
+# neomutt
+# ---
+# See: https://neomutt.org/guide/reference.html
+
+# Directories
+set certificate_file = $XDG_DATA_HOME/neomutt/certificates
+set message_cachedir = $XDG_DATA_HOME/neomutt/messages
+set header_cache = $XDG_CACHE_HOME/neomutt/headers
+set tmpdir = $XDG_CACHE_HOME/neomutt/tmp
+set mailcap_path = $XDG_CONFIG_HOME/neomutt/mailcap
+
+# General
+set shell = $SHELL        # Program to use for shell escapes
+# set ascii_chars           # Use ASCII instead of ACS chars for threads
+set include               # Always include messages when replying
+set forward_quote         # Always include messages when forwarding
+set noprompt_after        # Ask for a command after the external pager exits
+set read_inc = 50         # Progress indicator when reading folders
+set write_inc = 50        # Progress indicator when writing folders
+set reply_to = ask-yes    # Ask about users' reply-to headers
+set ignore_list_reply_to  # Ignore Reply-To headers pointing to mailing lists
+
+set folder = $XDG_DATA_HOME/mailbox
+set mbox_type = Maildir
+# set maildir_trash
+unset move
+set mail_check_stats
+
+set imap_keepalive = 300  # Keep connection alive by polling every x seconds
+unset imap_passive  # Allow Mutt to open a new IMAP connection automatically
+
+set ssl_force_tls = yes
+unset ssl_starttls
+
+# Read and Write
+set editor = "nvim +/^$ ++1 -c 'set ft=mail tw=0 et nosi noswf spell'"
+unset allow_8bit              # Produce correct MIME
+unset force_name              # Don't create save folders which don't exist
+unset metoo                   # Remove me from CC headers
+set askcc                     # Ask me about CCs
+set confirmcreate             # Ask me about creating new files
+set header                    # Include the message header when replying
+set edit_headers              # I want to edit the headers
+set forward_decode            # Decode messages when forwarding
+set forward_decrypt           # Decrypt messages when forwarding
+set mark_old                  # Distinguish between seen+unread and new messages
+set mime_forward_rest=ask-no  # Ask me when creating a MIME-encapsulated forward
+set crypt_replyencrypt        # Encrypt when replying to encrypted messages
+set crypt_replysignencrypted  # Sign when replying to encrypted messages
+set crypt_replysign           # Sign when replying to signed messages
+set pgp_timeout=3600          # Forget the PGP passphrase after an hour
+set print=ask-no              # Don't waste paper
+set sig_dashes                # Add dashes above my signature
+set encode_from               # "From " in the beginning of a line triggers quoted-printable
+set forward_format = "[fwd] %s (from: %a)"        # Forwarded messages subject
+set reply_regexp = "^((re([\\[0-9\\]+])*|aw):[ \t]*)+[ \t]*"  # Detect replies
+# set reply_regexp = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
+
+# pager options
+set pager_index_lines = 0  # The pager index is ugly
+set pager_stop
+set menu_scroll            # Scroll menu one-by-one
+set smart_wrap             # Try to be smart when wrapping lines in the pager
+set tilde                  # Indicate empty lines in the pager
+set pipe_decode            # Decode messages I pipe to commands
+unset markers              # Don't show wrapped line markers
+set quote_regexp = "^ *[a-zA-Z]*[>|][>:|]*"  # Recognize quotes in the pager
+# set quote_regexp = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
+
+# timeout-hook 'exec sync-mailbox'
+
+# Interface
+set beep = no       # Be quiet.
+set sleep_time = 0
+set nowait_key      # Return immediately from external programs
+set quit = yes      # Don't ask me whether or not I want to quit.
+set nohelp          # No help line.
+unset arrow_cursor  # Use the bar cursor
+
+# Index page format
+# Default: "%4C %Z %{%b %d} %-15.15L (%?l?%4l&%4c?) %s"
+set index_format = "%4C %Z %{%Y-%m-%d %R} %-15.15L (%?l?%4l&%4c?) %s"
+
+# Status lines
+set status_chars  = " *%A"
+set status_on_top = yes
+set status_format = "-%r-+(%D) %f [Msgs:%?M?%M/?%m%?n? New:%n?%?o? Old:%o?%?d? Del:%d?%?F? Flag:%F?%?t? Tag:%t?%?p? Post:%p?%?b? Inc:%b?%?l? %l?]----%>-(%P)---"
+set pager_format = "-%Z- %C/%m: %.20n %> %s"
+set compose_format = "--+(%v) Compose  [Approx. msg size: %l   Atts: %a]%>-"
+
+# Charsets
+set assumed_charset = "us-ascii:utf-8"  # Messages without encoding indication
+set attach_charset = "utf-8"            # Text file attachments
+set charset = "utf-8"                   # Character set in terminal
+set send_charset = "utf-8"              # Outgoing messages
+
+# Sorting
+set sort = threads
+set sort_aux = reverse-last-date-received
+set sort_browser = reverse-date
+unset strict_threads
+
+# Sidebar
+set sidebar_visible
+set sidebar_width = 25
+set sidebar_divider_char = ' ¦ '
+set sidebar_format = "%D%* %<N?%N/>%<S?%S>"
+
+# Colors
+source ~/.config/neomutt/themes/gideonwolfe.neomuttrc
+
+# Bindings
+source ~/.config/neomutt/bindings.neomuttrc
+
+# Accounts
+source ~/.config/neomutt/accounts.neomuttrc
+
+#  vim: set ft=neomuttrc ts=2 sw=2 tw=80 noet :

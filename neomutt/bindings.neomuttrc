@@ -1,0 +1,119 @@
+# Neomutt key-bindings
+# ---
+# See: https://neomutt.org/guide/configuration#6-%C2%A0changing-the-default-key-bindings
+
+set abort_key = "<Esc>"
+
+# Moving around
+bind attach,browser,index  g   noop
+bind attach,browser,index  gg  first-entry
+bind attach,browser,index  G   last-entry
+bind pager                 g   noop
+bind pager                 gg  top
+bind pager                 G   bottom
+bind browser,pager,index   N   search-opposite
+
+bind index gj next-thread
+bind index gk previous-thread
+unbind index \CN
+unbind index \CP
+
+bind generic,compose,attach,pager,index i noop
+
+bind editor <Tab> complete
+# bind editor <Tab> complete-query
+
+bind index  <Tab> next-new-then-unread
+bind index  <BackTab> previous-new-then-unread
+unbind index <Esc><Tab>
+
+bind generic ?   search-reverse
+unbind generic <Esc>/
+bind index <f1> help
+
+unbind index <Esc>C  #decode-copy                  make decoded (text/plain) copy
+unbind index <Esc>P  #check-traditional-pgp        check for classic PGP
+unbind index <Esc>b  #M <search>~b                 search in message bodies
+unbind index <Esc>c  #change-folder-readonly       open a different folder in read only mode
+unbind index <Esc>d  #delete-subthread             delete all messages in subthread
+unbind index <Esc>e  #resend-message               use the current message as a template for a new one
+unbind index <Esc>i  #change-newsgroup-readonly    open a different newsgroup in read only mode
+unbind index <Esc>k  #mail-key                     mail a PGP public key
+unbind index <Esc>l  #show-limit                   show currently active limit pattern
+unbind index <Esc>n  #next-subthread               jump to the next subthread
+unbind index <Esc>p  #previous-subthread           jump to previous subthread
+unbind index <Esc>r  #read-subthread               mark the current subthread as read
+unbind index <Esc>s  #decode-save                  make decoded copy (text/plain) and delete
+unbind index <Esc>t  #tag-thread                   tag the current thread
+unbind index <Esc>u  #undelete-subthread           undelete all messages in subthread
+
+
+bind index   k previous-entry
+bind index   j next-entry
+bind pager   k previous-line
+bind pager   j next-line
+bind pager   l view-attachments
+bind pager   h exit
+bind generic h exit
+bind index   l display-message
+macro index  h '<change-folder>?<change-dir><home>^K=<enter>'
+bind attach  l view-attach
+bind attach  h exit
+bind browser h exit
+bind browser l select-entry
+bind browser l select-entry
+
+# Scrolling
+bind attach,browser,pager,index \CF next-page
+bind attach,browser,pager,index \CB previous-page
+bind attach,browser,pager,index \Cu half-up
+bind attach,browser,pager,index \Cd half-down
+bind browser,pager              \Ce next-line
+bind browser,pager              \Cy previous-line
+bind index                      \Ce next-line
+bind index                      \Cy previous-line
+
+# Goto
+macro index gi '<change-folder> !<enter>' 'Go to inbox'
+# macro index ga '<change-folder> $my_account/all<enter>' 'Go to all mail'
+macro index gs "<change-folder> \$my_account"/sent<enter> 'Go to Sent Mail'
+macro index gd "<change-folder> \$my_account"/drafts<enter> 'Go to drafts'
+
+# macro index 'c' '<change-folder>?<change-dir><home>^K=<enter>'
+
+bind generic > top-page
+bind generic < bottom-page
+bind index  za  collapse-thread
+unbind index <Esc>v
+bind index  zA  collapse-all
+unbind index <Esc>V
+
+# Sidebar binds
+bind index,pager  B sidebar-toggle-visible
+bind index,pager  K sidebar-prev
+bind index,pager  J sidebar-next
+bind index,pager  L sidebar-open
+
+# macro browser     H "<exit><change-folder>!<Enter>"
+
+macro attach V "<pipe-entry>iconv -c --to-code=UTF8 > ~/.cache/neomutt/mail.html<enter><shell-escape>$BROWSER $XDG_CACHE_HOME/neomutt/mail.html<enter>"
+
+macro pager,index H '<pipe-entry>$XDG_CONFIG_HOME/neomutt/bidi.sh<enter>'
+
+# Select mailbox
+macro index 'c' '<change-folder>?<change-dir><home>^K=<enter>'
+# macro index,pager <Tab> '<enter-command>set sidebar_visible=yes<enter><sidebar-next-new><sidebar-open>'
+# macro index   <tab>      <next-unread><enter>
+
+# Take me back to the index before deleting when in page view
+bind pager u half-up
+bind pager d half-down
+macro pager D "<exit><delete-message>" "Delete the message"
+
+# macro pager d '\
+# <enter-command>set my_delete=$delete<enter>\
+# <enter-command>set delete=yes<enter>\
+# <exit><delete-message>\
+# <enter-command>set delete=$my_delete<enter>'
+
+#  vim: set ft=neomuttrc ts=2 sw=2 tw=80 noet :

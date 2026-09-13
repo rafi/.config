@@ -1,0 +1,19 @@
+# Neomutt mailboxes and accounts
+# ---
+# Copy to accounts.neomuttrc and adjust. That file is gitignored, along
+# with accounts/, since both carry email addresses and server details.
+
+# Mailboxes
+named-mailboxes " ――――――  Personal ――――――" ="personal/-"
+named-mailboxes "  Inbox"    =personal/inbox
+named-mailboxes "  Sent"     =personal/sent
+named-mailboxes "  Drafts"   =personal/drafts
+named-mailboxes "  Junk"     =personal/junk
+named-mailboxes "  Starred"  =personal/starred
+named-mailboxes "  Trash"    =personal/trash
+
+# Accounts
+source $XDG_CONFIG_HOME/neomutt/accounts/personal.mutt
+folder-hook personal/* 'source $XDG_CONFIG_HOME/neomutt/accounts/personal.mutt'
+
+#  vim: set ft=neomuttrc ts=2 sw=2 tw=80 noet :

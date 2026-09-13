@@ -1,0 +1,15 @@
+# Mailcap
+
+application/pdf; open -a Preview %s; needsterminal
+# image/jpg; open -a Preview %s; needsterminal; description=JPEG Image; nametemplate=%s.jpg
+# image/jpeg; open -a Preview %s; needsterminal; description=JPEG Image; nametemplate=%s.jpg
+# image/png; open -a Preview %s; needsterminal; description=PNG Image; nametemplate=%s.png
+text/html; open -a "Google Chrome" %s; nametemplate=%s.html ;copiousoutput; needsterminal
+
+# text/html;              lynx -dump %s; copiousoutput; nametemplate=%s.html
+image/*;                chafa %s; copiousoutput
+application/x-gunzip;   gzcat; copiousoutput
+application/x-tar-gz;   gunzip -c %s | tar -tf - ; copiousoutput
+application/postscript; ps2ascii %s; copiousoutput
+
+#  vim: set ft=mailcap ts=2 sw=2 tw=80 noet :

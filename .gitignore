@@ -69,7 +69,9 @@
 /mutt/accounts
 /mutt/config
 /ncspot/userstate.cbor
-/neomutt/accounts
+/neomutt/accounts*
+!/neomutt/accounts*.example
+/neomutt/passwords*
 /noti
 /nvim
 /nvim-profiles
