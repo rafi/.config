@@ -47,6 +47,56 @@ setup:
   chmod +x git/hooks/*
   echo "core.hooksPath -> $(git config core.hooksPath)"
 
+# List untracked files grouped by app, oldest first. See docs/triage.md.
+triage:
+  #!/usr/bin/env python3
+  import os, time, collections, subprocess
+
+  os.chdir(os.environ.get("CONFIG_ROOT", os.path.expanduser("~/.config")))
+
+  out = subprocess.run(["git", "status", "--porcelain"],
+                       capture_output=True, text=True).stdout
+  files = [l[3:] for l in out.splitlines() if l.startswith("??")]
+
+  apps = collections.defaultdict(list)
+  for f in files:
+      apps[f.split("/")[0]].append(f)
+
+  paths = [p for p in os.environ.get("PATH", "").split(":") if p]
+
+  def has_bin(name):
+      base = name.split(".")[0]
+      return any(os.path.isfile(os.path.join(p, base))
+                 and os.access(os.path.join(p, base), os.X_OK) for p in paths)
+
+  now = time.time()
+  rows = []
+  for app, fs in apps.items():
+      mt = size = 0
+      for f in fs:
+          if os.path.isfile(f):
+              st = os.stat(f)
+              mt, size = max(mt, st.st_mtime), size + st.st_size
+      rows.append((mt, app, len(fs), size, has_bin(app)))
+
+  rows.sort()
+  if not rows:
+      print("Nothing untracked.")
+      raise SystemExit
+
+  print("APP".ljust(24) + "BIN".ljust(5) + "N".rjust(3) +
+        " " + "KB".rjust(7) + "  LAST MOD")
+  print("-" * 56)
+  for mt, app, n, size, b in rows:
+      when = time.strftime("%Y-%m", time.localtime(mt)) if mt else "-"
+      print(app.ljust(24) + ("y" if b else ".").ljust(5) + str(n).rjust(3) +
+            " " + str(size // 1024).rjust(7) + "  " + when)
+
+  stale = sum(1 for mt, *_ in rows if mt and (now - mt) / 86400 > 730)
+  print("\n%d apps, %d files. %d untouched for 2+ years."
+        % (len(rows), len(files), stale))
+  print("Rules: docs/triage.md")
+
 # Scan the working tree for credentials that are neither ignored nor scrubbed.
 audit-secrets:
   #!/usr/bin/env bash
