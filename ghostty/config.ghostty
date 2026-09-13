@@ -1,0 +1,139 @@
+# Ghostty configuration
+# https://ghostty.org/docs/config/reference
+
+# theme = "Everforest Dark Hard"
+theme = Arthur
+
+font-family = "PragmataPro Mono Liga"
+font-family-italic = "PragmataPro Mono Liga"
+font-family-bold = "PragmataPro Mono Liga"
+font-family-bold-italic = "PragmataPro Mono Liga"
+font-size = 19.0
+
+# IEC Power Symbols
+font-codepoint-map = U+23FB-U+23FE,U+2B58=Symbols Nerd Font Mono
+
+# Octicons
+font-codepoint-map = U+F400-U+F533,U+2665,U+26A1=Symbols Nerd Font Mono
+
+# Pomicons
+font-codepoint-map = U+E000-U+E00A=Symbols Nerd Font Mono
+
+# Powerline Symbols
+font-codepoint-map = U+E0A0-U+E0A2,U+E0B0-U+E0B3=Symbols Nerd Font Mono
+
+# Powerline Extra Symbols
+font-codepoint-map = U+E0A3,U+E0B4-U+E0C8,U+E0CA,U+E0CC-U+E0D7=Symbols Nerd Font Mono
+
+# Font Awesome Extension
+font-codepoint-map = U+E200-U+E2A9=Symbols Nerd Font Mono
+
+# Weather
+font-codepoint-map = U+E300-U+E3E3=Symbols Nerd Font Mono
+
+# Seti-UI + Custom
+font-codepoint-map = U+E5FA-U+E6B7=Symbols Nerd Font Mono
+
+# Devicons
+font-codepoint-map = U+E700-U+E8EF=Symbols Nerd Font Mono
+
+# Codicons
+font-codepoint-map = U+EA60-U+EC1E=Symbols Nerd Font Mono
+
+# Font Awesome
+font-codepoint-map = U+F000-U+F2FF=Symbols Nerd Font Mono
+
+# Font Logos
+font-codepoint-map = U+F300-U+F381=Symbols Nerd Font Mono
+
+# Material Design Icons
+font-codepoint-map = U+F0001-U+F1AF0=Symbols Nerd Font Mono
+
+# adjust-cell-height = 2%
+
+# OpenType features — explicit +/- prefix for clarity
+# dotted zero
+# font-feature = +zero
+# alternate *
+# font-feature = +cv11
+# Critical for Monaspace Texture Healing
+# font-feature = +calt
+# Keep standard ligatures
+# font-feature = +liga
+
+# ==========================================
+# 🪟 WINDOW & UI
+# ==========================================
+macos-titlebar-style = hidden
+window-decoration = none
+
+window-padding-x = 0
+window-padding-y = 0
+window-padding-balance = true
+# window-save-state = always
+window-inherit-working-directory = true
+
+background-opacity = 0.80
+background-blur-radius = 0
+
+mouse-hide-while-typing = true
+
+# Warn before closing a surface with a running process.
+# Default already covers this, but being explicit is cheap.
+confirm-close-surface = true
+
+# Colors
+# ---
+foreground = #A0A0A0
+background = #232323
+
+# ==========================================
+# 🛠️ NEOVIM / MACOS FIXES
+# ==========================================
+# Option acts as Alt so Neovim gets Meta-bindings instead of ∆˙¬ noise.
+# Use `left` instead of `true` if you need right-Option for typing accents.
+macos-option-as-alt = true
+
+# Keep paste protection ON — it only triggers on pastes containing
+# newlines/control sequences that would auto-execute. Cheap insurance.
+clipboard-paste-protection = true
+
+# "clipboard" = write selection to the actual system pasteboard,
+# not just Ghostty's internal selection buffer.
+copy-on-select = clipboard
+
+# ==========================================
+# 🐚 SHELL INTEGRATION
+# ==========================================
+shell-integration = fish
+# cursor: bar-at-prompt • sudo: preserves env over sudo
+# title: auto-updates window title • ssh-env: propagates TERM/colors over ssh
+shell-integration-features = cursor,sudo,title,ssh-env,path
+
+# Rails logs / test output eat scrollback fast. 100M bytes ≈ plenty.
+scrollback-limit = 100000000
+
+# ==========================================
+# 🚀 QUICK TERMINAL (scratchpad)
+# ==========================================
+quick-terminal-position = top
+# For position=top, the primary axis is HEIGHT, secondary is WIDTH.
+# 40% tall, 80% wide — short-and-wide dropdown.
+quick-terminal-size = 40%,80%
+quick-terminal-animation-duration = 0.1
+keybind = global:super+shift+grave_accent=toggle_quick_terminal
+
+# ==========================================
+# ⌨️ KEYBINDS
+# ==========================================
+keybind = shift+enter=text:\x1b[13;2u
+# keybind = shift+enter=text:\x1b\r
+keybind = shift+tab=text:\x1b[13;6u
+keybind = ctrl+tab=text:\x1b[9;5u
+keybind = ctrl+shift+tab=text:\x1b[9;6u
+keybind = super+h=text:\x1bh
+keybind = super+j=text:\x1bj
+keybind = super+k=text:\x1bk
+keybind = super+l=text:\x1bl
+
+# vim: set ft=dosini ts=2 sw=2 tw=80 noet :
