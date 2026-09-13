@@ -1,0 +1,31 @@
+[
+  {
+    "bindings": {
+      "ctrl-h":["workspace::ActivatePaneInDirection", "Left"],
+      "ctrl-l": ["workspace::ActivatePaneInDirection", "Right"],
+      "ctrl-k": ["workspace::ActivatePaneInDirection", "Up"],
+      "ctrl-j": ["workspace::ActivatePaneInDirection", "Down"],
+
+      "cmd-j": "pane::ActivateNextItem",
+      "cmd-k": "pane::ActivatePrevItem",
+      "s g": "pane::SplitRight",
+      "s v": "pane::SplitDown",
+      "s t": "vim::Tab",
+      "; a": "pane::RevealInProjectPanel",
+      "; e": "project_panel::ToggleFocus",
+      "q": "pane::CloseActiveItem"
+    }
+  },
+  {
+    "context": "Pane",
+    "bindings": {
+      "q": "project_panel::ToggleFocus"
+    }
+  },
+  {
+    "context": "ProjectPanel",
+    "bindings": {
+      "q": "project_panel::ToggleFocus"
+    }
+  }
+]
