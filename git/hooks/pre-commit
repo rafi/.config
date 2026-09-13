@@ -23,6 +23,7 @@ patterns=(
 	'hf_[A-Za-z0-9]{30,}'
 	'dop_v1_[a-f0-9]{64}'
 	'(?i)aws_secret_access_key\s*[:=]\s*\S{20,}'
+	'(?i)(token|password|api_?key)\s*[:=]\s*(!![a-z]+ )?["'"'"']?[A-Za-z0-9/+_.-]{24,}["'"'"']?\s*$'
 )
 
 joined=$(IFS='|'; echo "${patterns[*]}")

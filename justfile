@@ -104,7 +104,7 @@ audit-secrets:
   set -uo pipefail
   # The generic rule needs a literal value, so code references such as
   # `key = config.fooKey` and mustache-style placeholders do not trip it.
-  pattern='gh[pousr]_[A-Za-z0-9]{30,}|glpat-[A-Za-z0-9_-]{20,}|sk-[A-Za-z0-9_-]{32,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|xox[baprs]-[A-Za-z0-9-]{10,}|BEGIN [A-Z ]*PRIVATE KEY|(token|secret|password|api_?key)["'"'"' ]*[:=][ ]*["'"'"'][A-Za-z0-9/+_.-]{16,}["'"'"']|(token|secret|password|api_?key)[ ]*=[ ]*[A-Za-z0-9/+_-]{16,}$'
+  pattern='gh[pousr]_[A-Za-z0-9]{30,}|glpat-[A-Za-z0-9_-]{20,}|sk-[A-Za-z0-9_-]{32,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|xox[baprs]-[A-Za-z0-9-]{10,}|BEGIN [A-Z ]*PRIVATE KEY|(token|secret|password|api_?key)["'"'"' ]*[:=][ ]*(!![a-z]+ )?["'"'"']?[A-Za-z0-9/+_.-]{16,}["'"'"']?[ ]*$'
   found=0
   while read -r f; do
     [ -f "$f" ] || continue
