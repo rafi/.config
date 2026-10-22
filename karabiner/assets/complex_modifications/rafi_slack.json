@@ -1,0 +1,40 @@
+{
+  "title": "Rafi's Slack channel navigate with Cmd+j/k",
+  "maintainers": ["Rafi"],
+  "homepage": "https://github.com/rafi/.config",
+  "rules": [
+		{
+			"description": "Cmd+k/j => Option+Up/Down (next/previous channel) in Slack.",
+			"manipulators": [
+				{
+					"type": "basic",
+					"conditions": [
+						{
+							"bundle_identifiers": [ "^com\\.tinyspeck\\.slackmacgap$" ],
+							"type": "frontmost_application_if"
+						}
+					],
+					"from": {
+						"key_code": "k",
+						"modifiers": { "mandatory": ["command"] }
+					},
+					"to": [ { "key_code": "up_arrow", "modifiers": ["option"] } ]
+				},
+				{
+					"type": "basic",
+					"conditions": [
+						{
+							"bundle_identifiers": [ "^com\\.tinyspeck\\.slackmacgap$" ],
+							"type": "frontmost_application_if"
+						}
+					],
+					"from": {
+						"key_code": "j",
+						"modifiers": { "mandatory": ["command"] }
+					},
+					"to": [ { "key_code": "down_arrow", "modifiers": ["option"] } ]
+				}
+			]
+		}
+	]
+}

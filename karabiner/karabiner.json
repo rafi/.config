@@ -5,6 +5,334 @@
                 "parameters": { "basic.to_if_alone_timeout_milliseconds": 500 },
                 "rules": [
                     {
+                        "description": "Vim-like navigation: Option+h/j/k/l",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^co\\.zeit\\.hyper$",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.citrix\\.XenAppViewer$",
+                                            "^com\\.github\\.wez\\.wezterm$",
+                                            "^com\\.googlecode\\.iterm2$",
+                                            "^com\\.ident\\.goneovim$",
+                                            "^com\\.jetbrains",
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.microsoft\\.rdc\\.macos$",
+                                            "^com\\.mitchellh\\.ghostty$",
+                                            "^com\\.parallels\\.desktop\\.console$",
+                                            "^com\\.qvacua\\.VimR$",
+                                            "^com\\.sublimetext\\.3$",
+                                            "^com\\.todesktop\\.",
+                                            "^com\\.utmapp\\.UTM$",
+                                            "^com\\.vscodium$",
+                                            "^dev\\.warp$",
+                                            "^io\\.alacritty$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^org\\.gnu\\.Emacs$",
+                                            "^org\\.gnu\\.emacs$",
+                                            "^org\\.tabby$",
+                                            "^org\\.vim\\.MacVim$",
+                                            "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
+                                            "^org\\.vmware\\.fusion$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "description": "Option+H => Left Arrow (excluding terminals)",
+                                "from": {
+                                    "key_code": "h",
+                                    "modifiers": { "mandatory": ["left_option"] }
+                                },
+                                "to": [{ "key_code": "left_arrow" }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^co\\.zeit\\.hyper$",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.citrix\\.XenAppViewer$",
+                                            "^com\\.github\\.wez\\.wezterm$",
+                                            "^com\\.googlecode\\.iterm2$",
+                                            "^com\\.ident\\.goneovim$",
+                                            "^com\\.jetbrains",
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.microsoft\\.rdc\\.macos$",
+                                            "^com\\.mitchellh\\.ghostty$",
+                                            "^com\\.parallels\\.desktop\\.console$",
+                                            "^com\\.qvacua\\.VimR$",
+                                            "^com\\.sublimetext\\.3$",
+                                            "^com\\.todesktop\\.",
+                                            "^com\\.utmapp\\.UTM$",
+                                            "^com\\.vscodium$",
+                                            "^dev\\.warp$",
+                                            "^io\\.alacritty$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^org\\.gnu\\.Emacs$",
+                                            "^org\\.gnu\\.emacs$",
+                                            "^org\\.tabby$",
+                                            "^org\\.vim\\.MacVim$",
+                                            "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
+                                            "^org\\.vmware\\.fusion$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "description": "Option+J => Down Arrow (excluding terminals)",
+                                "from": {
+                                    "key_code": "j",
+                                    "modifiers": { "mandatory": ["left_option"] }
+                                },
+                                "to": [{ "key_code": "down_arrow" }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^co\\.zeit\\.hyper$",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.citrix\\.XenAppViewer$",
+                                            "^com\\.github\\.wez\\.wezterm$",
+                                            "^com\\.googlecode\\.iterm2$",
+                                            "^com\\.ident\\.goneovim$",
+                                            "^com\\.jetbrains",
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.microsoft\\.rdc\\.macos$",
+                                            "^com\\.mitchellh\\.ghostty$",
+                                            "^com\\.parallels\\.desktop\\.console$",
+                                            "^com\\.qvacua\\.VimR$",
+                                            "^com\\.sublimetext\\.3$",
+                                            "^com\\.todesktop\\.",
+                                            "^com\\.utmapp\\.UTM$",
+                                            "^com\\.vscodium$",
+                                            "^dev\\.warp$",
+                                            "^io\\.alacritty$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^org\\.gnu\\.Emacs$",
+                                            "^org\\.gnu\\.emacs$",
+                                            "^org\\.tabby$",
+                                            "^org\\.vim\\.MacVim$",
+                                            "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
+                                            "^org\\.vmware\\.fusion$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "description": "Option+K => Up Arrow (excluding terminals)",
+                                "from": {
+                                    "key_code": "k",
+                                    "modifiers": { "mandatory": ["left_option"] }
+                                },
+                                "to": [{ "key_code": "up_arrow" }],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^co\\.zeit\\.hyper$",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.citrix\\.XenAppViewer$",
+                                            "^com\\.github\\.wez\\.wezterm$",
+                                            "^com\\.googlecode\\.iterm2$",
+                                            "^com\\.ident\\.goneovim$",
+                                            "^com\\.jetbrains",
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.microsoft\\.rdc\\.macos$",
+                                            "^com\\.mitchellh\\.ghostty$",
+                                            "^com\\.parallels\\.desktop\\.console$",
+                                            "^com\\.qvacua\\.VimR$",
+                                            "^com\\.sublimetext\\.3$",
+                                            "^com\\.todesktop\\.",
+                                            "^com\\.utmapp\\.UTM$",
+                                            "^com\\.vscodium$",
+                                            "^dev\\.warp$",
+                                            "^io\\.alacritty$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^org\\.gnu\\.Emacs$",
+                                            "^org\\.gnu\\.emacs$",
+                                            "^org\\.tabby$",
+                                            "^org\\.vim\\.MacVim$",
+                                            "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
+                                            "^org\\.vmware\\.fusion$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "description": "Option+L => Right Arrow (excluding terminals)",
+                                "from": {
+                                    "key_code": "l",
+                                    "modifiers": { "mandatory": ["left_option"] }
+                                },
+                                "to": [{ "key_code": "right_arrow" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Cmd+j/k => Cmd+Option+Up/Down (next/previous tab) in browsers.",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^app.zen-browser.zen$",
+                                            "^company.thebrowser.Browser$",
+                                            "^com.google.Chrome$",
+                                            "^org.chromium.Chromium",
+                                            "^com.apple.Safari$",
+                                            "^org.mozilla.firefox$",
+                                            "^com.microsoft.edgemac$",
+                                            "^com.brave.Browser$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "Cmd+J => Cmd+Option+Down (only browsers)",
+                                "from": {
+                                    "key_code": "j",
+                                    "modifiers": { "mandatory": ["command"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "down_arrow",
+                                        "modifiers": ["command", "option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^app.zen-browser.zen$",
+                                            "^company.thebrowser.Browser$",
+                                            "^com.google.Chrome$",
+                                            "^org.chromium.Chromium",
+                                            "^com.apple.Safari$",
+                                            "^org.mozilla.firefox$",
+                                            "^com.microsoft.edgemac$",
+                                            "^com.brave.Browser$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "description": "Cmd+K => Cmd+Option+Up (only browsers)",
+                                "from": {
+                                    "key_code": "k",
+                                    "modifiers": { "mandatory": ["command"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "up_arrow",
+                                        "modifiers": ["command", "option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Cmd+k/j => Option+Up/Down (next/previous channel) in Slack.",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.tinyspeck\\.slackmacgap$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "k",
+                                    "modifiers": { "mandatory": ["command"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "up_arrow",
+                                        "modifiers": ["option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            },
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^com\\.tinyspeck\\.slackmacgap$"
+                                        ],
+                                        "type": "frontmost_application_if"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "j",
+                                    "modifiers": { "mandatory": ["command"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "down_arrow",
+                                        "modifiers": ["option"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "R_Option => Right-click (Alone) or R_Option (With other keys).",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "right_option",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [{ "key_code": "right_option" }],
+                                "to_if_alone": [{ "pointing_button": "button2" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Caps_Lock => Escape (Alone) or Left_Shift (With other keys).",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "caps_lock",
+                                    "modifiers": { "optional": ["any"] }
+                                },
+                                "to": [{ "key_code": "left_shift" }],
+                                "to_if_alone": [{ "key_code": "escape" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "Cmd+Up/Down to increase/decrease volume.",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "down_arrow",
+                                    "modifiers": { "mandatory": ["command"] }
+                                },
+                                "to": [{ "key_code": "volume_decrement" }],
+                                "type": "basic"
+                            },
+                            {
+                                "from": {
+                                    "key_code": "up_arrow",
+                                    "modifiers": { "mandatory": ["command"] }
+                                },
+                                "to": [{ "key_code": "volume_increment" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Fn+F1..12 to media keys.",
                         "manipulators": [
                             {
@@ -142,159 +470,37 @@
                         ]
                     },
                     {
-                        "description": "Cmd+Up/Down to increase/decrease volume.",
-                        "manipulators": [
-                            {
-                                "from": {
-                                    "key_code": "down_arrow",
-                                    "modifiers": { "mandatory": ["command"] }
-                                },
-                                "to": [{ "key_code": "volume_decrement" }],
-                                "type": "basic"
-                            },
-                            {
-                                "from": {
-                                    "key_code": "up_arrow",
-                                    "modifiers": { "mandatory": ["command"] }
-                                },
-                                "to": [{ "key_code": "volume_increment" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "CTRL-N => Down, excluding terminals.",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "com.github.wez.wezterm",
-                                            "com.ident.goneovim",
-                                            "com.microsoft.VSCode",
-                                            "com.qvacua.VimR",
-                                            "com.sublimetext.3",
-                                            "dev.warp",
-                                            "org.tabby",
-                                            "org.vim.MacVim",
-                                            "co.zeit.hyper",
-                                            "com.apple.Terminal",
-                                            "com.googlecode.iterm2",
-                                            "io.alacritty",
-                                            "net.kovidgoyal.kitty"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "n",
-                                    "modifiers": {
-                                        "mandatory": ["control"],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [{ "key_code": "down_arrow" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "CTRL-P => Up, excluding terminals.",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "com.github.wez.wezterm",
-                                            "com.ident.goneovim",
-                                            "com.microsoft.VSCode",
-                                            "com.qvacua.VimR",
-                                            "com.sublimetext.3",
-                                            "dev.warp",
-                                            "org.tabby",
-                                            "org.vim.MacVim",
-                                            "co.zeit.hyper",
-                                            "com.apple.Terminal",
-                                            "com.googlecode.iterm2",
-                                            "io.alacritty",
-                                            "net.kovidgoyal.kitty"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "p",
-                                    "modifiers": {
-                                        "mandatory": ["control"],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [{ "key_code": "up_arrow" }],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
-                        "description": "CTRL-U => Cmd+Delete (delete all before) excluding terminals.",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "com.github.wez.wezterm",
-                                            "com.ident.goneovim",
-                                            "com.microsoft.VSCode",
-                                            "com.qvacua.VimR",
-                                            "com.sublimetext.3",
-                                            "dev.warp",
-                                            "org.tabby",
-                                            "org.vim.MacVim",
-                                            "co.zeit.hyper",
-                                            "com.apple.Terminal",
-                                            "com.googlecode.iterm2",
-                                            "io.alacritty",
-                                            "net.kovidgoyal.kitty"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "u",
-                                    "modifiers": {
-                                        "mandatory": ["control"],
-                                        "optional": ["any"]
-                                    }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "delete_or_backspace",
-                                        "modifiers": ["command"]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "CTRL-S => Option+Left (jump word backward) excluding terminals.",
                         "manipulators": [
                             {
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "com.github.wez.wezterm",
-                                            "com.ident.goneovim",
-                                            "com.microsoft.VSCode",
-                                            "com.qvacua.VimR",
-                                            "com.sublimetext.3",
-                                            "dev.warp",
-                                            "org.tabby",
-                                            "org.vim.MacVim",
-                                            "co.zeit.hyper",
-                                            "com.apple.Terminal",
-                                            "com.googlecode.iterm2",
-                                            "io.alacritty",
-                                            "net.kovidgoyal.kitty"
+                                            "^co\\.zeit\\.hyper$",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.citrix\\.XenAppViewer$",
+                                            "^com\\.github\\.wez\\.wezterm$",
+                                            "^com\\.googlecode\\.iterm2$",
+                                            "^com\\.ident\\.goneovim$",
+                                            "^com\\.jetbrains",
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.microsoft\\.rdc\\.macos$",
+                                            "^com\\.mitchellh\\.ghostty$",
+                                            "^com\\.parallels\\.desktop\\.console$",
+                                            "^com\\.qvacua\\.VimR$",
+                                            "^com\\.sublimetext\\.3$",
+                                            "^com\\.todesktop\\.",
+                                            "^com\\.utmapp\\.UTM$",
+                                            "^com\\.vscodium$",
+                                            "^dev\\.warp$",
+                                            "^io\\.alacritty$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^org\\.gnu\\.Emacs$",
+                                            "^org\\.gnu\\.emacs$",
+                                            "^org\\.tabby$",
+                                            "^org\\.vim\\.MacVim$",
+                                            "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
+                                            "^org\\.vmware\\.fusion$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
@@ -323,19 +529,31 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "com.github.wez.wezterm",
-                                            "com.ident.goneovim",
-                                            "com.microsoft.VSCode",
-                                            "com.qvacua.VimR",
-                                            "com.sublimetext.3",
-                                            "dev.warp",
-                                            "org.tabby",
-                                            "org.vim.MacVim",
-                                            "co.zeit.hyper",
-                                            "com.apple.Terminal",
-                                            "com.googlecode.iterm2",
-                                            "io.alacritty",
-                                            "net.kovidgoyal.kitty"
+                                            "^co\\.zeit\\.hyper$",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.citrix\\.XenAppViewer$",
+                                            "^com\\.github\\.wez\\.wezterm$",
+                                            "^com\\.googlecode\\.iterm2$",
+                                            "^com\\.ident\\.goneovim$",
+                                            "^com\\.jetbrains",
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.microsoft\\.rdc\\.macos$",
+                                            "^com\\.mitchellh\\.ghostty$",
+                                            "^com\\.parallels\\.desktop\\.console$",
+                                            "^com\\.qvacua\\.VimR$",
+                                            "^com\\.sublimetext\\.3$",
+                                            "^com\\.todesktop\\.",
+                                            "^com\\.utmapp\\.UTM$",
+                                            "^com\\.vscodium$",
+                                            "^dev\\.warp$",
+                                            "^io\\.alacritty$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^org\\.gnu\\.Emacs$",
+                                            "^org\\.gnu\\.emacs$",
+                                            "^org\\.tabby$",
+                                            "^org\\.vim\\.MacVim$",
+                                            "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
+                                            "^org\\.vmware\\.fusion$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
@@ -364,19 +582,31 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "com.github.wez.wezterm",
-                                            "com.ident.goneovim",
-                                            "com.microsoft.VSCode",
-                                            "com.qvacua.VimR",
-                                            "com.sublimetext.3",
-                                            "dev.warp",
-                                            "org.tabby",
-                                            "org.vim.MacVim",
-                                            "co.zeit.hyper",
-                                            "com.apple.Terminal",
-                                            "com.googlecode.iterm2",
-                                            "io.alacritty",
-                                            "net.kovidgoyal.kitty"
+                                            "^co\\.zeit\\.hyper$",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.citrix\\.XenAppViewer$",
+                                            "^com\\.github\\.wez\\.wezterm$",
+                                            "^com\\.googlecode\\.iterm2$",
+                                            "^com\\.ident\\.goneovim$",
+                                            "^com\\.jetbrains",
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.microsoft\\.rdc\\.macos$",
+                                            "^com\\.mitchellh\\.ghostty$",
+                                            "^com\\.parallels\\.desktop\\.console$",
+                                            "^com\\.qvacua\\.VimR$",
+                                            "^com\\.sublimetext\\.3$",
+                                            "^com\\.todesktop\\.",
+                                            "^com\\.utmapp\\.UTM$",
+                                            "^com\\.vscodium$",
+                                            "^dev\\.warp$",
+                                            "^io\\.alacritty$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^org\\.gnu\\.Emacs$",
+                                            "^org\\.gnu\\.emacs$",
+                                            "^org\\.tabby$",
+                                            "^org\\.vim\\.MacVim$",
+                                            "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
+                                            "^org\\.vmware\\.fusion$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
@@ -405,19 +635,31 @@
                                 "conditions": [
                                     {
                                         "bundle_identifiers": [
-                                            "com.github.wez.wezterm",
-                                            "com.ident.goneovim",
-                                            "com.microsoft.VSCode",
-                                            "com.qvacua.VimR",
-                                            "com.sublimetext.3",
-                                            "dev.warp",
-                                            "org.tabby",
-                                            "org.vim.MacVim",
-                                            "co.zeit.hyper",
-                                            "com.apple.Terminal",
-                                            "com.googlecode.iterm2",
-                                            "io.alacritty",
-                                            "net.kovidgoyal.kitty"
+                                            "^co\\.zeit\\.hyper$",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.citrix\\.XenAppViewer$",
+                                            "^com\\.github\\.wez\\.wezterm$",
+                                            "^com\\.googlecode\\.iterm2$",
+                                            "^com\\.ident\\.goneovim$",
+                                            "^com\\.jetbrains",
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.microsoft\\.rdc\\.macos$",
+                                            "^com\\.mitchellh\\.ghostty$",
+                                            "^com\\.parallels\\.desktop\\.console$",
+                                            "^com\\.qvacua\\.VimR$",
+                                            "^com\\.sublimetext\\.3$",
+                                            "^com\\.todesktop\\.",
+                                            "^com\\.utmapp\\.UTM$",
+                                            "^com\\.vscodium$",
+                                            "^dev\\.warp$",
+                                            "^io\\.alacritty$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^org\\.gnu\\.Emacs$",
+                                            "^org\\.gnu\\.emacs$",
+                                            "^org\\.tabby$",
+                                            "^org\\.vim\\.MacVim$",
+                                            "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
+                                            "^org\\.vmware\\.fusion$"
                                         ],
                                         "type": "frontmost_application_unless"
                                     }
@@ -440,15 +682,150 @@
                         ]
                     },
                     {
-                        "description": "Caps_Lock => Escape (Alone) or Left_Shift (With other keys).",
+                        "description": "CTRL-U => Cmd+Delete (delete all before) excluding terminals.",
                         "manipulators": [
                             {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^co\\.zeit\\.hyper$",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.citrix\\.XenAppViewer$",
+                                            "^com\\.github\\.wez\\.wezterm$",
+                                            "^com\\.googlecode\\.iterm2$",
+                                            "^com\\.ident\\.goneovim$",
+                                            "^com\\.jetbrains",
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.microsoft\\.rdc\\.macos$",
+                                            "^com\\.mitchellh\\.ghostty$",
+                                            "^com\\.parallels\\.desktop\\.console$",
+                                            "^com\\.qvacua\\.VimR$",
+                                            "^com\\.sublimetext\\.3$",
+                                            "^com\\.todesktop\\.",
+                                            "^com\\.utmapp\\.UTM$",
+                                            "^com\\.vscodium$",
+                                            "^dev\\.warp$",
+                                            "^io\\.alacritty$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^org\\.gnu\\.Emacs$",
+                                            "^org\\.gnu\\.emacs$",
+                                            "^org\\.tabby$",
+                                            "^org\\.vim\\.MacVim$",
+                                            "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
+                                            "^org\\.vmware\\.fusion$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
                                 "from": {
-                                    "key_code": "caps_lock",
-                                    "modifiers": { "optional": ["any"] }
+                                    "key_code": "u",
+                                    "modifiers": {
+                                        "mandatory": ["control"],
+                                        "optional": ["any"]
+                                    }
                                 },
-                                "to": [{ "key_code": "left_shift" }],
-                                "to_if_alone": [{ "key_code": "escape" }],
+                                "to": [
+                                    {
+                                        "key_code": "delete_or_backspace",
+                                        "modifiers": ["command"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "CTRL-P => Up, excluding terminals.",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^co\\.zeit\\.hyper$",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.citrix\\.XenAppViewer$",
+                                            "^com\\.github\\.wez\\.wezterm$",
+                                            "^com\\.googlecode\\.iterm2$",
+                                            "^com\\.ident\\.goneovim$",
+                                            "^com\\.jetbrains",
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.microsoft\\.rdc\\.macos$",
+                                            "^com\\.mitchellh\\.ghostty$",
+                                            "^com\\.parallels\\.desktop\\.console$",
+                                            "^com\\.qvacua\\.VimR$",
+                                            "^com\\.sublimetext\\.3$",
+                                            "^com\\.todesktop\\.",
+                                            "^com\\.utmapp\\.UTM$",
+                                            "^com\\.vscodium$",
+                                            "^dev\\.warp$",
+                                            "^io\\.alacritty$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^org\\.gnu\\.Emacs$",
+                                            "^org\\.gnu\\.emacs$",
+                                            "^org\\.tabby$",
+                                            "^org\\.vim\\.MacVim$",
+                                            "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
+                                            "^org\\.vmware\\.fusion$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "p",
+                                    "modifiers": {
+                                        "mandatory": ["control"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [{ "key_code": "up_arrow" }],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
+                        "description": "CTRL-N => Down, excluding terminals.",
+                        "manipulators": [
+                            {
+                                "conditions": [
+                                    {
+                                        "bundle_identifiers": [
+                                            "^co\\.zeit\\.hyper$",
+                                            "^com\\.apple\\.Terminal$",
+                                            "^com\\.citrix\\.XenAppViewer$",
+                                            "^com\\.github\\.wez\\.wezterm$",
+                                            "^com\\.googlecode\\.iterm2$",
+                                            "^com\\.ident\\.goneovim$",
+                                            "^com\\.jetbrains",
+                                            "^com\\.microsoft\\.VSCode$",
+                                            "^com\\.microsoft\\.rdc\\.macos$",
+                                            "^com\\.mitchellh\\.ghostty$",
+                                            "^com\\.parallels\\.desktop\\.console$",
+                                            "^com\\.qvacua\\.VimR$",
+                                            "^com\\.sublimetext\\.3$",
+                                            "^com\\.todesktop\\.",
+                                            "^com\\.utmapp\\.UTM$",
+                                            "^com\\.vscodium$",
+                                            "^dev\\.warp$",
+                                            "^io\\.alacritty$",
+                                            "^net\\.kovidgoyal\\.kitty$",
+                                            "^org\\.gnu\\.Emacs$",
+                                            "^org\\.gnu\\.emacs$",
+                                            "^org\\.tabby$",
+                                            "^org\\.vim\\.MacVim$",
+                                            "^org\\.virtualbox\\.app\\.VirtualBoxVM$",
+                                            "^org\\.vmware\\.fusion$"
+                                        ],
+                                        "type": "frontmost_application_unless"
+                                    }
+                                ],
+                                "from": {
+                                    "key_code": "n",
+                                    "modifiers": {
+                                        "mandatory": ["control"],
+                                        "optional": ["any"]
+                                    }
+                                },
+                                "to": [{ "key_code": "down_arrow" }],
                                 "type": "basic"
                             }
                         ]
@@ -652,52 +1029,74 @@
                             "to": [{ "key_code": "left_command" }]
                         }
                     ]
+                },
+                {
+                    "identifiers": {
+                        "is_keyboard": true,
+                        "product_id": 45944,
+                        "vendor_id": 1133
+                    },
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "grave_accent_and_tilde" },
+                            "to": [{ "key_code": "non_us_backslash" }]
+                        },
+                        {
+                            "from": { "key_code": "non_us_backslash" },
+                            "to": [{ "key_code": "grave_accent_and_tilde" }]
+                        }
+                    ]
+                },
+                {
+                    "identifiers": { "is_keyboard": true },
+                    "simple_modifications": [
+                        {
+                            "from": { "key_code": "grave_accent_and_tilde" },
+                            "to": [{ "key_code": "non_us_backslash" }]
+                        },
+                        {
+                            "from": { "key_code": "non_us_backslash" },
+                            "to": [{ "key_code": "grave_accent_and_tilde" }]
+                        }
+                    ]
                 }
             ],
             "fn_function_keys": [
                 {
-                    "from": { "key_code": "f1" },
-                    "to": [{ "key_code": "f1" }]
-                },
-                {
-                    "from": { "key_code": "f2" },
-                    "to": [{ "key_code": "f2" }]
-                },
-                {
                     "from": { "key_code": "f3" },
-                    "to": [{ "key_code": "f3" }]
+                    "to": [{ "apple_vendor_top_case_key_code": "illumination_down" }]
                 },
                 {
                     "from": { "key_code": "f4" },
-                    "to": [{ "key_code": "f4" }]
+                    "to": [{ "apple_vendor_top_case_key_code": "illumination_up" }]
                 },
                 {
-                    "from": { "key_code": "f5" },
-                    "to": [{ "key_code": "f5" }]
+                    "from": { "key_code": "f6" },
+                    "to": [{ "apple_vendor_keyboard_key_code": "mission_control" }]
                 },
                 {
                     "from": { "key_code": "f7" },
-                    "to": [{ "key_code": "f7" }]
+                    "to": [{ "consumer_key_code": "mute" }]
                 },
                 {
                     "from": { "key_code": "f8" },
-                    "to": [{ "key_code": "f8" }]
+                    "to": [{ "consumer_key_code": "scan_previous_track" }]
                 },
                 {
                     "from": { "key_code": "f9" },
-                    "to": [{ "key_code": "f9" }]
+                    "to": [{ "consumer_key_code": "play_or_pause" }]
                 },
                 {
                     "from": { "key_code": "f10" },
-                    "to": [{ "key_code": "f10" }]
+                    "to": [{ "consumer_key_code": "scan_next_track" }]
                 },
                 {
                     "from": { "key_code": "f11" },
-                    "to": [{ "key_code": "f11" }]
+                    "to": [{ "consumer_key_code": "mute" }]
                 },
                 {
                     "from": { "key_code": "f12" },
-                    "to": [{ "key_code": "f12" }]
+                    "to": [{ "consumer_key_code": "volume_decrement" }]
                 }
             ],
             "name": "Macbook",
