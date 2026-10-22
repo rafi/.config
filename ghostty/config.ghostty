@@ -1,14 +1,17 @@
 # Ghostty configuration
 # https://ghostty.org/docs/config/reference
 
-# theme = "Everforest Dark Hard"
-theme = Arthur
+# General
+
+config-file = ?auto/theme.ghostty
 
 font-family = "PragmataPro Mono Liga"
 font-family-italic = "PragmataPro Mono Liga"
 font-family-bold = "PragmataPro Mono Liga"
 font-family-bold-italic = "PragmataPro Mono Liga"
 font-size = 19.0
+font-thicken = true
+font-thicken-strength = 30
 
 # IEC Power Symbols
 font-codepoint-map = U+23FB-U+23FE,U+2B58=Symbols Nerd Font Mono
@@ -49,23 +52,14 @@ font-codepoint-map = U+F300-U+F381=Symbols Nerd Font Mono
 # Material Design Icons
 font-codepoint-map = U+F0001-U+F1AF0=Symbols Nerd Font Mono
 
-# adjust-cell-height = 2%
-
-# OpenType features — explicit +/- prefix for clarity
-# dotted zero
-# font-feature = +zero
-# alternate *
-# font-feature = +cv11
-# Critical for Monaspace Texture Healing
-# font-feature = +calt
-# Keep standard ligatures
-# font-feature = +liga
+adjust-cursor-thickness = 2
 
 # ==========================================
 # 🪟 WINDOW & UI
 # ==========================================
-macos-titlebar-style = hidden
-window-decoration = none
+macos-titlebar-style = tabs
+# window-decoration = none
+window-theme = auto
 
 window-padding-x = 0
 window-padding-y = 0
@@ -82,10 +76,13 @@ mouse-hide-while-typing = true
 # Default already covers this, but being explicit is cheap.
 confirm-close-surface = true
 
+quit-after-last-window-closed = true
+
 # Colors
 # ---
 foreground = #A0A0A0
 background = #232323
+cursor-color = #EF4CDB
 
 # ==========================================
 # 🛠️ NEOVIM / MACOS FIXES
@@ -110,7 +107,6 @@ shell-integration = fish
 # title: auto-updates window title • ssh-env: propagates TERM/colors over ssh
 shell-integration-features = cursor,sudo,title,ssh-env,path
 
-# Rails logs / test output eat scrollback fast. 100M bytes ≈ plenty.
 scrollback-limit = 100000000
 
 # ==========================================
@@ -126,14 +122,21 @@ keybind = global:super+shift+grave_accent=toggle_quick_terminal
 # ==========================================
 # ⌨️ KEYBINDS
 # ==========================================
-keybind = shift+enter=text:\x1b[13;2u
-# keybind = shift+enter=text:\x1b\r
-keybind = shift+tab=text:\x1b[13;6u
-keybind = ctrl+tab=text:\x1b[9;5u
-keybind = ctrl+shift+tab=text:\x1b[9;6u
-keybind = super+h=text:\x1bh
-keybind = super+j=text:\x1bj
-keybind = super+k=text:\x1bk
-keybind = super+l=text:\x1bl
+
+keybind = super+p=toggle_command_palette
+
+keybind = super+h=esc:h
+
+keybind = super+]=next_tab
+keybind = super+[=previous_tab
+
+keybind = super+shift+,=esc:<
+keybind = super+shift+.=esc:>
+
+keybind = super+shift+[=esc:{
+keybind = super+shift+]=esc:}
+
+keybind = ctrl+tab=text:\x1b[27;5;9~
+keybind = ctrl+shift+tab=text:\x1b[27;6;9~
 
 # vim: set ft=dosini ts=2 sw=2 tw=80 noet :
